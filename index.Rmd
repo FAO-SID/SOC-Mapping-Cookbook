@@ -1,0 +1,16 @@
+--- 
+title: "Soil Organic Carbon Mapping cookbook"
+author: "John Doe"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: 
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "The soilll cookbook."
+---
+
+# Copyright and bla
+
