@@ -1,0 +1,133 @@
+# Preparation of spatial covariates
+
+*R. Baritz & Y. Yigini*
+
+## DEM-derived covariates
+
+### DEM source data sets
+
+Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by Wong et al. (2014). Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
+
+> * Recommended for national level applications: 30 m GDEM / SRTM
+> * Recommended for global level applications: SRTM 90 m, resampled 1 kilometre.
+
+In both cases noise and artefacts need to be filtered out. ASTER seems to contain more large artefacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering. 
+
+> GRASS GIS or GDAL: use "mdenoise" module/utility to remove noise while preserving sharp features like ridges, lines and valleys.
+
+SRTM contains many gaps (pixels with no-data). These gaps could be filled using splines. SAGA GIS has a module called ‘Close Gaps with Splines’ and other similar tools for doing this.
+
+## Parent material 
+
+Parent material has a crucial impact on soil formation, soil geochemistry and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from Geology maps. These maps focus on rock formation, mineral components and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. The most commonly available approximation to parent material is certainly a geology map. Its geochemistry has essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness. 
+
+National parent material and geology maps may be used. Other available datasets and data portals are given on the ISRIC WorldGrids website (worldgrids.org). 
+
+* OneGeology: The world geological maps are now being integrated via the OneGeology project which aims at producing a consistent Geological map of the world in approximate scale 1:1M (Jackson, 2007) http://www.onegeology.org/.
+
+* USGS has several data portals, e.g. that allow browsing of the International Surface Geology (split into South Asia, South America, Iran, Gulf of Mexico, Former Soviet Union, Europe, Caribbean, Bangladesh, Asia Pacific, Arctic, Arabian Peninsula, Africa and Afghanistan) https://mrdata.usgs.gov/geology/world/.
+
+* Hartmann and Moosdorf (2012) have assembled a global, purely lithological database called GLiM (Global Lithological Map). GLiM consists of over 1.25 million digital polygons that are  classified in three levels (a total of 42 rock-type classes). https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html).
+
+* USGS jointly with ESRI has released in 2014 a Global Ecological Land Units map at 250 m resolution. This also includes world layer of rock types. This data can be downloaded from the USGS site (http://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/).
+
+## Soil Maps
+
+Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology and climate so not correlate well with the dependent variable, here soil carbon stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps. 
+
+FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see also section 3.6).
+
+> Digitized small-scale national soil maps are the most important spatial layer for soil property mapping. The higher its resolution, the better soil maps contribute to high quality soil property maps - considering that the map should cover the target area/full country coverage. 
+
+## Land cover/Land use
+
+Besides soil, geology and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.
+
+### GlobCover (Global)
+
+GlobCover is a European Space Agency (ESA) initiative which began in 2005 in partnership with JRC, EEA, FAO, UNEP, GOFC-GOLD and IGBP. The aim of the project was to develop a service capable of delivering global composites and land cover maps using as input observations from the 300 m MERIS sensor onboard the ENVISAT satellite mission. ESA makes available the land cover maps, which cover 2 periods: December 2004 - June 2006 and January - December 2009. The classification module of the GlobCover processing chain consists in transforming the MERIS-FR multispectral mosaics produced by the pre-processing modules into a meaningful global land cover map. The global land cover map has been produced in an automatic and global way and is associated with a legend defined and documented using the UN LCCS. The GlobCover 2009 land cover map is delivered as one global land cover map covering the entire Earth. Its legend, which counts 22 land cover classes, has been designed to be consistent at the global scale and therefore, it is determined by the level of information that is available and that makes sense at this scale (Bontemps et al., 2011). 
+The GlobCover data can be downloaded at: http://due.esrin.esa.int/page_globcover.php
+
+### Landsat GeoCover (Global)
+
+The Landsat GeoCover collection of global imagery was merged into mosaics by the Earth Satellite Company (now MDA Federal). The result was a series of tiled imagery that is easier to wield than individual scenes, especially since they cover larger areas than the originals. The great detail in these mosaic scenes, however, makes them large in storage size, so the Mr.Sid file format, which includes compression operations, was chosen for output. While GeoCover itself is available in three epochs of 1975, 1990 and 2000, only the latter two epochs were made into mosaics. 
+Coverage: The GeoCover Landsat mosaics are delivered in a Universal Transverse Mercator (UTM) / World Geodetic System 1984 (WGS84) projection. The mosaics extend north-south over 5 degrees of latitude, and span east-west for the full width of the UTM zone. For mosaics below 60 degrees north latitude, the width of the mosaic is the standard UTM zone width of 6 degrees of longitude. For mosaics above 60 degrees of latitude, the UTM zone is widened to 12 degrees, centred on the standard even-numbered UTM meridians. To insure overlap between adjacent UTM zones, each mosaic extends for at least 50 kilometres to the east and west, and 1 kilometre to the north and south. 
+Pixel size: 14.25 meters (V 2000)
+The data is available at: ftp://ftp.glcf.umd.edu/glcf/Mosaic_Landsat/ (FTP Access)
+
+### Globeland30 (Global)
+
+GlobeLand30, the world’s first global land cover dataset at 30 m resolution for the years 2000 and 2010, was recently released and made publicly available by China. The National Geomatics Center of China under the “Global Land Cover Mapping at Finer Resolution” project has recently generated a global land cover map named GlobeLand30. The dataset covers two timestamps of 2000 and 2010, primarily acquired from Landsat TM and ETM+ sensors, which were then coupled/checked with some local products. 
+The data is publicly available for non-commercial purposes at: http://www.globallandcover.com/GLC30Download/index.aspx   
+Further reading and other global data sources: http://worldgrids.org/doku.php/wiki:land_cover_and_land_use 
+
+### CORINE Land Cover (Europe Only)
+
+The pan-European component is coordinated by the European Environment Agency (EEA) and produces satellite image mosaics, land cover / land use (LC/LU) information in the CORINE Land Cover data, and the High Resolution Layers. 
+The CORINE Land Cover is provided for 1990, 2000, 2006 and 2012. This vector-based dataset includes 44 land cover and land use classes. The time-series also includes a land-change layer, highlighting changes in land cover and land-use. The high-resolution layers (HRL) are raster-based datasets (100 m, 250 m) which provide information about different land cover characteristics and is complementary to land-cover mapping (e.g. CORINE) datasets.
+The CORINE Land Cover Data are available at: http://www.eea.europa.eu/data-and-maps/data 
+
+## Climate
+
+### WorldClim V1.4 and V2 (Global)
+
+WorldClim is a set of global climate layers (gridded climate data) with a spatial resolution of about 1 km2 (10 minutes, 5 minutes, 2.5 minutes are also available). These data can be used for mapping and spatial modelling. The current version is Version 1.4. and a preview of Version 2 is available for testing at worldclim.org. The data can be downloaded as generic grids or in ESRI Grid format.
+
+The WorldClim data layers were generated by interpolation of average monthly climate data from weather stations on a 30 arc-second resolution grid. In V1.4, variables included are monthly total precipitation, and monthly mean, minimum and maximum temperatures, and 19 derived bioclimatic variables. The WorldClim precipitation data were obtained from a network of 1,473 stations, mean temperature from 24,542 stations, and minimum and maximum temperatures from 14,835 stations (Hijmans et al. 2005).
+
+The Bioclimatic parameters are:  annual mean temperature, mean diurnal range, iso-thermality, temperature seasonality, max temperature of warmest month, minimum temperature of coldest month, temperature annual range , mean temperature of wettest quarter, mean temperature of driest quarter, mean temperature of warmest quarter, mean temperature of coldest quarter, annual precipitation, precipitation of wettest month, precipitation of driest month, precipitation seasonality (coefficient of variation), precipitation of wettest quarter, precipitation of driest quarter, precipitation of warmest quarter, precipitation of coldest quarter.
+
+WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; Hijmans et al., 2005. Int. J. of Clim. 25: 1965-1978. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).
+
+### Gridded Agro-Meteorological Data in Europe (Europe)
+
+CGMS database contains meteorological parameters from weather stations interpolated on a 25×25 km grid. Meteorological data are available on a daily basis from 1975 to the last calendar year completed, covering the EU Member States, neighbouring European countries. 
+
+The following parameters are available at 1 day time resolution;
+* maximum air temperature (°C),
+* minimum air temperature (°C),
+* mean air temperature (°C),
+* mean daily wind speed at 10m (m/s),
+* mean daily vapour pressure (hPa),
+* sum of precipitation (mm/day),
+* potential evaporation from a free water surface (mm/day),
+* potential evapotranspiration from a crop canopy (mm/day),
+* potential evaporation from a moist bare soil surface (mm/day),
+* total global radiation (KJ/m2/day),
+* Snow Depth
+Data Access: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx
+
+## GSOCMap - Data Repository (ISRIC, 2017)
+
+ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a digital soil mapping exercise.
+
+### Covariates and  Empty Mask
+
+The territories and their boundaries are obtained from the Global Administrative Unit Layers (GAUL)dataset: 
+each folder contains three subfolders;
+covs: GIS layers of various biophysical earth surface properties
+mask: an 'empty'  grid file of the territory with territory boundary according to GAUL. This grid to be used for the final delivery. .
+soilgrids: all SoilGrids250m soil class and property layers as available through www.soilgrids.org. Layers are aggregated to 1 km.
+
+### Data Specifications
+
+File format: GeoTiff
+Coordinate system: WGS84, latitude-longitude in decimal degrees
+Spatial resolution: 1km 
+
+### Data Access
+
+ftp://gsp.isric2.org/  (username: gsp, password: gspisric) or ftp://85.214.253.67/  (username: gsp, password: gspisric)
+
+LICENCE and ACKNOWLEDGEMENT
+*The GIS layers can be freely used under the condition that proper credit should be given to the original data source in each publication or product derived from these layers. Licences, data sources, data citations are indicated the data description table.*
+
+## Extending the soil property table for spatial statistics
+
+The upscaling procedures (Chapter 6) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
+
+## Preparation of a soil property table for spatial statistics
+
+The upscaling procedures (section 4) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in section 3. An example is the clay content, which may be derived from a soil type or parent rock map. 
+
+> In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
