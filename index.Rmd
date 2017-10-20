@@ -1,16 +1,32 @@
 --- 
 title: "Soil Organic Carbon Mapping cookbook"
-author: "John Doe"
+author: c("John Doe", "Juan Cadorna")
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
-bibliography: 
+bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
 description: "The soilll cookbook."
 ---
 
 # Copyright and bla
 
+This is a table: 
+
+Table Header  | Second Header 
+:------------ | ------------: 
+Table Cell bout markdown and rmarkdownbout markdown and rmarkdownbout markdown and rmarkdownbout markdown and rmarkdownbout markdown and rmarkdownbout markdown and rmarkdown    | Cell 2        
+Cell 3        | Cell 4       
+
+## About markdown and rmarkdown
+
+1. https://guides.github.com/features/mastering-markdown/
+2. http://kbroman.org/knitr_knutshell/pages/markdown.html
+3. http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html
+
+
+## About git and github
+
+1. https://git-scm.com/docs
