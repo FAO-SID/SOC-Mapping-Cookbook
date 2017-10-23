@@ -1,0 +1,99 @@
+# Upscaling methods
+*R. Baritz, R. Hiederer & Titia Mulder*
+
+## Conventional upscaling using soil maps
+
+### Overview
+
+The two conventional upscaling methods, in the context of SOC mapping, are described by Lettens et al. (2004). Details about weighted averaging can be found in Hiederer (2013). Different conventional upscaling approaches were applied in many countries (Baritz et al. 1999 (Germany), Cruz-Gaistardo (Mexico), Greve et al. 2007 (Denmark), Koelli et al. 2009 (Estonia), Arrouay et al. 2001 (France), Bhatti et al. 2002 (Canada)). Because the structure of soil map databases differs between countries (definition of the soil mapping unit, stratification, soil associations, dominating and co-dominating soils, typical and estimate soil properties for different depths), it is difficult to define a generic methodology for the use of these maps for upscaling soil property information. 
+
+However, the essential principle which is commonly used, is to combine soil property data from local observations with soil maps via class- and geomatching. 
+
+**Diversity of national soil legacy data sets**
+in order to develop a representative and large national soil database, very often, data from different sources (e.g. soil surveys or projects in different parts of the country at different times) are combined. The following case of Belgium demonstrates how available legacy databases could be combined. Three different sources are used to compile an overview of national SOC stocks:
+**Data source 1**: soil profile database with 13,000 points of genetic horizons; for each site, there is information about the soil series, map coordinates and land use class; for each horizon, there is information about depth and thickness, textural fractions and class, volume percentage of rock fragments; analytically, there is the organic carbon content and inorganic carbon content. 
+**Data source 2**: forest soil data base which includes ectorganic horizons. According to their national definition, the term “ectorganic” designates the surface horizons with an organic matter content of at least 30%, thus, it includes both the litter layer and the organic soil layers. For the calculation of SOC stocks for the ectorganic layer, no fixed-depth was used, instead the measured thickness of the organic layers and litter layers was applied.
+**Data source 3**: 15,000 soil surface samples were used (upper 20 cm of mineral soil); carbon measurements are available per depth class.
+
+From all data sources, SOC stocks for peat soils were calculated separately.
+
+### Technical steps 
+
+Step 1. Data preparation
+* Separate the data base for forests, peat and other land uses
+If only horizons are provided: derive or estimate average depth of horizons per soil type; add upper and lower depth.
+* Check completeness of parameters per depth using the solum depth to code empty cells 
+* Correction of organic carbon in case total carbon was determined (total carbon minus inorganic carbon concentration)
+* Correction of Walkley and Black method for incomplete oxidation (1.32)
+* If BD measured is lacking, select proper pedotransfer functions (PTF) and estimate BD. There are many PTF. At best, publications about the choice of the best suited PTF for specific physio-geographic conditions are available.
+* If stone content is missing, investigate using other data sources or literature, to which a correction for stones should be applied
+* if possible, derive the standard average stone content for different soils/horizons/depths, or used published soil profiles, as a simple correction factor.
+* Calculate SOC stocks for all mineral and peat soils over 0-30 cm, and optionally for forest organic layers and, peat >30 <100 cm.
+
+Step 2. Preparatory GIS Operations
+* Prepare Covariates
+* Identify properties of covariates for each point observation using geo-matching 
+* Upscaling using geo-matching of all points: Extract the covariate information to all georeferenced sample sites. The SOC values from all points within the unit are then averaged. It is assumed that the points represent the real variability of soil types within the units 
+
+
+Step 3. Upscaling 
+* Upscaling using class-matching of points in agreement with classes
+Through class-matching, only those points or profiles are attributed to a soil or landscape unit if both the soil and the land use class are the same. Class-matching thus can be performed regardless of the profile location. Before averaging, a weighing factor can be introduced according to the area proportions of dominant, co-dominant and associated soils. Each profile needs to be matched to its soil type/landscape type, and the SOC value averaged.
+1. Determine a soil or landscape unit (e.g. national soil legend stratified by climate area and main land cover type (forest, grassland, cropland)
+2. Calculate average SOC stocks from from all soils which match the soil/landscape unit
+3. Present the Soil/landscape map with SOC stocks, do not classify SOC stocks into groups (e.g. < 50, 50-100, > 100). 
+
+Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.  
+
+Upscaling using geo-matching
+* Because of its importance, geo-matching is described in more detail (section 6.1.3).
+
+### Geo-matching
+
+It is important to first prepare the working environment pre-processed all input data. The following  section presents different Geo-matching procedures; 
+1. Setting up software and working environment
+2. Geo-matching SOC with WRB Soil map (step-by-step, using the Soil Map of Macedonia and the demonstration data presented above)
+3. Geo-matching SOC with other environmental variables: Land use 
+4. Finally, the development of  Landscape Units (Lettens et al. 2004) is outlined. 
+
+This example was developed for QGIS and focusses on SOC mapping using vector data. QGIS 2.18 with GRASS 7.05 will be used. For more information, see also: 
+*	https://gis.stackexchange.com
+*	http://www.qgis.org/
+*	http://www.qgisforum.org/
+
+## Regression-Kriging
+*Y Yigini & GF Olmedo*
+
+### Overview
+
+Regression-kriging is a spatial interpolation technique that combines a regression of the dependent variable (target variable) on predictors (i.e. the environmental covariates) with kriging of the prediction residuals. In other words, Regression-Kriging is a hybrid method that combines either a simple or a multiple-linear regression model with ordinary kriging of the prediction residuals.   The Multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modelled relationship between predictors and target are summarized in regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.  
+In this section, we review the regression kriging method. First, the deterministic part of the trend is modelled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a regression-kriging technique, there is a continuous random variable called the dependent variable (target) Y (in our case SOC) and a number of independent variables which are selected covariates, x1, x2,...,xp. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is:
+
+###  Assumptions
+Standard linear regression models with standard estimation techniques make a number of assumptions about the predictor variables, the response variables and their relationship. One must review  the assumptions made when using the model.
+
+*Linearity*: The mean value of Y for each specific combination of the X’s is a linear function of the X’s. In practice this assumption can virtually never be confirmed; fortunately, multiple regression procedures are not greatly affected by minor deviations from this assumption. If curvature in the relationships is evident, one may consider either transforming the variables, or explicitly allowing for nonlinear components.
+*Normality Assumption*: It is assumed in multiple regression that the residuals (predicted minus observed values) are distributed normally (i.e., follow the normal distribution). Again, even though most tests (specifically the F-test) are quite robust with regard to violations of this assumption, it is always a good idea, before drawing final conclusions, to review the distributions of the major variables of interest. You can produce histograms for the residuals as well as normal probability plots, in order to inspect the distribution of the residual values. 
+*Collinearity*: There is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables can cause problems in multiple linear regression models. Collinearity (also multicollinearity) is a phenomenon in which two or more predictors in a multiple regression model are highly correlated. Collinearity causes increase in variances and relatedly increases inaccuracy.
+*Distribution of the Errors*: The error term is normally distributed with a mean of zero and constant variance. 
+*Homoscedasticity*: The variance of the error term is constant for all combinations of X’s. The term homoscedasticity means “same scatter.” Its antonym is heteroscedasticity (“different scatter”).
+
+### Pre-processing of covariates 
+
+Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables can cause problems in multiple linear regression models. The multicollinearity of number of variables can be assessed using Variance Inflation Factor (VIF). In R, the function vif() from caret package can estimate the VIF. There are several rules of thumb to establish when there is a serious multi-collinearity (e.g. when the VIF square root is over 2). The Principal component analysis can be used to overcome multicollinearity issues. 
+Principal components analysis can cope with data containing large numbers of covariates that are highly collinear which is the common case in environmental predictors. Often the principal components with higher variances are selected as regressors. However, for the purpose of predicting the outcome, the principal components with low variances may also be important, in some cases even more important.
+The PCA + Linear Regression (PCR) method may be coarsely divided into three main steps:
+1. Run PCA on the data matrix for the predictors to obtain the principal components, and then select a subset of the principal components for further use.
+2. Regress the dependent variable on the selected principal components as covariates, linear regression to get estimated regression coefficients.
+3. Transforming the data back to the scale of the actual covariates, using the selected PCA loadings.
+
+###  The Terminology
+
+* **Dependent variable (Y)**: What we are trying to predict (e.g. soil organic carbon content).
+* **Independent variables (Predictors) (X)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates - DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter 3.
+* **Coefficients (β)**: values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
+* **Residuals (ε)**: the portion of the dependent variable that cannot be explained by the model; the model under/over predictions. 
+
+
+
+
