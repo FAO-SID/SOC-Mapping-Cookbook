@@ -1,0 +1,5 @@
+Profile_ID,Horizon name',Upper Limit',Lower Limit ,Organic matter content [%]',Carbonate content',Texture class',Stone content'
+AB1,A,0,18,4-Feb,SL,SiL,F
+AB1,BC,18,53,1-1.5,MO,SiC,C
+AB1,C,53,100,1-1.5,MO,SiC,C
+BJ12,A,0,27,4-Feb,N,SiCL,V
