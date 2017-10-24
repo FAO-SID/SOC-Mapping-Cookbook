@@ -6,7 +6,7 @@
 
 Soil profiles are complex real world entities. Soil profiles are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
 
-Most commonly, soil are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizon or by depth class. 
+Most *commonly*, soil are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizon or by depth class. 
 
 Sampling of soils is the basis to obtain quantitative information. Depending on the goal of a project, sampling can be quite diverse. Sampling can follow the description of the soil, or can be conducted without, for example using a spade or auger to generate a composite sample (for a certain depth independent of the morphological features such as soil horizons). 
 Sampling locations can be representative for a certain location, project, field, or mapped object, such as a soil type. 
@@ -17,7 +17,7 @@ In order to process and evaluate soil information from field assessments, soil p
 
 Table 2.1 stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
 
-```{r, echo=FALSE}
+```{r, echo=T}
 dat <- read.csv("examples/site-level.csv")
 knitr::kable(dat, caption = "Example for site-level data table")
 ```
