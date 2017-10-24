@@ -15,6 +15,13 @@ The mapping of global soil organic carbon stocks (GSOC) will be the first implem
 
 The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular GSOCmap.
 
+|   |   |                                                                       | 
+|---|---|-----------------------------------------------------------------------|
+| Conventional upscaling  |  Class-matching | Derive average SOC stocks per “class”: soil type for which a national map exists, or combination with other spatial covariates, e.g. land use category, climate type, biome, etc.This approach is used in the absence of spatial coordinates of the source data.  |
+|                         | Geomatching     | Point locations with spatial referencing are overlaid with GIS layers of important covariates (such as a soil map). Upscaling is based on averaged SOC values per mapping unit.  | 
+|  Digital soil mapping   | Data Mining and Geostatistics  | Multiple regression, classification tree, random forests, Regression kriging, kriging with external drift  | 
+
+
 Digital soil mapping is based on the development of functions for upscaling point data (with soil measurements) to a full spatial extent using correlated environmental covariates, for which spatial data are available.
 
 > DSM: concept of environmental correlation that explores the quantitative relationship among environmental variables and soil properties and could be used to predict the latter; multivariate prediction techniques
