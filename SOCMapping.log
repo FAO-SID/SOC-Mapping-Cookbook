@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (MiKTeX 2.9.6350 64-bit) (preloaded format=xelatex 2017.10.19)  24 OCT 2017 16:50
+This is XeTeX, Version 3.14159265-2.6-0.99998 (MiKTeX 2.9.6350 64-bit) (preloaded format=xelatex 2017.10.19)  24 OCT 2017 17:41
 entering extended mode
 **./SOCMapping.tex
 (SOCMapping.tex
@@ -838,45 +838,82 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count280
 )
+("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\graphics\color.s
+ty"
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\graphics-cfg\col
+or.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: xetex.def on input line 147.
+
+("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\graphics-def\xet
+ex.def"
+File: xetex.def 2016/07/11 v4.10 LaTeX color/graphics driver for XeTeX (L3/RRM/
+JK)
+))
+("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\fancyvrb\fancyvr
+b.sty"
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count281
+\FV@InFile=\read2
+\FV@TabBox=\box45
+\c@FancyVerbLine=\count282
+\FV@StepNumber=\count283
+\FV@OutFile=\write3
+)
+("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\framed\framed.st
+y"
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip55
+\fb@frw=\dimen159
+\fb@frh=\dimen160
+\FrameRule=\dimen161
+\FrameSep=\dimen162
+)
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\tools\longtable.
 sty"
 Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
-\LTleft=\skip55
-\LTright=\skip56
-\LTpre=\skip57
-\LTpost=\skip58
-\LTchunksize=\count281
-\LTcapwidth=\dimen159
-\LT@head=\box45
-\LT@firsthead=\box46
-\LT@foot=\box47
-\LT@lastfoot=\box48
-\LT@cols=\count282
-\LT@rows=\count283
-\c@LT@tables=\count284
-\c@LT@chunks=\count285
+\LTleft=\skip56
+\LTright=\skip57
+\LTpre=\skip58
+\LTpost=\skip59
+\LTchunksize=\count284
+\LTcapwidth=\dimen163
+\LT@head=\box46
+\LT@firsthead=\box47
+\LT@foot=\box48
+\LT@lastfoot=\box49
+\LT@cols=\count285
+\LT@rows=\count286
+\c@LT@tables=\count287
+\c@LT@chunks=\count288
 \LT@p@ftn=\toks24
 )
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\booktabs\booktab
 s.sty"
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
-\heavyrulewidth=\dimen160
-\lightrulewidth=\dimen161
-\cmidrulewidth=\dimen162
-\belowrulesep=\dimen163
-\belowbottomsep=\dimen164
-\aboverulesep=\dimen165
-\abovetopsep=\dimen166
-\cmidrulesep=\dimen167
-\cmidrulekern=\dimen168
-\defaultaddspace=\dimen169
-\@cmidla=\count286
-\@cmidlb=\count287
-\@aboverulesep=\dimen170
-\@belowrulesep=\dimen171
-\@thisruleclass=\count288
-\@lastruleclass=\count289
-\@thisrulewidth=\dimen172
+\heavyrulewidth=\dimen164
+\lightrulewidth=\dimen165
+\cmidrulewidth=\dimen166
+\belowrulesep=\dimen167
+\belowbottomsep=\dimen168
+\aboverulesep=\dimen169
+\abovetopsep=\dimen170
+\cmidrulesep=\dimen171
+\cmidrulekern=\dimen172
+\defaultaddspace=\dimen173
+\@cmidla=\count289
+\@cmidlb=\count290
+\@aboverulesep=\dimen174
+\@belowrulesep=\dimen175
+\@thisruleclass=\count291
+\@lastruleclass=\count292
+\@thisrulewidth=\dimen176
 )
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\graphics\graphic
 x.sty"
@@ -895,14 +932,9 @@ phics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 99.
-
-("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\graphics-def\xet
-ex.def"
-File: xetex.def 2016/07/11 v4.10 LaTeX color/graphics driver for XeTeX (L3/RRM/
-JK)
-))
-\Gin@req@height=\dimen173
-\Gin@req@width=\dimen174
+)
+\Gin@req@height=\dimen177
+\Gin@req@width=\dimen178
 )
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\oberdiek\grffile
 .sty"
@@ -921,9 +953,9 @@ Package: parskip 2001/04/09 non-zero parskip adjustments
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\titling\titling.
 sty"
 Package: titling 2009/09/04 v2.1d maketitle typesetting
-\thanksmarkwidth=\skip59
-\thanksmargin=\skip60
-\droptitle=\skip61
+\thanksmarkwidth=\skip60
+\thanksmargin=\skip61
+\droptitle=\skip62
 )
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\amscls\amsthm.st
 y"
@@ -933,47 +965,47 @@ Package: amsthm 2015/03/04 v2.20.2
 \thm@headfont=\toks27
 \thm@notefont=\toks28
 \thm@headpunct=\toks29
-\thm@preskip=\skip62
-\thm@postskip=\skip63
-\thm@headsep=\skip64
+\thm@preskip=\skip63
+\thm@postskip=\skip64
+\thm@headsep=\skip65
 \dth@everypar=\toks30
 )
-\c@theorem=\count290
-\c@lemma=\count291
-\c@definition=\count292
-\c@corollary=\count293
-\c@proposition=\count294
-\c@example=\count295
-\c@exercise=\count296
+\c@theorem=\count293
+\c@lemma=\count294
+\c@definition=\count295
+\c@corollary=\count296
+\c@proposition=\count297
+\c@example=\count298
+\c@exercise=\count299
 (SOCMapping.aux)
 \openout1 = `SOCMapping.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 110.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 110.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 150.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 150.
 
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 110.
-LaTeX Font Info:    ... okay on input line 110.
-LaTeX Info: Redefining \microtypecontext on input line 110.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 150.
+LaTeX Font Info:    ... okay on input line 150.
+LaTeX Info: Redefining \microtypecontext on input line 150.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -1018,8 +1050,8 @@ ern Roman (RS)
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box49
-Package hyperref Info: Link coloring OFF on input line 110.
+\AtBeginShipoutBox=\box50
+Package hyperref Info: Link coloring OFF on input line 150.
 
 ("C:\Users\OLMEDO\AppData\Local\Programs\MiKTeX 2.93\tex\latex\hyperref\nameref
 .sty"
@@ -1029,14 +1061,14 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 tlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count297
+\c@section@level=\count300
 )
-LaTeX Info: Redefining \ref on input line 110.
-LaTeX Info: Redefining \pageref on input line 110.
-LaTeX Info: Redefining \nameref on input line 110.
+LaTeX Info: Redefining \ref on input line 150.
+LaTeX Info: Redefining \pageref on input line 150.
+LaTeX Info: Redefining \nameref on input line 150.
 (SOCMapping.out) (SOCMapping.out)
-\@outlinefile=\write3
-\openout3 = `SOCMapping.out'.
+\@outlinefile=\write4
+\openout4 = `SOCMapping.out'.
 
 [1
 
@@ -1088,8 +1120,8 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 .cfg"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ))
-\tf@toc=\write4
-\openout4 = `SOCMapping.toc'.
+\tf@toc=\write5
+\openout5 = `SOCMapping.toc'.
 
 [3] [4
 
@@ -1106,47 +1138,47 @@ Chapter 3.
 [9] [10]
 Chapter 4.
 
-Overfull \hbox (33.74081pt too wide) in paragraph at lines 369--371
+Overfull \hbox (33.74081pt too wide) in paragraph at lines 409--411
 []|\TU/lmr/m/n/10 Conventional 
  []
 
 
-Overfull \hbox (17.13081pt too wide) in paragraph at lines 369--371
+Overfull \hbox (17.13081pt too wide) in paragraph at lines 409--411
 \TU/lmr/m/n/10 upscaling|  
  []
 
 
-Overfull \hbox (1.05083pt too wide) in paragraph at lines 371--373
+Overfull \hbox (1.05083pt too wide) in paragraph at lines 411--413
 []|\TU/lmr/m/n/10 Class- 
  []
 
 
-Overfull \hbox (16.79082pt too wide) in paragraph at lines 371--373
+Overfull \hbox (16.79082pt too wide) in paragraph at lines 411--413
 \TU/lmr/m/n/10 matching|  
  []
 
 
-Overfull \hbox (34.08083pt too wide) in paragraph at lines 381--383
+Overfull \hbox (34.08083pt too wide) in paragraph at lines 421--423
 []|\TU/lmr/m/n/10 Geomatching|  
  []
 
 
-Overfull \hbox (6.38081pt too wide) in paragraph at lines 388--390
+Overfull \hbox (6.38081pt too wide) in paragraph at lines 428--430
 []|\TU/lmr/m/n/10 Digital 
  []
 
 
-Overfull \hbox (14.30083pt too wide) in paragraph at lines 388--390
+Overfull \hbox (14.30083pt too wide) in paragraph at lines 428--430
 \TU/lmr/m/n/10 mapping|  
  []
 
 
-Overfull \hbox (32.29082pt too wide) in paragraph at lines 390--392
+Overfull \hbox (32.29082pt too wide) in paragraph at lines 430--432
 \TU/lmr/m/n/10 Geostatistics|  
  []
 
 
-Underfull \vbox (badness 10000) detected at line 397
+Underfull \vbox (badness 10000) detected at line 437
  []
 
 [11
@@ -1156,12 +1188,15 @@ Chapter 5.
 [13
 
 ]
-Overfull \hbox (167.61511pt too wide) in paragraph at lines 491--504
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 505.
+
+Overfull \hbox (167.61511pt too wide) in paragraph at lines 538--551
  [][] 
  []
 
 [14]
-Underfull \vbox (badness 10000) detected at line 627
+Underfull \vbox (badness 10000) detected at line 674
  []
 
 [15] [16] [17] [18
@@ -1169,7 +1204,7 @@ Underfull \vbox (badness 10000) detected at line 627
 ]
 Chapter 6.
 [19] [20] [21]
-Underfull \hbox (badness 2478) in paragraph at lines 1034--1041
+Underfull \hbox (badness 2478) in paragraph at lines 1081--1088
 \TU/lmr/m/n/10 The territories and their boundaries are obtained from the Globa
 l Administrative Unit Layers
  []
@@ -1190,22 +1225,22 @@ Missing character: There is no ε in font [lmroman10-bold]:mapping=tex-text;!
 Package natbib Warning: Empty `thebibliography' environment on input line 3.
 
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1569.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1616.
 [33
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1569.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1616.
 (SOCMapping.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1569.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1569.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1616.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1616.
  ) 
 Here is how much of TeX's memory you used:
- 22255 strings out of 427834
- 410814 string characters out of 3148311
- 555584 words of memory out of 3000000
- 26020 multiletter control sequences out of 15000+200000
- 542991 words of font info for 52 fonts, out of 3000000 for 9000
+ 22758 strings out of 427834
+ 418285 string characters out of 3148311
+ 566427 words of memory out of 3000000
+ 26508 multiletter control sequences out of 15000+200000
+ 543007 words of font info for 54 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
- 41i,7n,68p,10410b,431s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,8n,68p,10410b,432s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on SOCMapping.pdf (33 pages).
