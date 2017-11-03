@@ -18,7 +18,7 @@ In order to process and evaluate soil information from field assessments, soil p
 Table 2.1 stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
 
 ```{r, echo=F}
-dat <- read.csv("examples/site-level.csv")
+dat <- read.csv("examples/site-ex.csv")
 knitr::kable(dat, caption = "Example for site-level data table")
 ```
 
@@ -26,7 +26,7 @@ Table 2.2 stores information from the soil description, such as horizon name, ho
 
 
 ```{r, echo=FALSE}
-dat <- read.csv("examples/profile-description.csv")
+dat <- read.csv("examples/horizons-ex.csv")
 knitr::kable(dat, caption = "Example for profile-description table")
 ```
 
