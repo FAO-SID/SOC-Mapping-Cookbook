@@ -17,7 +17,7 @@ In order to process and evaluate soil information from field assessments, soil p
 
 Table 2.1 stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
 
-```{r, echo=F}
+```{r example table for site-level, echo=F}
 dat <- read.csv("examples/site-ex.csv")
 knitr::kable(dat, caption = "Example for site-level data table")
 ```
@@ -25,19 +25,21 @@ knitr::kable(dat, caption = "Example for site-level data table")
 Table 2.2 stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modelling soil properties over the soil profile.
 
 
-```{r, echo=FALSE}
+```{r example table for horizon-level, echo=FALSE}
 dat <- read.csv("examples/horizons-ex.csv")
 knitr::kable(dat, caption = "Example for profile-description table")
 ```
 
 ### Technical Steps - Loading data from tables in R
 
+This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy of all the code is presented in section [dataprep_soilprofiles]. The second example is using top soil or auger data and is presented in secton [dataprep_auger] and bblabla [foreword] or [Data preparation for soil profiles]
+
 ```{r}
-dat_horiz <- read.csv(file = "data/horizons.csv")
+dat <- read.csv(file = "data/horizons.csv")
 
 # Explore the data
-str(dat_horiz)
-summary(dat_horiz)
+str(dat)
+summary(dat)
 ```
 
 ```{r}
@@ -62,12 +64,12 @@ As a proxy, it is recommended to derive national default values from well descri
 
 ```{r}
 # summary of column CRF (Coarse Fragments) in the example data base
-summary(dat_horiz$CRF)
+summary(dat$CRF)
 
 # Convert NA's to 0
-dat_horiz$CRF[is.na(dat_horiz$CRF)] <- 0
+dat$CRF[is.na(dat$CRF)] <- 0
 
-hist(dat_horiz$CRF)
+hist(dat$CRF)
 ```
 
 
@@ -85,18 +87,38 @@ Peat |  Default value: 0.31 g/m3 (Batjes 1996) Agus et al. (2011) distinguish di
 
 Example for Pedotransfer functions to estimate BD, based on the soil organic matter content in percentage:
 
+\begin{equation}
+BD = 1,62-0,06 * OM
+\end{equation}
 
-$BD = 1,62-0,06 * OM$ Saini (1996)
+Saini (1996)
 
-$BD = 1/(0,6268 + 0,0361 * OM)$ Drew (1973)
+\begin{equation}
+BD = 1/(0,6268 + 0,0361 * OM)
+\end{equation}
 
-$BD = 1.482 - 0,6786 * (log OM)$ Jeffrey (1979)
+Drew (1973)
 
-$BD = 0,669 + 0,941* e ^(-0,06 * OM)$ Grigal et. al (1989)
+\begin{equation}
+BD = 1.482 - 0,6786 * (log OM)
+\end{equation}
 
-$BD = 100/(OM/0,244 + (100-OM))/MBD$ Adams (1973)
+Jeffrey (1979)
 
-$BD = 1/(0,564 + 0,0556*OM)$ Honeysett & Ratkowsky (1989)
+\begin{equation}
+BD = 0,669 + 0,941* e ^(-0,06 * OM)
+\end{equation}
+Grigal et. al (1989)
+
+\begin{equation}
+BD = 100/(OM/0,244 + (100-OM))/MBD
+\end{equation}
+Adams (1973)
+
+\begin{equation}
+BD = 1/(0,564 + 0,0556*OM)
+\end{equation}
+Honeysett & Ratkowsky (1989)
 
 Where MDB is the  Mineral particle density, assumed to be the specific gravity of quartz, 2.65 Mg m-3. And OM is the Organic Matter Content, estimated as $SOC(\%) ×  1.724$
 
@@ -121,18 +143,18 @@ estimateBD <- function(SOC, method="Saini_1996"){
 
 ```{r}
 # summary of BLD (bulk density) in the example data base
-summary(dat_horiz$BLD)
+summary(dat$BLD)
 
 # See the summary of values produced using the pedo-transfer function with 
 # one of the proposed methods.
-summary(estimateBD(dat_horiz$SOC[is.na(dat_horiz$BLD)], method="Honeyset_Ratkowsky_1989"))
+summary(estimateBD(dat$SOC[is.na(dat$BLD)], method="Honeyset_Ratkowsky_1989"))
 
 # Fill NA's using the pedotransfer function:
-dat_horiz$BLD[is.na(dat_horiz$BLD)] <- estimateBD(dat_horiz$SOC[is.na(dat_horiz$BLD)], 
+dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
                                       method="Grigal_1989")
 
 # explore the results
-boxplot(dat_horiz$BLD)
+boxplot(dat$BLD)
 ```
 
 
@@ -182,8 +204,75 @@ The following technical steps require ‘R’ and certain packages.
 # Load aqp package
 library(aqp)
 
-## Promote to SoilProfileCollection 
-depths(dat_horiz) <- ProfID ~ top + bottom
-site(dat_horiz) <- dat_sites
+# Promote to SoilProfileCollection 
+# The SoilProfileCollection is a object class in R designed to handle soil profiles
+depths(dat) <- ProfID ~ top + bottom
+
+# Merge the soil horizons information with the site-level information from dat_sites
+site(dat) <- dat_sites
+
+# Set spatial coordinates
+coordinates(dat) <- ~ X + Y
+
+# A summary of our SoilProfileCollection
+dat
 ```
 
+
+```{r splines, results='hide', message=FALSE}
+library(GSIF)
+
+## Estimate 0-30 standard horizon usin mass preserving splines
+try(SOC <- mpspline(dat, 'SOC', d = t(c(0,30))))
+try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
+try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
+```
+
+
+```{r}
+## Prepare final data frame
+dat <- data.frame(id = dat@site$ProfID,
+                  Y = dat@sp@coords[,2],
+                  X = dat@sp@coords[,1],
+                  SOC = SOC$var.std[,1],
+                  BLD = BLD$var.std[,1],
+                  CRFVOL = CRFVOL$var.std[,1])
+
+dat <- dat[complete.cases(dat),]
+
+## Take a look to the results
+head(dat)
+```
+
+## Organic Carbon Stock 
+
+Finally, the estimation of organic carbon stock could be donde using GSIF package:
+
+```{r esimtation of OCS}
+# Estimate Organic Carbon Stock
+# SOC must be in g/kg
+# BLD in kg/m3
+# CRF in percentage
+OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, CRFVOL = dat$CRFVOL, 
+                 HSIZE = 30)
+
+dat$OCSKGM <- OCSKGM
+dat$meaERROR <- attr(OCSKGM,"measurementError")
+dat <- dat[dat$OCSKGM>0,]
+summary(dat)
+```
+
+## Code examples
+
+### Data preparation for soil profiles {###dataprep_soilprofiles}
+
+```{r data prep for soil profiles, eval=FALSE}
+
+```
+
+
+### Data preparation for top soil or auger samples {#dataprep_auger}
+
+```{r data prep for auger data, eval=FALSE}
+
+```
