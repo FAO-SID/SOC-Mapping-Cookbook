@@ -19,6 +19,16 @@ SRTM contains many gaps (pixels with no-data). These gaps could be filled using 
 
 ## Parent material 
 
+```{r}
+data(meuse.grid)
+coordinates(meuse.grid) = ~x+y
+proj4string(meuse.grid) <- CRS("+init=epsg:28992")
+gridded(meuse.grid) = TRUE
+spplot(meuse.grid)
+```
+
+as seen in [foreword]
+
 Parent material has a crucial impact on soil formation, soil geochemistry and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from Geology maps. These maps focus on rock formation, mineral components and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. The most commonly available approximation to parent material is certainly a geology map. Its geochemistry has essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness. 
 
 National parent material and geology maps may be used. Other available datasets and data portals are given on the ISRIC WorldGrids website (worldgrids.org). 
