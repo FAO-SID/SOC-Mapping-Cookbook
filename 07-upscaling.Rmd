@@ -94,7 +94,7 @@ The PCA + Linear Regression (PCR) method may be coarsely divided into three main
 * **Coefficients (β)**: values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
 * **Residuals (ε)**: the portion of the dependent variable that cannot be explained by the model; the model under/over predictions. 
 
-![](images/RKequation.png)
+![Linear regression model](images/RKequation.png)
 
 Before we proceed with the regression analysis, it is advisable to inspect the histogram of the dependent/target variable, in order to see if it needs to be transformed before fitting the regression model. The data for the selected soil property is normal when the frequency distribution of the values follow a bell-shaped curve (Gaussian distribution) which is symmetric around its mean. Normality tests may be used to assess normality. If a normality test indicates that data are not normally distributed, it may be necessary to transform the data to meet the normality assumption. 
 
