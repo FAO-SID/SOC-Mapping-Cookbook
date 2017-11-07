@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Upscaling methods
 *R. Baritz, R. Hiederer & Titia Mulder*
 
@@ -60,6 +65,104 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 *	https://gis.stackexchange.com
 *	http://www.qgis.org/
 *	http://www.qgisforum.org/
+
+**Step 1. Setting up a QGIS project.**
+
+1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, Mac or Linux, 32 or 64 bit).
+2. Create a work folder, e.g. D:\GSOC\practical_matching. Copy the folder with the Macedonian demonstration data into this folder.
+3. Start ‘QGIS desktop with GRASS’
+Figure 6.1 shows the start screen of QGIS desktop. In the upper left panel there is the browser panel, which lists the geodata used for this example. In the bottom left, the layer information is given for the layers displayed on the right.
+
+![Figure 6.1 QGIS Desktop with the browser panel on the upper left, the layer information on the bottom left and the display of your layers on the right.](images/Conv_upscaling1.png)
+
+4.  Load the Macedonian soil map. Right-click the file in the Browser panel and add the map to your project.
+5.  Display the soil classes. Right-click on the file in the Layers Panel, properties. Go to Style and change from ‘Single symbol’ to ‘Categorized’ (Fig. 6.2). Select the column ‘WRB’ and press the icon ‘Classify’ and change the colours if you want. Next, apply the change and finish with clicking the OK-button.
+
+![Figure 6.2 Load the Macedonian Soil Map](images/Conv_upscaling2.png)
+
+6.  Ensure the correct projection for this project. Go to: Project -> Project properties -> CRS
+In this case, you automatically use the local projection for Macedonia. The EPSG code is 3909 which corresponds to MGI 1901/ Balkans zone 7 (Figure 6.3).
+
+![Figure 6.3  Project properties and projection settings](images/Conv_upscaling3.png)
+
+7.  Save the project in the created folder
+Load and display the pre-processed SOC point data. If a shapefile already exists, this is done the same way as described in Step 4. If you have the data as a text file, you need to create a vector layer out of that file. Go to Layer -> Add Layer -> Add Delimited Text layer. Select the correct file and proper CRS projection. The layer should be added to your Layers Panel and displayed on top of the Soil Map.
+
+**Step 2. Geo-Matching SOC with WRB Soil map.**
+
+In this section you will make a SOC map, based on the Macedonian Soil Map and the SOC values at the sampled points, following 3 steps: 1) Extract the soil map information for the point data, 2)  obtain the mean and standard deviation of the SOC stocks per soil class, based on the point data and 3) assign these values to the corresponding soil map units. The steps are detailed below:
+
+1. Extract the soil map information to the soil profile data by ‘Join Attributes by location’. Vector -> Data Management Tools -> Join Attributes by location. Here, the target vector layers are the soil point data, and the join vector layer is the Macedonian Soil Map. The geometric predicate is ‘intersects’. Specify at the ‘joined table’ to keep only matching records and save the ‘joined layer’ as a new file (Fig. 6.4).
+
+![Figure 6.4 Join attributes by location](images/Conv_upscaling4.png)
+
+2. Check the newly generated file, open the attribute table. The new file is added to the ‘Layers Panel’ . Right-click on the file and open the attribute table. The information from the Macedonian Soil Map is now added to the soil point data.
+3. Most likely, the SOC values in the table are not numeric and thus statistics cannot be calculated. Check the data format, right-click on the file in the ‘Layers Panel’ and check the Type name of the SOC field under the tab ‘Fields’. If they are not integer then change the format.
+4. Change of the data format: Open the attribute table and start editing (the pencil symbol in the upper left corner of  your table). Open the field calculator and follow these instructions (Fig. 6.5):
+  a. Check box: Create a new field
+  b. Output field name: Specify the name of your field
+  c. Output field type: Decimal Number (real)
+  d. Output field length: 10, precision: 3
+	  i.  Expression: to_real(‘SOC’), the to_real function can be found under ‘conversions’ and the ‘SOC’ field is found under ‘Fields and Values’ 
+
+![Figure 6.5 Example field calculator](images/Conv_upscaling5.png)
+
+5.  After calculating the field, save edits  and leave the editing mode prior to closing the table. If changes are not saved, the added field will be lost.
+6. Calculate the median SOC stock per soil type. Go to the tab ‘Vector’-> group stats. Select the layer from the spatial join you made in Step 2. Add the field ‘SOC’ and median to the box with ‘Values’ and the field ‘WRB’ to the ‘Rows’. Make sure the box with ‘use only selected features’ is not checked. Now calculate the statistics. A table will be given in the left pane (Figure 6.6). Save this file as .csv and repeat the same for the standard deviation.
+
+![Figure 6.6 Calculate group statistics](images/Conv_upscaling6.png)
+
+7.  Join the mean and standard deviation of SOC to the Soil Map. First add the files generated during step 6 to the Layers Panels. In the Layers Panel, right-click on the Macedonian Soil Map. Go to Properties -> Joins and add a new join for both the median and standard deviation of SOC. The Join and Target Field are both ‘WRB’.
+8.  Display the SOC maps. Go to the layer properties of the Macedonian Soil Map. Go to Style and change the legend to a graduated legend. In the column you indicate the assigned SOC values. Probably this is not a integer number and so you have to convert this number again to a numeric values. You can do this with the box next to the box (Fig. 6.7). Change the number of classes to e.g. 10 classes, change the mode of the legend and change the color scheme if you want and apply the settings. Now you have a map with the median SOC stocks per WRB soil class.
+
+![Figure 6.7  Change the legend style to display the SOC values](images/Conv_upscaling7.png)
+
+9.  In order to generate a proper layout, go to Project -> New Print Composer
+  a. Add map using Layout -> Add Map. Define a square on the canvas and the selected map will be displayed.
+  b. Similarly, title, scale bar, legend and a north arrow can be added. Specific properties can be changed in the box ‘Item          properties’.
+  c. When the map is finished, it can be exported as an image or pdf.
+  
+![Figure 6.8 Example of the Map composer](images/Conv_upscaling8.png)
+
+10.  Repeat step 2-8 but now for the standard deviation of the SOC stocks.
+11. Save the file as a new shapefile: Go to ‘Layer Panels -> Save as -> ESRI ShapeFile and make sure that you define the symbology export: Feature Symbology. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
+
+**Step 3. Geo-Matching SOC with other environmental variables: Land use**
+
+1.	Start a new project and add the soil point data and Macedonia Soil Map layers from the Browser panel
+2.	Add the Land Use raster file to the Layers Panels. This is a raster file with 1 kilometre resolution and projected in lat long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3
+3.	Change the projection to the MGI 1901/ Balkans region7. Go to Raster -> Projections -> Warp and select the proper projection and a suitable file name, e.g. LU_projected_1km. Tick the checkbox for the resampling method and choose Near. This is nearest neighbour and most suitable for a transformation of categorical data, such as land use (Fig. 6.9).
+
+![Figure 6.9 Change the projection of a raster file](images/Conv_upscaling9.png)
+
+4. In order to geomatch the soil point data with Land Use, the raster file needs to be converted into a vector file. Go to Raster -> Conversions -> Polygonize. Set a proper output filename, e.g. LU_polygon_1km, and check the tickbox for Fieldname.
+5.  Change the legend style into categories (Step 1-5):
+Now, the steps from the previous section need to be repeated, using the land use polygon map instead of using the Macedonian Soil Map.
+6. Join attributes by location using the soil point data and the polygon land use map.
+7. Calculate the median and standard deviation of SOC by using the Group Statistics for SOC and the Land Use classes and save the files as .csv.
+8. Add the generated .csv files to the Layers Panel.
+9. Join the files with the LU polygon map, generated at step 3-4.
+10. Change the classes in the legend and inspect the histogram with the median SOC values. Try to find a proper definition of the class boundaries (Step 2-8).
+
+**[Extra]  Step 4. Joining landscape units and soil mapping units to support class- and geo-matching**
+
+In this section it is outlined how SOC stocks can be mapped following the method outlined by Lettens et al.(2004; DOI:10.1079/SUM2003221). The general idea is that the landscape is stratified into more or less homogenous units and subsequently, the SOC stocks are obtained following the procedure outlined earlier in this practical. Lettens et al. (2004) outlines a method to stratify the landscape into homogeneous strata with respect to Land Use and Soil Type, as was explained earlier. In order to obtain such strata, the Soil Map and the Land Use map need to be combined. This can be done using various types of software, e.g. ArcMap, GRASS, QGIS or R. 
+When using the GIS software, the only thing that needs to be done is intersecting the vector files and dissolving the newly created polygon features. Depending on the software and the quality of your shapefile you may experience problems with the geometry of your shapefile. Generally, ArcMap and GRASS correct the geometry when the shapefile is loaded, while QGIS does not do this automatically. There are various ways to correct the geometry, however, correcting the geometry falls outside the scope of this training. Therefore, we give some hints on how to correct your geometry prior to using the functions ‘Intersect’ and ‘Dissolve’.
+1. Change the LU raster map to 5 kilometer resolution: Right-click the Lu_project_1km file and select Save as. Change the resolution to 5000 meters. Scroll down, check the Pyramids box, and change the resampling method to Nearest Neighbour.
+2. Convert the raster map to a polygon map and add the file to the Layers Panel
+3. Check the validity of the Soil Map and Land Use Map: Vector -> Geometry Tools -> Check Validity 
+Below you find the instructions in case you have no problems with your geometry:
+4. Intersect the Soil Map and the Land Use Map. In ArcGIS and QGIS you can use this function. Go to Vector -> Geoprocessing tools -> Intersection. (In GRASS you have to use the function ‘Overlay’ from the Vector menu)
+5. Dissolve the newly generated polygons. Vector -> Geoprocessing tools -> Dissolve
+6. Next, this layer can be used to continue with the classmatching or geomatching procedures.
+
+**When encountering problems with the geometry there are at least three ways to correct your geometry:**
+●	Run the v_clean tool from GRASS within QGIS. Open the Processing ToolBox -> GRASS GIS 5 commands -> Vector -> v.clean
+●	Install the plugin ‘Processing LWGEOM Provider’. Go to the Plugins menu and search for the plugin and install. You can find the newly installed tool in the Processing Toolbox by typing the name in the search function
+●	Manually correct the error nodes of the vector features
+
+###6.1.4 References
+Lettens, S., J. Van Orshoven, B. Van Wesemael and B. Muys (2004). Soil organic and inorganic carbon contents of landscape units in Belgium derived using data from 1950 to 1970. Soil Use and Management 20: 40–47.
 
 ## Regression-Kriging
 *Y Yigini & GF Olmedo*
