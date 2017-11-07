@@ -94,6 +94,237 @@ The PCA + Linear Regression (PCR) method may be coarsely divided into three main
 * **Coefficients (β)**: values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
 * **Residuals (ε)**: the portion of the dependent variable that cannot be explained by the model; the model under/over predictions. 
 
+![](images/RKequation.png)
+
+Before we proceed with the regression analysis, it is advisable to inspect the histogram of the dependent/target variable, in order to see if it needs to be transformed before fitting the regression model. The data for the selected soil property is normal when the frequency distribution of the values follow a bell-shaped curve (Gaussian distribution) which is symmetric around its mean. Normality tests may be used to assess normality. If a normality test indicates that data are not normally distributed, it may be necessary to transform the data to meet the normality assumption. 
+
+> BOTH, THE NORMALITY TESTS AND THE DATA TRANSFORMATION CAN BE EASILY PERFORMED USING ANY COMMERCIAL OR OPEN SOURCE STATISTICAL TOOL (R, SPSS, MINITAB...)
+
+The main steps for the multiple linear regression analysis are shown in the Figure [fig:Workflow for Regression Kriging].
+
+![Workflow for Regression Kriging](images/RKworkflow.png)
+
+> 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in section 4.1. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS. 
+2. The essential part of multiple regression analysis is to build a regression model by using the environmental predictors. After extracting the values of explanatory maps and target variables into the single table, we can now start fitting multiple regression model using the table that contains data from dependent variable and predictors.
+3. In particular cases, stepwise multiple linear regression (SMLR) can be used to eliminate insignificant predictors. Stepwise multiple linear regression (SMLR) usually selects predictors that have the strongest linear correlations with the target variable, which reflect the highest predictive capacity.
+4. Kriging of the residuals (prediction errors): In the regression-kriging, the regression model detrends the data, produces the residuals which we need to krige and to be added to the regression model predictions.
+
+### Interpret the key results of multiple regression
+
+Regression analysis generates an equation to describe the statistical relationship between one or more predictor variables and the response variable. he r-squared, p-values and coefficients that appear in the output for linear regression analysis must also be reviewed. Before accepting the result of a linear regression it is important to evaluate its suitability at explaining the data. One of the many ways to do this is to visually examine the residuals. If the model is appropriate, then the residual errors should be random and normally distributed. 
+
+**R-sq**
+
+R2 is the percentage of variation in the response that is explained by the model. The higher the R2 Value, the better the model fits your data. R-squared is always between 0% and 100%. R2 usually increases when additional predictors are added in the model. 
+
+**P Values**
+
+To determine whether the association between the dependent and each predictor in the model is statistically significant, compare the p-value for the term to your significance level to assess the null hypothesis. Usually, a significance level of 0.05 works well.
+P-value ≤ significance level: The relationship is statistically significant. If the p-value is less than or equal to the significance level, we can conclude that there is a statistically significant relationship between the dependent variable and the predictor.
+P-value > significance level: The relationship is not statistically significant, If the p-value is greater than the significance level, you cannot conclude that there is a statistically significant relationship between the dependent variable and the predictor. You may want to refit the model without the predictor.
+
+**Residuals**
+
+We can plot the residuals which can help us determine whether the model is adequate and meets the assumptions of the analysis. If the model is appropriate, then the residual errors should be random and normally distributed. We can plot residuals versus fits to verify the assumption that the residuals are randomly distributed and have constant variance. Ideally, the points should fall randomly on both sides of “0”, with no recognizable patterns in the points.
+
+The diagnostic plots for the model should be evaluated to confirm if all the assumptions of linear regression are met.  After the abovementioned assumptions are validated, we can proceed with making the prediction map using the model with significant predictors.
+
+### Using the Results of a Regression Analysis to Make Predictions
+
+The purpose of a regression analysis, of course, is to develop a model that can be used to make the prediction of a dependent variable. The derived regression equation is to be used to create the prediction map for dependent variable.
+
+> Raster calculation can be easily performed using “raster” Package in R or ArcGIS using the ”Raster Calculator” tool (It’s called Map Algebra in the prior versions).
+
+### The software
+
+**R**
+R and R Packages can be downloaded from https://cran.r-project.org/ 
+
+**SAGA GIS**
+The following modules are available for multiple regression analyses in SAGA GIS environment;
+Multiple Linear Regression Analysis, Menu Access: Spatial and Geostatistics|Regression|Table
+Multiple Regression Analysis (Grid/Grids), Menu Access: Spatial and Geostatistics|Regression
+Multiple Regression Analysis (Points/Grids), Menu Access:  Spatial and Geostatistics|Regression
+SAGA GIS is available at https://sourceforge.net/projects/saga-gis/files/ 
+
+**QGIS**
+The following analyses are available in QGIS; 
+Multiple regression analysis (points/grids)
+Multiple regression analysis (grid/grids)
+QGIS is available at: http://www.qgis.org/en/site/forusers/download.html 
+
+**ArcGIS**
+60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration)
+
+**Further Reading**
+A Practical Guide to Geostatistical Mapping of Environmental Variables (Hengl T., 2009)
+A Practical Guide to Geostatistical Mapping 2. Edition (Hengl T.,  2009)
+
+### Example: Regression Kriging 
+
+**Requirements**
+The following are required to implement Regression Kriging in R;
+* Latest version of R software, network connection and sufficient RAM,  storage capacity (Chapter 4)
+* Latest version of RStudio (Chapter 4)
+* R packages (sp, raster,rgdal, gstat, ithir) (Chapter 4)
+* Point Dataset ( .txt or .csv) (Chapter 2)
+* Environmental predictors (covariates) (Chapter 3)
+  + Relief (e.g. DEM, Slope, TWI)
+  + Organism map (e.g. land use, NDVI, land cover)
+  + Climate Data (e.g. mean precipitation, mean temperature)
+  + Parent material (parent material, geology)
 
 
+
+#### Step 1. Data Preparation
+
+**Point Dataset**
+
+We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the section 2.4. Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
+
+**Environmental Predictors (Covariates)**
+
+In the Chapter 3, several global and continental datasets and access information can be found. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository 
+
+#### Step 2. Setting Working Space and Initial Steps
+
+One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our  folder which contains data for the study area (point data, covariates).
+
+Note that we must use the forward slash / or double backslash \\ in R! Single backslash \ will not work. Now we can check if the working directory has been correctly set by using the function:
+
+Now load the necessary R packages (you may need to install them onto your computer first):
+
+#### Step 3. Data Import (Point Data, Covariates)
+
+Now we will import our point dataset using read.csv() function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (read.table, read.csv, read.csv2, read.delim, read.delim2). Please type ?read.table() for help.
+
+Since we will be working with spatial data we need to define the coordinates for the imported data. Using the coordinates()  function from the sp package we can define the columns in the data frame to refer to spatial coordinates—here the coordinates are listed in columns X and Y.
+
+SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set the CRS used was: Macedonia_State_Coordinate_System_zone_7  (EPSG:6316). 
+
+To clearly tell R this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library http://trac.osgeo.org/proj/. An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
+
+Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
+
+Now, we will define our CRS:
+
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. We will use stack() function from raster package. In this example we use 12 covariates from the GSOCMap Data Repository. 
+
+In order to carry out digital soil mapping in terms of examining the statistical significance of  environmental predictors for explaining the spatial variation of soil organic carbon, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not,  raster package resample and projectRaster functions are for harmonising all your different raster layers. With the stacked  rasters (Covstack), we can now perform the intersection and extraction.
+
+It would be better to progress with a data frame of just the data and covariates required for the modelling. In this case, we will subset the columns SOC, the covariates and the the spatial coordinates (X and Y).
+
+After the extraction, It's useful to check if there are missing values (NAs) both in the target variable and covariates.  In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the complete.cases() function.
+
+After removing NAs now there do not appear to be any missing data as indicated by the integer(0) output above. It means we have zero rows with missing information.
+
+#### Step 4. Fitting the MLR Model
+
+**Fitting the MLR Model**
+
+Let’s fit a linear model using with all available covariates.
+
+From the summary of our fill model (MRL.full) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the step() function. With this function we can also specify the directions that we want to step.
+
+Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about 18 % of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model. 
+
+In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation. Lets fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
+
+Now we can evaluate the test statistics of the calibration model using the goof() function from the  “ithir” package. 
+
+#### Step 5. Prediction and Residual Kriging
+
+Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or covStack object for making our prediction. Using stack avoids the step of arranging all covariates into table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created  in the Step 3.
+
+**Residual Kriging**
+
+Now, we can derive the model residual which is the model prediction subtracted from the residual.
+
+### References 
+Bivand, R. S., Pebesma, E., & Gómez-Rubio, V. (2013). Applied Spatial Data Analysis with R. New York, NY: Springer New York. https://doi.org/10.1007/978-1-4614-7618-4
+Bontemps, S., Defourny, P., Van Bogaert, E., Arino, O., Kalogirou, V., Perez, J.R., 2011. chapter 8 “Interpolation and Geostatistics” in Bivand, R., Pebesma, E., Rubio, V., (2008) Applied Spatial Data Analysis with R. Use R Series, Springer, Heidelberg, pp. 378.
+GLOBCOVER 2009-Product Description and Validation Report.
+Gupta, S. (2015). A Multiple Regression Technique in Data Mining. International Journal of Computer Applications, 126(5).
+Hengl T., Heuvelink G.B.M., Kempen B.,Methods to fit a regression-kriging model, http://gsif.r-forge.r-project.org/fit.gstatModel.html. Accessed, April, 2017.
+Hengl T., Heuvelink G.B.M., Rossiter D.G., 2007. About regression-kriging: from equations to case studies. Computers and Geosciences, 33(10): 1301-1315.
+Hengl, T. (2009) A Practical Guide to Geostatistical Mapping, 2nd Edt. University of Amsterdam, www.lulu.com, 291 p.
+Hoffmann, J. P., & Shafer, K. (2005). Linear regression analysis: Assumptions and applications. Department of Sociology Brigham Young University.
+Jolliffe, I. T. (1982). A note on the use of principal components in regression. Applied Statistics, 300-303.
+Malone, Brendan P., Budiman Minasny, and Alex B. McBratney. "Using R for Digital Soil Mapping." (2016).
+Meinshausen, N. (2006). Quantile regression forests. The Journal of Machine Learning Research, 7, 983-999.
+Vasques, G. M., Grunwald, S., & Sickman, J. O. (2009). Modeling of soil organic carbon fractions using visible–near-infrared spectroscopy. Soil Science Society of America Journal, 73(1), 176-184.
+
+## Data mining: Random Forest
+*C. Thine, R. R Vargas*
+
+### Overview
+
+Random forest is a type of machine learning for uncovering statistical relationship between a dependent variable (e.g. soil property) and its predictors. It belongs to the decision-tree class of models in which the models (also known as classifiers) are like trees with stem, many branches, and leaves. The leaves are the prediction outcomes (final decisions) that flow from the roots through the stem to the branches (Breiman et al., 1984). The decision tree model recursively splits the data into final uniform groups (classes) or unique values based on a set of rules. In random forest, there are many decision trees and each tree recursively splits randomly selected sub-samples from the data (Figure 6.14). The name random forest originates from the fact that the original data is first randomly split into sub-samples, and many decision trees (or forest) are used to model the sub-samples. 
+
+![The concept of Random Forest and Decision Trees](images/randomForestconcept.png)
+
+Random forest has been tested by many researchers in digital soil mapping (see for example Poggio et al., 2013; Pahlavan Rad et al., 2014, and references therein). Specifically in soil carbon mapping, there are authors who have shown that it holds a lot of promises when compared to other prediction models. They have demonstrated that it has a relatively improved accurate spatial prediction, is a better approach to dealing with model over-fitting and data noise, and is capable of handling both dimensionally linear and nonlinear relationships (Wiesmeier et al., 2011). Furthermore, with the advent of open-source platforms and freely downloadable ancillary data, the application of random forest and other such models has increasingly become more appealing in digital soil mapping. 
+
+The objective of this chapter is to demonstrate how random forest can be implemented in freely downloadable R software for spatial prediction of soil organic carbon. The R package of random forest, known as randomForest, was used (Breiman and Cutler, 2017).  
+
+**Requirements**
+
+The following are required to implement the Random Forest modelling of SOC in R:
+* R packages (randomForest,ggplot2, fBasics, nortest, car, sp, rgdal, Hmisc) 
+* Georeferenced SOC data (in spreadsheet or GIS database)
+* Georeferenced spatial predictors (covariates)
+  + Relief map (e.g. DEM, landform)
+  + Organism map (e.g. land use, NDVI, land cover)
+  + Climate map (e.g. mean precipitation, mean temperature)
+  + Parent material (e.g. geology)
+* Latest version of R software and sufficient RAM and HDD storage capacity
+* Latest version of RStudio (optional but important) 
+
+### Example: Random Forest
+
+#### Step 1. Data Preparation
+
+The following sample data demonstrate the data requirement characteristics and application of random forest in mapping SOC (Figure 6.15) The soil data was obtained from a study of SOC in north-eastern Kenya. The data was collected using a Y-shape sampling frame (Omuto, 2008) for topsoil (0-30 cm) (Figure 6.16).
+
+The following table shows how the data should be arranged in the spreadsheet database such as MS Excel or Arc-Shapefile. Note that the first row should contain the header with names for the columns. Although the database can have many columns, the necessary columns are: Sample name, spatial coordinates (latitudes and longitudes), and the SOC values. In the example in the Figure 6.17, the three columns are Sample (for sample name), X (for longitude), Y (for latitude), and SOC (for SOC values in g/kg). This data can be saved as text file (such as Tab delimited or CSV text file) in MS Excel or it can be a GIS vector data (such as shapefile). The illustration given in this chapter uses Tab delimited text-file (in which the saved data is denoted as SOC.txt).
+
+#### Step 2. Set the working directory
+
+This first step is important for creating the path to the working directory where the data is stored. It’s important to note the single-forward-slash between the directory path items. In the next step, the R packages for data exploration are supposed to have been installed in R (from CRAN repository) before loading them.
+
+#### Step 3. Load the libraries for importing
+
+In case the libraries are not yet installed in the R environment, this can be done from R-Studio as shown in Figure 6.18 Internet connectivity is required to download the packages.
+
+#### Step 4. Explore the data
+
+The exploratory analysis of the data showed that Soil Organic Content (g/kg) is not normally distributed (Anderson-Darling test<0.05), positively skewed (Skew>0) and has a high degree of peakedness (Kurtosis > 1). Furthermore, the data has high values in the northeast corner and low values in the western side; giving the impression of west-northeast low-high pattern (Figure 6.19). In general, the exploratory data analysis shows that the data need transformation to normalize it before subjecting it to spatial modelling. The Box-Cox transformation (Box-Cox, 1964), can be used to transform the data in the next step.
+
+#### Step 5. Transform the data using Box-Cox transformation
+
+The spatial covariates for mapping soil data need also to be loaded into R and aligned with the soil data. According to Jenny (1941) and McBratney et al. (2003), the covariates for mapping are the following soil forming factors: other available and correlated soil properties, climate data, land use/cover, relief, spatial reference, and geology. Many researchers have used varied forms and combinations of these soil forming factors to predict soil organic carbon. For example, Grimm et al. (2008) used relief attributes (curvature, topographic wetness index, slope, aspect, etc.), soil attributes (colour and texture), forest history, and geology to predict soil carbon concentrations in Barro Colorado Island in Panama. Adhikari et al. (2014) used relief attributes (elevation, topographic wetness index, and valley bottom flatness), precipitation, land use, soil type, and wetlands to predict soil organic carbon in Denmark. In the present example, the following covariates were used: landform, rainfall, Normalized Difference Vegetation Index (NDVI), elevation, and spatial coordinates (latitudes and longitudes). These covariates were resampled to 250 m spatial resolution. The following step shows how these covariates are imported into R and aligned with the soil data. The R packages for spatial data have the facility for specifying the projection of the GIS data. This projection is used to align the datasets and it has to be known a priori. QGIS software (http://qgis.org/) can be used to obtain this information in case it is not readily known. 
+
+#### Step 6. Data Processing
+
+Apart from seeing that the sample locations are evenly distributed in the study area, it could also be important to assess how the points are distributed in the feature space of each covariate (e.g. landform feature space in Figure 6.21). If the distribution is not even or uniform then potential errors could arise and hamper the model training. Nothing much can be done to increase the number of samples in each feature space if the cost of adding more samples is inconceivable at this stage. However, it’s important to note how this facility can be used to plan sampling in DSM.
+
+While building the random forest models, if it’s necessary to assess the predictive performance of the model.ne may do so by splitting the data into two: a hold-out sample part on which to build the model, and the other part for model testing. After testing the model and accepting the achieved accuracy level, it’s important to develop a final model using the whole data (NB: refer to the validation section of this cookbook for more in-depth discussions). In the following scripts, we use the sample function to randomly split the data into two parts: training and testing parts.  
+
+#### Step 7. Splitting the soil data for model testing and training and subsequent performance evaluation.
+
+The above results appear like the predictive performance of the random forest model was good. 
+
+However, a closer look at the plot of predicted versus observed values reveal that the model over-predicted low values and under-predicted high values (Figure 6.22). Thus, high values and low values in the resultant map may need to be treated with caution.
+
+#### Step 8. Spatial prediction of the soil organic carbon.
+
+### References
+
+Breiman, L., Friedman, J., Stone, C.J., Olshen, R.A., 1984. Classification and Regression Trees. CRC Press LLC, Boca Raton, FL.
+Wiesmeier, M., Barthold, F., Blank F.B., Kögel-Knabner, I. 2011. Digital mapping of soil organic matter stocks using Random Forest modeling in a semi-arid steppe ecosystem. Plant and Soil 340(1):7-24
+Box, G. E. P., Cox, D. R. 1964. An analysis of transformations (with discussion). Journal of the Royal Statistical Society B, 26, 211-252
+McBratney, A.B., Mendonca-Santos, MX., Minasny, B. 2003. On digital soil mapping. Geoderma 117, 3-52.
+Jenny, H., 1941. Factors of Soil Formation. McGraw-Hill, New York.
+Adhikari K, Hartemink AE, Minasny B, Bou Kheir R, Greve MB, Greve MH. 2014. Digital Mapping of Soil Organic Carbon Contents and Stocks in Denmark. PLoSONE 9(8): e105519. doi:10.1371/journal.pone.0105519
+Post, TM., Freijer, JI, Ploeger BA, Danhof M. 2008. Extensions to the visual predictive check to facilitate model performance evaluation. Journal of Pharmacokinetics and Pharmacodynamics, 35: 185. doi.10.1007/s10928-007-9081-1 
 
