@@ -419,3 +419,18 @@ dat$meaERROR <- attr(OCSKGM,"measurementError")
 dat <- dat[dat$OCSKGM>0,]
 summary(dat)
 ```
+### References
+
+Saini, G. R. 1966. Organic matter as a measure of bulk density of soil. Nature 210: 1295-1296.
+
+Drew, L. A. 1973. Bulk density estimation based on organic matter content of some Minnesota soils. Minn. Forestry Res. Note No.243.
+
+Adams, W. A. 1973. The effect of organic matter on the bulk and true densities of some uncultivated Podzolic soils. J. Soil Sci. 24: 10-17.
+
+Grigal, D.F., Brovold, S.L., Nord, W.S., and Ohmann, L.F. 1989. Bulk density of surface soils and peat in the north central United States. Can. J. Soil Sci. 69: 895–900
+
+Jeffrey, D. W. 1970. A note on the use of ignition loss as a means for the approximate estimation of soil bulk density. J. Ecol. 58:297-299.
+
+Honeysett JL, Ratkowsky DA (1989). The Use of Ignition Loss to Estimate Bulk Density of Forest Soils. J. Soil Sci., 40: 299-308. 
+
+Bernoux, M., D. Arrouays, C. C. Cerrri, and H. Bourennane. 1998. Modeling vertical distribution of carbon in oxisols of the western Brazilian Amazon (Rondonia). Soil Sci. 163: 941-951
