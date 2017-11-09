@@ -94,6 +94,8 @@ Quantified information about the uncertainty associated to map quality measures 
 In addition to quantifying map accuracy statistically, one can also present validation results obtained from a sample graphically. This can be done by creating scatter plots of predicted against observed values and spatial bubble plots of validation errors. Figure 8.2 shows an example of a scatterplot and bubble plot. Both plots can be easily made with R (R Development Core Team, 2016). Use the function plot(x,y)to generate a scatter plot. The 1:1 line (black line in Figure 8.2) can be added to the plot with the command abline(0,1). The spatial bubble plot can be generated with the bubble function of the sp package (Pebesma and Bivand, 2005). 
 
 ![Scatterplot of predicted versus observed soil organic matter content for Rwanda (left) and spatial bubble plot of cross-validation error for soil organic matter (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values](images/Validation_Rwanda.png)
+
+
 ##Validation methods and statistical inference
 
 Following Brus et al. (2011), we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in previous section from a sample.
