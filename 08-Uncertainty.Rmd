@@ -61,7 +61,7 @@ In the example above we had chosen the normal distribution because it is the mos
 
 There are many different soil properties that in addition vary in space and possibly time. Thus, the characterisation of uncertainty about soil properties needs to be extended and include cross- and space-time correlations. It is beyond the scope of this chapter to explain this in detail, for this we refer to standard textbooks such as Goovaerts (1997) and Webster and Oliver (2007). If we assume a joint normal distribution, then a vector of soil properties (be it different soil properties or the same soil property at multiple locations, depths or times) Z is fully characterised by the vector of means m and variance-covariance matrix C. Figure 7.1 shows three examples of 500 paired soil property values that were simulated from different bivariate normal distributions. The left panel shows an uncorrelated case with equal standard deviations for both properties. The centre and right panels show a case where soil property 2 has a greater standard deviation than soil property 1. The difference between these two cases is that the centre panel has a zero correlation between the two soil properties while it is positive in the right panel.
 
-![Scatter plots of 500 paired soil property values drawn from a two-dimensional normal distribution. Left: m=\[10,16\], C=\[2,0;0,2\], centre: m=\[10,16\], C=\[1,0;0,2\], right: m=\[10,16\], C=\[1,1;1,2\]](images/pairedsoilpropierties.png)
+![Scatter plots of 500 paired soil property values drawn from a two-dimensional normal distribution.](images/pairedsoilpropierties.png)
 
 ### Propagation of model uncertainty
 
