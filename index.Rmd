@@ -5,7 +5,8 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
-papersize: a4
+papersize: b5
+fontsize: 10pt
 bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
