@@ -219,7 +219,7 @@ dat
 ```
 
 
-```{r splines, results='hide', message=FALSE}
+```{r splines, results='hide', message=FALSE, eval=FALSE}
 library(GSIF)
 
 ## Estimate 0-30 standard horizon usin mass preserving splines
@@ -229,7 +229,7 @@ try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 ## Prepare final data frame
 dat <- data.frame(id = dat@site$ProfID,
                   Y = dat@sp@coords[,2],
@@ -246,9 +246,9 @@ head(dat)
 
 ## Organic Carbon Stock 
 
-Finally, the estimation of organic carbon stock could be donde using GSIF package:
+Finally, the estimation of organic carbon stock could be done using GSIF package:
 
-```{r esimtation of OCS}
+```{r esimtation of OCS, eval=FALSE}
 # Estimate Organic Carbon Stock
 # SOC must be in g/kg
 # BLD in kg/m3
