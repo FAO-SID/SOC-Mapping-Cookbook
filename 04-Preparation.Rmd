@@ -39,7 +39,7 @@ knitr::kable(dat, caption = "Example for profile-description table")
 
 This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy of all the code is presented in section [Data preparation for soil profiles]. The second example is using top soil or auger data and is presented in section [Data preparation for top soil or auger samples].
 
-```{r}
+```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
 
 # Explore the data
@@ -74,7 +74,7 @@ summary(dat$CRF)
 # Convert NA's to 0
 dat$CRF[is.na(dat$CRF)] <- 0
 
-hist(dat$CRF)
+hist(dat$CRF, col = "light gray")
 ```
 
 
