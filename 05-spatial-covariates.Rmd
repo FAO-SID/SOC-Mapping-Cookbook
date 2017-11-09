@@ -13,6 +13,13 @@ Currently, two global level 30 m DEMs are freely available: the Shuttle Radar To
 
 In both cases noise and artefacts need to be filtered out. ASTER seems to contain more large artefacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering. 
 
+```{r, fig.cap="SRTM 90m, resampled to 1km for Macedonia"}
+DEM <- raster("covs/DEMENV5.tif")
+
+plot(DEM)
+```
+
+
 > GRASS GIS or GDAL: use "mdenoise" module/utility to remove noise while preserving sharp features like ridges, lines and valleys.
 
 SRTM contains many gaps (pixels with no-data). These gaps could be filled using splines. SAGA GIS has a module called ‘Close Gaps with Splines’ and other similar tools for doing this.
