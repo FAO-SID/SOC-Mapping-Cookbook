@@ -93,35 +93,35 @@ Peat |  Default value: 0.31 g/m3 (Batjes 1996) Agus et al. (2011) distinguish di
 Example for Pedotransfer functions to estimate BD, based on the soil organic matter content in percentage:
 
 \begin{equation}
-BD = 1,62-0,06 * OM
+BD = 1.62-0.06 * OM
 \end{equation}
 
 Saini (1996)
 
 \begin{equation}
-BD = 1/(0,6268 + 0,0361 * OM)
+BD = 1/(0.6268 + 0.0361 * OM)
 \end{equation}
 
 Drew (1973)
 
 \begin{equation}
-BD = 1.482 - 0,6786 * (log OM)
+BD = 1.482 - 0.6786 * (log OM)
 \end{equation}
 
 Jeffrey (1979)
 
 \begin{equation}
-BD = 0,669 + 0,941* e ^(-0,06 * OM)
+BD = 0.669 + 0.941 * e^{(-0,06 * OM)}
 \end{equation}
 Grigal et. al (1989)
 
 \begin{equation}
-BD = 100/(OM/0,244 + (100-OM))/MBD
+BD = 100/(OM/0.244 + (100-OM))/MBD
 \end{equation}
 Adams (1973)
 
 \begin{equation}
-BD = 1/(0,564 + 0,0556*OM)
+BD = 1/(0.564 + 0.0556*OM)
 \end{equation}
 Honeysett & Ratkowsky (1989)
 
@@ -146,7 +146,7 @@ estimateBD <- function(SOC, method="Saini_1996"){
 
 
 
-```{r}
+```{r, fig.cap="Histogram of bulk density values"}
 # summary of BLD (bulk density) in the example data base
 summary(dat$BLD)
 
@@ -159,7 +159,7 @@ dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)],
                                       method="Grigal_1989")
 
 # explore the results
-boxplot(dat$BLD)
+hist(dat$BLD, col = 'light gray', breaks = 32)
 ```
 
 
@@ -266,8 +266,12 @@ dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
 dat <- dat[dat$OCSKGM>0,]
 summary(dat)
+
+## We can save our processed data as a table
+write.csv(dat, "examples/dataproc.csv")
 ```
 
+\clearpage
 ## Code examples
 
 ### Data preparation for soil profiles {#dpsoilprof}
@@ -366,6 +370,9 @@ dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
 dat <- dat[dat$OCSKGM>0,]
 summary(dat)
+
+## We can save our processed data as a table
+write.csv(dat, "examples/dataproc.csv")
 ```
 
 
@@ -418,6 +425,9 @@ dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
 dat <- dat[dat$OCSKGM>0,]
 summary(dat)
+
+## We can save our processed data as a table
+write.csv(dat, "examples/dataproc.csv")
 ```
 ### References
 
