@@ -1,8 +1,34 @@
 \usepackage{booktabs}
 \usepackage{amsthm}
 \makeatletter
+\let\stdl@chapter\l@chapter
+\renewcommand*{\l@chapter}[2]{%
+  \stdl@chapter{\textcolor{astral}{#1}}{\textcolor{astral}{#2}}}
+
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt
   \thm@postskip=\thm@preskip
 }
 \makeatother
+\usepackage{xcolor}
+\usepackage{sectsty}
+
+\definecolor{astral}{RGB}{127, 93, 14}
+\allsectionsfont{\sffamily\color{astral}}
+
+
+
+\usepackage{fancyhdr}
+\usepackage{pdfpages}
+
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{astral}\leaders\hrule height \headrulewidth\hfill}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[EL]{\nouppercase\leftmark}
+\fancyhead[OR]{\nouppercase\rightmark}
+\fancyhead[ER,OL]{\thepage}
+
+
+\AtBeginDocument{\let\maketitle\relax}
