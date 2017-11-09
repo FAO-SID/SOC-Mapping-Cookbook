@@ -79,7 +79,7 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 **Step 1. Setting up a QGIS project.**
 
 1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, Mac or Linux, 32 or 64 bit).
-2. Create a work folder, e.g. D:\GSOC\practical_matching. Copy the folder with the Macedonian demonstration data into this folder.
+2. Create a work folder, e.g. D:\\GSOC\\practical_matching. Copy the folder with the Macedonian demonstration data into this folder.
 3. Start ‘QGIS desktop with GRASS’
 Figure 8.1 shows the start screen of QGIS desktop. In the upper left panel there is the browser panel, which lists the geodata used for this example. In the bottom left, the layer information is given for the layers displayed on the right.
 
