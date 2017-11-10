@@ -186,8 +186,6 @@ Figure 9.4 shows a hypothetical example of a sample error matrix for soil class 
 ![Sample error matrix for a hypothetical soil class map.](images/Validation_error_matrix2.png)
 
 Table 9.1 gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at 58.1% of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for 58.1% of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for 46.3% of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that 22.5% (54240×100%) of our mapping area is covered by Gleysols. We map Gleysols for 17.9% of the area (43240×100%). It can happen that a soil class has a high map unit purity and a low class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.
-**bold**
-
 
 **Table 9.1.** Map unit purity and class representation statistics for the hypothetical example given in Figure 9.4.
 
