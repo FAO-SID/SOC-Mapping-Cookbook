@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Validation
 
 ## What is validation?
@@ -139,4 +144,128 @@ In simple random sampling, no restrictions are imposed on random selection of sa
 
 If a sampling location cannot be visited because of inaccessibility for instance, then this location should be discarded and be replaced by a location chosen from a reserve list. Always the location at the top of the list should be selected for this purpose; not an arbitrarily chosen location from the list such as the closest one. It is not allowed to shift an inaccessible sampling location to a location nearby that can be accessed. Irregularity, clustering and open spaces characterise the simple random sampling design (de Gruijter et al., 2006). 
 
+**Estimation of quantitative map quality measures:** For each validation location we compute the error, e(si)=z(si)-z(si), the absolute error, |e|(si)=|z(si)-z(si)|, or squared error, e2(si)=(z(si)-z(si))2. The spatial mean of the mapping area for map quality measure x is then estimated by:
+
+
+where i indicates the validation location, i=1,2,…,n, n the validation sample size, and x(si) the estimated population mean of map quality measure x at location si,.  x is the prediction error in case of the ME, absolute error in case of the MAE, squared prediction error in case of the MSE. Note that the estimator is the unweighted sample mean. This unweighted mean is an unbiased estimator  because all sampling locations were selected with equal probability.
+
+The MSDR is estimated by:
+
+
+and the AVE by:
+
+
+where z is the mean of the target soil property estimated from the validation sample.
+
+One should be careful when assessing the proportion of variance explained by computing the R2 from a linear regression of the predicted value on the observed value (Krause et al., 2005), as is often done in practice. The R2 quantifies the dispersion around the regression line; not around the 1:1 line in which we are interested in validation. So it does not directly compare the predicted with observed value as does the AVE; i.e. it is not based on the prediction error. A high R2-value therefore, does not automatically mean a high AVE. For instance, in case of strongly biased predictions the R2 can be high but the AVE will be low. The blue line in Figure 8.2 is the regression line that one obtains when regression the observed value on the predicted value. This line slightly differs from the 1:1 line. In this example the R2 of the regression is 0.42 while the AVE is 0.40.
+The uncertainty associated to the estimated map quality measures is quantified with the sampling variance, which for the ME, MAE and MSE is estimated by:
+
+
+
+and the 95% confidence interval (CI) of x is given by:
+
+We should warn here that the calculation of the CI is based on the assumption that the estimated map quality measure means have a normal distribution (the central limit theorem). For the squared errors this assumption can be unrealistic, especially for small sample sizes.
+
+**Estimation of qualitative map quality measures:** For validation of qualitative soil maps, a sample error matrix is constructed from the validation data (Figure 8.3). n is the total number of validation locations in the sample. Element nij of the matrix corresponds to the number of validation locations that have been predicted as class i, i=1,2,…,U and belong to class j, j=1,2,…,U (Lark, 1995). The matrix summarizes correct predictions and incorrect predictions within the validation data.
+
+![Sample error matrix.](images/Validation_error_matrix.png)
+
+From the sample error matrix the overall purity, map unit purity and class representation are  estimated by:
+
+Alternatively, the overall purity can be estimated by defining a purity indicator variable for each validation location that takes value 1 if the mapped soil class equals the observed soil class at that location, and 0 else. The overall purity is then estimated by: 
+
+where d(si) is the indicator variable at validation location si. The variance of the estimated overall purity is estimated by:
+
+Alternatively, the variance is estimated by:
+
+which is the variance of a binomial probability distribution. The 95% confidence interval of p is given by:
+
+We warn that the CI as calculated here is a rough approximation which only holds when n×p and n×(1-p) are large (5 as a rule of thumb). Otherwise the binomial distribution should be used to compute the CI.
+Figure 9.4 shows a hypothetical example of a sample error matrix for soil class map. For this example, the overall purity is estimated by: (19+33+25+42+19)/240=0.575, meaning that for an estimated 57.5% of the mapping area the mapped soil class is equal to the true soil class.
+
+![Sample error matrix for a hypothetical soil class map.](images/Validation_error_matrix2.png)
+
+Table 9.1 gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at 58.1% of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for 58.1% of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for 46.3% of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that 22.5% (54240×100%) of our mapping area is covered by Gleysols. We map Gleysols for 17.9% of the area (43240×100%). It can happen that a soil class has a high map unit purity and a low class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.
+**bold**
+
+
+**Table 9.1.** Map unit purity and class representation statistics for the hypothetical example given in Figure 9.4.
+
+|                    |                     |                                       | 
+|--------------------|---------------------|---------------------------------------|
+|                    |   map unit purity   |      class representation             |
+|    Anthrosol       |      0.679          |      0.633                            |
+|    Cambisol        |      0.508          |      0.516                            |
+|    Gleysol         |      0.508          |      0.463                            |
+|    Luvisol         |      0.592          |      0.700                            |
+|    Podzol          |      0.576          |      0.594                            |
+
+###Data-splitting
+
+In data-splitting the sample data set is split in two subsets. One subset is used to calibrate the prediction model. The other subset is used for validation. A frequently used splitting criterion is 70-30, where 70% of the sample data are used for calibration and 30% for validation. The choice of a splitting criterion however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.
+
+It is important to note here that a random subsample of (legacy) data that are collected with a purposive (non-probability) design, is not a probability sample of the study area. This means that design-based estimation of map quality measures is not possible. 
+
+Thus, we will not obtain model-free, unbiased and valid estimates of the quality measures from non-probability sample validation data. In a case study, Knotters and Brus (2013) showed that model-based predictions of producer’s accuracies from two models differed strongly, indicating that with the model-based approach the validation results strongly depend on model assumptions.
+
+In most studies however, spatial correlation is not accounted for when estimating map quality measures using the estimators presented above under ‘Simple random sampling’ from non-probability sample data. In such case, the quality measures cannot be considered unbiased and valid estimates of the population means of the map quality measures. In addition, the estimated variance of the map quality measures is not valid and statistical testing of mapping methods to assess which method gives the most accurate predictions cannot be done. 
+
+In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted.70-30, where 70% of the sample data are used for calibration and 30% for validation. The choice of a splitting criterion however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.
+
+It is important to note here that a random subsample of (legacy) data that are collected with a purposive (non-probability) design, is not a probability sample of the study area. This means that design-based estimation of map quality measures is not possible. 
+
+If a validation (sub)sample is a non-probability sample of the mapping area, then we must account for possible spatial autocorrelation of the prediction errors when estimating the map quality measures. One can imagine that when two validation locations are close together and the prediction errors are correlated that there is less information in these two locations (there is information redundancy because of autocorrelation) than in two isolated locations. This information redundancy has to be accounted for when estimating map quality measures and implies that we have to rely on model-based estimation: a model for the spatially autocorrelated prediction error has to be assumed. Thus, we will not obtain model-free, unbiased and valid estimates of the quality measures from non-probability sample validation data. In a case study, Knotters and Brus (2013) showed that model-based predictions of producer’s accuracies from two models differed strongly, indicating that with the model-based approach the validation results strongly depend on model assumptions.
+
+In most studies however, spatial correlation is not accounted for when estimating map quality measures using the estimators presented above under ‘Simple random sampling’ from non-probability sample data. In such case, the quality measures cannot be considered unbiased and valid estimates of the population means of the map quality measures. In addition, the estimated variance of the map quality measures is not valid and statistical testing of mapping methods to assess which method gives the most accurate predictions cannot be done. 
+
+In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted.
+
+###Cross-validation
+
+In K-fold cross-validation (CV), the dataset is split into K roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the K-1 sets and used to predict the target variable for the data points set aside. From this prediction the prediction error is calculated. This procedure is repeated K times, each time setting a different set aside for validation. In this way we obtain K estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.
+
+K is typically chosen as 5 or 10, or as N the number of data points. The latter is referred to as leave-one-out cross-validation (LOOCV) in which only one validation site is set aside in each iteration. The model is then calibrated with N-1 observations. Some repeat K-fold cross-validation a number of times and average the results to obtain a more robust estimate of the map quality measures.
+
+Note that the problem of spatially correlated errors remains when data are non-probability sample data. Cross-validation using a non-probability sampling dataset suffers from the same drawbacks with respect to unbiasedness and validity of the estimates of the map quality measures as data-splitting. The estimates cannot be interpreted as being valid for the mapping area, but only for the validation locations. 
+
+In R, the caret package (Kuhn, 2015) offers functionality for data-splitting and cross-validation.
+
+###References
+
+Adhikari, K., Minasny, B., Greve, M.B., Greve, M.H., 2014. Constructing a soil class map of Denmark based on the FAO legend using digital techniques. Geoderma 214–215: 101-113.
+
+Angelini, M.E., Heuvelink, G.B.M., Kempen, B., Morrás, H.J.M., 2016. Mapping the soils of an Argentine Pampas region using structural equation modelling. Geoderma 281, 102-118.
+
+Brus, D.J., Spätjens, L.E.E.M., de Gruijter, J.J., 1999. A sampling scheme for estimating the mean extractable phosphorus concentration of fields for environmental regulation. Geoderma 89(1–2), 129-148.
+
+Brus, D.J., Kempen, B., Heuvelink, G.B.M., 2011. Sampling for validation of digital soil maps. European Journal of Soil Science 62(3), 394-407.
+de Gruijter, J.J., Brus, D.J., Bierkens, M.F.P., Knotters, M., 2006. Sampling for natural resource monitoring. Springer.
+
+Kempen, B., Brus, D.J., Stoorvogel, J.J., Heuvelink, G.B.M., De Vries, F., 2012. Efficiency comparison of conventional and digital soil mapping for updating soil maps. Soil Sci Soc Am J 76(6), 2097-2115.
+
+Kempen, B., Heuvelink, G.B.M., Brus, D.J., Stoorvogel, J.J., 2010. Pedometric mapping of soil organic matter using a soil map with quantified uncertainty. European Journal of Soil Science 61, 333-347.
+
+Kempen, B., Vereijken, P., Keizer, P., Ruiperez Gonzalez, M., Bindraban, P., Wendt, J., 2015. Preliminary evaluation of the feasibility of using geospatial information to refine soil fertility recommendations., VFRC Report 2015/6. Virtual Fertilizer Research Centre, Washington D.C.
+
+Knotters, M., Brus, D.J., 2013. Purposive versus random sampling for map validation: a case study on ecotope maps of floodplains in the Netherlands. Ecohydrol. 6(3), 425-434.
+
+Krause, P., Boyle, B.P., Bäse, F., 2005. Comparison of different efficiency criteria for hydrological model assessment. Advances in Geosciences 5, 89-97.
+
+Lark, R.M., 1995. Components of accuracy of maps with special reference to discriminant analysis on remote sensor data. International Journal of Remote Sensing 16(8), 1461-1480.
+
+Lark, R.M., 2000. A comparison of some robust estimators of the variogram for use in soil survey. European Journal of Soil Science 51, 137-157.
+
+Pebesma, E.J., Bivand, R.S., 2005. Classes and methods for spatial data in R. R News 5(2).
+
+Pontius, R.G., Millones, M., 2011. Death to Kappa: birth of quantity disagreement and allocation disagreement for accuracy assessment. International Journal of Remote Sensing 32(15), 4407-4429.
+
+Samuel-Rosa, A., Heuvelink, G.B.M., Vasques, G.M., Anjos, L.H.C., 2015. Do more detailed environmental covariates deliver more accurate soil maps? Geoderma 243–244, 214-227.
+
+Stehman, S.V., 1997. Selecting and interpreting measures of thematic classification accuracy. Remote Sensing of Environment 62(1), 77-89.
+
+Stehman, S.V., 1999. Basic probability sampling designs for thematic map accuracy assessment. International Journal of Remote Sensing 20(12), 2423-2441.
+
+Voltz, M., Webster, R., 1990. A comparison of kriging, cubic splines and classification for predicting soil properties from sample information. Journal of Soil Science 41(3), 473-490.
+
+Webster, R., Oliver, M.A., 2007. Geostatistics for environmental scientists. Statistics in practice. Second edition ed. John Wiley & Sons, Chichester 
 
