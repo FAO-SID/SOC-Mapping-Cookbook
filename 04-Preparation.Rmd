@@ -87,7 +87,7 @@ Most of the soil profiles in national databases come from agricultural land. Ver
 |                 |                        |                                   |
 |-----------------|------------------------|-----------------------------------|
 Mineral soil | Default values: General Guide for Estimating Moist Bulk Density | If analytical BD is missing, BD can be estimated using pedo-transfer functions (examples are listed below) | 
-Forest floor | Default bulk densities: Ottmar and Andreu (2007) Pine:  L 0.018 g/cm3 ,F/H 0.057 g/cm3 Hardwood L 0.012 g/cm3, F/H 0.043 g/cm3 Barney et al. (1981)1): Birch: L/H 0.17 g/cm3 Spruce: L 0.051 g/cm3, H 0.13 g/cm3 | L (litter) layer (or Oi horizon, U.S. soil taxonomy) Organic layer, or duff layer: partially decomposed material above the mineral soil and beneath the litter layer; F (fermentation) and H (humus) horizons (Oe and Oa, U.S. soil taxonomy) |
+Forest floor | Default bulk densities: Ottmar and Andreu (2007) Pine:  L 0.018 g/cm3 ,F/H 0.057 g/cm3 Hardwood L 0.012 g/cm3, F/H 0.043 g/cm3 Barney et al. (1981) 1): Birch: L/H 0.17 g/cm3 Spruce: L 0.051 g/cm3, H 0.13 g/cm3 | L (litter) layer (or Oi horizon, U.S. soil taxonomy) Organic layer, or duff layer: partially decomposed material above the mineral soil and beneath the litter layer; F (fermentation) and H (humus) horizons (Oe and Oa, U.S. soil taxonomy) |
 Peat |  Default value: 0.31 g/m3 (Batjes 1996) Agus et al. (2011) distinguish different peat decomposition types (with different C content): Sapric 0.174 (48.90 % C) Hemic 0.117 (52.27% C) Fibric 0.089 (53.56 % C)  | The range of peat BD is generally about 0.02–0.3 t/m3 depending on maturity and compaction, as well as the ash content (Agus et al. 2011) |
 
 Example for Pedotransfer functions to estimate BD, based on the soil organic matter content in percentage:
@@ -96,7 +96,7 @@ Example for Pedotransfer functions to estimate BD, based on the soil organic mat
 BD = 1.62-0.06 * OM
 \end{equation}
 
-Saini (1996)
+Saini (1966)
 
 \begin{equation}
 BD = 1/(0.6268 + 0.0361 * OM)
@@ -195,7 +195,7 @@ Soil properties are commonly collected from the field inventories (see Table 2.2
 * **Option 2**: Horizons or layers/depth classes are sampled; but aggregation is needed over the 0-30 cm.
 * **Option 3**: The target depth (0-30 cm) was not completely covered by sampling e.g. only the A horizon or a topsoil layer (e.g. 0-20 cm) has been sampled. For both options 2 and 3, additional processing is needed (e.g. equal-area splines).
 
-For both options 2 and 3, transformation is needed using e.g. equal-area splines. In the case of option 2, the use of equal-area splines was first proposed by PonceHernandez et al. (1986), and later tested against real data (Bishop et al. 1999). This technique is based on fitting continuous depth functions for modelling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at ’knots’ located at the horizon boundaries thereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve.
+For both options 2 and 3, transformation is needed using e.g. equal-area splines. In the case of option 2, the use of equal-area splines was first proposed by Ponce-Hernandez et al. (1986), and later tested against real data (Bishop et al. 1999). This technique is based on fitting continuous depth functions for modelling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at ’knots’ located at the horizon boundaries thereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve.
 In case of option 3 additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by Bernoux et al. (1998).
 
 ### Technical Steps - Equal area splines using R
@@ -431,6 +431,15 @@ write.csv(dat, "data/dataproc.csv")
 ```
 ### References
 
+Ottmar RD, Andreu A (2007) Litter and duff bulk densities in the southern United States: final report for Joint Fire Sciences 
+Program, Project 04-2-1-49. Pacific Northwest 
+
+Barney, R.J.; Bevins, C.D.; Bradshaw, L.S. 1981. Forest floor fuel loads, depths, and bulk densities. US Dep. Agric., For. Serv., Intermt. For. Range Exp. Stn., Ogden, UT. Res. Note INT-304.
+
+Batjes NH (1996) Total carbon and nitrogen in the soils of the world. European Journal of Soil Science 47, 151-163. 
+
+Agus F, Hairiah K, Mulyani A (2011). Practical guideline measuring carbon stock in peat soils. World Agroforestry Centre (ICRAF) and Indonesia Centre for Agricultural Land Resource Research and Development, Bogor. Pp .60 
+
 Saini, G. R. 1966. Organic matter as a measure of bulk density of soil. Nature 210: 1295-1296.
 
 Drew, L. A. 1973. Bulk density estimation based on organic matter content of some Minnesota soils. Minn. Forestry Res. Note No.243.
@@ -442,5 +451,15 @@ Grigal, D.F., Brovold, S.L., Nord, W.S., and Ohmann, L.F. 1989. Bulk density of 
 Jeffrey, D. W. 1970. A note on the use of ignition loss as a means for the approximate estimation of soil bulk density. J. Ecol. 58:297-299.
 
 Honeysett JL, Ratkowsky DA (1989). The Use of Ignition Loss to Estimate Bulk Density of Forest Soils. J. Soil Sci., 40: 299-308. 
+
+Rosell A, Gasparoni JC, Galantini JA (2001) ‘Soil organic matter evaluation.’ Assessment methods for soil carbon, Advances in Soil Science. (Eds R Lal, JM Kimble, RF Follet, BA Stewart) pp. 311–322. (Lewis Publishers: Boca Raton, FL, USA)
+
+Nelson, D.W. and L.E. Sommers, 1982. Total carbon, organic carbon and organic matter: In: A.L. Page, R.H. Miller and D.R. Keeney) Methods of soil analysis. Part 2 Chemical and Microbiological Properties, pp: 539-579.
+
+Lettens S, van Orshoven J, van Wesemael B, Muys B, Perrin D. Soil organic carbon changes in landscape units of Belgium between 1960 and 2000 with reference to 1990. Global Change Biology. 2005;11:2128–2140.
+
+Ponce‐Hernandez, R., Marriott, F.H.C., Beckett, P.H.T., 1986. An improved method forreconstructing a soil profile from analyses of a small number of samples. Journal of Soil Science 37, 455–467.
+
+Bishop, Thomas & Mcbratney, Alex & Laslett, G.M.. (1999). Modeling soil attribute depth functions with equal-area quadratic smoothing splines. Geoderma. 91. 27-45. 10.1016/S0016-7061(99)00003-8. 
 
 Bernoux, M., D. Arrouays, C. C. Cerrri, and H. Bourennane. 1998. Modeling vertical distribution of carbon in oxisols of the western Brazilian Amazon (Rondonia). Soil Sci. 163: 941-951
