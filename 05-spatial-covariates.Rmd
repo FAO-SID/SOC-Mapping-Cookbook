@@ -218,7 +218,8 @@ Combine the covariates provided with the raster version of the soil map prepared
 ```{r, fig.cap="Macedonia soil covariates"}
 covs <- stack(covs, soilmap.r)
 
-names(covs)
+# correct the name for layer 14
+names(covs)[14] <- "soilmap"
 
 #mask the covariates with the country mask from the data repository
 mask <- raster("data/mask.tif")
@@ -232,10 +233,16 @@ plot(covs)
 #upgrade points data frame to SpatialPointsDataFrame
 coordinates(dat) <- ~ X + Y
 
-#extract values from covariates to the soil points
+# extract values from covariates to the soil points
 dat <- extract(x = covs, y = dat, sp = TRUE)
 
-plot(dat@data)
+# LCEE10 and soilmap are categorical variables
+dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
+dat@data$soilmap <- as.factor(dat@data$soilmap)
+
+levels(soilmap) <- Symbol.levels
+
+summary(dat@data)
 ```
 
 The last step involves exporting a table our regression matrix including the soil data and the values of the enviromental covariates in position of the point samples.
