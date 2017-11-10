@@ -55,7 +55,7 @@ Soil maps play a crucial role for upscaling soil property data from point locati
 
 FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see also section 3.6).
 
-```{r, fig.cap="soil map of MK", eval=FALSE, fig.width=4}
+```{r, fig.cap="soil map of MK", eval=T, fig.width=4}
 # load the soil map from a shapefile file
 soilmap <- shapefile("MK_soilmap_simple.shp")
 
@@ -68,7 +68,7 @@ lines(soilmap)
 
 ###Technical Steps - Rasterizing a vector layer in R
 
-```{r, eval = FALSE}
+```{r, eval = T}
 # the "Symbol" attribute from the vector layer will be used for the
 # rasterization process. It has to be a factor
 soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
@@ -211,7 +211,6 @@ files <- list.files(path = "covs", pattern = "tif$",
                     full.names = TRUE)
 
 covs <- stack(files)
-covs$LCEE10 <- as.factor(covs$LCEE10)
 ```
 
 Combine the covariates provided with the raster version of the soil map prepared on subsection [Technical Steps - Rasterizing a vector layer in R].
