@@ -1,0 +1,60 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Data sharing
+
+This chapter reviews possibilities and “good practices” of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, R, GeoServer, OpenLayers and Leaflet, and public domain data and metadata standards.
+
+The authors have 15+ years of experience with producing, publishing and sharing soil maps and have been involved in large soil mapping projects where data volumes often exceed standard desktop GIS capacities. For information on specific software please refer to the provided links. Even more information on using GDAL and similar GIS tools through a command line can be found via the Global Soil Information Facilities tutorials of ISRIC at http://gsif.isric.org. The text is illustrated with example scripts of the statistical software R in combination with GDAL.
+
+##Export formats
+###Type of soil data and their formatting
+
+Before we start reviewing soil data formats, it is useful to understand which types of soil variables, soil maps and soil DBs are most commonly generated and used, and what are their specific advantages and limitations. Soil science works with many variables common to ecology and/or physical geography (e.g. soil temperature), but it also works with several variables specific to soil science only. Some soil factor-type variables specific to soil science only are for example:
+
+* Soil taxa or soil classes (this includes taxonomic systems and connected diagnostic soil properties and horizons).
+* Soil texture-class systems.
+* Soil color classification systems e.g. Munsell color codes.
+* Soil drainage classes (hydrological classifications).
+* Soil diagnostic horizons.
+
+Consider for example the following soil texture data:
+
+```{r, eval=FALSE}
+library(soiltexture)
+tex <- data.frame(
+  CLAY = c(05,60,15,05,25,05,25,45,65,75,13,47),
+  SILT = c(05,08,15,25,55,85,65,45,15,15,17,43),
+  SAND = c(90,32,70,70,20,10,10,10,20,10,70,10)
+ )
+ 
+TT.plot(class.sys = "USDA.TT", tri.data = tex, main = "", cex.axis=.7, cex.lab=.7)
+
+```
+![Soil texture triangle plot. An example of soil science specific data.](images/Data_sharing_triangle.png)
+
+The way soil texture data is displayed and texture classes (SaLo, Lo, Sa etc.) used in a texture triangle is specific to soil science. The way this data is formatted and presented can be, likewise, specific to soil science only.
+
+Most of soil data is in fact spatial. **“Spatial”** implies that spatial (and temporal) reference is attached to each measured / estimated value, i.e. it is location specific. Spatio-temporal references typically includes for example: 
+  
+* Geographic location in local or geographic coordinates (ideally longitude and latitude in the WGS84 coordinate system);
+* Depth interval expressed in cm from land surface (upper and lower depth);
+* Support size or referent soil volume (or voxel) i.e. the horizontal sampling area multiplied by the thickness of the sampling block;
+* Temporal reference i.e. begin and end date/time of the period of measurements/estimations.
+
+Spatial data formats are used to represent spatial objects. This can be (Bivand et al. 2013; Neteler and Mitasova, 2013):
+
+* Points (2D or 3D): used to represent sampling locations, soil horizons, soil profiles etc.
+* Lines (2D): used to represent soil transects, streams, administrative boundaries etc.
+* Polygons (2D): used to represent soil mapping units and/or geomorphological units, landforms, administrative areas, farms, plot trials etc.
+* Grids or rasters (2D or 2.5D): used to represent soil spatial predictions (spatially complete) of soil properties and classes etc.
+* 3D grids or Voxels: used to represent soil spatial predictions (spatially complete) of soil properties in 3D.
+
+It is also important to be able to distinguish between sampled or predicted soil data:
+
+1. Soil samples (usually points or transects) are spatially incomplete. They are used to generate spatial predictions.
+2. Spatial predictions of soil variables (soil maps) are spatially complete. They are used for decision making and further modeling i.e. they are used to construct a Soil Information System.
+
+
