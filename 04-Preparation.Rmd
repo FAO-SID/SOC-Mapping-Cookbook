@@ -268,7 +268,7 @@ dat <- dat[dat$OCSKGM>0,]
 summary(dat)
 
 ## We can save our processed data as a table
-write.csv(dat, "examples/dataproc.csv")
+write.csv(dat, "data/dataproc.csv")
 ```
 
 \clearpage
@@ -372,7 +372,7 @@ dat <- dat[dat$OCSKGM>0,]
 summary(dat)
 
 ## We can save our processed data as a table
-write.csv(dat, "examples/dataproc.csv")
+write.csv(dat, "data/dataproc.csv")
 ```
 
 
@@ -427,7 +427,7 @@ dat <- dat[dat$OCSKGM>0,]
 summary(dat)
 
 ## We can save our processed data as a table
-write.csv(dat, "examples/dataproc.csv")
+write.csv(dat, "data/dataproc.csv")
 ```
 ### References
 
