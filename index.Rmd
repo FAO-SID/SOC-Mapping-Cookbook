@@ -12,7 +12,7 @@ biblio-style: apalike
 link-citations: yes
 description: "The soilll cookbook."
 ---
-
+\frontmatter
 # Copyright and disclaimer {-}
 
 The designations employed and the presentation of material in this information product do not imply the expression of any opinion whatsoever on the part of the Food and Agriculture Organization of the United Nations (FAO) concerning the legal or development status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. The mention of specific companies or products of manufacturers, whether or not these have been patented, does not imply that these have been endorsed or recommended by FAO in preference to others of a similar nature that are not mentioned.
@@ -25,14 +25,3 @@ FAO encourages the use, reproduction and dissemination of material in this infor
 
 All requests for translation and adaptation rights, and for resale and other commercial use rights should be made via www.fao.org/contact-us/licence-request or addressed to copyright@fao.org. FAO information products are available on the FAO website (www.fao.org/publications) and can be purchased through publications-sales@fao.org. 
        
-
-## About markdown and rmarkdown
-
-1. https://guides.github.com/features/mastering-markdown/
-2. http://kbroman.org/knitr_knutshell/pages/markdown.html
-3. http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html
-
-
-## About git and github
-
-1. https://git-scm.com/docs
