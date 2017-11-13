@@ -1,9 +1,9 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Data sharing
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 69)
+knitr::opts_chunk$set(echo = TRUE, results='hold')
+```
 
 This chapter reviews possibilities and “good practices” of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, R, GeoServer, OpenLayers and Leaflet, and public domain data and metadata standards.
 

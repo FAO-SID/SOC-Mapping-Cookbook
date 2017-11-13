@@ -1,11 +1,10 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Preparation of local soil property data
-
 *GF Olmedo & R Baritz*
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 69)
+knitr::opts_chunk$set(echo = TRUE, results='hold')
+```
 
 ## Soil profiles and soil augers
 
