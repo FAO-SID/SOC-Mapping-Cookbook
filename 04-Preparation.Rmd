@@ -149,9 +149,10 @@ estimateBD <- function(SOC, method="Saini_1996"){
 # summary of BLD (bulk density) in the example data base
 summary(dat$BLD)
 
-# See the summary of values produced using the pedo-transfer function with 
-# one of the proposed methods.
-summary(estimateBD(dat$SOC[is.na(dat$BLD)], method="Honeyset_Ratkowsky_1989"))
+# See the summary of values produced using the pedo-transfer 
+# function with one of the proposed methods.
+summary(estimateBD(dat$SOC[is.na(dat$BLD)], 
+                   method="Honeyset_Ratkowsky_1989"))
 
 # Fill NA's using the pedotransfer function:
 dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
@@ -210,10 +211,12 @@ The following technical steps require ‘R’ and certain packages.
 library(aqp)
 
 # Promote to SoilProfileCollection 
-# The SoilProfileCollection is a object class in R designed to handle soil profiles
+# The SoilProfileCollection is a object class in R designed to 
+# handle soil profiles
 depths(dat) <- ProfID ~ top + bottom
 
-# Merge the soil horizons information with the site-level information from dat_sites
+# Merge the soil horizons information with the site-level 
+# information from dat_sites
 site(dat) <- dat_sites
 
 # Set spatial coordinates
@@ -258,8 +261,8 @@ Finally, the estimation of organic carbon stock could be done using GSIF package
 # SOC must be in g/kg
 # BLD in kg/m3
 # CRF in percentage
-OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, CRFVOL = dat$CRFVOL, 
-                 HSIZE = 30)
+OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, 
+                 CRFVOL = dat$CRFVOL, HSIZE = 30)
 
 dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
@@ -311,9 +314,10 @@ estimateBD <- function(SOC, method="Saini_1996"){
 # summary of BLD (bulk density) in the example data base
 summary(dat$BLD)
 
-# See the summary of values produced using the pedo-transfer function with 
-# one of the proposed methods.
-summary(estimateBD(dat$SOC[is.na(dat$BLD)], method="Honeyset_Ratkowsky_1989"))
+# See the summary of values produced using the pedo-transfer 
+# function with one of the proposed methods.
+summary(estimateBD(dat$SOC[is.na(dat$BLD)], m
+                   ethod="Honeyset_Ratkowsky_1989"))
 
 # Fill NA's using the pedotransfer function:
 dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
@@ -326,10 +330,12 @@ boxplot(dat$BLD)
 library(aqp)
 
 # Promote to SoilProfileCollection 
-# The SoilProfileCollection is a object class in R designed to handle soil profiles
+# The SoilProfileCollection is a object class in R designed to 
+# handle soil profiles
 depths(dat) <- ProfID ~ top + bottom
 
-# Merge the soil horizons information with the site-level information from dat_sites
+# Merge the soil horizons information with the site-level 
+# information from dat_sites
 site(dat) <- dat_sites
 
 # Set spatial coordinates
@@ -362,8 +368,8 @@ head(dat)
 # SOC must be in g/kg
 # BLD in kg/m3
 # CRF in percentage
-OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, CRFVOL = dat$CRFVOL, 
-                 HSIZE = 30)
+OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, 
+                 CRFVOL = dat$CRFVOL, HSIZE = 30)
 
 dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
@@ -397,8 +403,8 @@ estimateBD <- function(SOC, method="Saini_1996"){
   return(BD)
 }
 
-# See the summary of values produced using the pedo-transfer function with 
-# one of the proposed methods.
+# See the summary of values produced using the pedo-transfer 
+# function with one of the proposed methods.
 summary(estimateBD(dat$SOC, method="Honeyset_Ratkowsky_1989"))
 
 # Estimate BLD using the pedotransfer function:
