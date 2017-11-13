@@ -1,10 +1,10 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Upscaling methods
 *R. Baritz, R. Hiederer & Titia Mulder*
+
+```{r, echo=FALSE, cache=FALSE}
+options(width = 69)
+knitr::opts_chunk$set(echo = TRUE, results='hold')
+```
 
 ## Conventional upscaling using soil maps
 

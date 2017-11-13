@@ -1,9 +1,9 @@
 # Preparation of spatial covariates
-
 *R. Baritz & Y. Yigini*
 
-```{r set-options, echo=FALSE, cache=FALSE}
+```{r, echo=FALSE, cache=FALSE}
 options(width = 69)
+knitr::opts_chunk$set(echo = TRUE, results='hold')
 ```
 
 

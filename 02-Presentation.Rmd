@@ -1,3 +1,6 @@
+\mainmatter
+\tableofcontents
+
 # Presentation
 
 The Global Soil Partnership (GSP) aims to promote sustainable soil management at all levels and in all land uses through normative tools that rely on evidencebased science. Understanding the status of a given soil, including its properties and functions, and relating this information to the ecosystem services that soil provides becomes a mandatory action before making decisions on how to manage a soil sustainably. To achieve this, the availability of and use of soil data and information is fundamental to underpin soil management decisions. For this reason, members of the GSP have decided to establish a Global Soil Information System (GLOSIS) that relies on national soil information systems.

@@ -17,8 +17,8 @@ Global Soil Partnership, Food and Agriculture Organization of the United Nations
 * Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands
 * Titia VL Mulder - Wageningen University, Department of Environmental Sciences,
 The Netherlands
-* Guillermo Federico Olmedo - INTA, Instituto Nacional de Tecnología Agropecuaria,
-Argentina
+* Guillermo Federico Olmedo - Instituto Nacional de Tecnología Agropecuaria,
+Mendoza, Argentina
 * Laura Poggio - The James Hutton Institute, Craigiebuckler Aberdeen, Scotland UK
 * Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands
 * Christian Thine Omuto - Department of Environmental and Biosystems Engineering,
