@@ -1,4 +1,5 @@
 # Validation
+*B. Kempen, D.J. Brus, G.B.M. Heuvelink*
 
 ```{r, echo=FALSE, cache=FALSE}
 options(width = 69)
