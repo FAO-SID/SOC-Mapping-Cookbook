@@ -207,14 +207,14 @@ Typical metadata should (at least) contain:
 Metadata (including color legends) can be also directly embedded into the GeoTiff file by using the gdal_edit command  available in GDAL. The following example shows how to add a simple explanation of the data and a URL to find more info about the GeoTiff:
 
 ```{r, eval=FALSE}
-> data("eberg_grid")
-> gridded(eberg_grid) = ~ x+y
-> proj4string(eberg_grid) <- CRS("+init=epsg:31467")
-> writeGDAL(eberg_grid["DEMSRT6"], "eberg_DEM.tif", options="COMPRESS=DEFLATE")
-> ?eberg
-> system(paste0('gdal_edit.py -mo \"DESCRIPTION=elevation values from the SRTM DEM\" -mo \"DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen\"
+data("eberg_grid")
+gridded(eberg_grid) = ~ x+y
+proj4string(eberg_grid) <- CRS("+init=epsg:31467")
+writeGDAL(eberg_grid["DEMSRT6"], "eberg_DEM.tif", options="COMPRESS=DEFLATE")
+?eberg
+system(paste0('gdal_edit.py -mo \"DESCRIPTION=elevation values from the SRTM DEM\" -mo \"DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen\"
 eberg_DEM.tif'))
-> system('gdalinfo eberg_DEM.tif')
+ system('gdalinfo eberg_DEM.tif')
 
 ```
 
