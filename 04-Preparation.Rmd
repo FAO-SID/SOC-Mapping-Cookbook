@@ -6,6 +6,13 @@ options(width = 69)
 knitr::opts_chunk$set(echo = TRUE, results='hold')
 ```
 
+
+```{r}
+library(knitr)
+opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+
+
 ## Soil profiles and soil augers
 
 Soil profiles are complex real world entities. Soil profiles are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
@@ -274,6 +281,8 @@ write.csv(dat, "data/dataproc.csv")
 ```
 
 \clearpage
+
+
 ## Code examples
 
 ### Data preparation for soil profiles {#dpsoilprof}
@@ -316,8 +325,8 @@ summary(dat$BLD)
 
 # See the summary of values produced using the pedo-transfer 
 # function with one of the proposed methods.
-summary(estimateBD(dat$SOC[is.na(dat$BLD)], m
-                   ethod="Honeyset_Ratkowsky_1989"))
+summary(estimateBD(dat$SOC[is.na(dat$BLD)], 
+                   method="Honeyset_Ratkowsky_1989"))
 
 # Fill NA's using the pedotransfer function:
 dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
