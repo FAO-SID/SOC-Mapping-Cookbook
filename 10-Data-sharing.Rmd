@@ -1,5 +1,6 @@
 # Data sharing
-
+*T. Hengl, L. Poggio, E. Ribeiro, B. Kempen*
+ 
 ```{r, echo=FALSE, cache=FALSE}
 options(width = 69)
 knitr::opts_chunk$set(echo = TRUE, results='hold')
@@ -88,11 +89,11 @@ where as.data.frame is a function converting a raster object to a table. Note th
 Likewise, to convert a vector layer to tabular formats one can use the Simple Features functionality of the sf package . The SF standard is widely implemented in spatial databases (PostGIS, ESRI ArcGIS) and forms the vector data basis for libraries such as GDAL and web standards such as GeoJSON (http://geojson.org/). To convert for example spatial polygons layer to a tabular format we would use:
 
 ```{r, eval=FALSE}
-> library(sf); library(plotKML)
-> data(eberg_zones)
-> class(eberg_zones)
-> eberg_zones.tbl <- as(eberg_zones, "sf")
-> str(eberg_zones.tbl)
+library(sf); library(plotKML)
+data(eberg_zones)
+class(eberg_zones)
+eberg_zones.tbl <- as(eberg_zones, "sf")
+str(eberg_zones.tbl)
 
 ```
 Note that using spatial layers in simple tabular formats can be cumbersome because many spatial relationships and properties are likely lost (although these can be assigned reversibly). In addition, the size of tabular objects is much bigger than if we use data in the original GIS data formats, especially if those formats support compression. On the other hand, having data in tabular format can be often the only way to exchange the data from spatial to non-spatial databases or from software without any data communication bridge. Also, tabular data is human-readable which means that it can be opened in text editors, spreadsheet programs or similar.
@@ -214,7 +215,7 @@ writeGDAL(eberg_grid["DEMSRT6"], "eberg_DEM.tif", options="COMPRESS=DEFLATE")
 ?eberg
 system(paste0('gdal_edit.py -mo \"DESCRIPTION=elevation values from the SRTM DEM\" -mo \"DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen\"
 eberg_DEM.tif'))
- system('gdalinfo eberg_DEM.tif')
+system('gdalinfo eberg_DEM.tif')
 
 ```
 
