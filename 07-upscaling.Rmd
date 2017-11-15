@@ -219,7 +219,7 @@ The main steps for the multiple linear regression analysis are shown in the Figu
 
 ![Workflow for Regression Kriging](images/RKworkflow.png)
 
-> 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in section 4.1. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS. 
+> 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in section [Overlay covariates and spatial data]. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS. 
 2. The essential part of multiple regression analysis is to build a regression model by using the environmental predictors. After extracting the values of explanatory maps and target variables into the single table, we can now start fitting multiple regression model using the table that contains data from dependent variable and predictors.
 3. In particular cases, stepwise multiple linear regression (SMLR) can be used to eliminate insignificant predictors. Stepwise multiple linear regression (SMLR) usually selects predictors that have the strongest linear correlations with the target variable, which reflect the highest predictive capacity.
 4. Kriging of the residuals (prediction errors): In the regression-kriging, the regression model detrends the data, produces the residuals which we need to krige and to be added to the regression model predictions.
@@ -250,48 +250,39 @@ The purpose of a regression analysis, of course, is to develop a model that can 
 
 > Raster calculation can be easily performed using “raster” Package in R or ArcGIS using the ”Raster Calculator” tool (It’s called Map Algebra in the prior versions).
 
-### The software
-
-**R**
-R and R Packages can be downloaded from https://cran.r-project.org/ 
-
-**SAGA GIS**
-The following modules are available for multiple regression analyses in SAGA GIS environment;
-Multiple Linear Regression Analysis, Menu Access: Spatial and Geostatistics|Regression|Table
-Multiple Regression Analysis (Grid/Grids), Menu Access: Spatial and Geostatistics|Regression
-Multiple Regression Analysis (Points/Grids), Menu Access:  Spatial and Geostatistics|Regression
-SAGA GIS is available at https://sourceforge.net/projects/saga-gis/files/ 
-
-**QGIS**
-The following analyses are available in QGIS; 
-Multiple regression analysis (points/grids)
-Multiple regression analysis (grid/grids)
-QGIS is available at: http://www.qgis.org/en/site/forusers/download.html 
-
-**ArcGIS**
-60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration)
-
-**Further Reading**
-A Practical Guide to Geostatistical Mapping of Environmental Variables (Hengl T., 2009)
-A Practical Guide to Geostatistical Mapping 2. Edition (Hengl T.,  2009)
-
-### Example: Regression Kriging 
+### Technical Steps - Regression Kriging 
 
 **Requirements**
-The following are required to implement Regression Kriging in R;
-* Latest version of R software, network connection and sufficient RAM,  storage capacity (Chapter 4)
-* Latest version of RStudio (Chapter 4)
-* R packages (sp, raster,rgdal, gstat, ithir) (Chapter 4)
-* Point Dataset ( .txt or .csv) (Chapter 2)
-* Environmental predictors (covariates) (Chapter 3)
-  + Relief (e.g. DEM, Slope, TWI)
-  + Organism map (e.g. land use, NDVI, land cover)
-  + Climate Data (e.g. mean precipitation, mean temperature)
-  + Parent material (parent material, geology)
+The following are required to implement Regression Kriging in R
 
+* [Setting-up the Software Environment](Latest version of R software, network connection and sufficient RAM,  storage capacity)
 
+* [Obtaining and Installing R Studio](Latest version of RStudio)
 
-#### Step 1. Data Preparation
+* [R Packages](R packages)
+
+* [Preparation of local soil property data](Point Dataset)
+
+* [Preparation of spatial covariates](Environmental predictors)
+
+  + Relief [DEM-derived covariates](e.g. DEM, Slope, TWI)
+  
+  + Organism map [Land cover/Land use](e.g. land use, NDVI, land cover)
+  
+  + Climate Data [Climate](e.g. mean precipitation, mean temperature)
+  
+  + Parent material [Parent material](parent material, geology)
+  
+
+#### Step 1. Setting Working Space and Initial Steps
+
+One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our  folder which contains data for the study area (point data, covariates).
+
+Note that we must use the forward slash / or double backslash \\ in R! Single backslash \ will not work. Now we can check if the working directory has been correctly set by using the function:
+
+Now load the necessary R packages (you may need to install them onto your computer first):
+
+#### Step 2. Data Preparation
 
 **Point Dataset**
 
@@ -301,21 +292,33 @@ We previously applied spline function to produce continuous soil information to 
 
 In the Chapter 3, several global and continental datasets and access information can be found. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository 
 
-#### Step 2. Setting Working Space and Initial Steps
+In section [Overlay covariates and spatial data],a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
-One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our  folder which contains data for the study area (point data, covariates).
+Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
 
-Note that we must use the forward slash / or double backslash \\ in R! Single backslash \ will not work. Now we can check if the working directory has been correctly set by using the function:
+```{r}
+# load data
+dat <- read.csv("data/MKD_RegMatrix.csv")
 
-Now load the necessary R packages (you may need to install them onto your computer first):
+dat$LCEE10 <- as.factor(dat$LCEE10)
+dat$soilmap <- as.factor(dat$soilmap)
 
-#### Step 3. Data Import (Point Data, Covariates)
-
-Now we will import our point dataset using read.csv() function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (read.table, read.csv, read.csv2, read.delim, read.delim2). Please type ?read.table() for help.
+# explore the data structure
+str(dat)
+```
 
 Since we will be working with spatial data we need to define the coordinates for the imported data. Using the coordinates()  function from the sp package we can define the columns in the data frame to refer to spatial coordinates—here the coordinates are listed in columns X and Y.
 
-SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set the CRS used was: Macedonia_State_Coordinate_System_zone_7  (EPSG:6316). 
+```{r}
+library(sp)
+
+# Promote to spatialPointsDataFrame
+coordinates(dat) <- ~ X + Y
+
+class(dat)
+```
+
+SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set the CRS used was: WGS84  (EPSG:4326). 
 
 To clearly tell R this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library http://trac.osgeo.org/proj/. An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
@@ -323,50 +326,185 @@ Please also note that, when working with spatial data, it’s very important tha
 
 Now, we will define our CRS:
 
-Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. We will use stack() function from raster package. In this example we use 12 covariates from the GSOCMap Data Repository. 
+```{r}
+dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 
-In order to carry out digital soil mapping in terms of examining the statistical significance of  environmental predictors for explaining the spatial variation of soil organic carbon, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not,  raster package resample and projectRaster functions are for harmonising all your different raster layers. With the stacked  rasters (Covstack), we can now perform the intersection and extraction.
+dat@proj4string
+```
 
-It would be better to progress with a data frame of just the data and covariates required for the modelling. In this case, we will subset the columns SOC, the covariates and the the spatial coordinates (X and Y).
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. We will use stack() function from raster package. In this example we use 13 covariates from the GSOCMap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R].
 
-After the extraction, It's useful to check if there are missing values (NAs) both in the target variable and covariates.  In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the complete.cases() function.
+```{r}
+library(raster)
 
-After removing NAs now there do not appear to be any missing data as indicated by the integer(0) output above. It means we have zero rows with missing information.
+# list all the itf files in the folder covs/
+files <- list.files(path = "covs", pattern = "tif$", 
+                    full.names = TRUE)
+
+# load all the tif files in one rasterStack object
+covs <- stack(files)
+
+# load the vectorial version of the soil map
+soilmap <- shapefile("MK_soilmap_simple.shp")
+
+# rasterize using the Symbol layer
+soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
+soilmap.r <- rasterize(x = soilmap, y = covs[[1]], field = "Symbol")
+
+# stack the soil map and the other covariates
+covs <- stack(covs, soilmap.r)
+
+# correct the name for layer 14
+names(covs)[14] <- "soilmap"
+
+# print the names of the 14 layers:
+names(covs)
+```
 
 #### Step 4. Fitting the MLR Model
 
 **Fitting the MLR Model**
 
+It would be better to progress with a data frame of just the data and covariates required for the modelling. In this case, we will subset the columns SOC, the covariates and the the spatial coordinates (X and Y).
+
+```{r}
+datdf <- dat@data
+
+datdf <- datdf[, c("OCSKGM", names(covs))]
+```
+
+
 Let’s fit a linear model using with all available covariates.
 
-From the summary of our fill model (MRL.full) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the step() function. With this function we can also specify the directions that we want to step.
+```{r}
+## Fit a multiple linear regression model between the log transformed values of OCS
+## and the top 20 covariates
+model.MLR <- lm(log(OCSKGM) ~ ., data = datdf) 
+```
+
+From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the `step()` function. With this function we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
+
+```{r, echo=FALSE}
+## stepwise variable selection
+model.MLR.step <- step(model.MLR, direction="both")
+```
 
 Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about 18 % of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model. 
+
+```{r, results='hold'}
+## summary and anova of the new model using stepwise covariates selection
+summary(modelo.MLR.step)
+anova(modelo.MLR.step)
+```
 
 In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation. Lets fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
 
 Now we can evaluate the test statistics of the calibration model using the goof() function from the  “ithir” package. 
 
+```{r}
+## graphical diagnosis of the regression analysis
+par(mfrow=c(2,2)) 
+plot(modelo.MLR.step)
+par(mfrow=c(1,1))
+```
+
+```{r}
+## collinearity test using variance inflation factors
+library(car)
+vif(modelo.MLR.step)
+
+#problematic covariates should have sqrt(VIF) > 2
+sqrt(vif(modelo.MLR.step)) 
+```
+
+
+```{r}
+## Example of removing covariate4 from the stepwise model:
+# modelo.MLR.step <- update(modelo.MLR.step, . ~ . - covariate4)
+# use that code to remove the covariates with sqrt(vif) > 2
+# then, you can test the vif again:
+# sqrt(vif(modelo.MLR.step)) 
+```
+
+
+```{r}
+# outlier test using the Bonferroni test
+outlierTest(modelo.MLR.step)
+```
+
 #### Step 5. Prediction and Residual Kriging
 
-Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or covStack object for making our prediction. Using stack avoids the step of arranging all covariates into table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created  in the Step 3.
+Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or `covs` object for making our prediction. Using stack avoids the step of arranging all covariates into table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created  in the Step 3.
 
-**Residual Kriging**
+```{r}
+# Project point data. 
+dat_sp@proj4string <- COV@crs
+dat_sp <- spTransform(dat_sp, CRS("+init=epsg:3405"))
 
-Now, we can derive the model residual which is the model prediction subtracted from the residual.
+# project covariates to VN-2000 UTM 48N
+COV <- projectRaster(COV, crs = CRS("+init=epsg:3405"), method='ngb')
+```
+
+
+```{r}
+## Promote covariates to spatial grid dataframe. Takes some time and a lot of memory!
+COV.sp <- as(COV, "SpatialGridDataFrame")
+```
+
+```{r}
+### RK model 
+library(automap)
+
+
+## Run regression kriging prediction. This step can take hours...!
+OCS.krige <- autoKrige(formula = as.formula(modelo.MLR.step$call$formula), 
+                       input_data = dat_sp, 
+                       new_data = COV.sp,
+                       verbose = TRUE,
+                       block = c(1000, 1000))
+
+```
+
+
+```{r}
+## Convert prediction and standard deviation to rasters
+RKprediction <- expm1(raster(OCS.krige$krige_output[1]))
+RKpredsd <- expm1(raster(OCS.krige$krige_output[3]))
+```
+
+
+```{r}
+## Save results as tif files
+writeRaster(RKprediction, filename = "URU_OCS_RK.tif")
+writeRaster(RKpredsd, filename = "URU_OCS_RKpredsd.tif")
+```
+
+```{r}
+# save the model
+```
+
 
 ### References 
 Bivand, R. S., Pebesma, E., & Gómez-Rubio, V. (2013). Applied Spatial Data Analysis with R. New York, NY: Springer New York. https://doi.org/10.1007/978-1-4614-7618-4
+
 Bontemps, S., Defourny, P., Van Bogaert, E., Arino, O., Kalogirou, V., Perez, J.R., 2011. chapter 8 “Interpolation and Geostatistics” in Bivand, R., Pebesma, E., Rubio, V., (2008) Applied Spatial Data Analysis with R. Use R Series, Springer, Heidelberg, pp. 378.
 GLOBCOVER 2009-Product Description and Validation Report.
+
 Gupta, S. (2015). A Multiple Regression Technique in Data Mining. International Journal of Computer Applications, 126(5).
+
 Hengl T., Heuvelink G.B.M., Kempen B.,Methods to fit a regression-kriging model, http://gsif.r-forge.r-project.org/fit.gstatModel.html. Accessed, April, 2017.
+
 Hengl T., Heuvelink G.B.M., Rossiter D.G., 2007. About regression-kriging: from equations to case studies. Computers and Geosciences, 33(10): 1301-1315.
+
 Hengl, T. (2009) A Practical Guide to Geostatistical Mapping, 2nd Edt. University of Amsterdam, www.lulu.com, 291 p.
 Hoffmann, J. P., & Shafer, K. (2005). Linear regression analysis: Assumptions and applications. Department of Sociology Brigham Young University.
+
 Jolliffe, I. T. (1982). A note on the use of principal components in regression. Applied Statistics, 300-303.
+
 Malone, Brendan P., Budiman Minasny, and Alex B. McBratney. "Using R for Digital Soil Mapping." (2016).
+
 Meinshausen, N. (2006). Quantile regression forests. The Journal of Machine Learning Research, 7, 983-999.
+
 Vasques, G. M., Grunwald, S., & Sickman, J. O. (2009). Modeling of soil organic carbon fractions using visible–near-infrared spectroscopy. Soil Science Society of America Journal, 73(1), 176-184.
 
 ## Data mining: Random Forest
