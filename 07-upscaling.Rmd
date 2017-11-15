@@ -389,12 +389,12 @@ From the summary of our fitted model (model.MLR) above, it seems only a few of t
 model.MLR.step <- step(model.MLR, direction="both")
 ```
 
-Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about 18 % of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model. 
+Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about 23 % of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model. 
 
 ```{r, results='hold'}
 ## summary and anova of the new model using stepwise covariates selection
-summary(modelo.MLR.step)
-anova(modelo.MLR.step)
+summary(model.MLR.step)
+anova(model.MLR.step)
 ```
 
 In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation. Lets fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
@@ -404,32 +404,39 @@ Now we can evaluate the test statistics of the calibration model using the goof(
 ```{r}
 ## graphical diagnosis of the regression analysis
 par(mfrow=c(2,2)) 
-plot(modelo.MLR.step)
+plot(model.MLR.step)
 par(mfrow=c(1,1))
 ```
 
 ```{r}
 ## collinearity test using variance inflation factors
 library(car)
-vif(modelo.MLR.step)
+vif(model.MLR.step)
 
 #problematic covariates should have sqrt(VIF) > 2
-sqrt(vif(modelo.MLR.step)) 
+sqrt(vif(model.MLR.step))
 ```
+
+colinear: Temperature seasonality at 1 km (B04CHE3) and Temperature Annual Range [°C] at 1 km (B07CHE3)
 
 
 ```{r}
-## Example of removing covariate4 from the stepwise model:
-# modelo.MLR.step <- update(modelo.MLR.step, . ~ . - covariate4)
-# use that code to remove the covariates with sqrt(vif) > 2
-# then, you can test the vif again:
-# sqrt(vif(modelo.MLR.step)) 
+## Removing B07CHE3 from the stepwise model:
+model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
+
+# Test the vif again:
+sqrt(vif(model.MLR.step))
+```
+
+```{r, results='hold'}
+## summary  of the new model using stepwise covariates selection
+summary(model.MLR.step)
 ```
 
 
 ```{r}
 # outlier test using the Bonferroni test
-outlierTest(modelo.MLR.step)
+outlierTest(model.MLR.step)
 ```
 
 #### Step 5. Prediction and Residual Kriging
@@ -438,11 +445,10 @@ Now we can make the predictions and plot the map. We can use either our DSM_data
 
 ```{r}
 # Project point data. 
-dat_sp@proj4string <- COV@crs
-dat_sp <- spTransform(dat_sp, CRS("+init=epsg:3405"))
+dat <- spTransform(dat, CRS("+init=epsg:6204"))
 
 # project covariates to VN-2000 UTM 48N
-COV <- projectRaster(COV, crs = CRS("+init=epsg:3405"), method='ngb')
+covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), method='ngb')
 ```
 
 
@@ -451,36 +457,45 @@ COV <- projectRaster(COV, crs = CRS("+init=epsg:3405"), method='ngb')
 COV.sp <- as(COV, "SpatialGridDataFrame")
 ```
 
+
 ```{r}
 ### RK model 
 library(automap)
 
 
 ## Run regression kriging prediction. This step can take hours...!
-OCS.krige <- autoKrige(formula = as.formula(modelo.MLR.step$call$formula), 
+OCS.krige <- autoKrige(formula = as.formula(model.MLR.step$call$formula), 
                        input_data = dat_sp, 
                        new_data = COV.sp,
                        verbose = TRUE,
                        block = c(1000, 1000))
 
+OCS.krige
+```
+
+
+```{r}
+plot(OCS.krige)
 ```
 
 
 ```{r}
 ## Convert prediction and standard deviation to rasters
-RKprediction <- expm1(raster(OCS.krige$krige_output[1]))
-RKpredsd <- expm1(raster(OCS.krige$krige_output[3]))
+## And back-tansform the vlaues
+RKprediction <- exp(raster(OCS.krige$krige_output[1]))
+RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 ```
 
 
 ```{r}
 ## Save results as tif files
-writeRaster(RKprediction, filename = "URU_OCS_RK.tif")
-writeRaster(RKpredsd, filename = "URU_OCS_RKpredsd.tif")
+writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif")
+writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif")
 ```
 
 ```{r}
 # save the model
+saveRDS(model.MLR.step, )
 ```
 
 
