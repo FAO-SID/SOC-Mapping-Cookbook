@@ -219,7 +219,7 @@ The main steps for the multiple linear regression analysis are shown in the Figu
 
 ![Workflow for Regression Kriging](images/RKworkflow.png)
 
-> 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in section 4.1. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS. 
+> 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in section [Overlay covariates and spatial data]. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS. 
 2. The essential part of multiple regression analysis is to build a regression model by using the environmental predictors. After extracting the values of explanatory maps and target variables into the single table, we can now start fitting multiple regression model using the table that contains data from dependent variable and predictors.
 3. In particular cases, stepwise multiple linear regression (SMLR) can be used to eliminate insignificant predictors. Stepwise multiple linear regression (SMLR) usually selects predictors that have the strongest linear correlations with the target variable, which reflect the highest predictive capacity.
 4. Kriging of the residuals (prediction errors): In the regression-kriging, the regression model detrends the data, produces the residuals which we need to krige and to be added to the regression model predictions.
@@ -249,31 +249,6 @@ The diagnostic plots for the model should be evaluated to confirm if all the ass
 The purpose of a regression analysis, of course, is to develop a model that can be used to make the prediction of a dependent variable. The derived regression equation is to be used to create the prediction map for dependent variable.
 
 > Raster calculation can be easily performed using “raster” Package in R or ArcGIS using the ”Raster Calculator” tool (It’s called Map Algebra in the prior versions).
-
-### The software
-
-**R**
-R and R Packages can be downloaded from https://cran.r-project.org/ 
-
-**SAGA GIS**
-The following modules are available for multiple regression analyses in SAGA GIS environment;
-Multiple Linear Regression Analysis, Menu Access: Spatial and Geostatistics|Regression|Table
-Multiple Regression Analysis (Grid/Grids), Menu Access: Spatial and Geostatistics|Regression
-Multiple Regression Analysis (Points/Grids), Menu Access:  Spatial and Geostatistics|Regression
-SAGA GIS is available at https://sourceforge.net/projects/saga-gis/files/ 
-
-**QGIS**
-The following analyses are available in QGIS; 
-Multiple regression analysis (points/grids)
-Multiple regression analysis (grid/grids)
-QGIS is available at: http://www.qgis.org/en/site/forusers/download.html 
-
-**ArcGIS**
-60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration)
-
-**Further Reading**
-A Practical Guide to Geostatistical Mapping of Environmental Variables (Hengl T., 2009)
-A Practical Guide to Geostatistical Mapping 2. Edition (Hengl T.,  2009)
 
 ### Example: Regression Kriging 
 
