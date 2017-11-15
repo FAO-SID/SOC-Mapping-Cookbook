@@ -30,7 +30,8 @@ tex <- data.frame(
   SAND = c(90,32,70,70,20,10,10,10,20,10,70,10)
  )
  
-TT.plot(class.sys = "USDA.TT", tri.data = tex, main = "", cex.axis=.7, cex.lab=.7)
+TT.plot(class.sys = "USDA.TT", tri.data = tex, main = "", 
+        cex.axis=.7, cex.lab=.7)
 
 ```
 ![Soil texture triangle plot. An example of soil science specific data.](images/Data_sharing_triangle.png)
@@ -77,7 +78,8 @@ Both vector and raster GIS data can also be converted to tabular data format. By
 library(rgdal)
 library(plotKML)
 ?readGDAL
-spnad83 <- readGDAL(system.file("pictures/erdas_spnad83.tif", package = "rgdal")[1])
+spnad83 <- readGDAL(system.file("pictures/erdas_spnad83.tif", 
+                                package = "rgdal")[1])
 spnad83.tbl <- as.data.frame(spnad83)
 str(spnad83.tbl)
 
@@ -88,11 +90,11 @@ where as.data.frame is a function converting a raster object to a table. Note th
 Likewise, to convert a vector layer to tabular formats one can use the Simple Features functionality of the sf package . The SF standard is widely implemented in spatial databases (PostGIS, ESRI ArcGIS) and forms the vector data basis for libraries such as GDAL and web standards such as GeoJSON (http://geojson.org/). To convert for example spatial polygons layer to a tabular format we would use:
 
 ```{r, eval=FALSE}
-> library(sf); library(plotKML)
-> data(eberg_zones)
-> class(eberg_zones)
-> eberg_zones.tbl <- as(eberg_zones, "sf")
-> str(eberg_zones.tbl)
+library(sf); library(plotKML)
+data(eberg_zones)
+class(eberg_zones)
+eberg_zones.tbl <- as(eberg_zones, "sf")
+str(eberg_zones.tbl)
 
 ```
 Note that using spatial layers in simple tabular formats can be cumbersome because many spatial relationships and properties are likely lost (although these can be assigned reversibly). In addition, the size of tabular objects is much bigger than if we use data in the original GIS data formats, especially if those formats support compression. On the other hand, having data in tabular format can be often the only way to exchange the data from spatial to non-spatial databases or from software without any data communication bridge. Also, tabular data is human-readable which means that it can be opened in text editors, spreadsheet programs or similar.
@@ -115,7 +117,8 @@ writeOGR(eberg, "eberg.gpkg", "eberg", "GPKG")
 con <- dbConnect(RSQLite::SQLite(), dbname = "eberg.gpkg")
 df <- dbGetQuery(con, 'select "soiltype" from eberg')
 summary(as.factor(df$soiltype))
-dbGetQuery(con, 'select * from gpkg_spatial_ref_sys')[3,"description"]
+dbGetQuery(con, 
+           'select * from gpkg_spatial_ref_sys')[3,"description"]
 
 ```
 Note that the RSQLite package is a generic package for connecting to SQLite DBs. This means that GPKG files can be accessed and updated in its native storage format without intermediate format translations. Just putting a GPKG file on server with read and execute access allows users to connect and fetch data.
@@ -133,7 +136,8 @@ GeoTIFF format is highly recommended for sharing raster data for the following r
 Consider for example the **gdallocationinfo**  function which allows spatial queries following some indexing system such as row and column number:
 
 ```{r, eval=FALSE}
-spnad83.file = system.file("pictures/erdas_spnad83.tif", package = "rgdal")[1]
+spnad83.file = system.file("pictures/erdas_spnad83.tif", 
+                           package = "rgdal")[1]
 system(paste0('gdallocationinfo ', spnad83.file, ' 100 100'))
 
 ```
@@ -175,10 +179,13 @@ library(htmlwidgets)
 library(GSIF)
 library(raster)
 demo(meuse, echo=FALSE)
-omm <- autopredict(meuse["om"], meuse.grid[c("dist","soil","ffreq")], method="ranger", auto.plot=FALSE, rvgm=NULL)
+omm <- autopredict(meuse["om"], meuse.grid[c("dist","soil","ffreq")],
+                   method="ranger", auto.plot=FALSE, rvgm=NULL)
 meuse.ll <- reproject(meuse["om"])
 #Reprojecting to +proj=longlat +datum=WGS84 ...
-m = leaflet() %>% addTiles() %>% addRasterImage(raster(omm$predicted["om"]), colors = SAGA_pal[[1]][4:20]) %>% addCircles(lng = meuse.ll@coords[,1], lat = meuse.ll@coords[,2], color = c('black'), radius=meuse.ll$om)  
+m = leaflet() %>% addTiles() %>% addRasterImage(raster(omm$predicted["om"]), 
+  colors = SAGA_pal[[1]][4:20]) %>% addCircles(lng = meuse.ll@coords[,1], 
+    lat = meuse.ll@coords[,2], color = c('black'), radius=meuse.ll$om)  
 saveWidget(m, file="organicmater_predicted.html")
 
 ```
@@ -207,14 +214,17 @@ Typical metadata should (at least) contain:
 Metadata (including color legends) can be also directly embedded into the GeoTiff file by using the gdal_edit command  available in GDAL. The following example shows how to add a simple explanation of the data and a URL to find more info about the GeoTiff:
 
 ```{r, eval=FALSE}
-> data("eberg_grid")
-> gridded(eberg_grid) = ~ x+y
-> proj4string(eberg_grid) <- CRS("+init=epsg:31467")
-> writeGDAL(eberg_grid["DEMSRT6"], "eberg_DEM.tif", options="COMPRESS=DEFLATE")
-> ?eberg
-> system(paste0('gdal_edit.py -mo \"DESCRIPTION=elevation values from the SRTM DEM\" -mo \"DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen\"
+data("eberg_grid")
+gridded(eberg_grid) = ~ x+y
+proj4string(eberg_grid) <- CRS("+init=epsg:31467")
+writeGDAL(eberg_grid["DEMSRT6"], "eberg_DEM.tif", 
+            options="COMPRESS=DEFLATE")
+?eberg
+system(paste0('gdal_edit.py 
+-mo \"DESCRIPTION=elevation values from the SRTM DEM\" 
+-mo \"DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen\"
 eberg_DEM.tif'))
-> system('gdalinfo eberg_DEM.tif')
+system('gdalinfo eberg_DEM.tif')
 
 ```
 
