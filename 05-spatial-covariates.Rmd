@@ -40,7 +40,7 @@ plot(DEM)
 
 SRTM contains many gaps (pixels with no-data). These gaps could be filled using splines. SAGA GIS has a module called ‘Close Gaps with Splines’ and other similar tools for doing this.
 
-## Parent material 
+## Parent material
 
 Parent material has a crucial impact on soil formation, soil geochemistry and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from Geology maps. These maps focus on rock formation, mineral components and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. The most commonly available approximation to parent material is certainly a geology map. Its geochemistry has essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness. 
 
@@ -250,6 +250,14 @@ dat@data$soilmap <- as.factor(dat@data$soilmap)
 summary(dat@data)
 ```
 
+## Overlay covariates and spatial data
+
+In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of soil organic carbon, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, raster package resample and projectRaster functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
+
+After the extraction, It's useful to check if there are missing values (NAs) both in the target variable and covariates. In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the complete.cases() function.
+
+After removing NAs now there do not appear to be any missing data as indicated by the integer(0) output above. It means we have zero rows with missing information.
+
 The last step involves exporting a table our regression matrix including the soil data and the values of the enviromental covariates in position of the point samples.
 
 The summary of the 'dat data.frame' shows 2 points with NA values for most of the covariates. And 30 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
@@ -264,7 +272,8 @@ dat <- as.data.frame(dat)
 # The points with NA values has to be removed 
 dat <- dat[complete.cases(dat),]
 
-write.csv(dat, "data/MKD_RegMatrix.csv")
+# export as a csv table
+write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
 ```
 
 
