@@ -1,0 +1,44 @@
+# Technical Overview and the Checklist
+
+*V.L.  Mulder*
+
+##Point Dataset 
+
+*	Did you remove non-georeferenced observations from your dataset?
+*	Did you check for outliers or any unusual values for the measured SOC, pH, BD, stoniness/gravel content, and min/max definitions of your soil horizons?
+*	Is there spatial correlation in your SOC values, as observed from the variogram?
+*	Did you check the probability distribution and applied a transformation in case the samples were not normally distributed?
+*	Be aware whether you are going to predict SOC or SOM values!
+
+##Covariates
+
+*	Did you choose and apply the proper projection, one that is suitable for your country and is suitable for spatial statistics? 
+*	Do all the covariates have a resolution of 1 km, and did you use either nearest neighbour resampling for the categorical variables and IDW/cubic spline for continuous data?
+*	Did you correctly set the NoData values as NoData, i.e. not a standard assigned values such as -9999, 256 etc.
+*	Did you check for outliers or any unusual values, especially in your DEM Layer(s)?
+*	Did you set any categorical dataset as ‘factor’ instead of being ‘numeric’ or ‘integer’?
+
+##Statistical inference
+
+*	Did you choose a proper model which is capable to model the variability in your SOC point data best? (multiple regression or data mining with or without interpolation of the residuals using kriging)?
+*	Did you make sure that the Random Forest did not over fit your data?
+*	Did you apply a validation scheme, e.g. k-fold cross-validation or an independent validation, if so report the R2 and RMSE as accuracy measures
+*	Do the model summaries make sense? i.e. most important predictor variables and model fit?
+*	Is there spatial structure left in your residuals, if so make sure you interpolate the model residuals using kriging?
+
+##Spatial interpolation
+
+*	Did you obtain an exhaustive map or are there still gaps? If so, check if your raster has the correct ‘factor’ values, if the model was calibrated on fewer classes than the extrapolation may not work for those pixels?
+*	Do the patterns make sense or is there a covariate that causes an unrealistic pattern, based on expert judgement. If so, consider removing this covariate?
+*	In case you did kriging, don’t forget to look at the kriging variance. This is a very important indicator of the accuracy. Otherwise, consider modelling the 90% confidence intervals of the predictions!
+*	Don’t forget to back-transform your predicted values! 
+
+##Calculation of STOCKS 
+You might want to calculate stocks per LU type, management type or by municipality.  If you do that make sure you give an informed number, i.e. an estimate plus an estimate of the uncertainty
+
+##Evaluation of output/ quality assessment
+
+*	Report the model calibration and validation statistics!
+*	Report some map quality measures!
+*	Evaluate to which extent the model and map is either underestimating or overestimating SOC/SOM!
+*	Describe the spatial patterns and relate them to the landscape characteristics!

@@ -1,0 +1,11 @@
+#Deliverables
+
+Data shared by countries will be collected by the GSP Secretariat. The GSP data policy (see GSP GSOC Guidelines, Chapter 8.5) will ensure that the national terms of condition are fully respected.  Data will be shared using common GIS formats, and metadata should be compiled in an excel file. The Soil Organic Carbon Map will be delivered as grid using the 30 arc-seconds grid.
+
+The following data will be delivered:
+
+*	The Soil Organic Carbon Map: will be digitally delivered in grid with 30 arc-seconds resolution. An empty grid is provided by the GSP Secretariat (ftp://gsp.isric2.org/<countryname>/mask/mask.tif). The SOC values should be transferred to this empty grid from the produced SOC data. To transfer values to the empty grid, QGis (Raster Calculator), ArcGIS (Mosaicing tool, Raster Calculator) can be used.
+*	Uncertainty Layers and prediction quality figures: a) Qualitative assessment (Conventional Upscaling) b) Quantitative assessment for DSM Methods. The uncertainty associated to the estimated map quality measures will be provided (Mean Error (ME), Mean Absolute Error (MAE), and MSE (Mean Squared Error).
+*	Metadata : Metadata is data describing data sets. It provides standardized information about a data set, for example, the maintaining institution through which the data can be accessed. It thus helps a user to find spatial data sets and services and to indicate for which purpose it can be used.
+In the case of the GSOC maps, a project-specific metadata template has been prepared. It deviates from the metadata elements listed in common standards such as ISO 19115. Following the guideline for SOC mapping , the importance of soil-specific methodical elements is given. This includes metadata describing the data sources used for SOC mapping and the upscaling method.
+
