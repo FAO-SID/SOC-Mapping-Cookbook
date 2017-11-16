@@ -493,11 +493,19 @@ RKprediction <- exp(raster(OCS.krige$krige_output[1]))
 RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 ```
 
+```{r}
+plot(RKprediction)
+```
+
+```{r}
+plot(RKpredsd)
+```
+
 
 ```{r}
 ## Save results as tif files
-writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif")
-writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif")
+writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", overwrite = TRUE)
+writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", overwrite = TRUE)
 ```
 
 ```{r}
@@ -597,10 +605,15 @@ However, a closer look at the plot of predicted versus observed values reveal th
 ### References
 
 Breiman, L., Friedman, J., Stone, C.J., Olshen, R.A., 1984. Classification and Regression Trees. CRC Press LLC, Boca Raton, FL.
+
 Wiesmeier, M., Barthold, F., Blank F.B., Kögel-Knabner, I. 2011. Digital mapping of soil organic matter stocks using Random Forest modeling in a semi-arid steppe ecosystem. Plant and Soil 340(1):7-24
+
 Box, G. E. P., Cox, D. R. 1964. An analysis of transformations (with discussion). Journal of the Royal Statistical Society B, 26, 211-252
 McBratney, A.B., Mendonca-Santos, MX., Minasny, B. 2003. On digital soil mapping. Geoderma 117, 3-52.
+
 Jenny, H., 1941. Factors of Soil Formation. McGraw-Hill, New York.
+
 Adhikari K, Hartemink AE, Minasny B, Bou Kheir R, Greve MB, Greve MH. 2014. Digital Mapping of Soil Organic Carbon Contents and Stocks in Denmark. PLoSONE 9(8): e105519. doi:10.1371/journal.pone.0105519
+
 Post, TM., Freijer, JI, Ploeger BA, Danhof M. 2008. Extensions to the visual predictive check to facilitate model performance evaluation. Journal of Pharmacokinetics and Pharmacodynamics, 35: 185. doi.10.1007/s10928-007-9081-1 
 
