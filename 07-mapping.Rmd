@@ -1,4 +1,4 @@
-# Upscaling methods
+# Mapping methods
 *R. Baritz, R. Hiederer & Titia Mulder*
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -6,7 +6,7 @@ options(width = 69)
 knitr::opts_chunk$set(echo = TRUE, results='hold')
 ```
 
-## Conventional upscaling using soil maps
+## Conventional mapping using soil maps
 
 ### Overview
 
@@ -265,13 +265,13 @@ The following are required to implement Regression Kriging in R
 
 * [Preparation of spatial covariates](Environmental predictors)
 
-  + Relief [DEM-derived covariates](e.g. DEM, Slope, TWI)
++ [DEM-derived covariates](Relief (e.g. DEM, Slope, TWI))
   
-  + Organism map [Land cover/Land use](e.g. land use, NDVI, land cover)
++ [Land cover/Land use](Organism map (e.g. land use, NDVI, land cover))
   
-  + Climate Data [Climate](e.g. mean precipitation, mean temperature)
++ [Climate](Climate Data (e.g. mean precipitation, mean temperature))
   
-  + Parent material [Parent material](parent material, geology)
++ [Parent material](Parent material (parent material, geology))
   
 
 #### Step 1. Setting Working Space and Initial Steps
@@ -443,40 +443,47 @@ outlierTest(model.MLR.step)
 
 Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or `covs` object for making our prediction. Using stack avoids the step of arranging all covariates into table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created  in the Step 3.
 
-```{r}
+```{r, warning=FALSE}
 # Project point data. 
 dat <- spTransform(dat, CRS("+init=epsg:6204"))
 
 # project covariates to VN-2000 UTM 48N
 covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), method='ngb')
+covs$LCEE10 <- as.factor(covs$LCEE10)
+covs$soilmap <- as.factor(covs$soilmap)
 ```
 
 
 ```{r}
 ## Promote covariates to spatial grid dataframe. Takes some time and a lot of memory!
-COV.sp <- as(COV, "SpatialGridDataFrame")
+covs.sp <- as(covs, "SpatialGridDataFrame")
+covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
+covs.sp$soilmap <- as.factor(covs.sp$soilmap)
+
+```
+
+```{r, echo=FALSE}
+library(automap)
+OCS.krige <- readRDS("results/OCS.krige.Rds")
 ```
 
 
-```{r}
+
+```{r, eval=FALSE}
 ### RK model 
 library(automap)
 
 
 ## Run regression kriging prediction. This step can take hours...!
 OCS.krige <- autoKrige(formula = as.formula(model.MLR.step$call$formula), 
-                       input_data = dat_sp, 
-                       new_data = COV.sp,
+                       input_data = dat, 
+                       new_data = covs.sp,
                        verbose = TRUE,
                        block = c(1000, 1000))
 
 OCS.krige
 ```
 
-
-```{r}
-plot(OCS.krige)
-```
 
 
 ```{r}
@@ -495,11 +502,12 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif")
 
 ```{r}
 # save the model
-saveRDS(model.MLR.step, )
+saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
 
 
-### References 
+### References
+
 Bivand, R. S., Pebesma, E., & Gómez-Rubio, V. (2013). Applied Spatial Data Analysis with R. New York, NY: Springer New York. https://doi.org/10.1007/978-1-4614-7618-4
 
 Bontemps, S., Defourny, P., Van Bogaert, E., Arino, O., Kalogirou, V., Perez, J.R., 2011. chapter 8 “Interpolation and Geostatistics” in Bivand, R., Pebesma, E., Rubio, V., (2008) Applied Spatial Data Analysis with R. Use R Series, Springer, Heidelberg, pp. 378.
