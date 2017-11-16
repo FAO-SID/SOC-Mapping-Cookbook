@@ -1,5 +1,5 @@
 # Mapping methods
-*R. Baritz, R. Hiederer & Titia Mulder*
+*R Baritz, VL Mulder, Y Yigini & GF Olmedo, C. Thine, RR Vargas*
 
 ```{r, echo=FALSE, cache=FALSE}
 options(width = 69)
@@ -7,10 +7,11 @@ knitr::opts_chunk$set(echo = TRUE, results='hold')
 ```
 
 ## Conventional mapping using soil maps
+*R Baritz, VL Mulder*
 
 ### Overview
 
-The two conventional upscaling methods, in the context of SOC mapping, are described by Lettens et al. (2004). Details about weighted averaging can be found in Hiederer (2013). Different conventional upscaling approaches were applied in many countries (Baritz et al. 1999 (Germany), Cruz-Gaistardo (Mexico), Greve et al. 2007 (Denmark), Koelli et al. 2009 (Estonia), Arrouay et al. 2001 (France), Bhatti et al. 2002 (Canada)). Because the structure of soil map databases differs between countries (definition of the soil mapping unit, stratification, soil associations, dominating and co-dominating soils, typical and estimate soil properties for different depths), it is difficult to define a generic methodology for the use of these maps for upscaling soil property information. 
+The two conventional mapping methods, in the context of SOC mapping, are described by Lettens et al. (2004). Details about weighted averaging can be found in Hiederer (2013). Different conventional mapping approaches were applied in many countries (Baritz et al. 1999 (Germany), Cruz-Gaistardo (Mexico), Greve et al. 2007 (Denmark), Koelli et al. 2009 (Estonia), Arrouay et al. 2001 (France), Bhatti et al. 2002 (Canada)). Because the structure of soil map databases differs between countries (definition of the soil mapping unit, stratification, soil associations, dominating and co-dominating soils, typical and estimate soil properties for different depths), it is difficult to define a generic methodology for the use of these maps for mapping soil property information. 
 
 However, the essential principle which is commonly used, is to combine soil property data from local observations with soil maps via class- and geomatching. 
 
@@ -43,12 +44,12 @@ If only horizons are provided: derive or estimate average depth of horizons per 
 
 * Prepare Covariates
 * Identify properties of covariates for each point observation using geo-matching 
-* Upscaling using geo-matching of all points: Extract the covariate information to all georeferenced sample sites. The SOC values from all points within the unit are then averaged. It is assumed that the points represent the real variability of soil types within the units 
+* Mapping using geo-matching of all points: Extract the covariate information to all georeferenced sample sites. The SOC values from all points within the unit are then averaged. It is assumed that the points represent the real variability of soil types within the units 
 
 
-**Step 3. Upscaling**
+**Step 3. mapping**
 
-* Upscaling using class-matching of points in agreement with classes
+* Mapping using class-matching of points in agreement with classes
 
 Through *class-matching*, only those points or profiles are attributed to a soil or landscape unit if both the soil and the land use class are the same. Class-matching thus can be performed regardless of the profile location. Before averaging, a weighing factor can be introduced according to the area proportions of dominant, co-dominant and associated soils. Each profile needs to be matched to its soil type/landscape type, and the SOC value averaged.
 1. Determine a soil or landscape unit (e.g. national soil legend stratified by climate area and main land cover type (forest, grassland, cropland)
@@ -57,7 +58,7 @@ Through *class-matching*, only those points or profiles are attributed to a soil
 
 Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.  
 
-* Upscaling using geo-matching
+* Mapping using geo-matching
 
 Because of its importance, geo-matching is described in more detail (section 8.1.3).
 
@@ -539,7 +540,7 @@ Meinshausen, N. (2006). Quantile regression forests. The Journal of Machine Lear
 Vasques, G. M., Grunwald, S., & Sickman, J. O. (2009). Modeling of soil organic carbon fractions using visible–near-infrared spectroscopy. Soil Science Society of America Journal, 73(1), 176-184.
 
 ## Data mining: Random Forest
-*C. Thine, R. R Vargas*
+*C Thine, RR Vargas*
 
 ### Overview
 
