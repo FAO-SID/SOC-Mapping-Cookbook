@@ -746,6 +746,47 @@ However, a closer look at the plot of predicted versus observed values reveal th
 
 #### Step 8. Spatial prediction of the soil organic carbon.
 
+### Code examples
+
+#### Fitting a random forest model to predict the SOC
+
+```{r, eval=FALSE}
+library(reshape)
+
+# Correlation analysis to select covariates
+names(dat)
+COR <- cor(as.matrix(dat[,7]), as.matrix(dat[,-c(1:8)]))
+COR
+x <- subset(melt(COR), value != 1 | value != NA)
+x <- x[with(x, order(-abs(x$value))),]
+x[1:25,]
+
+idx <- as.character(x$X2[1:25])
+
+dat2 <- dat[c('OCSKGM', idx)]
+names(dat2)
+
+COVall <- COV
+COV <- COV[[idx]]
+
+plot(COV)
+
+
+library(randomForest)
+
+# Try different values of mtry and select the model with the optimal value
+model <- tuneRF(dat[,c(names(COV))], dat$OCSKGM, stepFactor=1.5, doBest = TRUE, 
+                improve = 0.5)
+                       
+# Use the model to predict the SOC in the covariates space
+beginCluster()
+start <- Sys.time()
+pred <- clusterR(COV, predict, args=list(model))
+print(Sys.time() - start)
+endCluster()
+
+```
+
 ### References
 
 Breiman, L., Friedman, J., Stone, C.J., Olshen, R.A., 1984. Classification and Regression Trees. CRC Press LLC, Boca Raton, FL.
@@ -760,4 +801,57 @@ Jenny, H., 1941. Factors of Soil Formation. McGraw-Hill, New York.
 Adhikari K, Hartemink AE, Minasny B, Bou Kheir R, Greve MB, Greve MH. 2014. Digital Mapping of Soil Organic Carbon Contents and Stocks in Denmark. PLoSONE 9(8): e105519. doi:10.1371/journal.pone.0105519
 
 Post, TM., Freijer, JI, Ploeger BA, Danhof M. 2008. Extensions to the visual predictive check to facilitate model performance evaluation. Journal of Pharmacokinetics and Pharmacodynamics, 35: 185. doi.10.1007/s10928-007-9081-1 
+
+
+## Support Vector Machines
+*GF Olmedo & M Guevara*
+
+SVM apply a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates a hyperplane through n-dimensional spectral-space. Then, SVM separates numerical data based on a kernel function and parameters (e.g. gamma and cost) that maximize the margin from the closest point to the hyperplane that divides data with the largest possible margin, being the support vectors the points which fall within. Then, linear models are fitted to the support vectors.
+
+### Code examples
+
+#### Fitting a svm model to predict the SOC
+
+```{r, eval=FALSE}
+# Correlation analysis to select covariates
+names(dat)
+COR <- cor(as.matrix(dat[,7]), as.matrix(dat[,-c(1:8)]))
+COR
+x <- subset(melt(COR), value != 1 | value != NA)
+x <- x[with(x, order(-abs(x$value))),]
+x[1:25,]
+
+idx <- as.character(x$X2[1:25])
+
+dat2 <- dat[c('OCSKGM', idx)]
+names(dat2)
+
+COVall <- COV
+COV <- COV[[idx]]
+
+plot(COV)
+
+
+library(e1071)
+library(caret)
+
+#  Test different values of epsilon and cost
+tuneResult <- tune(svm, OCSKGM ~.,  data = dat[,c("OCSKGM", names(COV))],
+                   ranges = list(epsilon = seq(0,1,0.1), 
+                                 cost = c(.5,1,1.5,2,5,10))
+)
+
+# Choose the model with the best combination of epsilon and cost
+tunedModel <- tuneResult$best.model
+
+# Use the model to predict the SOC in the covariates space
+beginCluster()
+start <- Sys.time()
+pred <- clusterR(COV, predict, args=list(tunedModel))
+print(Sys.time() - start)
+endCluster()
+```
+
+
+
 
