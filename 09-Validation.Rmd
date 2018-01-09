@@ -86,7 +86,7 @@ The class representation is calculated from the column marginals of the error ma
 
 The class representation can be interpreted as the proportion of the area where in reality class u occurs that is also mapped as class u. The complement of ru, 1-ru, is referred to as the error of omission for mapped class u.
 
-###Estimating the map quality measures and associated uncertainty
+### Estimating the map quality measures and associated uncertainty
 
 In validation, we estimate the population means of the map quality measures from a sample taken from a limited number of locations in the mapping area. After all, we cannot afford to sample all locations, i.e. each grid cell of our soil map. Because the map quality measures are estimates, we are uncertain about these: we infer the quality measures from only a limited number of observations taken from the population. We do not know the true population means. The estimation uncertainty can be quantified with the sampling variance. From the variance, the lower and upper boundary of a confidence interval, typically the 95%, can be computed using basic statistical theory: 
 
@@ -94,14 +94,14 @@ where x is the estimated map quality measure, for instance the ME, MSE or overal
 
 Quantified information about the uncertainty associated to map quality measures is useful and required for statistical testing. For instance, if one wants to test if one mapping method performs better than the other method one needs quantified information about uncertainty. Because we are uncertain about the estimated quality measures, an observed difference in map quality between two methods does not necessarily mean that one method is better than the others, even when there is a substantial difference. The difference might be attributed to chance because we infer the quality measures from a limited sample from the population. With statistical hypothesis testing we can calculate how large the probability is that observed difference is caused by chance. Based on the outcome we can accept or reject the hypothesis that there is no difference between the performance of two mapping methods (this would be the null hypothesis for statistical testing) for a given significance level, usually 0.05.   
 
-##Graphical map quality measures
+## Graphical map quality measures
 
 In addition to quantifying map accuracy statistically, one can also present validation results obtained from a sample graphically. This can be done by creating scatter plots of predicted against observed values and spatial bubble plots of validation errors. Figure 8.2 shows an example of a scatterplot and bubble plot. Both plots can be easily made with R (R Development Core Team, 2016). Use the function plot(x,y)to generate a scatter plot. The 1:1 line (black line in Figure 8.2) can be added to the plot with the command abline(0,1). The spatial bubble plot can be generated with the bubble function of the sp package (Pebesma and Bivand, 2005). 
 
 ![Scatterplot of predicted versus observed soil organic matter content for Rwanda (left) and spatial bubble plot of cross-validation error for soil organic matter (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values](images/Validation_Rwanda.png)
 
 
-##Validation methods and statistical inference
+## Validation methods and statistical inference
 
 Following Brus et al. (2011), we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in previous section from a sample.
 
@@ -111,7 +111,7 @@ Data-splitting and cross-validation are applied in situations where one has only
 
 We warn here that if one uses data-splitting or cross-validation with a dataset collected with purposive sampling, then this has severe implications on the validity and interpretation of the estimated map quality measures as we will explain below
 
-###Additional probability sampling
+### Additional probability sampling
 
 The most appropriate approach for validation is by additional probability sampling. This means that an independent validation dataset is collected in the field on basis of a probability sampling design. Validation based on probability sampling ensures one obtains unbiased and valid estimates of the map quality measures (Brus et al., 2011; Stehman, 1999). Additional probability sampling has several advantages compared to data-splitting and cross-validation using non-probability sample data. These are:
 
@@ -198,7 +198,7 @@ Table 9.1 gives the map unit purities and class representations for this example
 |    Luvisol         |      0.592          |      0.700                            |
 |    Podzol          |      0.576          |      0.594                            |
 
-###Data-splitting
+### Data-splitting
 
 In data-splitting the sample data set is split in two subsets. One subset is used to calibrate the prediction model. The other subset is used for validation. A frequently used splitting criterion is 70-30, where 70% of the sample data are used for calibration and 30% for validation. The choice of a splitting criterion however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.
 
@@ -218,7 +218,7 @@ In most studies however, spatial correlation is not accounted for when estimatin
 
 In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted.
 
-###Cross-validation
+### Cross-validation
 
 In K-fold cross-validation (CV), the dataset is split into K roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the K-1 sets and used to predict the target variable for the data points set aside. From this prediction the prediction error is calculated. This procedure is repeated K times, each time setting a different set aside for validation. In this way we obtain K estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.
 
@@ -228,7 +228,7 @@ Note that the problem of spatially correlated errors remains when data are non-p
 
 In R, the caret package (Kuhn, 2015) offers functionality for data-splitting and cross-validation.
 
-###References
+### References
 
 Adhikari, K., Minasny, B., Greve, M.B., Greve, M.H., 2014. Constructing a soil class map of Denmark based on the FAO legend using digital techniques. Geoderma 214–215: 101-113.
 

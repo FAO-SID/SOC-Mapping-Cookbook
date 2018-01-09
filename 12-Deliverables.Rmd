@@ -1,4 +1,4 @@
-#Deliverables
+# Deliverables
 
 Data shared by countries will be collected by the GSP Secretariat. The GSP data policy (see GSP GSOC Guidelines, Chapter 8.5) will ensure that the national terms of condition are fully respected.  Data will be shared using common GIS formats, and metadata should be compiled in an excel file. The Soil Organic Carbon Map will be delivered as grid using the 30 arc-seconds grid.
 

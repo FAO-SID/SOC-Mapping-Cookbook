@@ -7,11 +7,14 @@ This cookbook provides step-by-step guidance for developing 1 km grids for soil 
 Therefore, this first edition is the beginning of a series of updates and extensions, necessary to cover a larger variety of upscaling approaches. Experiences gained throughout 2017 during the GSOC map programme, through applications at country scale and various trainings scheduled for 2017, shall be considered in the next editions. Also, the section on uncertainties will be adjusted to more practical implementation steps.
 
 ## Editors
-* Yusuf Yigini, Rainer Baritz, Ronald R. Vargas
+
+* Yusuf Yigini, Guillermo Federico Olmedo, Kostiantyn Viatkin, Rainer Baritz, Ronald R. Vargas
 Global Soil Partnership, Food and Agriculture Organization of the United Nations
 
 ## Authors
+
 * Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands
+* Mario Guevara - University of Delaware, USA
 * Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands
 * Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands
 * Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands
