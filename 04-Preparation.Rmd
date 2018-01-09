@@ -206,7 +206,7 @@ The function GSIF::mpspline has several arguments. One of the arguments is the l
 
 The following technical steps require ‘R’ and certain packages.
 
-```{r, echo=FALSE}
+```{r, echo=T}
 # Load aqp package
 library(aqp)
 
@@ -256,7 +256,7 @@ head(dat)
 
 Finally, the estimation of organic carbon stock could be done using GSIF package:
 
-```{r esimtation of OCS, eval=FALSE}
+```{r estimation of OCS, eval=FALSE}
 # Estimate Organic Carbon Stock
 # SOC must be in g/kg
 # BLD in kg/m3
