@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Setting-up the Software Environment
 *Y. Yigini*
 
@@ -9,9 +14,8 @@ R is a language and environment for statistical computing. R provides a wide var
 
 ### Obtaining and installing R
 
-> Step 1. go tohttps://cloud.r-project.org/index.html 
->
-> Step 2. Pick an installation file for your platform 
+* Step 1. go tohttps://cloud.r-project.org/index.html 
+* Step 2. Pick an installation file for your platform 
 
 ### Obtaining and Installing R Studio
 
@@ -45,36 +49,37 @@ As was previously mentioned, R is extensible trough packages. R packages are col
 
 Soil science and Pedometrics
 
-*aqp*: Algorithms for quantitative pedology. http://cran.r-project.org/web/ packages/aqp/index.html. A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
-GSIF: Global soil information facility. http://cran.r-project.org/web/packages/ GSIF/index.html. Tools, functions and sample datasets for digital soil mapping. Global Soil Information Facilities - tools (standards and functions) and sample datasets for global soil mapping.
+*aqp*: Algorithms for quantitative pedology.  A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
+
+*GSIF*: Global soil information facility. Tools, functions and sample datasets for digital soil mapping. Global Soil Information Facilities - tools (standards and functions) and sample datasets for global soil mapping.
 
 *soiltexture*: "The Soil Texture Wizard" is a set of R functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allows to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). This set of function is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based graphical user interface is provided: soiltexture_gui().
 
 Spatial Analysis
 
-*sp*: http://cran.r-project.org/web/packages/sp/index.html. A package that provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
+*sp*: A package that provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
 
-*raster*: http://cran.r-project.org/web/packages/raster/index.html. Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions and processing of very large files is supported.
+*raster*: Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions and processing of very large files is supported.
 
-*rgdal*: http://cran.r-project.org/web/packages/rgdal/index.html. Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).
+*rgdal*: Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).
 
-*RSAGA*: http://cran.r-project.org/web/packages/RSAGA/index.html. RSAGA provides access to geocomputing and terrain analysis functions of SAGA GIS http://www.saga-gis.org/en/index.html from within R by running the command line version of SAGA.
+*RSAGA*: RSAGA provides access to geocomputing and terrain analysis functions of SAGA GIS http://www.saga-gis.org/en/index.html from within R by running the command line version of SAGA.
 
 Modeling
 
-*caret*: http://cran.r-project.org/web/packages/caret/index.html. Extensive range of functions for training and plotting classification and regression models.
+*caret*: Extensive range of functions for training and plotting classification and regression models.
 
-*Cubist*: http://cran.r-project.org/web/packages/Cubist/index.html. Regression modeling using rules with added instance-based corrections. Cubist models were developed by Ross Quinlan.
+*Cubist*: Regression modeling using rules with added instance-based corrections. Cubist models were developed by Ross Quinlan.
 
-*C5.0*: http://cran.r-project.org/web/packages/C50/index.html. C5.0 decision trees and rule-based models for pattern recognition. Another model structure developed by Ross Quinlan.
+*C5.0*: C5.0 decision trees and rule-based models for pattern recognition. Another model structure developed by Ross Quinlan.
 
-*gam*: http://cran.r-project.org/web/packages/gam/index.html. Functions for fitting and working with generalized additive models.
+*gam*: Functions for fitting and working with generalized additive models.
 
-*nnet*: http://cran.r-project.org/web/packages/nnet/index.html. Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
+*nnet*: Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
 
-*gstat*: http://cran.r-project.org/web/packages/gstat/. Variogram modelling; simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation; variogram and variogram map plotting utility functions.
+*gstat*: Variogram modelling; simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation; variogram and variogram map plotting utility functions.
 
-*ithir*: A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.
+[*ithir*](http://ithir.r-forge.r-project.org/): A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.
 
 Mapping and plotting
 
@@ -84,8 +89,7 @@ Both raster and sp have handy functions for plotting spatial data. Besides using
 
 ## R and Spatial Data
 
-R has a large and growing number of spatial data packages. We recommend taking a quick browse on R’s official website to see the spatial packages available: 
-http://cran.r-project.org/web/views/Spatial.html.
+R has a large and growing number of spatial data packages. We recommend taking a quick browse on R’s official website to see the spatial packages available: \url{http://cran.r-project.org/web/views/Spatial.html}
 
 ### Reading Shapefiles 
 
@@ -103,7 +107,7 @@ The following example shows how you can create a spatial object from a .csv file
 
 ### Working with Rasters
 
-Most of the functions for handling raster data are available in the raster package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterise this data so that we can make a continuous map. For doing this in R environment, we will load raster data in a data frame.  This data is a digital elevation model provided by ISRIC for FYROM (Chapter 3.6).
+Most of the functions for handling raster data are available in the raster package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterise this data so that we can make a continuous map. For doing this in R environment, we will load raster data in a data frame.  This data is a digital elevation model provided by ISRIC for FYROM.
 
 We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writeRaster (> ?writeRaster) to get information regarding the supported grid types that data can be exported. Here, we will export our raster to ESRI Ascii, as it is a common and universal raster format.
 
@@ -113,9 +117,9 @@ KML is a handy function from raster for exporting grids to kml format.
 
 ## Other DSM Related Software/Tools
 
-QGIS: QGIS is available at: http://www.qgis.org/en/site/forusers/download.html 
-SAGA GIS:  https://sourceforge.net/projects/saga-gis/files/
-ArcGIS: 60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration) 
+* QGIS: QGIS is available at: http://www.qgis.org/en/site/forusers/download.html 
+* SAGA GIS:  https://sourceforge.net/projects/saga-gis/files/
+* ArcGIS: 60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration) 
 
 
 
