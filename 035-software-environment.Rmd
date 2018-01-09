@@ -49,43 +49,46 @@ As was previously mentioned, R is extensible trough packages. R packages are col
 
 Soil science and Pedometrics
 
-*aqp*: Algorithms for quantitative pedology.  A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
+[*aqp*](https://CRAN.R-project.org/package=aqp): Algorithms for quantitative pedology.  A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
 
-*GSIF*: Global soil information facility. Tools, functions and sample datasets for digital soil mapping. Global Soil Information Facilities - tools (standards and functions) and sample datasets for global soil mapping.
+[*GSIF*](https://CRAN.R-project.org/package=GSIF): Global soil information facility. Tools, functions and sample datasets for digital soil mapping. Global Soil Information Facilities - tools (standards and functions) and sample datasets for global soil mapping.
 
-*soiltexture*: "The Soil Texture Wizard" is a set of R functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allows to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). This set of function is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based graphical user interface is provided: soiltexture_gui().
+[*ithir*](http://ithir.r-forge.r-project.org/): A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.
+
+[*soiltexture*](https://CRAN.R-project.org/package=soiltexture): "The Soil Texture Wizard" is a set of R functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allows to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). This set of function is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based graphical user interface is provided: soiltexture_gui().
 
 Spatial Analysis
 
-*sp*: A package that provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
+[*sp*](https://CRAN.R-project.org/package=sp): A package that provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
 
-*raster*: Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions and processing of very large files is supported.
+[*raster*](https://CRAN.R-project.org/package=raster): Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions and processing of very large files is supported.
 
-*rgdal*: Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).
+[*rgdal*](https://CRAN.R-project.org/package=rgdal): Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).
 
-*RSAGA*: RSAGA provides access to geocomputing and terrain analysis functions of SAGA GIS http://www.saga-gis.org/en/index.html from within R by running the command line version of SAGA.
+[*RSAGA*](https://CRAN.R-project.org/package=RSAGA): RSAGA provides access to geocomputing and terrain analysis functions of SAGA GIS \url{http://www.saga-gis.org/en/index.html} from within R by running the command line version of SAGA.
 
 Modeling
 
-*caret*: Extensive range of functions for training and plotting classification and regression models.
+[*caret*](https://CRAN.R-project.org/package=caret): Extensive range of functions for training and plotting classification and regression models.
 
-*Cubist*: Regression modeling using rules with added instance-based corrections. Cubist models were developed by Ross Quinlan.
+[*Cubist*](https://CRAN.R-project.org/package=Cubist): Regression modeling using rules with added instance-based corrections. Cubist models were developed by Ross Quinlan.
 
-*C5.0*: C5.0 decision trees and rule-based models for pattern recognition. Another model structure developed by Ross Quinlan.
+[*C5.0*](https://CRAN.R-project.org/package=C5.0): C5.0 decision trees and rule-based models for pattern recognition. Another model structure developed by Ross Quinlan.
 
-*gam*: Functions for fitting and working with generalized additive models.
+[*gam*](https://CRAN.R-project.org/package=gam): Functions for fitting and working with generalized additive models.
 
-*nnet*: Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
+[*nnet*](https://CRAN.R-project.org/package=nnet): Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
 
-*gstat*: Variogram modelling; simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation; variogram and variogram map plotting utility functions.
+[*gstat*](https://CRAN.R-project.org/package=gstat): Variogram modelling; simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation; variogram and variogram map plotting utility functions.
 
-[*ithir*](http://ithir.r-forge.r-project.org/): A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.
+[*automap*](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling gstat.
+
 
 Mapping and plotting
 
 Both raster and sp have handy functions for plotting spatial data. Besides using the base plotting functionality, another useful plotting package is ggplot2.
 
-*plotKML*: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
+[*plotKML*](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
 
 ## R and Spatial Data
 
