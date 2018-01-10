@@ -26,10 +26,10 @@ Beginners will find very hard to start using R because it has no Graphical User 
 You can follow very similar steps to install RStudio. 
 
 ### Getting Started with R
-R Manuals:  http://cran.r-project.org/manuals.html
-Contributed Documentation:  http://cran.r-project.org/other-docs.html
-Quick-R:  http://www.statmethods.net/index.html
-Stackoverflow R Community : https://stackoverflow.com/questions/tagged/r 
+* R Manuals:  http://cran.r-project.org/manuals.html
+* Contributed Documentation:  http://cran.r-project.org/other-docs.html
+* Quick-R:  http://www.statmethods.net/index.html
+* Stackoverflow R Community : https://stackoverflow.com/questions/tagged/r 
 
 ## R Packages
 
@@ -47,7 +47,7 @@ An easier way to browse the list of packages is using the Task Views link, which
 
 As was previously mentioned, R is extensible trough packages. R packages are collections of R functions, data, documentation and compiled code easy to share with others. They are more than 10000 R packages available at the Comprehensive R Archive Network (CRAN) (cran.r-project.org). In the following subsections we are going to present the most used packages related with soil property mapping.
 
-Soil science and Pedometrics
+#### Soil science and Pedometrics
 
 [*aqp*](https://CRAN.R-project.org/package=aqp): Algorithms for quantitative pedology.  A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
 
@@ -57,7 +57,7 @@ Soil science and Pedometrics
 
 [*soiltexture*](https://CRAN.R-project.org/package=soiltexture): "The Soil Texture Wizard" is a set of R functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allows to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). This set of function is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based graphical user interface is provided: soiltexture_gui().
 
-Spatial Analysis
+#### Spatial Analysis
 
 [*sp*](https://CRAN.R-project.org/package=sp): A package that provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
 
@@ -67,7 +67,7 @@ Spatial Analysis
 
 [*RSAGA*](https://CRAN.R-project.org/package=RSAGA): RSAGA provides access to geocomputing and terrain analysis functions of SAGA GIS \url{http://www.saga-gis.org/en/index.html} from within R by running the command line version of SAGA.
 
-Modeling
+#### Modeling
 
 [*caret*](https://CRAN.R-project.org/package=caret): Extensive range of functions for training and plotting classification and regression models.
 
@@ -84,11 +84,13 @@ Modeling
 [*automap*](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling gstat.
 
 
-Mapping and plotting
+#### Mapping and plotting
 
 Both raster and sp have handy functions for plotting spatial data. Besides using the base plotting functionality, another useful plotting package is ggplot2.
 
 [*plotKML*](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
+
+[*leaflet*](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the 'Leaflet' JavaScript library and the 'htmlwidgets' package. These maps can be used directly from the R console, from 'RStudio', in Shiny apps and R Markdown documents.
 
 ## R and Spatial Data
 
@@ -96,9 +98,27 @@ R has a large and growing number of spatial data packages. We recommend taking a
 
 ### Reading Shapefiles 
 
-The ESRI's Shapefile format is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of rgdal package that provides functions for reading and/or writing shapefiles.
+The ESRI's Shapefile format is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of raster package that provides functions for reading and/or writing shapefiles.
 
-We may want to use these data in other GIS environments such as ArcGIS, QGIS, SAGA GIS etc. This means we need to export the SpatialPointsDataFrame to an appropriate spatial data format such as a shapefile. “rgda”l is again used for this via the writeOGR() function. To export the data set as a shapefile:
+```{r}
+library(raster)
+# load the soil map from a shapefile file
+soilmap <- shapefile("MK_soilmap_simple.shp")
+```
+
+
+We may want to use these data in other GIS environments such as ArcGIS, QGIS, SAGA GIS etc. This means we need to export the SpatialPointsDataFrame to an appropriate spatial data format such as a shapefile. 
+
+```{r}
+# For example, we can select the soil units classified as 
+# Fluvisols according to WRB
+Fluvisols <- soilmap[soilmap$WRB == "Fluvisol",]
+
+# and save this as a new shapefile 
+shapefile(Fluvisols, filename = 'results/fluvisols.shp',
+          overwrite = TRUE)
+```
+
 
 ### Coordinate Reference Systems (CRS) in R
 
@@ -106,11 +126,44 @@ We need to define the CRS (Coordinate Reference System) to be able to perform an
 
 An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). “rgdal” also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
+```{r}
+## print the CRS for the object soilmap
+soilmap@proj4string
+```
+
 The following example shows how you can create a spatial object from a .csv file. We can use the coordinates() function from the sp package to define which columns in the data frame refer to actual spatial coordinates—here the coordinates are listed in columns X and Y.
+
+```{r}
+# load the table with the soil observations site information
+dat_sites <- read.csv(file = "data/site-level.csv")
+
+# convert from table to spatial points object
+coordinates(dat_sites) <- ~ X + Y
+
+# check the cooridnate system:
+dat_sites@proj4string
+
+# as the CRS is not defined, we can assign the correct CRS is we
+# have information about it. In this case it should be EPSG:4326
+dat_sites@proj4string <- CRS("+init=epsg:4326")
+
+# check the CRS again:
+dat_sites@proj4string
+```
+
 
 ### Working with Rasters
 
 Most of the functions for handling raster data are available in the raster package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterise this data so that we can make a continuous map. For doing this in R environment, we will load raster data in a data frame.  This data is a digital elevation model provided by ISRIC for FYROM.
+
+```{r}
+#For handling raster data, we load raster package
+library(raster)
+
+#load DEM from tif file
+DEM <- raster("covs/DEMENV5.tif")
+```
+
 
 We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writeRaster (> ?writeRaster) to get information regarding the supported grid types that data can be exported. Here, we will export our raster to ESRI Ascii, as it is a common and universal raster format.
 
