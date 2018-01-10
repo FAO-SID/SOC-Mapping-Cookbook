@@ -214,7 +214,7 @@ The PCA + Linear Regression (PCR) method may be coarsely divided into three main
 
 Before we proceed with the regression analysis, it is advisable to inspect the histogram of the dependent/target variable, in order to see if it needs to be transformed before fitting the regression model. The data for the selected soil property is normal when the frequency distribution of the values follow a bell-shaped curve (Gaussian distribution) which is symmetric around its mean. Normality tests may be used to assess normality. If a normality test indicates that data are not normally distributed, it may be necessary to transform the data to meet the normality assumption. 
 
-> BOTH, THE NORMALITY TESTS AND THE DATA TRANSFORMATION CAN BE EASILY PERFORMED USING ANY COMMERCIAL OR OPEN SOURCE STATISTICAL TOOL (R, SPSS, MINITAB...)
+> Both, the normality tests and the data transformation can be easily performed using any commercial or open source statitical tool (R, SPSS, MINITAB...)
 
 The main steps for the multiple linear regression analysis are shown in the Figure [fig:Workflow for Regression Kriging].
 
