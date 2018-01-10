@@ -505,8 +505,11 @@ plot(RKpredsd)
 
 ```{r}
 ## Save results as tif files
-writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", overwrite = TRUE)
-writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", overwrite = TRUE)
+writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", 
+            overwrite = TRUE)
+
+writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", 
+            overwrite = TRUE)
 ```
 
 ```{r}
