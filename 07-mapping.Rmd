@@ -378,8 +378,8 @@ datdf <- datdf[, c("OCSKGM", names(covs))]
 Let’s fit a linear model using with all available covariates.
 
 ```{r}
-## Fit a multiple linear regression model between the log transformed values of OCS
-## and the top 20 covariates
+# Fit a multiple linear regression model between the log transformed
+# values of OCS and the top 20 covariates
 model.MLR <- lm(log(OCSKGM) ~ ., data = datdf) 
 ```
 
@@ -393,7 +393,8 @@ model.MLR.step <- step(model.MLR, direction="both")
 Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about 23 % of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model. 
 
 ```{r, results='hold'}
-## summary and anova of the new model using stepwise covariates selection
+# summary and anova of the new model using stepwise covariates 
+# selection
 summary(model.MLR.step)
 anova(model.MLR.step)
 ```
@@ -403,18 +404,18 @@ In those two models above, we used all available points. It is important to test
 Now we can evaluate the test statistics of the calibration model using the goof() function from the  “ithir” package. 
 
 ```{r}
-## graphical diagnosis of the regression analysis
+# graphical diagnosis of the regression analysis
 par(mfrow=c(2,2)) 
 plot(model.MLR.step)
 par(mfrow=c(1,1))
 ```
 
 ```{r}
-## collinearity test using variance inflation factors
+# collinearity test using variance inflation factors
 library(car)
 vif(model.MLR.step)
 
-#problematic covariates should have sqrt(VIF) > 2
+# problematic covariates should have sqrt(VIF) > 2
 sqrt(vif(model.MLR.step))
 ```
 
@@ -422,7 +423,7 @@ colinear: Temperature seasonality at 1 km (B04CHE3) and Temperature Annual Range
 
 
 ```{r}
-## Removing B07CHE3 from the stepwise model:
+# Removing B07CHE3 from the stepwise model:
 model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
 
 # Test the vif again:
@@ -430,7 +431,7 @@ sqrt(vif(model.MLR.step))
 ```
 
 ```{r, results='hold'}
-## summary  of the new model using stepwise covariates selection
+# summary  of the new model using stepwise covariates selection
 summary(model.MLR.step)
 ```
 
@@ -449,14 +450,17 @@ Now we can make the predictions and plot the map. We can use either our DSM_data
 dat <- spTransform(dat, CRS("+init=epsg:6204"))
 
 # project covariates to VN-2000 UTM 48N
-covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), method='ngb')
+covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), 
+                      method='ngb')
+
 covs$LCEE10 <- as.factor(covs$LCEE10)
 covs$soilmap <- as.factor(covs$soilmap)
 ```
 
 
 ```{r}
-## Promote covariates to spatial grid dataframe. Takes some time and a lot of memory!
+# Promote covariates to spatial grid dataframe. Takes some time and 
+# a lot of memory!
 covs.sp <- as(covs, "SpatialGridDataFrame")
 covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
 covs.sp$soilmap <- as.factor(covs.sp$soilmap)
@@ -476,7 +480,8 @@ library(automap)
 
 
 ## Run regression kriging prediction. This step can take hours...!
-OCS.krige <- autoKrige(formula = as.formula(model.MLR.step$call$formula), 
+OCS.krige <- autoKrige(formula = 
+                         as.formula(model.MLR.step$call$formula), 
                        input_data = dat, 
                        new_data = covs.sp,
                        verbose = TRUE,
@@ -571,30 +576,31 @@ datdf <- dat@data
 
 datdf <- datdf[, c("OCSKGM", names(covs))]
 
-## Fit a multiple linear regression model between the log transformed values of OCS
-## and the top 20 covariates
+# Fit a multiple linear regression model between the log transformed
+# values of OCS and the top 20 covariates
 model.MLR <- lm(log(OCSKGM) ~ ., data = datdf) 
 
-## stepwise variable selection
+# stepwise variable selection
 model.MLR.step <- step(model.MLR, direction="both")
 
-## summary and anova of the new model using stepwise covariates selection
+# summary and anova of the new model using stepwise covariates 
+# selection
 summary(model.MLR.step)
 anova(model.MLR.step)
 
-## graphical diagnosis of the regression analysis
+# graphical diagnosis of the regression analysis
 par(mfrow=c(2,2)) 
 plot(model.MLR.step)
 par(mfrow=c(1,1))
 
-## collinearity test using variance inflation factors
+# collinearity test using variance inflation factors
 library(car)
 vif(model.MLR.step)
 
-#problematic covariates should have sqrt(VIF) > 2
+# problematic covariates should have sqrt(VIF) > 2
 sqrt(vif(model.MLR.step))
 
-## Removing B07CHE3 from the stepwise model:
+# Removing B07CHE3 from the stepwise model:
 model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
 
 # Test the vif again:
@@ -610,21 +616,25 @@ outlierTest(model.MLR.step)
 dat <- spTransform(dat, CRS("+init=epsg:6204"))
 
 # project covariates to VN-2000 UTM 48N
-covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), method='ngb')
+covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), 
+                      method='ngb')
+
 covs$LCEE10 <- as.factor(covs$LCEE10)
 covs$soilmap <- as.factor(covs$soilmap)
 
-## Promote covariates to spatial grid dataframe. Takes some time and a lot of memory!
+# Promote covariates to spatial grid dataframe. Takes some time and 
+# a lot of memory!
 covs.sp <- as(covs, "SpatialGridDataFrame")
 covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
 covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 
-### RK model 
+# RK model 
 library(automap)
 
 
-## Run regression kriging prediction. This step can take hours...!
-OCS.krige <- autoKrige(formula = as.formula(model.MLR.step$call$formula), 
+# Run regression kriging prediction. This step can take hours...!
+OCS.krige <- autoKrige(formula = 
+                         as.formula(model.MLR.step$call$formula), 
                        input_data = dat, 
                        new_data = covs.sp,
                        verbose = TRUE,
@@ -632,8 +642,8 @@ OCS.krige <- autoKrige(formula = as.formula(model.MLR.step$call$formula),
 
 OCS.krige
 
-## Convert prediction and standard deviation to rasters
-## And back-tansform the vlaues
+# Convert prediction and standard deviation to rasters
+# And back-tansform the vlaues
 RKprediction <- exp(raster(OCS.krige$krige_output[1]))
 RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 
@@ -641,8 +651,11 @@ RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 plot(RKprediction)
 
 ## Save results as tif files
-writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", overwrite = TRUE)
-writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", overwrite = TRUE)
+writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", 
+            overwrite = TRUE)
+
+writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", 
+            overwrite = TRUE)
 
 # save the model
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
@@ -777,9 +790,10 @@ plot(COV)
 
 library(randomForest)
 
-# Try different values of mtry and select the model with the optimal value
-model <- tuneRF(dat[,c(names(COV))], dat$OCSKGM, stepFactor=1.5, doBest = TRUE, 
-                improve = 0.5)
+# Try different values of mtry and select the model with the optimal 
+# value
+model <- tuneRF(dat[,c(names(COV))], dat$OCSKGM, stepFactor=1.5, 
+                doBest = TRUE, improve = 0.5)
                        
 # Use the model to predict the SOC in the covariates space
 beginCluster()
@@ -839,7 +853,8 @@ library(e1071)
 library(caret)
 
 #  Test different values of epsilon and cost
-tuneResult <- tune(svm, OCSKGM ~.,  data = dat[,c("OCSKGM", names(COV))],
+tuneResult <- tune(svm, OCSKGM ~.,  data = dat[,c("OCSKGM", 
+                                                  names(COV))],
                    ranges = list(epsilon = seq(0,1,0.1), 
                                  cost = c(.5,1,1.5,2,5,10))
 )
