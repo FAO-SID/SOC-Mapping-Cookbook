@@ -12,9 +12,54 @@ biblio-style: apalike
 link-citations: yes
 description: "The soilll cookbook."
 ---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 67)
+
+## redefine str for the width option
+str <- function(...){
+  utils::str(..., strict.width = "cut")}
+
+```
+
+
+
 \frontmatter
 
+# Foreword {-}
+
+This cookbook provides step-by-step guidance for developing 1 km grids for soil carbon stocks. It includes the preparation of local soil data, the compilation and pre-processing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessments. Guidance is mainly specific to soil carbon data, but also contains many generic sections on soil grid development, as it is relevant for other soil properties.
+
+Therefore, this first edition is the beginning of a series of updates and extensions, necessary to cover a larger variety of upscaling approaches. Experiences gained throughout 2017 during the GSOC map programme, through applications at country scale and various trainings scheduled for 2017, shall be considered in the next editions. Also, the section on uncertainties will be adjusted to more practical implementation steps.
+
+## Editorial Board {-}
+
+
+* Yusuf Yigini, Guillermo Federico Olmedo, Kostiantyn Viatkin, Rainer Baritz, Ronald R. Vargas
+Global Soil Partnership, Food and Agriculture Organization of the United Nations
+
+## Contributing Authors {-}
+
+* Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands
+* Mario Guevara - University of Delaware, USA
+* Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands
+* Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands
+* Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands
+* Titia VL Mulder - Wageningen University, Department of Environmental Sciences,
+the Netherlands
+* Guillermo Federico Olmedo - Instituto Nacional de Tecnología Agropecuaria,
+Mendoza, Argentina
+* Laura Poggio - The James Hutton Institute, Craigiebuckler Aberdeen, Scotland UK
+* Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands
+* Christian Thine Omuto - Department of Environmental and Biosystems Engineering,
+University of Nairobi, Kenya
+
 # Copyright and disclaimer {-}
+
+**Recommended citation:**
+
+> Yusuf Yigini, Guillermo Federico Olmedo, Kostiantyn Viatkin, Rainer Baritz, and Ronald R Vargas, editors. Soil Organic Carbon Mapping Cookbook. Food and Agriculture Organization of the United Nations, 2nd edition, 2017. 
+
 
 The designations employed and the presentation of material in this information product do not imply the expression of any opinion whatsoever on the part of the Food and Agriculture Organization of the United Nations (FAO) concerning the legal or development status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. The mention of specific companies or products of manufacturers, whether or not these have been patented, does not imply that these have been endorsed or recommended by FAO in preference to others of a similar nature that are not mentioned.
 
@@ -24,5 +69,7 @@ ISBN [insert number]
 
 FAO encourages the use, reproduction and dissemination of material in this information product. Except where otherwise indicated, material may be copied, downloaded and printed for private study, research and teaching purposes, or for use in non-commercial products or services, provided that appropriate acknowledgement of FAO as the source and copyright holder is given and that FAO’s endorsement of users’ views, products or services is not implied in any way. 
 
-All requests for translation and adaptation rights, and for resale and other commercial use rights should be made via www.fao.org/contact-us/licence-request or addressed to copyright@fao.org. FAO information products are available on the FAO website (www.fao.org/publications) and can be purchased through publications-sales@fao.org. 
-       
+All requests for translation and adaptation rights, and for resale and other commercial use rights should be made via www.fao.org/contact-us/licence-request or addressed to copyright@fao.org. 
+
+
+FAO information products are available on the FAO website (www.fao.org/publications) and can be purchased through publications-sales@fao.org. 
