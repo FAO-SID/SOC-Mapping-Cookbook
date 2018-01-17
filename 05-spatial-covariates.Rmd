@@ -1,12 +1,6 @@
 # Preparation of spatial covariates
 *R. Baritz & Y. Yigini*
 
-```{r, echo=FALSE, cache=FALSE}
-options(width = 69)
-knitr::opts_chunk$set(echo = TRUE, results='hold')
-```
-
-
 The example covariates from this chapter were prepared by ISRIC. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
 
 ```{r details of covariates, echo=F}
@@ -71,7 +65,7 @@ lines(soilmap)
 
 > Digitized small-scale national soil maps are the most important spatial layer for soil property mapping. The higher its resolution, the better soil maps contribute to high quality soil property maps - considering that the map should cover the target area/full country coverage.
 
-###Technical Steps - Rasterizing a vector layer in R
+### Technical Steps - Rasterizing a vector layer in R
 
 ```{r, eval = T}
 # the "Symbol" attribute from the vector layer will be used for the
@@ -81,23 +75,27 @@ soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
 #save the levels names in a character vector
 Symbol.levels <- levels(soilmap$Symbol)
 
-# The rasterization process needs a layer with the target grd system: 
-# spatial extent and cell size.
-# The DEM raster layer could be used for this.
+# The rasterization process needs a layer with the target grd 
+# system: spatial extent and cell size.
 soilmap.r <- rasterize(x = soilmap, y = DEM, field = "Symbol")
+# The DEM raster layer could be used for this.
 
 plot(soilmap.r, col=rainbow(21))
-legend("bottomright",legend = Symbol.levels, fill=rainbow(21), cex=0.5)
+legend("bottomright",legend = Symbol.levels, fill=rainbow(21), 
+       cex=0.5)
 ```
 
 ## Land cover/Land use
 
 Besides soil, geology and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.
 
-```{r}
+```{r, background=('#F7F7F7'), R.options=(width = 69)}
+options(width = 69)
+knitr::opts_knit$set(width = 69)
 landcover <- raster("covs/LCEE10.tif")
 
-# Land cover is a categorical covariate, this has to be made explicit.
+# Land cover is a categorical covariate, this has to be made 
+# explicit using function as.factor()
 landcover <- as.factor(landcover)
 
 landcover

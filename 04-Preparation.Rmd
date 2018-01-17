@@ -1,11 +1,6 @@
 # Preparation of local soil property data
 *GF Olmedo & R Baritz*
 
-```{r, echo=FALSE, cache=FALSE}
-options(width = 69)
-knitr::opts_chunk$set(echo = TRUE, results='hold')
-```
-
 ## Soil profiles and soil augers
 
 Soil profiles are complex real world entities. Soil profiles are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
