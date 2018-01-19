@@ -72,7 +72,9 @@ There are many different soil properties that in addition vary in space and poss
 Now that we have clarified how uncertainty in soil properties may be characterised by probability distributions, let us consider what these distributions look like in DSM and how these are influenced by the uncertainty sources described in Section 7.1. We begin with uncertainty source 4, uncertainty in DSM models.
 We noted before that uncertainty in DSM models may be separated in model parameter and model structural uncertainty. A typical example of this is a multiple linear regression model:
 
-![Linear regression model](images/RKequation.png)
+\begin{equation}
+Z(s) = \beta_0 + \beta_1  \cdot X_1 (s) + \beta_2 \cdot X_2 (s) + \varepsilon(s)
+\end{equation}
 
 Note that here for simplicity we assumed two environmental covariates X1 and X2  while in practice we are likely to use many more. Parameter uncertainty of this model occurs because the parameters β0 , β1 and β2 are merely estimated using calibration data. Under the assumptions made by the linear regression model, these estimation errors are normally distributed and have zero mean, while their standard deviations and cross-correlations can also be computed (e.g. Snedecor and Cochran 1989, Section 17.5). The standard deviations become smaller as the size of the calibration dataset increases. Both the standard deviations and cross-correlations are standard output of statistical software packages. Thus, we could sample from the joint distribution of the parameter estimation errors in a similar way as displayed in Figure 7.1.
 
@@ -80,11 +82,19 @@ The model structural uncertainty associated with the multiple linear regression 
 
 Since the joint probability distributions of the parameter estimation errors and the stochastic residual can analytically be computed and are routinely provided by statistical software, it is not difficult to analyse how these uncertainties propagate through the DSM model Eq. (7.1). This can be done analytically, because Eq. (7.1) is linear in the stochastic arguments (note that the covariates are treated known and deterministic). If we predict the soil property Z at a prediction location s0 using the calibrated regression model as:
 
-//Missing equation #############################################################################################
+\begin{equation}
+\hat{Z}(s_0) = \hat{\beta}_0 + \hat{\beta}_1  \cdot X_1 (s_0) +  \hat{\beta}_2 \cdot X_2 (s_0)
+\end{equation}
 
 then the prediction error will be normally distributed with zero mean and variance (i.e., the square of the standard deviation) given by:
 
-//Missing equation #############################################################################################
+\begin{equation}
+\begin{aligned}
+Var(\hat{Z}(s_0)) - Z(s_0)) = & \ Var(\hat{\beta}_0) + Var(\hat{\beta}_1)  \cdot X_1 (s_0)^2 +  Var(\hat{\beta}_2) \cdot X_2 (s_0)^2 + \\
+					  & \ 2 Cov(\hat{\beta}_0,\hat{\beta}_1) \cdot  X_1 (s_0) + 2 Cov(\hat{\beta}_0,\hat{\beta}_2) \cdot X_2 (s_0) + \\
+					  & \ 2 Cov(\hat{\beta}_1,\hat{\beta}_2) \cdot  X_1 (s_0) \cdot  X_2 (s_0) + Var(\varepsilon(s_0))
+\end{aligned}
+\end{equation}
 
 This is a complicated expression but all entries are known and hence it can be easily calculated. 
 
@@ -98,7 +108,9 @@ In Section 7.1 we noted that next to uncertainties in model parameters and model
 
 Uncertainties in soil attribute values effectively mean that the DSM model is calibrated with error-contaminated observations of the dependent variable. Let us consider the multiple linear regression model Eq. (7.1) again. True values of the dependent variable Z (i.e., the target soil property, such as pH, clay content or total nitrogen concentration) are no longer for calibration of this model. Instead, we must make do with measurements Y of Z:
 
-//Missing Equation #########################################################################
+\begin{equation}
+Y(s_i) = Z(s_i) + \delta(s_i), \quad i = 1 \dots n
+\end{equation}
 
 where n is the number of measurement locations and δ(si) is a random variable representing measurement error. It is custom to assume that all δ(si) are normally distributed, have zero mean and are mutually independent, although these assumptions are not strictly necessary. Their standard deviations may vary between cases and depend on the accuracy and precision of the measurement method. For instance, field estimates tend to be more uncertain than laboratory measurements and so the corresponding measurement errors will have a larger standard deviation. The consequence of the presence of measurement errors is that the estimates of the model parameters will be more uncertain. This is no surprise because the calibration data are of poorer quality. The prediction error variance will be greater too, for the same reason. If spatial correlation of the model residual ε is included and an extension to Kriging with External Drift is made, uncertainty due to measurement errors is further increased because the conditioning of predictions to observations cannot benefit as much as when the observations were error-free. For mathematical details we refer to Cressie (1993). Finally, we should also note that if different observations have different degrees of measurement error, then this will influence the weights that each measurement gets in calibration and prediction. Measurements with larger measurement errors get smaller weights. This is automatically incorporated in multiple linear regression and Kriging with External Drift, but how this can be incorporated in machine-learning approaches is less clear.
 
