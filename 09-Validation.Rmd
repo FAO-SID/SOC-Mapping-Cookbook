@@ -180,7 +180,7 @@ In simple random sampling, no restrictions are imposed on random selection of sa
 
 If a sampling location cannot be visited because of inaccessibility for instance, then this location should be discarded and be replaced by a location chosen from a reserve list. Always the location at the top of the list should be selected for this purpose; not an arbitrarily chosen location from the list such as the closest one. It is not allowed to shift an inaccessible sampling location to a location nearby that can be accessed. Irregularity, clustering and open spaces characterise the simple random sampling design (de Gruijter et al., 2006). 
 
-**Estimation of quantitative map quality measures:** For each validation location we compute the error, e(si)=z(si)-z(si), the absolute error, |e|(si)=|z(si)-z(si)|, or squared error, e2(si)=(z(si)-z(si))2. The spatial mean of the mapping area for map quality measure x is then estimated by:
+**Estimation of quantitative map quality measures:** For each validation location we compute the error, e(si), the absolute error, |e|, or squared error, e2(si)2. The spatial mean of the mapping area for map quality measure x is then estimated by:
 
 \begin{equation}
 e(s_i) = \hat{Z}(s_i) - Z(s_i)
