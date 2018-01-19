@@ -1,6 +1,5 @@
 # Technical Overview and the Checklist
-
-*V.L.  Mulder*
+*VL  Mulder*
 
 ## Point Dataset 
 
