@@ -14,7 +14,7 @@ description: "The soilll cookbook."
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width = 67)
+options(width = 65)
 
 ## redefine str for the width option
 str <- function(...){
@@ -31,6 +31,8 @@ str <- function(...){
 This cookbook provides step-by-step guidance for developing 1 km grids for soil carbon stocks. It includes the preparation of local soil data, the compilation and pre-processing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessments. Guidance is mainly specific to soil carbon data, but also contains many generic sections on soil grid development, as it is relevant for other soil properties.
 
 Therefore, this first edition is the beginning of a series of updates and extensions, necessary to cover a larger variety of upscaling approaches. Experiences gained throughout 2017 during the GSOC map programme, through applications at country scale and various trainings scheduled for 2017, shall be considered in the next editions. Also, the section on uncertainties will be adjusted to more practical implementation steps.
+
+\clearpage
 
 ## Editorial Board {-}
 
@@ -58,7 +60,7 @@ University of Nairobi, Kenya
 
 **Recommended citation:**
 
-> Yusuf Yigini, Guillermo Federico Olmedo, Kostiantyn Viatkin, Rainer Baritz, and Ronald R Vargas, editors. Soil Organic Carbon Mapping Cookbook. Food and Agriculture Organization of the United Nations, 2nd edition, 2017. 
+> FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y Yigini, GF Olmedo, K Viatkin, R Baritz, and RR Vargas, (Eds). 2nd edition, 2018. 
 
 
 The designations employed and the presentation of material in this information product do not imply the expression of any opinion whatsoever on the part of the Food and Agriculture Organization of the United Nations (FAO) concerning the legal or development status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. The mention of specific companies or products of manufacturers, whether or not these have been patented, does not imply that these have been endorsed or recommended by FAO in preference to others of a similar nature that are not mentioned.
@@ -66,6 +68,8 @@ The designations employed and the presentation of material in this information p
 The views expressed in this information product are those of the author(s) and do not necessarily reflect the views or policies of FAO. 
 
 ISBN [insert number]
+
+\copyright FAO, 2018
 
 FAO encourages the use, reproduction and dissemination of material in this information product. Except where otherwise indicated, material may be copied, downloaded and printed for private study, research and teaching purposes, or for use in non-commercial products or services, provided that appropriate acknowledgement of FAO as the source and copyright holder is given and that FAO’s endorsement of users’ views, products or services is not implied in any way. 
 
