@@ -1,10 +1,5 @@
 # Mapping methods
-*R Baritz, VL Mulder, Y Yigini & GF Olmedo, C. Thine, RR Vargas*
-
-```{r, echo=FALSE, cache=FALSE}
-options(width = 69)
-knitr::opts_chunk$set(echo = TRUE, results='hold')
-```
+*R Baritz, VL Mulder, Y Yigini, GF Olmedo, C. Thine, RR Vargas, M Guevara*
 
 ## Conventional mapping using soil maps
 *R Baritz, VL Mulder*
@@ -467,14 +462,14 @@ covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=TRUE}
 library(automap)
 OCS.krige <- readRDS("results/OCS.krige.Rds")
 ```
 
 
 
-```{r, eval=FALSE}
+```{r running-RK-model, eval=FALSE, results='hide'}
 ### RK model 
 library(automap)
 
