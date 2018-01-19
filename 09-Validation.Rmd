@@ -18,6 +18,10 @@ In section 8.3.2 we will present the most common accuracy measures used to quant
 
 All map quality measures considered here are computed from the prediction error. For quantitative soil maps of continuous soil properties (e.g. organic carbon content, pH, clay content) the prediction error is defined as the difference between the predicted value at a location and the true value at that location (which is the value that would be observed or measured by a preferably errorless measurement instrument) (Brus et al., 2011):
 
+\begin{equation}
+e(s) = \hat{Z}(s) - Z(s)
+\end{equation}
+
 where z(s) is the predicted soil property at validation location s, and z(s) is the true value of the soil property at that location. We consider six map quality measures that are computed from the prediction error here: the mean error, the mean absolute error, the mean squared error and root mean squared error, the model efficiency and the mean squared deviation ratio.
 
 Before we introduce the map quality measures and show how to estimate these, it is important to understand the difference between the population and a sample taken from the population. The population is the set of all locations in a mapping area. For digital soil maps, this is the set of all pixels or grid cells of a map. A sample is a subset of locations, selected in some way from the set of all locations in the mapping area. With validation we want to assess the map accuracy for the entire population, i.e. for the map as a whole; we are not interested in the accuracy at the sample of locations only. For instance, we would like to know the prediction error averaged over all locations of a map and not merely the average prediction error at a sample of locations. Map quality measures are therefore, defined as population means. Because we cannot afford to determine the prediction error at each location (grid cell) of the mapping area to calculate the population means, we have to take a sample of a limited number of locations in the mapping area. This sample is then used to estimate the population means. It is important to realize that we are uncertain about the population means, because we estimate it from a sample. Ideally this uncertainty is quantified and reported together with the estimated map quality measures.
@@ -28,13 +32,25 @@ In this section we will introduce the definitions of the map quality measures. I
 
 The mean error (ME) measures bias in the predictions. The ME is defined as the population mean (spatial mean) of the prediction errors:
 
+\begin{equation}
+M E = e = \frac{1}{N} \sum_{i=1}^{N} e (s_i)
+\end{equation}
+
 where i indicates the location, i=1,2,…,N, and N is the total number of locations or grid cells/pixels in the mapping area. The mean error should be (close to) zero, which means that predictions are unbiased meaning that there is no systematic over- or under-prediction of the soil property of interest.
 
 **Mean absolute error and (root) mean squared error**
 
 The mean absolute error (MAE) and mean squared error (MSE) are measures of map accuracy and indicate the magnitude of error we make on average. The MAE is defined by the population mean of the absolute errors:
 
+\begin{equation}
+M E A = |\underline{e}| = \frac{1}{N} \sum_{i=1}^{N} \underline{e} (s_i)
+\end{equation}
+
 and the MSE by the population mean of the squared errors:
+
+\begin{equation}
+M S E = \underline{e}^2 = \frac{1}{N} \sum_{i=1}^{N} \underline{e}^2 (s_i)
+\end{equation}
 
 Many authors report the root mean squared error (RMSE) instead of the MSE, which is computed by taking the square root of the MSE. The RMSE can be a more appealing quality measure since it has the same unit of measurement as the mapped property and can therefore more easily be compared to it. If the squared error distribution is strongly skewed, for instance when several very large errors are present, then this can severely inflate the (R)MSE. In such case, the (root) median squared error is a more robust statistic for the ‘average’ error (Kempen et al., 2012). 
 
@@ -44,6 +60,10 @@ Brus et al. (2011) argue that instead of using a single summary statistic (the m
 
 The model efficiency, or Amount of Variance Explained (AVE) (Angelini et al., 2016; Samuel-Rosa et al., 2015), quantifies the fraction of the variation in the data that is explained by the prediction model. It measures the improvement of the model prediction over using the mean of the data set as predictor and is defined as follows (Krause et al., 2005):
 
+\begin{equation}
+A V E = 1 -  \frac{\sum_{i=1}^{N} (\hat{Z}(s_i) - Z(s_i))^2}{\sum_{i=1}^{N} \hfill (Z(s_i) - \underline{Z})^2 \hfill}
+\end{equation}
+
 where z is the population mean of soil property z. The quantity in the numerator is the sum of the squared prediction errors (for each location the prediction error is computed and squared; the squared prediction errors are summed over all locations in the area). In linear regression this quantity is known as the residual sum of squares (RSS). The quantity in the denominator is also a sum of squared prediction errors, but here the mean of the area is used as predictor. In linear regression this quantity is known as the total sum of squares (TSS). Note that if we would divide the quantity in the denominator by the number of locations in the mapping area N we would obtain the population variance (spatial variance) of the soil property z. 
 
 If the numerator and denominator are equal, meaning the AVE is zero, then the model predictions are no improvement over using the mean of the data set as predictor for any location in the mapping area. An AVE value larger than zero (RSS smaller than TSS) means that the model predictions are an improvement over using the mean as predictor (this is what we hope for). In case the AVE is negative, then the mean of the data set is a better predictor than the prediction model.
@@ -51,6 +71,10 @@ If the numerator and denominator are equal, meaning the AVE is zero, then the mo
 **Mean squared deviation ratio**
 
 Finally, we introduce the mean squared deviation ratio (MSDR) as a map quality measure (Kempen et al., 2010; Lark, 2000; Voltz and Webster, 1990; Webster and Oliver, 2007). Contrary to the quality measures discussed so far, the MSDR assesses how well the prediction model estimates the prediction uncertainty (expressed as the prediction error variance). The MSDR is defined as:
+
+\begin{equation}
+M S D R = \frac{1}{N} \sum_{i=1}^{N} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
+\end{equation}
 
 where σ2(si) is the prediction error variance at location si, i=1,2,…,N. The numerator is the squared error at location si. The fraction represents the squared Zscore. In case of kriging, the prediction error variance is the kriging variance. In case of linear regression, the prediction error variance is the prediction variance of the linear regression predictions that can be obtained by the statistical software R by running the predict function with argument se.fit=TRUE. This function returns for each prediction location the standard error of the predicted value as well as the residual standard deviation (the residual.scale value). By squaring both values and then summing these, the prediction error variance is obtained. If the prediction model estimates the error variance well, then the MSDR should be close to one. A value smaller than one suggests that the prediction error variance overestimates the variance;  a value larger than one suggests that the prediction error variance underestimates the variance.
 
@@ -66,6 +90,10 @@ A fourth frequently used group of quality measures are Kappa indices, which adju
 
 The overall purity is the fraction of locations for which the mapped soil class equals the observed soil class and is defined as (Brus et al., 2011):
 
+\begin{equation}
+\rho = \sum_{i=1}^{U} N_{uu} / N
+\end{equation}
+
 which is the sum of the principal diagonal of the error matrix divided by the total number of locations in the mapping area. The overall purity can be interpreted as the areal proportion of the mapping area that is correctly classified. 
 
 Alternatively, an indicator approach can be used to compute the overall purity. A validation site gets a ‘1’ if the observed soil class is correctly predicted and a ‘0’ otherwise. The overall purity is then computed by taking the average of the indicators.
@@ -74,17 +102,29 @@ Alternatively, an indicator approach can be used to compute the overall purity. 
 
 The map unit purity is calculated from the row marginals of the error matrix. It is the fraction of validation locations with mapped class u for which the observed class is also u. The map unit purity for class u is defined as (Brus et al., 2011): 
 
+\begin{equation}
+\rho_u = \frac{ N_{uu}}{N_{u+}}
+\end{equation}
+
 The map unit purity can be interpreted as the proportion of the area of the map unit that is correctly classified. The complement of pu, 1-pu, is referred to as the error of commission for mapped class u. 
 
 **Class representation**
 
 The class representation is calculated from the column marginals of the error matrix. It is the fraction of validation locations with observed class u for which the mapped class is u. The class representation for class u is defined as (Brus et al., 2011): 
 
+\begin{equation}
+r_u = \frac{ N_{uu}}{N_{+u}}
+\end{equation}
+
 The class representation can be interpreted as the proportion of the area where in reality class u occurs that is also mapped as class u. The complement of ru, 1-ru, is referred to as the error of omission for mapped class u.
 
 ### Estimating the map quality measures and associated uncertainty
 
-In validation, we estimate the population means of the map quality measures from a sample taken from a limited number of locations in the mapping area. After all, we cannot afford to sample all locations, i.e. each grid cell of our soil map. Because the map quality measures are estimates, we are uncertain about these: we infer the quality measures from only a limited number of observations taken from the population. We do not know the true population means. The estimation uncertainty can be quantified with the sampling variance. From the variance, the lower and upper boundary of a confidence interval, typically the 95%, can be computed using basic statistical theory: 
+In validation, we estimate the population means of the map quality measures from a sample taken from a limited number of locations in the mapping area. After all, we cannot afford to sample all locations, i.e. each grid cell of our soil map. Because the map quality measures are estimates, we are uncertain about these: we infer the quality measures from only a limited number of observations taken from the population. We do not know the true population means. The estimation uncertainty can be quantified with the sampling variance. From the variance, the lower and upper boundary of a confidence interval, typically the 95%, can be computed using basic statistical theory:
+
+\begin{equation}
+CI = (\underline{\hat{x}} - 1.96x \frac{\sigma}{\sqrt{n} } ; \underline{\hat{x}} + 1.96x \frac{\sigma}{\sqrt{n} })
+\end{equation}
 
 where x is the estimated map quality measure, for instance the ME, MSE or overall purity, σ is the estimated standard deviation of the map quality measure and 𝑛 is the validation sample size. 
 
@@ -142,23 +182,50 @@ If a sampling location cannot be visited because of inaccessibility for instance
 
 **Estimation of quantitative map quality measures:** For each validation location we compute the error, e(si)=z(si)-z(si), the absolute error, |e|(si)=|z(si)-z(si)|, or squared error, e2(si)=(z(si)-z(si))2. The spatial mean of the mapping area for map quality measure x is then estimated by:
 
+\begin{equation}
+e(s_i) = \hat{Z}(s_i) - Z(s_i)
+\end{equation}
+
+\begin{equation}
+|e|(s_i) = |\hat{Z}(s_i) - Z(s_i)|
+\end{equation}
+
+\begin{equation}
+e^2(s_i) =( \hat{Z}(s_i) - Z(s_i))^2
+\end{equation}
+
+\begin{equation}
+\underline{\hat{x}} = \frac{1}{N} \sum_{i=1}^{N} x(s_i)
+\end{equation}
 
 where i indicates the validation location, i=1,2,…,n, n the validation sample size, and x(si) the estimated population mean of map quality measure x at location si,.  x is the prediction error in case of the ME, absolute error in case of the MAE, squared prediction error in case of the MSE. Note that the estimator is the unweighted sample mean. This unweighted mean is an unbiased estimator  because all sampling locations were selected with equal probability.
 
 The MSDR is estimated by:
 
+\begin{equation}
+\widehat{M S D R} = \frac{1}{N} \sum_{i=1}^{n} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
+\end{equation}
 
 and the AVE by:
 
+\begin{equation}
+\widehat{A V E} = 1 - \frac{\sum_{i=1}^{n} (\hat{Z}(s_i) - Z(s_i))^2}{ \sum_{i=1}^{n} \hfill (Z(s_i) -  \underline{\hat{Z}})^2 \hfill}
+\end{equation}
 
 where z is the mean of the target soil property estimated from the validation sample.
 
 One should be careful when assessing the proportion of variance explained by computing the R2 from a linear regression of the predicted value on the observed value (Krause et al., 2005), as is often done in practice. The R2 quantifies the dispersion around the regression line; not around the 1:1 line in which we are interested in validation. So it does not directly compare the predicted with observed value as does the AVE; i.e. it is not based on the prediction error. A high R2-value therefore, does not automatically mean a high AVE. For instance, in case of strongly biased predictions the R2 can be high but the AVE will be low. The blue line in Figure 8.2 is the regression line that one obtains when regression the observed value on the predicted value. This line slightly differs from the 1:1 line. In this example the R2 of the regression is 0.42 while the AVE is 0.40.
 The uncertainty associated to the estimated map quality measures is quantified with the sampling variance, which for the ME, MAE and MSE is estimated by:
 
-
+\begin{equation}
+Var(\underline{\hat{x}}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (x(s_i) -  \underline{\hat{x}})
+\end{equation}
 
 and the 95% confidence interval (CI) of x is given by:
+
+\begin{equation}
+CI_{95} = \underline{\hat{x}} \pm 1.96x\sqrt{Var(\underline{\hat{x}})}
+\end{equation}
 
 We should warn here that the calculation of the CI is based on the assumption that the estimated map quality measure means have a normal distribution (the central limit theorem). For the squared errors this assumption can be unrealistic, especially for small sample sizes.
 
@@ -168,16 +235,50 @@ We should warn here that the calculation of the CI is based on the assumption th
 
 From the sample error matrix the overall purity, map unit purity and class representation are  estimated by:
 
+\begin{equation}
+\hat{\rho} = \sum_{i=1}^{U} n_{uu} / n
+\end{equation}
+
+\begin{equation}
+\hat{\rho}_u = \frac{ n_{uu}}{n_{u+}}
+\end{equation}
+
+\begin{equation}
+\hat{r_u} = \frac{ n_{uu}}{n_{+u}}
+\end{equation}
+
 Alternatively, the overall purity can be estimated by defining a purity indicator variable for each validation location that takes value 1 if the mapped soil class equals the observed soil class at that location, and 0 else. The overall purity is then estimated by: 
+
+\begin{equation}
+\hat{\rho} = \frac{1}{n} \sum_{i=1}^{n} \partial(s_i)
+\end{equation}
 
 where d(si) is the indicator variable at validation location si. The variance of the estimated overall purity is estimated by:
 
+\begin{equation}
+Var(\hat{\rho}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (\partial(s_i) - \hat{\rho})^2
+\end{equation}
+
 Alternatively, the variance is estimated by:
+
+\begin{equation}
+Var(\hat{\rho}) = \frac{\hat{\rho}(1 - \hat{\rho})}{n - 1)}
+\end{equation}
 
 which is the variance of a binomial probability distribution. The 95% confidence interval of p is given by:
 
+\begin{equation}
+CI_{95} = \hat{\rho} \pm 1.96x \sqrt{Var(\hat{\rho})}
+\end{equation}
+
 We warn that the CI as calculated here is a rough approximation which only holds when n×p and n×(1-p) are large (5 as a rule of thumb). Otherwise the binomial distribution should be used to compute the CI.
-Figure 9.4 shows a hypothetical example of a sample error matrix for soil class map. For this example, the overall purity is estimated by: (19+33+25+42+19)/240=0.575, meaning that for an estimated 57.5% of the mapping area the mapped soil class is equal to the true soil class.
+Figure 9.4 shows a hypothetical example of a sample error matrix for soil class map. For this example, the overall purity is estimated by: 
+
+\begin{equation}
+\hat{\rho} = \frac{(19 + 33 + 25 + 42 + 19)}{240} = 0.575
+\end{equation}
+
+meaning that for an estimated 57.5% of the mapping area the mapped soil class is equal to the true soil class.
 
 ![Sample error matrix for a hypothetical soil class map.](images/Validation_error_matrix2.png)
 
