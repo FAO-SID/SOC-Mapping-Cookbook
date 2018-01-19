@@ -1,11 +1,6 @@
 # Uncertainty
 *G. B.M. Heuvelink*
 
-```{r, echo=FALSE, cache=FALSE}
-options(width = 69)
-knitr::opts_chunk$set(echo = TRUE, results='hold')
-```
-
 Soil mapping involves making predictions at locations where no soil measurements were taken. This inevitably leads to prediction errors because soil spatial variation is complex and cannot be modelled perfectly. It also implies that we are uncertain about the true soil class or true soil property at prediction locations. We only have the predictions, which differ from the true values in an unpredictable way, and hence we are uncertain about the true value. In fact, we may even be uncertain about the soil at the measurement locations because no measurement method is perfect and uncertainty also arises from measurement errors.
 
 This chapter describes how uncertainty may be characterised by probability distributions. It also explains how the parameters of these distributions may be derived, leading to quantification of uncertainty. We will see that this can become quite complex, because soil properties vary in space and are often cross-correlated, which the uncertainty model must take into account. A further complication is that there are many different sources of uncertainty. In some cases it may be too difficult to arrive at a spatially explicit characterisation of uncertainty, and in such case statistical validation may be used to derive summary measures of the accuracy of soil maps. We begin this chapter with a description of uncertainty sources.
