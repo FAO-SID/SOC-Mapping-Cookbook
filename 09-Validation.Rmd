@@ -8,7 +8,7 @@ Soil maps are used for many purposes. For example to report on (changes in) soil
 
 Validation is defined here as an activity in which the soil map predictions are compared with observed values. From this comparison, the map quality can be quantified and summarized using map quality measures.  These measures indicate how accurate the map is on average for the mapping area, i.e. what is the expected error at a randomly selected location in the mapping area. This means that map quality measures obtained through validation are global measures: each quality measure gives one value for the entire map. Note that this is different from results obtained through uncertainty assessment. Such assessment provides local, location-specific (i.e. for each individual grid cell) estimates of map quality as we saw in the previous sections. Another important difference between validation and uncertainty assessment is that validation can be done using a model-free approach. We saw in section 7.2 that uncertainty assessment takes a model-based approach by defining a geostatistical model of the soil property of interest and deriving an interpolated map and the associated uncertainty from that, or by constructing a geostatistical model of the error in an existing map. The approach yields a complete probabilistic characterisation of the map uncertainty, but such characterisation is only valid under the assumptions made;for instance, the stationarity assumptions required for kriging. Validation, when done properly as explained hereafter, does not assume a geostatistical model of the error, and hence is model- or assumption-free. This is an important property of validation since we do not want to question the objectivity and validity of the validation results.
 
-We distinguish internal and external map accuracy. Statistical methods typically produce direct estimates of map quality, for instance the kriging variance or the coefficient of determination (R2) of a linear regression model. These we refer to as internal accuracy measures since these rely on model assumptions and are computed from data that are used for model calibration. Preferably, validation is done with an independent dataset not used in map making. Using such dataset gives the external map accuracy. One will often see that the external accuracy is poorer than the internal accuracy.
+We distinguish internal and external map accuracy. Statistical methods typically produce direct estimates of map quality, for instance the kriging variance or the coefficient of determination (${R^2}$) of a linear regression model. These we refer to as internal accuracy measures since these rely on model assumptions and are computed from data that are used for model calibration. Preferably, validation is done with an independent dataset not used in map making. Using such dataset gives the external map accuracy. One will often see that the external accuracy is poorer than the internal accuracy.
 
 In section 8.3.2 we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section 8.3.3 we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on Brus et al. (2011). For details, please refer to this paper.
 
@@ -22,7 +22,7 @@ All map quality measures considered here are computed from the prediction error.
 e(s) = \hat{Z}(s) - Z(s)
 \end{equation}
 
-where z(s) is the predicted soil property at validation location s, and z(s) is the true value of the soil property at that location. We consider six map quality measures that are computed from the prediction error here: the mean error, the mean absolute error, the mean squared error and root mean squared error, the model efficiency and the mean squared deviation ratio.
+where ${\hat{Z}(s)}$ is the predicted soil property at validation location s, and ${Z(s)}$ is the true value of the soil property at that location. We consider six map quality measures that are computed from the prediction error here: the mean error, the mean absolute error, the mean squared error and root mean squared error, the model efficiency and the mean squared deviation ratio.
 
 Before we introduce the map quality measures and show how to estimate these, it is important to understand the difference between the population and a sample taken from the population. The population is the set of all locations in a mapping area. For digital soil maps, this is the set of all pixels or grid cells of a map. A sample is a subset of locations, selected in some way from the set of all locations in the mapping area. With validation we want to assess the map accuracy for the entire population, i.e. for the map as a whole; we are not interested in the accuracy at the sample of locations only. For instance, we would like to know the prediction error averaged over all locations of a map and not merely the average prediction error at a sample of locations. Map quality measures are therefore, defined as population means. Because we cannot afford to determine the prediction error at each location (grid cell) of the mapping area to calculate the population means, we have to take a sample of a limited number of locations in the mapping area. This sample is then used to estimate the population means. It is important to realize that we are uncertain about the population means, because we estimate it from a sample. Ideally this uncertainty is quantified and reported together with the estimated map quality measures.
 
@@ -30,59 +30,59 @@ In this section we will introduce the definitions of the map quality measures. I
 
 **Mean error**
 
-The mean error (ME) measures bias in the predictions. The ME is defined as the population mean (spatial mean) of the prediction errors:
+The mean error (${ME}$) measures bias in the predictions. The ${ME}$ is defined as the population mean (spatial mean) of the prediction errors:
 
 \begin{equation}
 M E = e = \frac{1}{N} \sum_{i=1}^{N} e (s_i)
 \end{equation}
 
-where i indicates the location, i=1,2,…,N, and N is the total number of locations or grid cells/pixels in the mapping area. The mean error should be (close to) zero, which means that predictions are unbiased meaning that there is no systematic over- or under-prediction of the soil property of interest.
+where $i$ indicates the location, ${i = 1, 2,\dots N}$, and $N$ is the total number of locations or grid cells/pixels in the mapping area. The mean error should be (close to) zero, which means that predictions are unbiased meaning that there is no systematic over- or under-prediction of the soil property of interest.
 
 **Mean absolute error and (root) mean squared error**
 
-The mean absolute error (MAE) and mean squared error (MSE) are measures of map accuracy and indicate the magnitude of error we make on average. The MAE is defined by the population mean of the absolute errors:
+The mean absolute error (${MAE}$) and mean squared error (${MSE}$) are measures of map accuracy and indicate the magnitude of error we make on average. The ${MAE}$ is defined by the population mean of the absolute errors:
 
 \begin{equation}
-M E A = |\underline{e}| = \frac{1}{N} \sum_{i=1}^{N} \underline{e} (s_i)
+M A E = |\underline{e}| = \frac{1}{N} \sum_{i=1}^{N} \underline{e} (s_i)
 \end{equation}
 
-and the MSE by the population mean of the squared errors:
+and the ${MSE}$ by the population mean of the squared errors:
 
 \begin{equation}
 M S E = \underline{e}^2 = \frac{1}{N} \sum_{i=1}^{N} \underline{e}^2 (s_i)
 \end{equation}
 
-Many authors report the root mean squared error (RMSE) instead of the MSE, which is computed by taking the square root of the MSE. The RMSE can be a more appealing quality measure since it has the same unit of measurement as the mapped property and can therefore more easily be compared to it. If the squared error distribution is strongly skewed, for instance when several very large errors are present, then this can severely inflate the (R)MSE. In such case, the (root) median squared error is a more robust statistic for the ‘average’ error (Kempen et al., 2012). 
+Many authors report the root mean squared error (${RMSE}$) instead of the ${MSE}$, which is computed by taking the square root of the ${MSE}$. The ${RMSE}$ can be a more appealing quality measure since it has the same unit of measurement as the mapped property and can therefore more easily be compared to it. If the squared error distribution is strongly skewed, for instance when several very large errors are present, then this can severely inflate the (R)MSE. In such case, the (root) median squared error is a more robust statistic for the ‘average’ error (Kempen et al., 2012). 
 
 Brus et al. (2011) argue that instead of using a single summary statistic (the mean) to quantify map quality measures, one should preferably express quality measures for quantitative soil maps through cumulative distribution functions (CDFs). Such functions provide a full descriptions of the quality measures from which various parameters can be reported, such as the mean, median or percentiles. Furthermore, they argue that it can be of interest to define CDFs or its parameters for sub-areas, for instance geomorphic units, soil or land cover classes. Brus et al. (2011) give examples of estimating CDFs for validation of digital soil maps.
 
 **Amount of variance explained**
 
-The model efficiency, or Amount of Variance Explained (AVE) (Angelini et al., 2016; Samuel-Rosa et al., 2015), quantifies the fraction of the variation in the data that is explained by the prediction model. It measures the improvement of the model prediction over using the mean of the data set as predictor and is defined as follows (Krause et al., 2005):
+The model efficiency, or Amount of Variance Explained (${AVE}$) (Angelini et al., 2016; Samuel-Rosa et al., 2015), quantifies the fraction of the variation in the data that is explained by the prediction model. It measures the improvement of the model prediction over using the mean of the data set as predictor and is defined as follows (Krause et al., 2005):
 
 \begin{equation}
 A V E = 1 -  \frac{\sum_{i=1}^{N} (\hat{Z}(s_i) - Z(s_i))^2}{\sum_{i=1}^{N} \hfill (Z(s_i) - \underline{Z})^2 \hfill}
 \end{equation}
 
-where z is the population mean of soil property z. The quantity in the numerator is the sum of the squared prediction errors (for each location the prediction error is computed and squared; the squared prediction errors are summed over all locations in the area). In linear regression this quantity is known as the residual sum of squares (RSS). The quantity in the denominator is also a sum of squared prediction errors, but here the mean of the area is used as predictor. In linear regression this quantity is known as the total sum of squares (TSS). Note that if we would divide the quantity in the denominator by the number of locations in the mapping area N we would obtain the population variance (spatial variance) of the soil property z. 
+where ${\underline{Z}}$ is the population mean of soil property $Z$. The quantity in the numerator is the sum of the squared prediction errors (for each location the prediction error is computed and squared; the squared prediction errors are summed over all locations in the area). In linear regression this quantity is known as the residual sum of squares (${RSS}$). The quantity in the denominator is also a sum of squared prediction errors, but here the mean of the area is used as predictor. In linear regression this quantity is known as the total sum of squares (${TSS}$). Note that if we would divide the quantity in the denominator by the number of locations in the mapping area $N$ we would obtain the population variance (spatial variance) of the soil property $Z$. 
 
-If the numerator and denominator are equal, meaning the AVE is zero, then the model predictions are no improvement over using the mean of the data set as predictor for any location in the mapping area. An AVE value larger than zero (RSS smaller than TSS) means that the model predictions are an improvement over using the mean as predictor (this is what we hope for). In case the AVE is negative, then the mean of the data set is a better predictor than the prediction model.
+If the numerator and denominator are equal, meaning the ${AVE}$ is zero, then the model predictions are no improvement over using the mean of the data set as predictor for any location in the mapping area. An ${AVE}$ value larger than zero (${RSS}$ smaller than ${TSS}$) means that the model predictions are an improvement over using the mean as predictor (this is what we hope for). In case the ${AVE}$ is negative, then the mean of the data set is a better predictor than the prediction model.
 
 **Mean squared deviation ratio**
 
-Finally, we introduce the mean squared deviation ratio (MSDR) as a map quality measure (Kempen et al., 2010; Lark, 2000; Voltz and Webster, 1990; Webster and Oliver, 2007). Contrary to the quality measures discussed so far, the MSDR assesses how well the prediction model estimates the prediction uncertainty (expressed as the prediction error variance). The MSDR is defined as:
+Finally, we introduce the mean squared deviation ratio (${MSDR}$) as a map quality measure (Kempen et al., 2010; Lark, 2000; Voltz and Webster, 1990; Webster and Oliver, 2007). Contrary to the quality measures discussed so far, the ${MSDR}$ assesses how well the prediction model estimates the prediction uncertainty (expressed as the prediction error variance). The ${MSDR}$ is defined as:
 
 \begin{equation}
 M S D R = \frac{1}{N} \sum_{i=1}^{N} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
 \end{equation}
 
-where σ2(si) is the prediction error variance at location si, i=1,2,…,N. The numerator is the squared error at location si. The fraction represents the squared Zscore. In case of kriging, the prediction error variance is the kriging variance. In case of linear regression, the prediction error variance is the prediction variance of the linear regression predictions that can be obtained by the statistical software R by running the predict function with argument se.fit=TRUE. This function returns for each prediction location the standard error of the predicted value as well as the residual standard deviation (the residual.scale value). By squaring both values and then summing these, the prediction error variance is obtained. If the prediction model estimates the error variance well, then the MSDR should be close to one. A value smaller than one suggests that the prediction error variance overestimates the variance;  a value larger than one suggests that the prediction error variance underestimates the variance.
+where ${\sigma^2(s_i)}$ is the prediction error variance at location ${s_i, i = 1, 2, \dots N}$. The numerator is the squared error at location ${s_i}$. The fraction represents the squared ${Z_{score}}$. In case of kriging, the prediction error variance is the kriging variance. In case of linear regression, the prediction error variance is the prediction variance of the linear regression predictions that can be obtained by the statistical software R by running the predict function with argument ${se.fit = TRUE}$. This function returns for each prediction location the standard error of the predicted value as well as the residual standard deviation (the residual.scale value). By squaring both values and then summing these, the prediction error variance is obtained. If the prediction model estimates the error variance well, then the ${MSDR}$ should be close to one. A value smaller than one suggests that the prediction error variance overestimates the variance;  a value larger than one suggests that the prediction error variance underestimates the variance.
 
-Lark (2000) notes that outliers in the prediction data will influence the squared Zscore and suggests to use the median squared Zscore instead of the mean since it is a more robust estimator. A median squared Zscore equal to 0.455 suggests that the prediction model estimates the prediction uncertainty well.
+Lark (2000) notes that outliers in the prediction data will influence the squared ${Z_{score}}$ and suggests to use the median squared ${Z_{score}}$ instead of the mean since it is a more robust estimator. A median squared ${Z_{score}}$ equal to 0.455 suggests that the prediction model estimates the prediction uncertainty well.
 
 ### Quality measures for qualitative soil maps
 
-Like the quality measures for quantitative soil maps, the quality measures for qualitative or categorical soil maps (e.g. soil classes) are defined for the population, i.e. all locations in the mapping area. The basis for map quality assessment of qualitative maps is the error matrix (Brus et al., 2011; Lark, 1995). This matrix is constructed by tabulating the observed and predicted class for all locations in the mapping area in a two-way contingency table (Figure 8.1). The population error matrix is a square matrix of order U, with U being the number of soil classes observed and mapped. The columns of the matrix correspond to observed soil classes and the rows to predicted soil classes (the map units). N is the total number of locations of the mapping area. Elements Nij are the number of locations mapped as class i with observed class j. The row margins Ni+ are the locations mapped as class i, and column margins N+j the locations for which the observed soil class is j. Note that the elements of the population error matrix can also be interpreted as surface areas. In that case element Nij is the surface area mapped as class i with observed class j.
+Like the quality measures for quantitative soil maps, the quality measures for qualitative or categorical soil maps (e.g. soil classes) are defined for the population, i.e. all locations in the mapping area. The basis for map quality assessment of qualitative maps is the error matrix (Brus et al., 2011; Lark, 1995). This matrix is constructed by tabulating the observed and predicted class for all locations in the mapping area in a two-way contingency table (Figure 8.1). The population error matrix is a square matrix of order $U$, with $U$ being the number of soil classes observed and mapped. The columns of the matrix correspond to observed soil classes and the rows to predicted soil classes (the map units).$N$ is the total number of locations of the mapping area. Elements $N_{ij}$ are the number of locations mapped as class $i$ with observed class $j$. The row margins $N_{i+}$ are the locations mapped as class $i$, and column margins $N_{+j}$ the locations for which the observed soil class is $j$. Note that the elements of the population error matrix can also be interpreted as surface areas. In that case element $N_{ij}$ is the surface area mapped as class $i$ with observed class $j$.
 
 From the population error matrix several quality measures can be summarized, though it is strongly recommended that the error matrix is included in a validation assessment. Brus et al. (2011) follow the suggestion by Stehman (1997) that quality measures for categorical maps should be directly interpretable in terms of the probability of a misclassification and therefore recommend the use of three map quality measures: the overall purity, the map unit purity and class representation. We follow this recommendation here. Note that the map unit purity often is referred to as user’s accuracy, and class representation as producer’s accuracy (Stehman, 1997; Adhikari et al., 2014). Lark (1995) however, questions the appropriateness of these terms since both quality measures can be important for users as well as producers. He proposes to use map unit purity and class representation instead, which is adopted by Brus et al. (2011) and followed here.
 
@@ -100,23 +100,23 @@ Alternatively, an indicator approach can be used to compute the overall purity. 
 
 **Map unit purity**
 
-The map unit purity is calculated from the row marginals of the error matrix. It is the fraction of validation locations with mapped class u for which the observed class is also u. The map unit purity for class u is defined as (Brus et al., 2011): 
+The map unit purity is calculated from the row marginals of the error matrix. It is the fraction of validation locations with mapped class $u$ for which the observed class is also $u$. The map unit purity for class $u$ is defined as (Brus et al., 2011): 
 
 \begin{equation}
 \rho_u = \frac{ N_{uu}}{N_{u+}}
 \end{equation}
 
-The map unit purity can be interpreted as the proportion of the area of the map unit that is correctly classified. The complement of pu, 1-pu, is referred to as the error of commission for mapped class u. 
+The map unit purity can be interpreted as the proportion of the area of the map unit that is correctly classified. The complement of $\rho_u$, $1 - \rho_u$, is referred to as the error of commission for mapped class $u$.
 
 **Class representation**
 
-The class representation is calculated from the column marginals of the error matrix. It is the fraction of validation locations with observed class u for which the mapped class is u. The class representation for class u is defined as (Brus et al., 2011): 
+The class representation is calculated from the column marginals of the error matrix. It is the fraction of validation locations with observed class $u$ for which the mapped class is $u$. The class representation for class $u$ is defined as (Brus et al., 2011): 
 
 \begin{equation}
 r_u = \frac{ N_{uu}}{N_{+u}}
 \end{equation}
 
-The class representation can be interpreted as the proportion of the area where in reality class u occurs that is also mapped as class u. The complement of ru, 1-ru, is referred to as the error of omission for mapped class u.
+The class representation can be interpreted as the proportion of the area where in reality class $u$ occurs that is also mapped as class $u$. The complement of $r_u$, $1 - r_u$, is referred to as the error of omission for mapped class $u$.
 
 ### Estimating the map quality measures and associated uncertainty
 
@@ -126,7 +126,7 @@ In validation, we estimate the population means of the map quality measures from
 CI = (\underline{\hat{x}} - 1.96x \frac{\sigma}{\sqrt{n} } ; \underline{\hat{x}} + 1.96x \frac{\sigma}{\sqrt{n} })
 \end{equation}
 
-where x is the estimated map quality measure, for instance the ME, MSE or overall purity, σ is the estimated standard deviation of the map quality measure and 𝑛 is the validation sample size. 
+where $x$ is the estimated map quality measure, for instance the $ME$, $MSE$ or overall purity, $\sigma$ is the estimated standard deviation of the map quality measure and $n$ is the validation sample size. 
 
 Quantified information about the uncertainty associated to map quality measures is useful and required for statistical testing. For instance, if one wants to test if one mapping method performs better than the other method one needs quantified information about uncertainty. Because we are uncertain about the estimated quality measures, an observed difference in map quality between two methods does not necessarily mean that one method is better than the others, even when there is a substantial difference. The difference might be attributed to chance because we infer the quality measures from a limited sample from the population. With statistical hypothesis testing we can calculate how large the probability is that observed difference is caused by chance. Based on the outcome we can accept or reject the hypothesis that there is no difference between the performance of two mapping methods (this would be the null hypothesis for statistical testing) for a given significance level, usually 0.05.   
 
@@ -170,17 +170,17 @@ There are many different probability sampling designs: simple, stratified, syste
 
 In simple random sampling, no restrictions are imposed on random selection of sampling sites except that the sample size is fixed and chosen prior to sampling (de Gruijter et al., 2006). All sampling locations are selected with equal probability and independently from each other. This can for instance be done as follows (de Gruijter et al., 2006):
 
-1. Determine the minimum and maximum X and Y coordinates of the mapping area (the bounding box).
+1. Determine the minimum and maximum $X$ and $Y$ coordinates of the mapping area (the bounding box).
 
-2. Generate two independent random coordinates X and Y from a uniform probability distribution on the interval (xmin, xmax) and (ymin, ymax)
+2. Generate two independent random coordinates $X$ and $Y$ from a uniform probability distribution on the interval ($x_{min}$, $x_{max}$) and ($y_{min}$, $y_{max}$)
 
 3. Check if the selected sampling site falls within the mapping area. Accept the sampling site if it does; discard the sampling site if it does not.
 
-4. Repeat steps 2 and 3 until the n locations have been selected.
+4. Repeat steps 2 and 3 until the $n$ locations have been selected.
 
 If a sampling location cannot be visited because of inaccessibility for instance, then this location should be discarded and be replaced by a location chosen from a reserve list. Always the location at the top of the list should be selected for this purpose; not an arbitrarily chosen location from the list such as the closest one. It is not allowed to shift an inaccessible sampling location to a location nearby that can be accessed. Irregularity, clustering and open spaces characterise the simple random sampling design (de Gruijter et al., 2006). 
 
-**Estimation of quantitative map quality measures:** For each validation location we compute the error, e(si), the absolute error, |e|, or squared error, e2(si)2. The spatial mean of the mapping area for map quality measure x is then estimated by:
+**Estimation of quantitative map quality measures:** For each validation location we compute the error, $e(s_i)$, the absolute error, $|e|(s_i)$, or squared error, $e^2(s_i)$. The spatial mean of the mapping area for map quality measure $x$ is then estimated by:
 
 \begin{equation}
 e(s_i) = \hat{Z}(s_i) - Z(s_i)
@@ -198,38 +198,38 @@ e^2(s_i) =( \hat{Z}(s_i) - Z(s_i))^2
 \underline{\hat{x}} = \frac{1}{N} \sum_{i=1}^{N} x(s_i)
 \end{equation}
 
-where i indicates the validation location, i=1,2,…,n, n the validation sample size, and x(si) the estimated population mean of map quality measure x at location si,.  x is the prediction error in case of the ME, absolute error in case of the MAE, squared prediction error in case of the MSE. Note that the estimator is the unweighted sample mean. This unweighted mean is an unbiased estimator  because all sampling locations were selected with equal probability.
+where $i$ indicates the validation location, $i = 1, 2, \dots, n$, $n$ the validation sample size, and $x_{si}$ the estimated population mean of map quality measure $x$ at location $s_i$.  $x$ is the prediction error in case of the $ME$, absolute error in case of the $MAE$, squared prediction error in case of the $MSE$. Note that the estimator is the unweighted sample mean. This unweighted mean is an unbiased estimator  because all sampling locations were selected with equal probability.
 
-The MSDR is estimated by:
+The $MSDR$ is estimated by:
 
 \begin{equation}
 \widehat{M S D R} = \frac{1}{N} \sum_{i=1}^{n} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
 \end{equation}
 
-and the AVE by:
+and the $AVE$ by:
 
 \begin{equation}
 \widehat{A V E} = 1 - \frac{\sum_{i=1}^{n} (\hat{Z}(s_i) - Z(s_i))^2}{ \sum_{i=1}^{n} \hfill (Z(s_i) -  \underline{\hat{Z}})^2 \hfill}
 \end{equation}
 
-where z is the mean of the target soil property estimated from the validation sample.
+where $\underline{\hat{Z}}$ is the mean of the target soil property estimated from the validation sample.
 
-One should be careful when assessing the proportion of variance explained by computing the R2 from a linear regression of the predicted value on the observed value (Krause et al., 2005), as is often done in practice. The R2 quantifies the dispersion around the regression line; not around the 1:1 line in which we are interested in validation. So it does not directly compare the predicted with observed value as does the AVE; i.e. it is not based on the prediction error. A high R2-value therefore, does not automatically mean a high AVE. For instance, in case of strongly biased predictions the R2 can be high but the AVE will be low. The blue line in Figure 8.2 is the regression line that one obtains when regression the observed value on the predicted value. This line slightly differs from the 1:1 line. In this example the R2 of the regression is 0.42 while the AVE is 0.40.
-The uncertainty associated to the estimated map quality measures is quantified with the sampling variance, which for the ME, MAE and MSE is estimated by:
+One should be careful when assessing the proportion of variance explained by computing the $R^2$ from a linear regression of the predicted value on the observed value (Krause et al., 2005), as is often done in practice. The $R^2$ quantifies the dispersion around the regression line; not around the 1:1 line in which we are interested in validation. So it does not directly compare the predicted with observed value as does the $AVE$; i.e. it is not based on the prediction error. A high $R^2$-value therefore, does not automatically mean a high $AVE$. For instance, in case of strongly biased predictions the $R^2$ can be high but the $AVE$ will be low. The blue line in Figure 8.2 is the regression line that one obtains when regression the observed value on the predicted value. This line slightly differs from the 1:1 line. In this example the $R^2$ of the regression is 0.42 while the $AVE$ is 0.40.
+The uncertainty associated to the estimated map quality measures is quantified with the sampling variance, which for the $ME$, $MAE$ and $MSE$ is estimated by:
 
 \begin{equation}
 Var(\underline{\hat{x}}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (x(s_i) -  \underline{\hat{x}})
 \end{equation}
 
-and the 95% confidence interval (CI) of x is given by:
+and the 95% confidence interval ($CI$) of $x$ is given by:
 
 \begin{equation}
 CI_{95} = \underline{\hat{x}} \pm 1.96x\sqrt{Var(\underline{\hat{x}})}
 \end{equation}
 
-We should warn here that the calculation of the CI is based on the assumption that the estimated map quality measure means have a normal distribution (the central limit theorem). For the squared errors this assumption can be unrealistic, especially for small sample sizes.
+We should warn here that the calculation of the $CI$ is based on the assumption that the estimated map quality measure means have a normal distribution (the central limit theorem). For the squared errors this assumption can be unrealistic, especially for small sample sizes.
 
-**Estimation of qualitative map quality measures:** For validation of qualitative soil maps, a sample error matrix is constructed from the validation data (Figure 8.3). n is the total number of validation locations in the sample. Element nij of the matrix corresponds to the number of validation locations that have been predicted as class i, i=1,2,…,U and belong to class j, j=1,2,…,U (Lark, 1995). The matrix summarizes correct predictions and incorrect predictions within the validation data.
+**Estimation of qualitative map quality measures:** For validation of qualitative soil maps, a sample error matrix is constructed from the validation data (Figure 8.3). $n$ is the total number of validation locations in the sample. Element $n_{ij}$ of the matrix corresponds to the number of validation locations that have been predicted as class $i$, $i = 1, 2, \dots U$ and belong to class $j$, $j = 1, 2, \dots U$ (Lark, 1995). The matrix summarizes correct predictions and incorrect predictions within the validation data.
 
 ![Sample error matrix.](images/Validation_error_matrix.png)
 
@@ -253,7 +253,7 @@ Alternatively, the overall purity can be estimated by defining a purity indicato
 \hat{\rho} = \frac{1}{n} \sum_{i=1}^{n} \partial(s_i)
 \end{equation}
 
-where d(si) is the indicator variable at validation location si. The variance of the estimated overall purity is estimated by:
+where  ${\delta(s_i)}$ is the indicator variable at validation location $s_i$. The variance of the estimated overall purity is estimated by:
 
 \begin{equation}
 Var(\hat{\rho}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (\partial(s_i) - \hat{\rho})^2
@@ -265,13 +265,13 @@ Alternatively, the variance is estimated by:
 Var(\hat{\rho}) = \frac{\hat{\rho}(1 - \hat{\rho})}{n - 1)}
 \end{equation}
 
-which is the variance of a binomial probability distribution. The 95% confidence interval of p is given by:
+which is the variance of a binomial probability distribution. The 95% confidence interval of $\hat{\rho}$ is given by:
 
 \begin{equation}
 CI_{95} = \hat{\rho} \pm 1.96x \sqrt{Var(\hat{\rho})}
 \end{equation}
 
-We warn that the CI as calculated here is a rough approximation which only holds when n×p and n×(1-p) are large (5 as a rule of thumb). Otherwise the binomial distribution should be used to compute the CI.
+We warn that the $CI$ as calculated here is a rough approximation which only holds when $n \times \hat{\rho}$ and $n \times (1 - \hat{\rho})$ are large (5 as a rule of thumb). Otherwise the binomial distribution should be used to compute the $CI$.
 Figure 9.4 shows a hypothetical example of a sample error matrix for soil class map. For this example, the overall purity is estimated by: 
 
 \begin{equation}
@@ -282,7 +282,7 @@ meaning that for an estimated 57.5% of the mapping area the mapped soil class is
 
 ![Sample error matrix for a hypothetical soil class map.](images/Validation_error_matrix2.png)
 
-Table 9.1 gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at 58.1% of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for 58.1% of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for 46.3% of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that 22.5% (54240×100%) of our mapping area is covered by Gleysols. We map Gleysols for 17.9% of the area (43240×100%). It can happen that a soil class has a high map unit purity and a low class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.
+Table 9.1 gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at 58.1% of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for 58.1% of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for 46.3% of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that 22.5% ($\frac{54}{240}$ $\times$ 100\%) of our mapping area is covered by Gleysols. We map Gleysols for 17.9% of the area ($\frac{43}{240}$ $\times$ 100\%). It can happen that a soil class has a high map unit purity and a low class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.
 
 **Table 9.1.** Map unit purity and class representation statistics for the hypothetical example given in Figure 9.4.
 
@@ -317,9 +317,9 @@ In other words, if the simple random sampling estimators are used to estimate ma
 
 ### Cross-validation
 
-In K-fold cross-validation (CV), the dataset is split into K roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the K-1 sets and used to predict the target variable for the data points set aside. From this prediction the prediction error is calculated. This procedure is repeated K times, each time setting a different set aside for validation. In this way we obtain K estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.
+In $K$-fold cross-validation (CV), the dataset is split into $K$ roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the $K$-1 sets and used to predict the target variable for the data points set aside. From this prediction the prediction error is calculated. This procedure is repeated $K$ times, each time setting a different set aside for validation. In this way we obtain $K$ estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.
 
-K is typically chosen as 5 or 10, or as N the number of data points. The latter is referred to as leave-one-out cross-validation (LOOCV) in which only one validation site is set aside in each iteration. The model is then calibrated with N-1 observations. Some repeat K-fold cross-validation a number of times and average the results to obtain a more robust estimate of the map quality measures.
+$K$ is typically chosen as 5 or 10, or as $N$ the number of data points. The latter is referred to as leave-one-out cross-validation (LOOCV) in which only one validation site is set aside in each iteration. The model is then calibrated with $N$-1 observations. Some repeat $K$-fold cross-validation a number of times and average the results to obtain a more robust estimate of the map quality measures.
 
 Note that the problem of spatially correlated errors remains when data are non-probability sample data. Cross-validation using a non-probability sampling dataset suffers from the same drawbacks with respect to unbiasedness and validity of the estimates of the map quality measures as data-splitting. The estimates cannot be interpreted as being valid for the mapping area, but only for the validation locations. 
 
