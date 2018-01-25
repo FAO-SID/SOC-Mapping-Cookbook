@@ -7,7 +7,7 @@ output: bookdown::gitbook
 documentclass: book
 papersize: b5
 fontsize: 10pt
-bibliography: book.bib
+bibliography: References.bib
 biblio-style: apalike
 link-citations: yes
 description: "The soilll cookbook."
