@@ -691,9 +691,9 @@ Random forest is a type of machine learning for uncovering statistical relations
 
 ![The concept of Random Forest and Decision Trees](images/randomForestconcept.png)
 
-Random forest has been tested by many researchers in digital soil mapping (see for example \cite{poggio2013regional}; \cite{rad2014updating}, and references therein). Specifically in soil carbon mapping, there are authors who have shown that it holds a lot of promises when compared to other prediction models. They have demonstrated that it has a relatively improved accurate spatial prediction, is a better approach to dealing with model over-fitting and data noise, and is capable of handling both dimensionally linear and nonlinear relationships \citep{wiesmeier2011digital}. Furthermore, with the advent of open-source platforms and freely downloadable ancillary data, the application of random forest and other such models has increasingly become more appealing in digital soil mapping. 
+Random forest has been tested by many researchers in digital soil mapping (see for example @poggio2013regional; @rad2014updating, and references therein). Specifically in soil carbon mapping, there are authors who have shown that it holds a lot of promises when compared to other prediction models. They have demonstrated that it has a relatively improved accurate spatial prediction, is a better approach to dealing with model over-fitting and data noise, and is capable of handling both dimensionally linear and nonlinear relationships [@wiesmeier2011digital]. Furthermore, with the advent of open-source platforms and freely downloadable ancillary data, the application of random forest and other such models has increasingly become more appealing in digital soil mapping. 
 
-The objective of this chapter is to demonstrate how random forest can be implemented in freely downloadable R software for spatial prediction of soil organic carbon. The R package of random forest, known as randomForest, was used \citep{breiman2017cutler}.  
+The objective of this chapter is to demonstrate how random forest can be implemented in freely downloadable R software for spatial prediction of soil organic carbon. The R package of random forest, known as randomForest, was used [@breiman2017cutler].  
 
 **Requirements**
 

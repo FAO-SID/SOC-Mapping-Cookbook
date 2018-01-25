@@ -107,7 +107,6 @@ In Section 7.1 we noted that next to uncertainties in model parameters and model
 Uncertainties in soil attribute values effectively mean that the DSM model is calibrated with error-contaminated observations of the dependent variable. Let us consider the multiple linear regression model Eq. \ref{eq:DSM model} again. True values of the dependent variable Z (i.e., the target soil property, such as pH, clay content or total nitrogen concentration) are no longer for calibration of this model. Instead, we must make do with measurements $Y$ of $Z$:
 
 \begin{equation}
-
 Y(s_i) = Z(s_i) + \delta(s_i), \quad i = 1 \dots n
 \end{equation}
 
