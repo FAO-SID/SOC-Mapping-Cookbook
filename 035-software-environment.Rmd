@@ -1,24 +1,24 @@
-# Setting-up the Software Environment
+# Setting-Up the Software Environment
 *Y. Yigini*
 
-This cookbook focuses on soil organic carbon modelling using open source digital mapping tools. The instructions and screen captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for Microsoft Windows desktop platform. Instructions for the other platforms (Linux Flavours, MacOS) can be found through free online resources.
+This cookbook focuses on SOC modelling using open source digital mapping tools. The instructions and screen captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for Microsoft Windows desktop platform. Instructions for the other platforms (Linux Flavours, MacOS) can be found through free online resources.
 
-## Use of ‘R’ , RStudio and R Packages
+## Use of R , RStudio and R Packages
 
-R is a language and environment for statistical computing. R provides a wide variety of statistical (linear modelling, statistical tests, time-series, classification, clustering, …) and graphical methods, and is highly extensible. 
+R is a language and environment for statistical computing. R provides a wide variety of statistical (e.g. linear modelling, statistical tests, time-series, classification, clustering, etc.) and graphical methods, and is highly extensible. 
 
-### Obtaining and installing R
+### Obtaining and Installing R
 
-* Step 1. go tohttps://cloud.r-project.org/index.html 
-* Step 2. Pick an installation file for your platform 
+* Go to https://cloud.r-project.org/index.html 
+* Pick an installation file for your platform. 
 
 ### Obtaining and Installing R Studio
 
-Beginners will find very hard to start using R because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of R. RStudio makes R easier to use. It includes a code editor, debugging and visualization tools. In this cookbook we would like to focus on a GUI which makes R easier to use. R Studio’s Open Source Edition can be downloaded at https://www.rstudio.com/products/rstudio/download/ . On the download page, “RStudio Desktop, Open Source License” option should be selected.
+Beginners will find it very hard to start using R because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of R. RStudio makes R easier to use. It includes a code editor, debugging and visualization tools. In this cookbook we would like to focus on a GUI which makes R easier to use. You can follow very similar steps to install RStudio.
 
-### Installation
-
-You can follow very similar steps to install RStudio. 
+* Go to https://www.rstudio.com/products/rstudio/download/ to get R Studio's open source edition.
+* On the download page, *RStudio Desktop, Open Source License* option should be selected.
+* Pick an installation file for your platform. 
 
 ### Getting Started with R
 * R Manuals:  http://cran.r-project.org/manuals.html
@@ -38,11 +38,11 @@ R packages are developed by the R community
 The primary source for the R packages is CRAN’s official website. For spatial applications, many packages are available. You can obtain information about the available packages on CRAN with the available.packages() function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. However, there are more than 10000 packages in the CRAN repository. 
 An easier way to browse the list of packages is using the Task Views link, which groups together many packages related to a given topic. 
 
-### Most used R Packages for Digital Soil Mapping 
+### Most Used R Packages for Digital Soil Mapping 
 
 As was previously mentioned, R is extensible trough packages. R packages are collections of R functions, data, documentation and compiled code easy to share with others. They are more than 10000 R packages available at the Comprehensive R Archive Network (CRAN) (cran.r-project.org). In the following subsections we are going to present the most used packages related with soil property mapping.
 
-#### Soil science and Pedometrics
+#### Soil Science and Pedometrics
 
 [*aqp*](https://CRAN.R-project.org/package=aqp): Algorithms for quantitative pedology.  A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
 
@@ -79,7 +79,7 @@ As was previously mentioned, R is extensible trough packages. R packages are col
 [*automap*](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling gstat.
 
 
-#### Mapping and plotting
+#### Mapping and Plotting
 
 Both raster and sp have handy functions for plotting spatial data. Besides using the base plotting functionality, another useful plotting package is ggplot2.
 
@@ -166,7 +166,7 @@ We may also want to export our mac.dem to KML file using the KML function. Note 
 
 KML is a handy function from raster for exporting grids to kml format.
 
-## Other DSM Related Software/Tools
+## Other DSM Related Software and Tools
 
 * QGIS: QGIS is available at: http://www.qgis.org/en/site/forusers/download.html 
 * SAGA GIS:  https://sourceforge.net/projects/saga-gis/files/
