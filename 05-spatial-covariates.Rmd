@@ -13,7 +13,7 @@ knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates pro
 
 ### DEM source data sets
 
-Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by Wong et al. (2014). Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
+Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
 
 > * Recommended for national level applications: 30 m GDEM / SRTM
 > * Recommended for global level applications: SRTM 90 m, resampled 1 kilometre.
@@ -40,11 +40,11 @@ Parent material has a crucial impact on soil formation, soil geochemistry and so
 
 National parent material and geology maps may be used. Other available datasets and data portals are given on the ISRIC WorldGrids website (worldgrids.org). 
 
-* OneGeology: The world geological maps are now being integrated via the OneGeology project which aims at producing a consistent Geological map of the world in approximate scale 1:1M (Jackson, 2007) http://www.onegeology.org/.
+* OneGeology: The world geological maps are now being integrated via the OneGeology project which aims at producing a consistent Geological map of the world in approximate scale 1:1M [@jackson2007onegeology] http://www.onegeology.org/.
 
 * USGS has several data portals, e.g. that allow browsing of the International Surface Geology (split into South Asia, South America, Iran, Gulf of Mexico, Former Soviet Union, Europe, Caribbean, Bangladesh, Asia Pacific, Arctic, Arabian Peninsula, Africa and Afghanistan) https://mrdata.usgs.gov/geology/world/.
 
-* Hartmann and Moosdorf (2012) have assembled a global, purely lithological database called GLiM (Global Lithological Map). GLiM consists of over 1.25 million digital polygons that are  classified in three levels (a total of 42 rock-type classes). https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html).
+* @hartmann2012new have assembled a global, purely lithological database called GLiM (Global Lithological Map). GLiM consists of over 1.25 million digital polygons that are  classified in three levels (a total of 42 rock-type classes). https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html).
 
 * USGS jointly with ESRI has released in 2014 a Global Ecological Land Units map at 250 m resolution. This also includes world layer of rock types. This data can be downloaded from the USGS site (http://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/).
 
@@ -103,7 +103,7 @@ landcover
 
 ### GlobCover (Global)
 
-GlobCover is a European Space Agency (ESA) initiative which began in 2005 in partnership with JRC, EEA, FAO, UNEP, GOFC-GOLD and IGBP. The aim of the project was to develop a service capable of delivering global composites and land cover maps using as input observations from the 300 m MERIS sensor onboard the ENVISAT satellite mission. ESA makes available the land cover maps, which cover 2 periods: December 2004 - June 2006 and January - December 2009. The classification module of the GlobCover processing chain consists in transforming the MERIS-FR multispectral mosaics produced by the pre-processing modules into a meaningful global land cover map. The global land cover map has been produced in an automatic and global way and is associated with a legend defined and documented using the UN LCCS. The GlobCover 2009 land cover map is delivered as one global land cover map covering the entire Earth. Its legend, which counts 22 land cover classes, has been designed to be consistent at the global scale and therefore, it is determined by the level of information that is available and that makes sense at this scale (Bontemps et al., 2011). 
+GlobCover is a European Space Agency (ESA) initiative which began in 2005 in partnership with JRC, EEA, FAO, UNEP, GOFC-GOLD and IGBP. The aim of the project was to develop a service capable of delivering global composites and land cover maps using as input observations from the 300 m MERIS sensor onboard the ENVISAT satellite mission. ESA makes available the land cover maps, which cover 2 periods: December 2004 - June 2006 and January - December 2009. The classification module of the GlobCover processing chain consists in transforming the MERIS-FR multispectral mosaics produced by the pre-processing modules into a meaningful global land cover map. The global land cover map has been produced in an automatic and global way and is associated with a legend defined and documented using the UN LCCS. The GlobCover 2009 land cover map is delivered as one global land cover map covering the entire Earth. Its legend, which counts 22 land cover classes, has been designed to be consistent at the global scale and therefore, it is determined by the level of information that is available and that makes sense at this scale [@bontemps2011globcover]. 
 The GlobCover data can be downloaded at: http://due.esrin.esa.int/page_globcover.php
 
 ### Landsat GeoCover (Global)
@@ -131,11 +131,11 @@ The CORINE Land Cover Data are available at: http://www.eea.europa.eu/data-and-m
 
 WorldClim is a set of global climate layers (gridded climate data) with a spatial resolution of about 1 km2 (10 minutes, 5 minutes, 2.5 minutes are also available). These data can be used for mapping and spatial modelling. The current version is Version 1.4. and a preview of Version 2 is available for testing at worldclim.org. The data can be downloaded as generic grids or in ESRI Grid format.
 
-The WorldClim data layers were generated by interpolation of average monthly climate data from weather stations on a 30 arc-second resolution grid. In V1.4, variables included are monthly total precipitation, and monthly mean, minimum and maximum temperatures, and 19 derived bioclimatic variables. The WorldClim precipitation data were obtained from a network of 1,473 stations, mean temperature from 24,542 stations, and minimum and maximum temperatures from 14,835 stations (Hijmans et al. 2005).
+The WorldClim data layers were generated by interpolation of average monthly climate data from weather stations on a 30 arc-second resolution grid. In V1.4, variables included are monthly total precipitation, and monthly mean, minimum and maximum temperatures, and 19 derived bioclimatic variables. The WorldClim precipitation data were obtained from a network of 1,473 stations, mean temperature from 24,542 stations, and minimum and maximum temperatures from 14,835 stations [@hijmans2005very].
 
 The Bioclimatic parameters are:  annual mean temperature, mean diurnal range, iso-thermality, temperature seasonality, max temperature of warmest month, minimum temperature of coldest month, temperature annual range , mean temperature of wettest quarter, mean temperature of driest quarter, mean temperature of warmest quarter, mean temperature of coldest quarter, annual precipitation, precipitation of wettest month, precipitation of driest month, precipitation seasonality (coefficient of variation), precipitation of wettest quarter, precipitation of driest quarter, precipitation of warmest quarter, precipitation of coldest quarter.
 
-WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; Hijmans et al., 2005. Int. J. of Clim. 25: 1965-1978. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).
+WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; @hijmans2005very. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).
 
 ```{r}
 # load the lcimae covariates from the raster tif files
