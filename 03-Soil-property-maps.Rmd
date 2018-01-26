@@ -5,11 +5,11 @@
 ## Definitions, objectives
 
 Soil property maps represent spatial information about soil properties to a certain depth or for soil horizons. Conventionally, soil property maps are generated as polygon maps, with properties from typical soil profiles representing soil mapping units.
-Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properties, including the spatial quantification of the prediction error. The quality of such predictions improves with increasing number of local observations (e.g. soil profiles) available to build prediction model. Whenever possible, DSM is recommended. 
+Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properties, including the spatial quantification of the prediction error. The quality of such predictions improves with increasing number of local observations (e.g. soil profiles) available to build the prediction model. Whenever possible, DSM is recommended. 
 
 The development of soil property maps via digital soil mapping is spatially flexible. For different soil properties (e.g. concentration and stocks of nutrients in the soil, carbon, heavy metals, pH, cation exchange capacity, physical soil properties such as particle sizes and bulk density, etc.), various depth classes and spatial resolution can be modelled depending on project and mapping objectives and available input data. For GSOCmap, a 1 km grid is pursued. The same methodology and input data can also be used to produce higher resolution soil grids.
 
-The mapping of global soil organic carbon stocks (GSOC) will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information system and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO and its regional offices, as well as the Regional Soil Partnerships, are all challenged together with the GSP members, especially the members of the International  Network of Soil Information Institutions INSII), to establish national capacity and soil data infrastructures to enable soil property mapping. 
+The mapping of global soil organic carbon stocks (GSOC) will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO and its regional offices, as well as the Regional Soil Partnerships, are all challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping. 
 
 ## Generic mapping of soil grids: upscaling of plot-level measurements and estimates
 
@@ -17,9 +17,9 @@ The following table presents an overview of different geographic upscaling appro
 
 |   |   |                                                                       | 
 |-------------------|-------------------------|-----------------------------------------|
-| Conventional upscaling  |  Class-matching | Derive average SOC stocks per “class”: soil type for which a national map exists, or combination with other spatial covariates, e.g. land use category, climate type, biome, etc.This approach is used in the absence of spatial coordinates of the source data.  |
+| Conventional upscaling  |  Class-matching | Derive average SOC stocks per class: soil type for which a national map exists, or combination with other spatial covariates (e.g. land use category, climate type, biome, etc.). This approach is used in the absence of spatial coordinates of the source data.  |
 |                         | Geomatching     | Point locations with spatial referencing are overlaid with GIS layers of important covariates (such as a soil map). Upscaling is based on averaged SOC values per mapping unit.  | 
-|  Digital soil mapping   | Data Mining and Geostatistics  | Multiple regression, classification tree, random forests, Regression kriging, kriging with external drift  | 
+|  Digital soil mapping   | Data mining and geostatistics  | Multiple regression, classification tree, random forests, regression kriging, kriging with external drift  | 
 
 
 Digital soil mapping is based on the development of functions for upscaling point data (with soil measurements) to a full spatial extent using correlated environmental covariates, for which spatial data are available.
