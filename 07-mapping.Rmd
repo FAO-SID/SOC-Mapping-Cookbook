@@ -822,7 +822,7 @@ SVM apply a simple linear method to the data but in a high-dimensional feature s
 
 ### Code examples
 
-#### Fitting a svm model to predict the SOC
+#### Fitting a SVM Model to Predict the SOC
 
 ```{r, eval=FALSE}
 # Correlation analysis to select covariates
