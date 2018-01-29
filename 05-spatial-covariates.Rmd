@@ -1,4 +1,4 @@
-# Preparation of spatial covariates
+# Preparation of Spatial covariates
 *R. Baritz & Y. Yigini*
 
 The example covariates from this chapter were prepared by ISRIC. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
@@ -9,9 +9,9 @@ knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates pro
 ```
 
 
-## DEM-derived covariates
+## DEM-Derived Covariates
 
-### DEM source data sets
+### DEM Source Data Sets
 
 Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
 
@@ -34,7 +34,7 @@ plot(DEM)
 
 SRTM contains many gaps (pixels with no-data). These gaps could be filled using splines. SAGA GIS has a module called ‘Close Gaps with Splines’ and other similar tools for doing this.
 
-## Parent material
+## Parent Material
 
 Parent material has a crucial impact on soil formation, soil geochemistry and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from Geology maps. These maps focus on rock formation, mineral components and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. The most commonly available approximation to parent material is certainly a geology map. Its geochemistry has essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness. 
 
@@ -65,7 +65,7 @@ lines(soilmap)
 
 > Digitized small-scale national soil maps are the most important spatial layer for soil property mapping. The higher its resolution, the better soil maps contribute to high quality soil property maps - considering that the map should cover the target area/full country coverage.
 
-### Technical Steps - Rasterizing a vector layer in R
+### Technical Steps - Rasterizing a Vector Layer in R
 
 ```{r, eval = T}
 # the "Symbol" attribute from the vector layer will be used for the
@@ -85,7 +85,7 @@ legend("bottomright",legend = Symbol.levels, fill=rainbow(21),
        cex=0.5)
 ```
 
-## Land cover/Land use
+## Land Cover and Land use
 
 Besides soil, geology and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.
 
@@ -172,7 +172,7 @@ Data Access: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx
 
 ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a digital soil mapping exercise.
 
-### Covariates and  Empty Mask
+### Covariates and Empty Mask
 
 The territories and their boundaries are obtained from the Global Administrative Unit Layers (GAUL)dataset: 
 each folder contains three subfolders;
@@ -193,17 +193,17 @@ ftp://gsp.isric2.org/  (username: gsp, password: gspisric) or ftp://85.214.253.6
 LICENCE and ACKNOWLEDGEMENT
 *The GIS layers can be freely used under the condition that proper credit should be given to the original data source in each publication or product derived from these layers. Licences, data sources, data citations are indicated the data description table.*
 
-## Extending the soil property table for spatial statistics
+## Extending the Soil Property Table for Spatial Statistics
 
 The upscaling procedures (Chapter 6) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
 
-## Preparation of a soil property table for spatial statistics
+## Preparation of a Soil Property Table for Spatial Statistics
 
 The upscaling procedures (section 4) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in section 3. An example is the clay content, which may be derived from a soil type or parent rock map. 
 
 > In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
 
-## Technical Steps - Mixing covariates and soil points data
+## Technical Steps - Mixing Covariates and Soil Points Data
 
 ```{r}
 # Load the processed data. This table was prepared in the previous 
@@ -248,7 +248,7 @@ dat@data$soilmap <- as.factor(dat@data$soilmap)
 summary(dat@data)
 ```
 
-## Overlay covariates and spatial data
+## Overlay Covariates and Spatial Data
 
 In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of soil organic carbon, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, raster package resample and projectRaster functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
 
@@ -274,9 +274,9 @@ dat <- dat[complete.cases(dat),]
 write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
 ```
 
-## Code examples
+## Code Examples
 
-### Mixing covariates and soil points data
+### Mixing Covariates and Soil Points Data
 
 ```{r "join covariates and soil samples", eval=FALSE}
 # Load the processed data. This table was prepared in the previous 
