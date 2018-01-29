@@ -1,5 +1,5 @@
 # Technical Overview and the Checklist
-*VL  Mulder*
+*V.L.  Mulder*
 
 ## Point Dataset 
 
@@ -17,7 +17,7 @@
 *	Did you check for outliers or any unusual values, especially in your DEM Layer(s)?
 *	Did you set any categorical dataset as ‘factor’ instead of being ‘numeric’ or ‘integer’?
 
-## Statistical inference
+## Statistical Inference
 
 *	Did you choose a proper model which is capable to model the variability in your SOC point data best? (multiple regression or data mining with or without interpolation of the residuals using kriging)?
 *	Did you make sure that the Random Forest did not over fit your data?
@@ -25,7 +25,7 @@
 *	Do the model summaries make sense? i.e. most important predictor variables and model fit?
 *	Is there spatial structure left in your residuals, if so make sure you interpolate the model residuals using kriging?
 
-## Spatial interpolation
+## Spatial Interpolation
 
 *	Did you obtain an exhaustive map or are there still gaps? If so, check if your raster has the correct ‘factor’ values, if the model was calibrated on fewer classes than the extrapolation may not work for those pixels?
 *	Do the patterns make sense or is there a covariate that causes an unrealistic pattern, based on expert judgement. If so, consider removing this covariate?
@@ -35,7 +35,7 @@
 ## Calculation of STOCKS 
 You might want to calculate stocks per LU type, management type or by municipality.  If you do that make sure you give an informed number, i.e. an estimate plus an estimate of the uncertainty
 
-## Evaluation of output/ quality assessment
+## Evaluation of Output and Quality Assessment
 
 *	Report the model calibration and validation statistics!
 *	Report some map quality measures!
