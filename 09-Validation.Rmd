@@ -1,7 +1,7 @@
 # Validation
-*B Kempen, DJ Brus, GBM Heuvelink*
+*B. Kempen, D.J. Brus & G.B.M. Heuvelink*
 
-## What is validation?
+## What is Validation?
 No map is perfect. All maps, including soil maps, are representations of reality that are often based on an underlying model. This means that there will always be a deviation between the phenomenon depicted on the map and the phenomenon observed in the real world, i.e. each map will contain errors. The magnitude of the errors determine the quality of the map. If a map matches reality well (the error is small), the quality or accuracy of the map is high. On the other hand, if a map does not match reality well, map accuracy is low.
 
 Soil maps are used for many purposes. For example to report on (changes in) soil organic carbon stocks, as input in agro-environmental models, to determine land use suitability or for decision- and policy-making. It is therefore, important that the quality of a map is determined and quantified. This is achieved through (statistical) validation.
@@ -12,9 +12,9 @@ We distinguish internal and external map accuracy. Statistical methods typically
 
 In section 8.3.2 we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section 8.3.3 we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on @brus2011sampling. For details, please refer to this paper.
 
-## Map quality measures
+## Map Quality Measures
 
-### Quality measures for quantitative soil maps
+### Quality Measures for Quantitative Soil Maps
 
 All map quality measures considered here are computed from the prediction error. For quantitative soil maps of continuous soil properties (e.g. organic carbon content, pH, clay content) the prediction error is defined as the difference between the predicted value at a location and the true value at that location (which is the value that would be observed or measured by a preferably errorless measurement instrument) [@brus2011sampling]:
 
@@ -80,7 +80,7 @@ where ${\sigma^2(s_i)}$ is the prediction error variance at location ${s_i, i = 
 
 @lark2000comparison notes that outliers in the prediction data will influence the squared ${Z_{score}}$ and suggests to use the median squared ${Z_{score}}$ instead of the mean since it is a more robust estimator. A median squared ${Z_{score}}$ equal to 0.455 suggests that the prediction model estimates the prediction uncertainty well.
 
-### Quality measures for qualitative soil maps
+### Quality Measures for Qualitative Soil Maps
 
 Like the quality measures for quantitative soil maps, the quality measures for qualitative or categorical soil maps (e.g. soil classes) are defined for the population, i.e. all locations in the mapping area. The basis for map quality assessment of qualitative maps is the error matrix [@brus2011sampling, @lark1995components]. This matrix is constructed by tabulating the observed and predicted class for all locations in the mapping area in a two-way contingency table (Figure 8.1). The population error matrix is a square matrix of order $U$, with $U$ being the number of soil classes observed and mapped. The columns of the matrix correspond to observed soil classes and the rows to predicted soil classes (the map units).$N$ is the total number of locations of the mapping area. Elements $N_{ij}$ are the number of locations mapped as class $i$ with observed class $j$. The row margins $N_{i+}$ are the locations mapped as class $i$, and column margins $N_{+j}$ the locations for which the observed soil class is $j$. Note that the elements of the population error matrix can also be interpreted as surface areas. In that case element $N_{ij}$ is the surface area mapped as class $i$ with observed class $j$.
 
@@ -118,7 +118,7 @@ r_u = \frac{ N_{uu}}{N_{+u}}
 
 The class representation can be interpreted as the proportion of the area where in reality class $u$ occurs that is also mapped as class $u$. The complement of $r_u$, $1 - r_u$, is referred to as the error of omission for mapped class $u$.
 
-### Estimating the map quality measures and associated uncertainty
+### Estimating the Map Quality Measures and Associated Uncertainty
 
 In validation, we estimate the population means of the map quality measures from a sample taken from a limited number of locations in the mapping area. After all, we cannot afford to sample all locations, i.e. each grid cell of our soil map. Because the map quality measures are estimates, we are uncertain about these: we infer the quality measures from only a limited number of observations taken from the population. We do not know the true population means. The estimation uncertainty can be quantified with the sampling variance. From the variance, the lower and upper boundary of a confidence interval, typically the 95%, can be computed using basic statistical theory:
 
@@ -130,14 +130,14 @@ where $x$ is the estimated map quality measure, for instance the $ME$, $MSE$ or 
 
 Quantified information about the uncertainty associated to map quality measures is useful and required for statistical testing. For instance, if one wants to test if one mapping method performs better than the other method one needs quantified information about uncertainty. Because we are uncertain about the estimated quality measures, an observed difference in map quality between two methods does not necessarily mean that one method is better than the others, even when there is a substantial difference. The difference might be attributed to chance because we infer the quality measures from a limited sample from the population. With statistical hypothesis testing we can calculate how large the probability is that observed difference is caused by chance. Based on the outcome we can accept or reject the hypothesis that there is no difference between the performance of two mapping methods (this would be the null hypothesis for statistical testing) for a given significance level, usually 0.05.   
 
-## Graphical map quality measures
+## Graphical Map Quality Measures
 
 In addition to quantifying map accuracy statistically, one can also present validation results obtained from a sample graphically. This can be done by creating scatter plots of predicted against observed values and spatial bubble plots of validation errors. Figure 8.2 shows an example of a scatterplot and bubble plot. Both plots can be easily made with R (R Development Core Team, 2016). Use the function plot(x,y)to generate a scatter plot. The 1:1 line (black line in Figure 8.2) can be added to the plot with the command abline(0,1). The spatial bubble plot can be generated with the bubble function of the sp package [@pebesma2005classes]. 
 
 ![Scatterplot of predicted versus observed soil organic matter content for Rwanda (left) and spatial bubble plot of cross-validation error for soil organic matter (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values](images/Validation_Rwanda.png)
 
 
-## Validation methods and statistical inference
+## Validation Methods and Statistical Inference
 
 Following @brus2011sampling, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in previous section from a sample.
 
@@ -147,7 +147,7 @@ Data-splitting and cross-validation are applied in situations where one has only
 
 We warn here that if one uses data-splitting or cross-validation with a dataset collected with purposive sampling, then this has severe implications on the validity and interpretation of the estimated map quality measures as we will explain below
 
-### Additional probability sampling
+### Additional Probability Sampling
 
 The most appropriate approach for validation is by additional probability sampling. This means that an independent validation dataset is collected in the field on basis of a probability sampling design. Validation based on probability sampling ensures one obtains unbiased and valid estimates of the map quality measures [@brus2011sampling, @stehman1999basic]. Additional probability sampling has several advantages compared to data-splitting and cross-validation using non-probability sample data. These are:
 
@@ -295,7 +295,7 @@ Table 9.1 gives the map unit purities and class representations for this example
 |    Luvisol         |      0.592          |      0.700                            |
 |    Podzol          |      0.576          |      0.594                            |
 
-### Data-splitting
+### Data-Splitting
 
 In data-splitting the sample data set is split in two subsets. One subset is used to calibrate the prediction model. The other subset is used for validation. A frequently used splitting criterion is 70-30, where 70% of the sample data are used for calibration and 30% for validation. The choice of a splitting criterion however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.
 
@@ -315,7 +315,7 @@ In most studies however, spatial correlation is not accounted for when estimatin
 
 In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted.
 
-### Cross-validation
+### Cross-Validation
 
 In $K$-fold cross-validation (CV), the dataset is split into $K$ roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the $K$-1 sets and used to predict the target variable for the data points set aside. From this prediction the prediction error is calculated. This procedure is repeated $K$ times, each time setting a different set aside for validation. In this way we obtain $K$ estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.
 
