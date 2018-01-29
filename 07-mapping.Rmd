@@ -1,8 +1,8 @@
-# Mapping methods
-*R Baritz, VL Mulder, Y Yigini, GF Olmedo, C. Thine, RR Vargas, M Guevara*
+# Mapping Methods
+*R. Baritz, V.L. Mulder, Y. Yigini, G.F. Olmedo, C. Thine, R.R. Vargas, M. Guevara*
 
-## Conventional mapping using soil maps
-*R Baritz, VL Mulder*
+## Conventional Mapping Using Soil Maps
+*R. Baritz, V.L. Mulder*
 
 ### Overview
 
@@ -21,9 +21,9 @@ in order to develop a representative and large national soil database, very ofte
 
 From all data sources, SOC stocks for peat soils were calculated separately.
 
-### Technical steps 
+### Technical Steps 
 
-**Step 1. Data preparation**
+**Step 1. Data Preparation**
 
 * Separate the data base for forests, peat and other land uses
 If only horizons are provided: derive or estimate average depth of horizons per soil type; add upper and lower depth.
@@ -42,7 +42,7 @@ If only horizons are provided: derive or estimate average depth of horizons per 
 * Mapping using geo-matching of all points: Extract the covariate information to all georeferenced sample sites. The SOC values from all points within the unit are then averaged. It is assumed that the points represent the real variability of soil types within the units 
 
 
-**Step 3. mapping**
+**Step 3. Mapping**
 
 * Mapping using class-matching of points in agreement with classes
 
@@ -57,7 +57,7 @@ Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.
 
 Because of its importance, geo-matching is described in more detail (section 8.1.3).
 
-### Geo-matching
+### Geo-Matching
 
 It is important to first prepare the working environment pre-processed all input data. The following  section presents different Geo-matching procedures; 
 
@@ -72,7 +72,7 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 *	http://www.qgis.org/
 *	http://www.qgisforum.org/
 
-**Step 1. Setting up a QGIS project.**
+**Step 1. Setting Up a QGIS Project**
 
 1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, Mac or Linux, 32 or 64 bit).
 2. Create a work folder, e.g. D:\\GSOC\\practical_matching. Copy the folder with the Macedonian demonstration data into this folder.
@@ -94,7 +94,7 @@ In this case, you automatically use the local projection for Macedonia. The EPSG
 7.  Save the project in the created folder
 Load and display the pre-processed SOC point data. If a shapefile already exists, this is done the same way as described in Step 4. If you have the data as a text file, you need to create a vector layer out of that file. Go to Layer -> Add Layer -> Add Delimited Text layer. Select the correct file and proper CRS projection. The layer should be added to your Layers Panel and displayed on top of the Soil Map.
 
-**Step 2. Geo-Matching SOC with WRB Soil map.**
+**Step 2. Geo-Matching SOC with WRB Soil Map**
 
 In this section you will make a SOC map, based on the Macedonian Soil Map and the SOC values at the sampled points, following 3 steps: 1) Extract the soil map information for the point data, 2)  obtain the mean and standard deviation of the SOC stocks per soil class, based on the point data and 3) assign these values to the corresponding soil map units. The steps are detailed below:
 
@@ -133,7 +133,7 @@ In this section you will make a SOC map, based on the Macedonian Soil Map and th
 10.  Repeat step 2-8 but now for the standard deviation of the SOC stocks.
 11. Save the file as a new shapefile: Go to ‘Layer Panels -> Save as -> ESRI ShapeFile and make sure that you define the symbology export: Feature Symbology. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
 
-**Step 3. Geo-Matching SOC with other environmental variables: Land use**
+**Step 3. Geo-Matching SOC with Other Environmental Variables: Land Use**
 
 1.	Start a new project and add the soil point data and Macedonia Soil Map layers from the Browser panel
 2.	Add the Land Use raster file to the Layers Panels. This is a raster file with 1 kilometre resolution and projected in lat long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3
@@ -150,7 +150,7 @@ Now, the steps from the previous section need to be repeated, using the land use
 9. Join the files with the LU polygon map, generated at step 3-4.
 10. Change the classes in the legend and inspect the histogram with the median SOC values. Try to find a proper definition of the class boundaries (Step 2-8).
 
-**[Extra]  Step 4. Joining landscape units and soil mapping units to support class- and geo-matching**
+**[Extra]  Step 4. Joining Landscape Units and Soil Mapping Units to Support Class- and Geo-Matching**
 
 In this section it is outlined how SOC stocks can be mapped following the method outlined by \cite{lettens2004soil}. The general idea is that the landscape is stratified into more or less homogenous units and subsequently, the SOC stocks are obtained following the procedure outlined earlier in this practical. \cite{lettens2004soil} outlines a method to stratify the landscape into homogeneous strata with respect to Land Use and Soil Type, as was explained earlier. In order to obtain such strata, the Soil Map and the Land Use map need to be combined. This can be done using various types of software, e.g. ArcMap, GRASS, QGIS or R. 
 When using the GIS software, the only thing that needs to be done is intersecting the vector files and dissolving the newly created polygon features. Depending on the software and the quality of your shapefile you may experience problems with the geometry of your shapefile. Generally, ArcMap and GRASS correct the geometry when the shapefile is loaded, while QGIS does not do this automatically. There are various ways to correct the geometry, however, correcting the geometry falls outside the scope of this training. Therefore, we give some hints on how to correct your geometry prior to using the functions ‘Intersect’ and ‘Dissolve’.
@@ -173,7 +173,7 @@ Below you find the instructions in case you have no problems with your geometry:
 Lettens, S., J. Van Orshoven, B. Van Wesemael and B. Muys (2004). Soil organic and inorganic carbon contents of landscape units in Belgium derived using data from 1950 to 1970. Soil Use and Management 20: 40–47.
 
 ## Regression-Kriging
-*Y Yigini & GF Olmedo*
+*Y. Yigini & G.F. Olmedo*
 
 ### Overview
 
@@ -189,7 +189,7 @@ Standard linear regression models with standard estimation techniques make a num
 *Distribution of the Errors*: The error term is normally distributed with a mean of zero and constant variance. 
 *Homoscedasticity*: The variance of the error term is constant for all combinations of X’s. The term homoscedasticity means “same scatter.” Its antonym is heteroscedasticity (“different scatter”).
 
-### Pre-processing of covariates 
+### Pre-Processing of Covariates 
 
 Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables can cause problems in multiple linear regression models. The multicollinearity of number of variables can be assessed using Variance Inflation Factor (VIF). In R, the function vif() from caret package can estimate the VIF. There are several rules of thumb to establish when there is a serious multi-collinearity (e.g. when the VIF square root is over 2). The Principal component analysis can be used to overcome multicollinearity issues. 
 Principal components analysis can cope with data containing large numbers of covariates that are highly collinear which is the common case in environmental predictors. Often the principal components with higher variances are selected as regressors. However, for the purpose of predicting the outcome, the principal components with low variances may also be important, in some cases even more important.
@@ -220,7 +220,7 @@ The main steps for the multiple linear regression analysis are shown in the Figu
 3. In particular cases, stepwise multiple linear regression (SMLR) can be used to eliminate insignificant predictors. Stepwise multiple linear regression (SMLR) usually selects predictors that have the strongest linear correlations with the target variable, which reflect the highest predictive capacity.
 4. Kriging of the residuals (prediction errors): In the regression-kriging, the regression model detrends the data, produces the residuals which we need to krige and to be added to the regression model predictions.
 
-### Interpret the key results of multiple regression
+### Interpret the Key Results of Multiple Regression
 
 Regression analysis generates an equation to describe the statistical relationship between one or more predictor variables and the response variable. he r-squared, p-values and coefficients that appear in the output for linear regression analysis must also be reviewed. Before accepting the result of a linear regression it is important to evaluate its suitability at explaining the data. One of the many ways to do this is to visually examine the residuals. If the model is appropriate, then the residual errors should be random and normally distributed. 
 
