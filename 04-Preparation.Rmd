@@ -203,6 +203,8 @@ The function `GSIF::mpspline` has several arguments. One of the arguments is the
 
 The following technical steps require **R** and the named packages.
 
+#### Promote table dat to *SoilProfileCollection*
+
 ```{r, echo=T}
 # Load aqp package
 library(aqp)
@@ -211,7 +213,11 @@ library(aqp)
 # The SoilProfileCollection is a object class in R designed to 
 # handle soil profiles
 depths(dat) <- ProfID ~ top + bottom
+```
 
+#### Add site-level data and coordinates
+
+```{r, echo=T}
 # Merge the soil horizons information with the site-level 
 # information from dat_sites
 site(dat) <- dat_sites
@@ -223,6 +229,7 @@ coordinates(dat) <- ~ X + Y
 dat
 ```
 
+#### Run mass preserving splines for all the needed propierties
 
 ```{r splines, results='hide', message=FALSE, eval=FALSE}
 library(GSIF)
@@ -233,6 +240,7 @@ try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
 try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
 ```
 
+#### Convert back to table
 
 ```{r, eval=FALSE}
 ## Prepare final data frame
@@ -249,7 +257,7 @@ dat <- dat[complete.cases(dat),]
 head(dat)
 ```
 
-## Organic Carbon Stock 
+#### Estimate the Organic Carbon Stock using the virtual horizons
 
 Finally, the estimation of the soil organic carbon stock can be done using the **GSIF** package.
 
