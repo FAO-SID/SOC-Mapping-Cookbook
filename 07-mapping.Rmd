@@ -735,7 +735,7 @@ names(dat@data)
 
 For the variable selection we will use `cor()` function. `x` must be a table including only the column with the response variable, and `y` must be a table including ONLY the covariates. Besides, remember `dat@data` in the `data.frame` included in the `spatialPointsDataFrame`. For `y`, columns 1 to 7 are out, because they are not covariates. At the same time, correlation analysis cannot be applied to categorical covariates, this means that columns 13 and 21 have to be removed too.
 
-```{r, eval=FALSE}
+```{r variable selection in svm}
 COR <- cor(x = as.matrix(dat@data[,6]), 
            y = as.matrix(dat@data[,-c(1:7,13,21)]))
 
@@ -745,7 +745,7 @@ COR
 
 Now we used the correlation results to select the top five covariates.
 
-```{r}
+```{r var selection in svm continued}
 library(reshape)
 x <- subset(melt(COR), value != 1 | value != NA)
 x <- x[with(x, order(-abs(x$value))),]
@@ -758,7 +758,7 @@ names(dat2)
 COV <- covs[[idx]]
 
 # we add back the two categorical covariates: LCEE10 and soilmap
-COV <- stack(COV, covs$LCEE10, covs$soilmap)
+# COV <- stack(COV, covs$LCEE10, covs$soilmap)
 
 # Top 10 covariates
 names(COV)
@@ -767,7 +767,7 @@ names(COV)
 
 #### Fitting a svm model using different epsilon and cost parameters
 
-```{tuning the svm model, r}
+```{r tuning the svm model}
 library(e1071)
 library(caret)
 
@@ -775,8 +775,7 @@ library(caret)
 tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM", 
                                                   names(COV))],
                    ranges = list(epsilon = seq(0,0.5,0.1), 
-                                 cost = seq(4,7,1))
-)
+                                 cost = seq(4,6,1)))
 ```
 
 #### Select the model with the best combination of epsilon and cost
