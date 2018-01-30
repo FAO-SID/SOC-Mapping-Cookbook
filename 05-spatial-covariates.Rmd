@@ -207,20 +207,25 @@ The upscaling procedures (section 4) depend on the rationale, that the accumulat
 
 ## Technical Steps - Mixing Covariates and Soil Points Data
 
+### Load soil sample data and covariates
+
 ```{r}
 # Load the processed data. This table was prepared in the previous 
 # chapter.
 dat <- read.csv("data/dataproc.csv")
 
+# read covariates from tif raster files
 files <- list.files(path = "covs", pattern = "tif$", 
                     full.names = TRUE)
 
 covs <- stack(files)
 ```
 
-Combine the covariates provided with the raster version of the soil map prepared on subsection [Technical Steps - Rasterizing a vector layer in R].
+### Combine the covariates provided with the raster version of the soil map
 
 ```{r, fig.cap="Macedonia soil covariates"}
+# soilmap.r is the rasterization of the soil map and was obtained
+# in a previous step
 covs <- stack(covs, soilmap.r)
 
 # correct the name for layer 14
@@ -234,6 +239,8 @@ covs <- mask(x = covs, mask = mask)
 plot(covs)
 ```
 
+### Extract covariate values at location of the soil samples
+
 ```{r}
 #upgrade points data frame to SpatialPointsDataFrame
 coordinates(dat) <- ~ X + Y
@@ -245,12 +252,12 @@ dat <- extract(x = covs, y = dat, sp = TRUE)
 dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
 dat@data$soilmap <- as.factor(dat@data$soilmap)
 
-#levels(soilmap) <- Symbol.levels
+levels(soilmap) <- Symbol.levels
 
 summary(dat@data)
 ```
 
-## Overlay Covariates and Spatial Data
+### Overlay Covariates and Spatial Data
 
 In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of soil organic carbon, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, raster package resample and projectRaster functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
 
@@ -266,56 +273,9 @@ The summary of the 'dat data.frame' shows 2 points with NA values for most of th
 
 * Another case is when a covariate is incomplete and does not cover all the area. This coul produce many NA values. There are two different solutions, eliminate the covariate or eliminate the point data. This is the case for soilmap layer and the 30 points. 
 
+### Convert result to data.frame and save as a csv table
+
 ```{r}
-dat <- as.data.frame(dat)
-
-# The points with NA values has to be removed 
-dat <- dat[complete.cases(dat),]
-
-# export as a csv table
-write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
-```
-
-## Code Examples
-
-### Mixing Covariates and Soil Points Data
-
-```{r "join covariates and soil samples", eval=FALSE}
-# Load the processed data. This table was prepared in the previous 
-# chapter.
-dat <- read.csv("data/dataproc.csv")
-
-files <- list.files(path = "covs", pattern = "tif$", 
-                    full.names = TRUE)
-
-covs <- stack(files)
-
-covs <- stack(covs, soilmap.r)
-
-# correct the name for layer 14
-names(covs)[14] <- "soilmap"
-
-#mask the covariates with the country mask from the data repository
-mask <- raster("data/mask.tif")
-
-covs <- mask(x = covs, mask = mask)
-
-plot(covs)
-
-#upgrade points data frame to SpatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-# extract values from covariates to the soil points
-dat <- extract(x = covs, y = dat, sp = TRUE)
-
-# LCEE10 and soilmap are categorical variables
-dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
-dat@data$soilmap <- as.factor(dat@data$soilmap)
-
-#levels(soilmap) <- Symbol.levels
-
-summary(dat@data)
-
 dat <- as.data.frame(dat)
 
 # The points with NA values has to be removed 
