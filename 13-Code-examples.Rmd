@@ -220,3 +220,8 @@ print(Sys.time() - start)
 endCluster()
 ```
 
+
+
+
+
+`r if (knitr:::is_html_output()) '# References {-}'`
