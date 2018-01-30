@@ -5,38 +5,38 @@ This cookbook focuses on SOC modelling using open source digital mapping tools. 
 
 ## Use of R , RStudio and R Packages
 
-R is a language and environment for statistical computing. It provides a wide variety of statistical (e.g. linear modelling, statistical tests, time-series, classification, clustering, etc.) and graphical methods, and is highly extensible. 
+**R** is a language and environment for statistical computing. It provides a wide variety of statistical (e.g. linear modelling, statistical tests, time-series, classification, clustering, etc.) and graphical methods, and is highly extensible. 
 
 ### Obtaining and Installing R
 
-* Go to https://cloud.r-project.org/index.html to download and install R.
+* Go to https://cloud.r-project.org/index.html to download and install **R**.
 * Pick an installation file for your platform. 
 
 ### Obtaining and Installing R Studio
 
-Beginners will find it very hard to start using R because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of R. RStudio makes R easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. You can follow very similar steps to install RStudio.
+Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. You can follow very similar steps to install **RStudio**.
 
-* Go to https://www.rstudio.com/products/rstudio/download/ to download and install R Studio's open source edition.
+* Go to https://www.rstudio.com/products/rstudio/download/ to download and install **RStudio**'s open source edition.
 * On the download page, *RStudio Desktop, Open Source License* option should be selected.
 * Pick an installation file for your platform. 
 
 ### Getting Started with R
-* R Manuals:                  http://cran.r-project.org/manuals.html
+* **R** Manuals:                  http://cran.r-project.org/manuals.html
 * Contributed Documentation:  http://cran.r-project.org/other-docs.html
-* Quick-R:                    http://www.statmethods.net/index.html
-* Stackoverflow R Community:  https://stackoverflow.com/questions/tagged/r 
+* Quick-**R**:                    http://www.statmethods.net/index.html
+* Stackoverflow **R** Community:  https://stackoverflow.com/questions/tagged/r 
 
 ## R Packages
 
-When you download R, you get the basic R system which implements the R language. R becomes more useful with the large collection of packages that extend the basic functionality of it. R packages are developed by the R community.
+When you download **R**, you get the basic **R** system which implements the **R** language. **R** becomes more useful with the large collection of packages that extend the basic functionality of it. **R** packages are developed by the **R** community.
 
 ### Finding R Packages
 
-The primary source for R packages is [CRAN’s](https://cran.r-project.org/) official website, where currently about 12.000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on CRAN with the `available.packages()` function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the [Task Views](https://cran.r-project.org/web/views/) link, which groups together packages related to a given topic. 
+The primary source for **R** packages is [CRAN’s](https://cran.r-project.org/) official website, where currently about 12.000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on CRAN with the `available.packages()` function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the [Task Views](https://cran.r-project.org/web/views/) link, which groups together packages related to a given topic. 
 
 ### Most Used R Packages for Digital Soil Mapping 
 
-As was previously mentioned, R is extensible trough packages. R packages are collections of R functions, data, documentation and compiled code easy to share with others. In the following subsections we are going to present the most used packages related to digital soil property mapping.
+As was previously mentioned, **R** is extensible trough packages. R packages are collections of R functions, data, documentation and compiled code easy to share with others. In the following subsections we are going to present the most used packages related to digital soil property mapping.
 
 #### Soil Science and Pedometrics
 
@@ -46,7 +46,7 @@ As was previously mentioned, R is extensible trough packages. R packages are col
 
 [*ithir*](http://ithir.r-forge.r-project.org/): A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.
 
-[*soiltexture*](https://CRAN.R-project.org/package=soiltexture): [*The Soil Texture Wizard*](https://cran.r-project.org/web/packages/soiltexture/vignettes/soiltexture_vignette.pdf) is a set of R functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allow to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). The set of function is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based graphical user interface is provided: `soiltexture_gui()`.
+[*soiltexture*](https://CRAN.R-project.org/package=soiltexture): [*The Soil Texture Wizard*](https://cran.r-project.org/web/packages/soiltexture/vignettes/soiltexture_vignette.pdf) is a set of **R** functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allow to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). The set of functions is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based GUI is provided: `soiltexture_gui()`.
 
 #### Spatial Analysis
 
@@ -81,11 +81,11 @@ Both raster and sp have handy functions for plotting spatial data. Besides using
 
 [*plotKML*](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
 
-[*leaflet*](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the 'Leaflet' JavaScript library and the 'htmlwidgets' package. These maps can be used directly from the R console, from RStudio, in Shiny apps and R Markdown documents.
+[*leaflet*](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the 'Leaflet' JavaScript library and the 'htmlwidgets' package. These maps can be used directly from the **R** console, from **RStudio**, in Shiny apps and **RMarkdown** documents.
 
 ## R and Spatial Data
 
-R has a large and growing number of spatial data packages. We recommend taking a quick browse on R’s official website to see the spatial packages available: \url{http://cran.r-project.org/web/views/Spatial.html}
+**R** has a large and growing number of spatial data packages. We recommend taking a quick browse on **R**’s official website to see the spatial packages available: \url{http://cran.r-project.org/web/views/Spatial.html}
  
 ### Reading Shapefiles 
 
@@ -113,7 +113,7 @@ shapefile(Fluvisols, filename = 'results/fluvisols.shp',
 
 ### Coordinate Reference Systems (CRS) in R
 
-We need to define the CRS (Coordinate Reference System) to be able to perform any sort of spatial analysis in R. To clearly tell R this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library http://trac.osgeo.org/proj/. 
+We need to define the CRS (Coordinate Reference System) to be able to perform any sort of spatial analysis in **R**. To clearly tell **R** this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library http://trac.osgeo.org/proj/. 
 
 An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
@@ -145,7 +145,7 @@ dat_sites@proj4string
 
 ### Working with Rasters
 
-Most of the functions for handling raster data are available in the [*raster*](https://CRAN.R-project.org/package=raster) package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in R environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by ISRIC for FYROM.
+Most of the functions for handling raster data are available in the [*raster*](https://CRAN.R-project.org/package=raster) package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in **R** environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by ISRIC for FYROM.
 
 ```{r}
 #For handling raster data, we load raster package
@@ -158,7 +158,7 @@ DEM <- raster("covs/DEMENV5.tif")
 
 We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writting a raster `?writeRaster` to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to ESRI Ascii, as it is a common and universal raster format.
 
-We may also want to export our mac.dem to KML file using the `KML` function. `KML` is a handy function from the raster package for exporting grids to kml format. Note that we need to re-project the data to WGS84 geographic. The raster re-projection is performed using the `projectRaster` function. Look at the help file `?projectRaster` for this.
+We may also want to export our mac.dem to KML file using the `KML()` function. `KML()` is a handy function from the raster package for exporting grids to kml format. Note that we need to re-project the data to WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for this.
 
 ## Other DSM Related Software and Tools
 
