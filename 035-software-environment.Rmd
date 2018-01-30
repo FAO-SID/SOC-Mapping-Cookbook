@@ -14,7 +14,7 @@ This cookbook focuses on SOC modelling using open source digital mapping tools. 
 
 ### Obtaining and Installing R Studio
 
-Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the later including a GUI. You can follow very similar steps to install **RStudio**.
+Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. You can follow very similar steps to install **RStudio**.
 
 * Go to https://www.rstudio.com/products/rstudio/download/ to download and install **RStudio**'s open source edition.
 * On the download page, *RStudio Desktop, Open Source License* option should be selected.
@@ -81,7 +81,7 @@ Both **raster** and **sp** have handy functions for plotting spatial data. Besid
 
 [**plotKML**](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
 
-[*leaflet*](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the Leaflet JavaScript library and the [**htmlwidgets**](https://cran.r-project.org/web/packages/htmlwidgets/index.html) package. These maps can be used directly from the **R** console, from **RStudio**, in [**Shiny**](https://shiny.rstudio.com/) apps and **RMarkdown** documents.
+[**leaflet**](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the Leaflet JavaScript library and the [**htmlwidgets**](https://cran.r-project.org/web/packages/htmlwidgets/index.html) package. These maps can be used directly from the **R** console, from **RStudio**, in [**Shiny**](https://shiny.rstudio.com/) apps and **RMarkdown** documents.
 
 ## R and Spatial Data
 
