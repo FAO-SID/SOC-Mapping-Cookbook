@@ -432,37 +432,3 @@ summary(dat)
 ## We can save our processed data as a table
 write.csv(dat, "data/dataproc.csv")
 ```
-### References
-
-Ottmar RD, Andreu A (2007) Litter and duff bulk densities in the southern United States: final report for Joint Fire Sciences 
-Program, Project 04-2-1-49. Pacific Northwest 
-
-Barney, R.J.; Bevins, C.D.; Bradshaw, L.S. 1981. Forest floor fuel loads, depths, and bulk densities. US Dep. Agric., For. Serv., Intermt. For. Range Exp. Stn., Ogden, UT. Res. Note INT-304.
-
-Batjes NH (1996) Total carbon and nitrogen in the soils of the world. European Journal of Soil Science 47, 151-163. 
-
-Agus F, Hairiah K, Mulyani A (2011). Practical guideline measuring carbon stock in peat soils. World Agroforestry Centre (ICRAF) and Indonesia Centre for Agricultural Land Resource Research and Development, Bogor. Pp .60 
-
-Saini, G. R. 1966. Organic matter as a measure of bulk density of soil. Nature 210: 1295-1296.
-
-Drew, L. A. 1973. Bulk density estimation based on organic matter content of some Minnesota soils. Minn. Forestry Res. Note No.243.
-
-Adams, W. A. 1973. The effect of organic matter on the bulk and true densities of some uncultivated Podzolic soils. J. Soil Sci. 24: 10-17.
-
-Grigal, D.F., Brovold, S.L., Nord, W.S., and Ohmann, L.F. 1989. Bulk density of surface soils and peat in the north central United States. Can. J. Soil Sci. 69: 895–900
-
-Jeffrey, D. W. 1970. A note on the use of ignition loss as a means for the approximate estimation of soil bulk density. J. Ecol. 58:297-299.
-
-Honeysett JL, Ratkowsky DA (1989). The Use of Ignition Loss to Estimate Bulk Density of Forest Soils. J. Soil Sci., 40: 299-308. 
-
-Rosell A, Gasparoni JC, Galantini JA (2001) ‘Soil organic matter evaluation.’ Assessment methods for soil carbon, Advances in Soil Science. (Eds R Lal, JM Kimble, RF Follet, BA Stewart) pp. 311–322. (Lewis Publishers: Boca Raton, FL, USA)
-
-Nelson, D.W. and L.E. Sommers, 1982. Total carbon, organic carbon and organic matter: In: A.L. Page, R.H. Miller and D.R. Keeney) Methods of soil analysis. Part 2 Chemical and Microbiological Properties, pp: 539-579.
-
-Lettens S, van Orshoven J, van Wesemael B, Muys B, Perrin D. Soil organic carbon changes in landscape units of Belgium between 1960 and 2000 with reference to 1990. Global Change Biology. 2005;11:2128–2140.
-
-Ponce‐Hernandez, R., Marriott, F.H.C., Beckett, P.H.T., 1986. An improved method forreconstructing a soil profile from analyses of a small number of samples. Journal of Soil Science 37, 455–467.
-
-Bishop, Thomas & Mcbratney, Alex & Laslett, G.M.. (1999). Modeling soil attribute depth functions with equal-area quadratic smoothing splines. Geoderma. 91. 27-45. 10.1016/S0016-7061(99)00003-8. 
-
-Bernoux, M., D. Arrouays, C. C. Cerrri, and H. Bourennane. 1998. Modeling vertical distribution of carbon in oxisols of the western Brazilian Amazon (Rondonia). Soil Sci. 163: 941-951

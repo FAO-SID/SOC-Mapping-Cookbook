@@ -169,9 +169,6 @@ Below you find the instructions in case you have no problems with your geometry:
 *	Install the plugin ‘Processing LWGEOM Provider’. Go to the Plugins menu and search for the plugin and install. You can find the newly installed tool in the Processing Toolbox by typing the name in the search function
 *	Manually correct the error nodes of the vector features
 
-### References
-Lettens, S., J. Van Orshoven, B. Van Wesemael and B. Muys (2004). Soil organic and inorganic carbon contents of landscape units in Belgium derived using data from 1950 to 1970. Soil Use and Management 20: 40–47.
-
 ## Regression-Kriging
 *Y. Yigini & G.F. Olmedo*
 
@@ -658,30 +655,6 @@ saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 
 
 
-### References
-
-Bivand, R. S., Pebesma, E., & Gómez-Rubio, V. (2013). Applied Spatial Data Analysis with R. New York, NY: Springer New York. https://doi.org/10.1007/978-1-4614-7618-4
-
-Bontemps, S., Defourny, P., Van Bogaert, E., Arino, O., Kalogirou, V., Perez, J.R., 2011. chapter 8 “Interpolation and Geostatistics” in Bivand, R., Pebesma, E., Rubio, V., (2008) Applied Spatial Data Analysis with R. Use R Series, Springer, Heidelberg, pp. 378.
-GLOBCOVER 2009-Product Description and Validation Report.
-
-Gupta, S. (2015). A Multiple Regression Technique in Data Mining. International Journal of Computer Applications, 126(5).
-
-Hengl T., Heuvelink G.B.M., Kempen B.,Methods to fit a regression-kriging model, http://gsif.r-forge.r-project.org/fit.gstatModel.html. Accessed, April, 2017.
-
-Hengl T., Heuvelink G.B.M., Rossiter D.G., 2007. About regression-kriging: from equations to case studies. Computers and Geosciences, 33(10): 1301-1315.
-
-Hengl, T. (2009) A Practical Guide to Geostatistical Mapping, 2nd Edt. University of Amsterdam, www.lulu.com, 291 p.
-Hoffmann, J. P., & Shafer, K. (2005). Linear regression analysis: Assumptions and applications. Department of Sociology Brigham Young University.
-
-Jolliffe, I. T. (1982). A note on the use of principal components in regression. Applied Statistics, 300-303.
-
-Malone, Brendan P., Budiman Minasny, and Alex B. McBratney. "Using R for Digital Soil Mapping." (2016).
-
-Meinshausen, N. (2006). Quantile regression forests. The Journal of Machine Learning Research, 7, 983-999.
-
-Vasques, G. M., Grunwald, S., & Sickman, J. O. (2009). Modeling of soil organic carbon fractions using visible–near-infrared spectroscopy. Soil Science Society of America Journal, 73(1), 176-184.
-
 ## Data mining: Random Forest
 *C Thine, RR Vargas*
 
@@ -798,22 +771,6 @@ print(Sys.time() - start)
 endCluster()
 
 ```
-
-### References
-
-Breiman, L., Friedman, J., Stone, C.J., Olshen, R.A., 1984. Classification and Regression Trees. CRC Press LLC, Boca Raton, FL.
-
-Wiesmeier, M., Barthold, F., Blank F.B., Kögel-Knabner, I. 2011. Digital mapping of soil organic matter stocks using Random Forest modeling in a semi-arid steppe ecosystem. Plant and Soil 340(1):7-24
-
-Box, G. E. P., Cox, D. R. 1964. An analysis of transformations (with discussion). Journal of the Royal Statistical Society B, 26, 211-252
-McBratney, A.B., Mendonca-Santos, MX., Minasny, B. 2003. On digital soil mapping. Geoderma 117, 3-52.
-
-Jenny, H., 1941. Factors of Soil Formation. McGraw-Hill, New York.
-
-Adhikari K, Hartemink AE, Minasny B, Bou Kheir R, Greve MB, Greve MH. 2014. Digital Mapping of Soil Organic Carbon Contents and Stocks in Denmark. PLoSONE 9(8): e105519. doi:10.1371/journal.pone.0105519
-
-Post, TM., Freijer, JI, Ploeger BA, Danhof M. 2008. Extensions to the visual predictive check to facilitate model performance evaluation. Journal of Pharmacokinetics and Pharmacodynamics, 35: 185. doi.10.1007/s10928-007-9081-1 
-
 
 ## Support Vector Machines
 *GF Olmedo & M Guevara*

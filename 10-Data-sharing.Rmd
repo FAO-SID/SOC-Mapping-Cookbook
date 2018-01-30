@@ -248,22 +248,3 @@ Raster data in GeoTIFF format need a defined geographic projection. Each country
 Each file should be accompanied by a set list of metadata. Geospatial metadata is a type of metadata that is applicable to objects that have an explicit or implicit geographic extent. While using GeoTIFF files it is possible to define a metadata field in which information can be recorded. Metadata can be edited with most GIS software and directly with GDAL tools (http://www.gdal.org/gdal_edit.html).
 
 GDAL:  gdalwarp -t_srs 'xxx' input.tif output.tif where t_srs is the target spatial reference set, i.e. the coordinate systems that can be passed are anything supported by the  GRSpatialReference.SetFromUserInput() call, which includes EPSG PCS and GCSes (i.e. EPSG:4326), PROJ.4 declarations or the name of a .prj file containing well known text. For further information see http://www.gdal.org/gdalwarp.html 
-
-## References
-
-1.	Bivand, R. S., Pebesma, E., & Gómez-Rubio, V. (2013). Classes for Spatial Data in R. In Applied Spatial Data Analysis with R (pp. 21-57). Springer New York.
-2.	Hengl, T., Roudier, P., Beaudette, D., & Pebesma, E. (2015). plotKML: scientific visualization of spatio-temporal data. Journal of Statistical Software, 63(5), 1-25.
-3.	Hengl, T., de Jesus, J. M., Heuvelink, G. B., Gonzalez, M. R., Kilibarda, M., Blagotić, A., ... & Guevara, M. A. (2017). SoilGrids250m: Global gridded soil information based on machine learning. PloS one, 12(2), e0169748.
-4.	Keller, A., Della Peruta, R., Schaepman, M., Gomez, M., Mann, S., & Schulin, R. (2014, May). An integrated Modelling framework to monitor and predict trends of agricultural management (iMSoil). In EGU General Assembly Conference Abstracts (Vol. 16, p. 6854).
-5.	Mitchell, T. and GDAL Developers (2014). Geospatial Power Tools: GDAL Raster & Vector Commands. Locate Press LLC, 346 p.
-6.	Neteler, M., & Mitasova, H. (2013). Open source GIS: a GRASS GIS approach (Vol. 689). Springer Science & Business Media.
-7.	Warmerdam, F. (2008). The geospatial data abstraction library. In Open source approaches in spatial data handling (pp. 87-104). Springer Berlin Heidelberg.
-8.	Youngblood, B. (2013). GeoServer Beginner's Guide. Packt Publishing Ltd.
-9. Pebesma, E.J., R.S. Bivand, 2005. Classes and methods for spatial   data in R. R News 5 (2), http://cran.r-project.org/doc/Rnews/.
-10. Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat   package. Computers & Geosciences, 30: 683-691.
-11. Robert J. Hijmans (2016). raster: Geographic Data Analysis and Modelling. R package version 2.5-8.   
-12. Julien Moeys (2016). soiltexture: Functions for Soil Texture Plot, Classification and Transformation. R package version 1.4.1. https://CRAN.R-project.org/package=soiltexture
-13. Beaudette, D.E., Roudier P., and A.T. O'Geen. Algorithms for Quantitative Pedology: A Toolkit for Soil Scientists. 2012
-14. Tomislav Hengl (2016). GSIF: Global Soil Information Facilities. R package version 0.5-3. https://CRAN.R-project.org/package=GSIF
-15. Tomislav Hengl, Pierre Roudier, Dylan Beaudette, Edzer Pebesma (2015). plotKML: Scientific Visualization of Spatio-Temporal Data. Journal of Statistical Software, 63(5), 1-25. URL http://www.jstatsoft.org/v63/i05/.
-
