@@ -377,7 +377,7 @@ model.MLR <- lm(log(OCSKGM) ~ ., data = datdf)
 
 From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the `step()` function. With this function we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
 
-```{r, echo=FALSE}
+```{r, results='hide'}
 ## stepwise variable selection
 model.MLR.step <- step(model.MLR, direction="both")
 ```
@@ -401,6 +401,7 @@ par(mfrow=c(2,2))
 plot(model.MLR.step)
 par(mfrow=c(1,1))
 ```
+
 
 ```{r}
 # collinearity test using variance inflation factors

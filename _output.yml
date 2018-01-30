@@ -12,7 +12,7 @@ bookdown::pdf_book:
     before_body: frontcover.tex
     after_body: backcover.tex
   latex_engine: xelatex
-  toc: FALSE
+  toc: false
   citation_package: natbib
   keep_tex: yes
 bookdown::epub_book: default
