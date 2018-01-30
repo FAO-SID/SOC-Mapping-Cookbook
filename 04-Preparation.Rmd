@@ -3,18 +3,18 @@
 
 ## Soil Profiles and Soil Augers
 
-Soil profiles are complex real world entities. Soil profiles are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
+Soil profiles are complex real world entities. They are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat, etc.). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
 
-Most *commonly*, soil are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizon or by depth class. 
+Most *commonly*, soils are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizon or by depth class. 
 
 Sampling of soils is the basis to obtain quantitative information. Depending on the goal of a project, sampling can be quite diverse. Sampling can follow the description of the soil, or can be conducted without, for example using a spade or auger to generate a composite sample (for a certain depth independent of the morphological features such as soil horizons). 
 Sampling locations can be representative for a certain location, project, field, or mapped object, such as a soil type. 
 
 ## Soil Database
 
-In order to process and evaluate soil information from field assessments, soil profile and analytical information needs to be stored in a database. This can be a set of simple Excel Spreadsheets, or a relational or object-oriented data base management system [@baritz2008environmental]. When working in R, SoilProfileCollections from the R ‘aqp’ package could be a useful tool. Tables 2.1 – 2.3 are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modelling exercises [@baritz2008environmental].
+In order to process and evaluate soil information from field assessments, soil profile data and analytical information needs to be stored in a database. This can be a set of simple Excel Spreadsheets, or a relational or object-oriented data base management system [@baritz2008environmental]. When working in **R**, `SoilProfileCollections` from the **R** **aqp** package are a useful tool. Tables 2.1 – 2.3 are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modelling exercises [@baritz2008environmental].
 
-Table [tab:example table for site-level] stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
+Table [tab:example table for site-level] stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
 
 ```{r example table for site-level, echo=F}
 dat <- read.csv("examples/site-ex.csv")
@@ -31,7 +31,7 @@ knitr::kable(dat, caption = "Example for profile-description table")
 
 ### Technical Steps - Loading Data from Tables in R
 
-This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy of all the code is presented in section [Data preparation for soil profiles]. The second example is using top soil or auger data and is presented in section [Data preparation for top soil or auger samples].
+This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section [Data preparation for soil profiles]. The second example is using top soil or auger data and is presented in section [Data preparation for top soil or auger samples].
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
@@ -51,13 +51,13 @@ str(dat_sites)
 
 ## Completeness of Measurements and Estimates
 
-The GSOC mapping guideline specifies which soil parameters are needed to produce a GSOCmap. Of course, other soil properties can be evaluated and modelled using this cookbook as well.
+The *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map* specify which soil parameters are needed to produce a GSOCmap. Of course, other soil properties can be evaluated and modelled using this cookbook as well.
 
-SOC stocks for soil horizons or targeted soil depths can be calculated using the equations in section 8.4.3 of the “GSP Guidelines for sharing national data/information to compile a Global Soil Organic Carbon map”. Carbon concentration, bulk density and stone content for a certain depth or genetic horizon are needed to calculate the amount of carbon stored in that depth interval/soil horizon. In many countries, legacy data from former surveys and projects as well as from various owners and data sources are compiled. and very often, measured bulk densities are missing or are only available for few soil profiles, or are estimated. Stones in the soil profile are usually only estimated, and if augers are used for sampling, it is not assessed at all. Pedotransfer functions can be used to fill data gaps (bulk density), and interpolation approaches can be used to infer from measured depths to target depths. 
+SOC stocks for soil horizons or targeted soil depths can be calculated using the equations in section 8.4.3 of the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*. Carbon concentration, bulk density and stone content for a certain depth or genetic horizon are needed to calculate the amount of carbon stored in that depth interval/soil horizon. In many countries, legacy data from former surveys and projects, as well as from various owners and data sources are compiled. Often, measured bulk densities are either missing, only available for few soil profiles, or are estimated. Stones in the soil profile are usually only estimated, and if augers are used for sampling, stone content is not assessed at all. Pedotransfer functions can be used to fill data gaps (bulk density), and interpolation approaches can be used to infer from measured depths to target depths. 
 
 a) Stones
 
-The estimation of stoniness is difficult and time consuming, and therefore not carried out in many national soil inventories, or only estimated visually in the profile. Unfortunately, if soil inventories and sampling are  done with simple pits or augers rather than standard soil pits, stones are very often not assessed. 
+The estimation of stoniness is difficult and time consuming, and therefore not carried out in many national soil inventories, or only estimated visually in the profile. Unfortunately, if soil inventories and sampling are done with simple pits or augers rather than standard soil pits, stones are very often not assessed. 
 
 As a proxy, it is recommended to derive national default values from well described soil profile pits by soil type.
 
@@ -74,7 +74,7 @@ hist(dat$CRF, col = "light gray")
 
 b) Bulk density
 
-The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered (depth × reference area) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
+The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered (depth x reference area) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
 
 Most of the soil profiles in national databases come from agricultural land. Very often, BD estimates do not consider fine stones because top soils (e.g. plough layers) seem to be free of visible stones.
 
@@ -84,7 +84,7 @@ Mineral soil | Default values: General Guide for Estimating Moist Bulk Density |
 Forest floor | Default bulk densities: \cite{ottmar_litter_2007} Pine:  L 0.018 g/cm3 ,F/H 0.057 g/cm3 Hardwood L 0.012 g/cm3, F/H 0.043 g/cm3 \cite{barney_forest_1981} 1): Birch: L/H 0.17 g/cm3 Spruce: L 0.051 g/cm3, H 0.13 g/cm3 | L (litter) layer (or Oi horizon, U.S. soil taxonomy) Organic layer, or duff layer: partially decomposed material above the mineral soil and beneath the litter layer; F (fermentation) and H (humus) horizons (Oe and Oa, U.S. soil taxonomy) |
 Peat |  Default value: 0.31 g/m3 \citep{batjes1996total} \citep{agus_measuring_2011} distinguish different peat decomposition types (with different C content): Sapric 0.174 (48.90 % C) Hemic 0.117 (52.27% C) Fibric 0.089 (53.56 % C)  | The range of peat BD is generally about 0.02–0.3 t/m3 depending on maturity and compaction, as well as the ash content \citep{agus_measuring_2011} |
 
-Example for Pedotransfer functions to estimate BD, based on the soil organic matter content in percentage:
+Examples for pedotransfer functions to estimate BD, based on the soil organic matter ($OM$) content in percent:
 
 \begin{equation}
 BD = 1.62-0.06 * OM
@@ -122,7 +122,7 @@ BD = 1/(0.564 + 0.0556*OM)
 
 \cite{honeysett1989use}
 
-Where MDB is the  Mineral particle density, assumed to be the specific gravity of quartz, 2.65 Mg m-3. And OM is the Organic Matter Content, estimated as $SOC(\%) ×  1.724$
+Where MDB is the  mineral particle density, assumed to be the specific gravity of quartz, 2.65 Mg m-3. And OM is the Organic Matter Content, estimated as $SOC(\%) ×  1.724$
 
 Each method is derived from a specific set of regional soils that is regionally adapted. Selection of the proper method for a given country shall be based on existing reviews and comparisons. 
 
@@ -166,43 +166,42 @@ c) Soil carbon analysis
 
 \cite{rosell2001soil} have closely reviewed the different SOC and SOM estimation procedures, and have also drawn some conclusions about the sources of errors. Determination of SOC from dry combustion methods is least susceptible to errors.
 
-Dry combustion by Loss on Ignition, LoI: SOC is re-calculated applying a conversion factor: It is commonly assumed, that organic matter contains an average of 58% organic carbon (so-called Van Bemmelen factor 1.724; for non-organic horizons: SOC = SOM / 1.724). For organic horizons, conversion factor ranges from 1.9 to 2.5 \citep{nelson1982total}. The inorganic carbon is not resolved, since typically, temperatures between 400 and 550°C are used.
+* Dry combustion by Loss on Ignition (LOI): SOC is re-calculated applying a conversion factor. It is commonly assumed, that organic matter contains an average of 58% organic carbon (so-called Van Bemmelen factor 1.724; for non-organic horizons: SOC = SOM / 1.724). For organic horizons, conversion factor ranges from 1.9 to 2.5 \citep{nelson1982total}. The inorganic carbon is not resolved, since typically, temperatures between 400°C and 550°C are used.
 
-Wet oxidation: Since wet oxidation is applied without additional (external) heating, low temperatures of around 120° (internal heat) are typical. Thus, the oxidation of carbon is incomplete, and a so-called oxidation factor needs to be applied. With external heating, the C-recovery of the method becomes improved, up to complete recovery. No correction against the mineral carbon is needed. Wet oxidation should typically only be applied to samples with < 5% organic matter.
+* Wet oxidation: Since wet oxidation is applied without additional (external) heating, low temperatures of around 120°C (internal heat) are typical. Thus, the oxidation of carbon is incomplete, and a so-called oxidation factor needs to be applied. With external heating, the C-recovery of the method becomes improved, up to complete recovery. No correction against the mineral carbon is needed. Wet oxidation should typically only be applied to samples with <5% organic matter.
 
 Usually, an average of 76% organic carbon is recovered, leading to a standard oxidation factor or 1.33 \citep{lettens2005soil}.
 
 d) Carbonates
 
-In case the total organic carbon is determined with temperatures > 600-800°C, the proportion of mineral soil in CaCO3 has to be subtracted in order to derive the amount of organic carbon (inorganic carbon is also oxidized). The pH value gives the first indication whether the sample has to be analyzed for inorganic carbon or not.
+In case the total organic carbon is determined with temperatures higher than 600°C to 800°C, the proportion of mineral soil in CaCO3 has to be subtracted in order to derive the amount of organic carbon (inorganic carbon is also oxidized). The pH value gives the first indication whether the sample has to be analyzed for inorganic carbon or not.
 
 It is crucial to report in the metadata whether national SOC values refer to total C or if the inorganic component has been considered.
 
 e) Depth
 
-The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depending on the available data, by genetic horizon or depth classes. The following depths are additionally considered for GSOC map (optional):
-Forest floor: thickness [cm] subdivision in horizons depending on national soil inventory method (e.g. L, F, H)
-Peat: > 30 , < 100 depending on national data
+The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depending on the available data, by genetic horizon or depth classes. The following depths are additionally considered for GSOCmap (optional):
+* Forest floor: thickness [cm] subdivision in horizons depending on national soil inventory method (e.g. L, F, H)
+* Peat: >30 , <100 depending on national data
 
 
 ## Completeness of Depth Estimate
 
-Soil properties are commonly collected from the field inventories (see Table 2.2) or from sampling and analysing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the GlobalSoilMap specifications (reference)), data holders are confronted with the following options: 
+Soil properties are commonly collected from field inventories (see Table 2.2) or from sampling and analysing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the GlobalSoilMap specifications (reference)), data holders are confronted with the following options: 
 
-* **Option 1**: Soil sampling has already considered this depth: data can be directly used for upscaling see “Upscaling Methods” section)
-* **Option 2**: Horizons or layers/depth classes are sampled; but aggregation is needed over the 0-30 cm.
-* **Option 3**: The target depth (0-30 cm) was not completely covered by sampling e.g. only the A horizon or a topsoil layer (e.g. 0-20 cm) has been sampled. For both options 2 and 3, additional processing is needed (e.g. equal-area splines).
+* **Option 1**: Soil sampling has already considered this depth, data can be directly used for upscaling see “Upscaling Methods” section.
+* **Option 2**: Horizons or layers/depth classes are sampled but aggregation is needed over the 0 to 30 cm.
+* **Option 3**: The target depth (0 to 30 cm) was not completely covered by sampling, e.g. only the A horizon or a topsoil layer (e.g. 0 to 20 cm) has been sampled.
 
-For both options 2 and 3, transformation is needed using e.g. equal-area splines. In the case of option 2, the use of equal-area splines was first proposed by \cite{ponce1986improved}, and later tested against real data \citep{bishop1999modelling}. This technique is based on fitting continuous depth functions for modelling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at ’knots’ located at the horizon boundaries thereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve.
-In case of option 3 additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by \cite{bernoux1998modeling}.
+For both **Options 2** and **3**, transformation is needed, using e.g. equal-area splines. In the case of **Option 2**, the use of equal-area splines was first proposed by \cite{ponce1986improved}, and later tested against real data \citep{bishop1999modelling}. This technique is based on fitting continuous depth functions for modelling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, thereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. In case of **Option 3**, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by \cite{bernoux1998modeling}.
 
-### Technical Steps - Equal Area Splines Using R
+### Technical Steps - Equal-Area Splines Using R
 
-In R environment, the easiest way to apply equal-area splines is using the function GSIF::mpspline from the R package GSIF (\cite{hengl_2016_gsif}, see section 4.3.2). For illustration, a sample dataset has been used (see Chapter 5.). This function requires data stored as SoilProfileCollection (SPC) using package aqp. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables 2.1, 2.2 and 2.3) can be transformed to a SPC.
+In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see section 4.3.2). For illustration, a sample dataset has been used (see Chapter 5.). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables 2.1, 2.2 and 2.3) can be transformed to a SPC.
 
-The function GSIF::mpspline has several arguments. One of the arguments is the lambda value mentioned before. The proposed default value is 0.1. Another argument for this function is the target standard depths. The function produces spline-estimated values at these depths. However, this function also produces spline-estimated values at 1 cm increments. 
+The function `GSIF::mpspline` has several arguments. One of the arguments is the lambda value mentioned before. The proposed default value is 0.1. Another argument for this function is the target standard depths. The function produces spline-estimated values at these depths. However, this function also produces spline-estimated values at 1 cm increments. 
 
-The following technical steps require ‘R’ and certain packages.
+The following technical steps require **R** and the named packages.
 
 ```{r, echo=T}
 # Load aqp package
@@ -252,7 +251,7 @@ head(dat)
 
 ## Organic Carbon Stock 
 
-Finally, the estimation of organic carbon stock could be done using GSIF package:
+Finally, the estimation of the soil organic carbon stock can be done using the **GSIF** package.
 
 ```{r estimation of OCS, eval=FALSE}
 # Estimate Organic Carbon Stock
