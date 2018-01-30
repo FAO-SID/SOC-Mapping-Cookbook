@@ -55,6 +55,8 @@ Mendoza, Argentina
 * Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands
 * Christian Thine Omuto - Department of Environmental and Biosystems Engineering,
 University of Nairobi, Kenya
+* Yusuf Yigini - Food and Agriculture Organization of the United Nations
+* Ronald R Vargas - Food and Agriculture Organization of the United Nations
 
 # Copyright and disclaimer {-}
 

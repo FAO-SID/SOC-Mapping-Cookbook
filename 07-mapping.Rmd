@@ -170,7 +170,7 @@ Below you find the instructions in case you have no problems with your geometry:
 *	Manually correct the error nodes of the vector features
 
 ## Regression-Kriging
-*G.F. Olmedo & Y. Yigini*
+*GF Olmedo & Y Yigini*
 
 ### Overview
 
