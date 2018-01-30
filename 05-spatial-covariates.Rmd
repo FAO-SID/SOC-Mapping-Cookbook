@@ -97,8 +97,6 @@ landcover <- raster("covs/LCEE10.tif")
 # Land cover is a categorical covariate, this has to be made 
 # explicit using function as.factor()
 landcover <- as.factor(landcover)
-
-landcover
 ```
 
 ### GlobCover (Global)
@@ -138,13 +136,15 @@ The Bioclimatic parameters are:  annual mean temperature, mean diurnal range, is
 WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; @hijmans2005very. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).
 
 ```{r}
-# load the lcimae covariates from the raster tif files
+# load the climate covariates from the raster tif files
 files <- list.files(path = "covs/", pattern = "CHE3.tif", 
                     full.names = TRUE)
 
 # stack all the files in one RasterStack
 climate <- stack(files)
+```
 
+```{r, fig.cap="Two layers included in the climate covariates"}
 # plot the first 2 layers
 plot(climate[[1:2]])
 ```
@@ -154,18 +154,20 @@ plot(climate[[1:2]])
 
 CGMS database contains meteorological parameters from weather stations interpolated on a 25×25 km grid. Meteorological data are available on a daily basis from 1975 to the last calendar year completed, covering the EU Member States, neighbouring European countries. 
 
-The following parameters are available at 1 day time resolution;
-* maximum air temperature (°C),
-* minimum air temperature (°C),
-* mean air temperature (°C),
-* mean daily wind speed at 10m (m/s),
-* mean daily vapour pressure (hPa),
-* sum of precipitation (mm/day),
-* potential evaporation from a free water surface (mm/day),
-* potential evapotranspiration from a crop canopy (mm/day),
-* potential evaporation from a moist bare soil surface (mm/day),
-* total global radiation (KJ/m2/day),
+The following parameters are available at 1 day time resolution:
+
+* maximum air temperature (°C)
+* minimum air temperature (°C)
+* mean air temperature (°C)
+* mean daily wind speed at 10m (m/s)
+* mean daily vapour pressure (hPa)
+* sum of precipitation (mm/day)
+* potential evaporation from a free water surface (mm/day)
+* potential evapotranspiration from a crop canopy (mm/day)
+* potential evaporation from a moist bare soil surface (mm/day)
+* total global radiation (KJ/m2/day)
 * Snow Depth
+
 Data Access: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx
 
 ## GSOCMap - Data Repository (ISRIC, 2017)
