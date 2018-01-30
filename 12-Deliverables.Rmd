@@ -10,3 +10,4 @@ The following data will be delivered:
 *	Metadata : Metadata is data describing data sets. It provides standardized information about a data set, for example, the maintaining institution through which the data can be accessed. It thus helps a user to find spatial data sets and services and to indicate for which purpose it can be used.
 In the case of the GSOC maps, a project-specific metadata template has been prepared. It deviates from the metadata elements listed in common standards such as ISO 19115. Following the guideline for SOC mapping , the importance of soil-specific methodical elements is given. This includes metadata describing the data sources used for SOC mapping and the upscaling method.
 
+`r if (knitr:::is_html_output()) '# References {-}'`

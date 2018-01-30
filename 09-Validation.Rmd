@@ -70,7 +70,7 @@ If the numerator and denominator are equal, meaning the ${AVE}$ is zero, then th
 
 **Mean squared deviation ratio**
 
-Finally, we introduce the mean squared deviation ratio (${MSDR}$) as a map quality measure [@kempen2010pedometric, @lark2000comparison, @oltz1990comparison, @webster_2007]. Contrary to the quality measures discussed so far, the ${MSDR}$ assesses how well the prediction model estimates the prediction uncertainty (expressed as the prediction error variance). The ${MSDR}$ is defined as:
+Finally, we introduce the mean squared deviation ratio (${MSDR}$) as a map quality measure [@kempen2010pedometric, @lark2000comparison, @voltz1990comparison, @webster_2007]. Contrary to the quality measures discussed so far, the ${MSDR}$ assesses how well the prediction model estimates the prediction uncertainty (expressed as the prediction error variance). The ${MSDR}$ is defined as:
 
 \begin{equation}
 M S D R = \frac{1}{N} \sum_{i=1}^{N} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
@@ -363,5 +363,5 @@ Stehman, S.V., 1999. Basic probability sampling designs for thematic map accurac
 
 Voltz, M., Webster, R., 1990. A comparison of kriging, cubic splines and classification for predicting soil properties from sample information. Journal of Soil Science 41(3), 473-490.
 
-Webster, R., Oliver, M.A., 2007. Geostatistics for environmental scientists. Statistics in practice. Second edition ed. John Wiley & Sons, Chichester 
+Webster, R., Oliver, M.A., 2007. Geostatistics for environmental scientists. Statistics in practice. Second edition ed. John Wiley \& Sons, Chichester 
 
