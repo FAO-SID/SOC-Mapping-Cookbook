@@ -1,5 +1,5 @@
 # Preparation of Local Soil Property Data
-*G.F. Olmedo & R. Baritz*
+*GF Olmedo & R Baritz*
 
 ## Soil Profiles and Soil Augers
 

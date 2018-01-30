@@ -1,5 +1,5 @@
 # Preparation of Spatial covariates
-*R. Baritz & Y. Yigini*
+*R Baritz & Y Yigini*
 
 The example covariates from this chapter were prepared by ISRIC. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
 

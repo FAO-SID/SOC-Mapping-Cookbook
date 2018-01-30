@@ -1,6 +1,6 @@
 # Soil Property Maps
 
-*R. Baritz*
+*R Baritz*
 
 ## Definitions and Objectives
 

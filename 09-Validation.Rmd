@@ -1,5 +1,5 @@
 # Validation
-*B. Kempen, D.J. Brus & G.B.M. Heuvelink*
+*B Kempen, DJ Brus & GBM Heuvelink*
 
 ## What is Validation?
 No map is perfect. All maps, including soil maps, are representations of reality that are often based on an underlying model. This means that there will always be a deviation between the phenomenon depicted on the map and the phenomenon observed in the real world, i.e. each map will contain errors. The magnitude of the errors determine the quality of the map. If a map matches reality well (the error is small), the quality or accuracy of the map is high. On the other hand, if a map does not match reality well, map accuracy is low.
