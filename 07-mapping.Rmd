@@ -633,7 +633,7 @@ endCluster()
 
 \clearpage
 ## Data minning: Support Vector Machines
-*GF Olmedo & M Guevara*
+*GF Olmedo, M Guevara $ Y Yigini*
 
 SVM apply a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates a hyperplane through n-dimensional spectral-space. Then, SVM separates numerical data based on a kernel function and parameters (e.g. gamma and cost) that maximize the margin from the closest point to the hyperplane that divides data with the largest possible margin, being the support vectors the points which fall within. Then, linear models are fitted to the support vectors.
 
@@ -728,38 +728,54 @@ names(covs)
 
 #### Variable selection using correlation analysis
 
+```{r}
+# plot the names of the covariates
+names(dat@data)
+```
+
+For the variable selection we will use `cor()` function. `x` must be a table including only the column with the response variable, and `y` must be a table including ONLY the covariates. Besides, remember `dat@data` in the `data.frame` included in the `spatialPointsDataFrame`. For `y`, columns 1 to 7 are out, because they are not covariates. At the same time, correlation analysis cannot be applied to categorical covariates, this means that columns 13 and 21 have to be removed too.
+
 ```{r, eval=FALSE}
-# Correlation analysis to select covariates
-names(dat)
-COR <- cor(as.matrix(dat[,7]), as.matrix(dat[,-c(1:8)]))
+COR <- cor(x = as.matrix(dat@data[,6]), 
+           y = as.matrix(dat@data[,-c(1:7,13,21)]))
+
+# print correlation results
 COR
+```
+
+Now we used the correlation results to select the top five covariates.
+
+```{r}
+library(reshape)
 x <- subset(melt(COR), value != 1 | value != NA)
 x <- x[with(x, order(-abs(x$value))),]
-x[1:10,]
 
-idx <- as.character(x$X2[1:10])
+idx <- as.character(x$X2[1:5])
 
 dat2 <- dat[c('OCSKGM', idx)]
 names(dat2)
 
-COVall <- COV
-COV <- COV[[idx]]
+COV <- covs[[idx]]
+
+# we add back the two categorical covariates: LCEE10 and soilmap
+COV <- stack(COV, covs$LCEE10, covs$soilmap)
 
 # Top 10 covariates
 names(COV)
 ```
 
+
 #### Fitting a svm model using different epsilon and cost parameters
 
-```{r}
+```{tuning the svm model, r}
 library(e1071)
 library(caret)
 
 #  Test different values of epsilon and cost
-tuneResult <- tune(svm, OCSKGM ~.,  data = dat[,c("OCSKGM", 
+tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM", 
                                                   names(COV))],
-                   ranges = list(epsilon = seq(0,1,0.1), 
-                                 cost = c(.5,1,1.5,2,5,10))
+                   ranges = list(epsilon = seq(0,0.5,0.1), 
+                                 cost = seq(4,7,1))
 )
 ```
 
