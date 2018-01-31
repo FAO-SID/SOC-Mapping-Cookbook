@@ -8,7 +8,7 @@ documentclass: book
 papersize: b5
 fontsize: 10pt
 bibliography: "References.bib"
-biblio-style: apalike
+biblio-style: plain
 link-citations: yes
 description: "The soilll cookbook."
 ---
@@ -20,6 +20,8 @@ options(width = 65)
 str <- function(...){
   utils::str(..., strict.width = "cut")}
 
+## Boolean object for running all the code
+RUN.ALL <- TRUE
 ```
 
 

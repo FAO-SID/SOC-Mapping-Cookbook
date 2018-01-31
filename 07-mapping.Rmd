@@ -461,14 +461,28 @@ covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+```{r RK RUN.ALL, echo=FALSE, eval=TRUE}
 library(automap)
-OCS.krige <- readRDS("results/OCS.krige.Rds")
+if(RUN.ALL == TRUE){
+  # run the model
+  OCS.krige <- autoKrige(formula = 
+                         as.formula(model.MLR.step$call$formula), 
+                       input_data = dat, 
+                       new_data = covs.sp,
+                       verbose = TRUE,
+                       block = c(1000, 1000))
+  # save the model for later
+  saveRDS(object = OCS.krige, file = "results/OCS.krige.Rds")
+}
+if(RUN.ALL == FALSE){
+  # load pre calculated model
+  OCS.krige <- readRDS("results/OCS.krige.Rds")
+}
 ```
 
 
 
-```{r running-RK-model, eval=FALSE, results='hide'}
+```{r RK-prediction, eval=FALSE}
 ### RK model 
 library(automap)
 
@@ -767,7 +781,26 @@ names(COV)
 
 #### Fitting a svm model using different epsilon and cost parameters
 
-```{r tuning the svm model}
+```{r svm RUN.ALL, echo=FALSE, eval=TRUE}
+library(e1071)
+library(caret)
+if(RUN.ALL == TRUE){
+  # run the model
+  tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM", 
+                                                  names(COV))],
+                   ranges = list(epsilon = seq(0,0.5,0.1), 
+                                 cost = seq(4,6,1)))
+  # save the model for later
+  saveRDS(object = tuneResult, file = "results/svm.model.Rds")
+}
+if(RUN.ALL == FALSE){
+  # load pre calculated model
+  tuneResult <- readRDS("results/svm.model.Rds")
+}
+```
+
+
+```{r svm model tunning, eval=FALSE}
 library(e1071)
 library(caret)
 
@@ -795,4 +828,17 @@ OCSsvm <- predict(COV, tunedModel)
 
 plot(OCSsvm)
 ```
+
+```{r, echo=FALSE, eval=FALSE}
+# varaible importance in svm
+#https://stackoverflow.com/questions/34781495/how-to-find-important-factors-in-support-vector-machine
+# http://jmlr.csail.mit.edu/papers/v3/guyon03a.html
+cat('SVM model case:\n')
+fit2 <- svm(Species ~ ., data = iris)
+w <- t(fit2$coefs) %*% fit2$SV                 # weight vectors
+w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
+w <- sort(w, decreasing = T)
+print(w)
+```
+
 
