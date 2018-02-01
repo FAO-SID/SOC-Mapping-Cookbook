@@ -1,7 +1,7 @@
 # Setting-Up the Software Environment
 *Y Yigini*
 
-This cookbook focuses on SOC modelling using open source digital mapping tools. The instructions and screen captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for Microsoft Windows desktop platform. Instructions for the other platforms (e.g. Linux Flavours, MacOS) can be found through free online resources.
+This cookbook focuses on SOC modelling using open source digital mapping tools. The instructions and screen captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
 
 ## Use of R , RStudio and R Packages
 
@@ -32,7 +32,7 @@ When you download **R**, you get the basic **R** system which implements the **R
 
 ### Finding R Packages
 
-The primary source for **R** packages is [CRAN’s](https://cran.r-project.org/) official website, where currently about 12.000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on CRAN with the `available.packages()` function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the [*Task Views*](https://cran.r-project.org/web/views/) link, which groups together packages related to a given topic. 
+The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org/) official website, where currently about 12.000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on *CRAN* with the `available.packages()` function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the [*Task Views*](https://cran.r-project.org/web/views/) link, which groups together packages related to a given topic. 
 
 ### Most Used R Packages for Digital Soil Mapping 
 
@@ -56,7 +56,7 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 [**rgdal**](https://CRAN.R-project.org/package=rgdal): Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).
 
-[**RSAGA**](https://CRAN.R-project.org/package=RSAGA): The package provides access to geocomputing and terrain analysis functions of [*SAGA GIS*](\url{http://www.saga-gis.org/en/index.html} ) from within **R** by running the command line version of SAGA.
+[**RSAGA**](https://CRAN.R-project.org/package=RSAGA): The package provides access to geocomputing and terrain analysis functions of [*SAGA GIS*](\url{http://www.saga-gis.org/en/index.html} ) from within **R** by running the command line version of *SAGA*.
 
 #### Modeling
 
@@ -89,7 +89,7 @@ Both **raster** and **sp** have handy functions for plotting spatial data. Besid
  
 ### Reading Shapefiles 
 
-ESRI's shapefile format is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of raster package that provides functions for reading and/or writing shapefiles.
+*ESRI*'s shapefile format is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of raster package that provides functions for reading and/or writing shapefiles.
 
 ```{r}
 library(raster)
@@ -98,7 +98,7 @@ soilmap <- shapefile("MK_soilmap_simple.shp")
 ```
 
 
-We may want to use these data in other GIS environments such as ArcGIS, QGIS, SAGA GIS, etc. This means we need to export the `SpatialPointsDataFrame` to an appropriate spatial data format such as a shapefile. 
+We may want to use these data in other GIS environments such as *ArcGIS*, *QGIS*, *SAGA GIS*, etc. This means we need to export the `SpatialPointsDataFrame` to an appropriate spatial data format such as a shapefile. 
 
 ```{r}
 # For example, we can select the soil units classified as 
@@ -145,7 +145,7 @@ dat_sites@proj4string
 
 ### Working with Rasters
 
-Most of the functions for handling raster data are available in the **raster** package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in **R** environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by [ISRIC](http://www.isric.org/) for Former Yugoslav Republic of Macedonia (FYROM).
+Most of the functions for handling raster data are available in the **raster** package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in **R** environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by [*ISRIC*](http://www.isric.org/) for Former Yugoslav Republic of Macedonia (FYROM).
 
 ```{r}
 #For handling raster data, we load raster package
@@ -156,15 +156,15 @@ DEM <- raster("covs/DEMENV5.tif")
 ```
 
 
-We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writting a raster `?writeRaster` to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to ESRI Ascii, as it is a common and universal raster format.
+We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writting a raster `?writeRaster` to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to *ESRI* Ascii, as it is a common and universal raster format.
 
 We may also want to export our mac.dem to KML file using the `KML()` function. `KML()` is a handy function from the **raster** package for exporting grids to kml format. Note that we need to re-project the data to WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for this.
 
 ## Other DSM Related Software and Tools
 
-* QGIS:      Available at http://www.qgis.org/en/site/forusers/download.html 
-* SAGA GIS:  https://sourceforge.net/projects/saga-gis/files/
-* ArcGIS:    60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration)
+* *QGIS*:      Available at http://www.qgis.org/en/site/forusers/download.html 
+* *SAGA GIS*:  Available at https://sourceforge.net/projects/saga-gis/files/
+* *ArcGIS*:    60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration)
 
 
 
