@@ -20,8 +20,9 @@ options(width = 65)
 str <- function(...){
   utils::str(..., strict.width = "cut")}
 
-## Boolean object for running all the code
-RUN.ALL <- TRUE
+## Boolean object for running all the code #####
+# if FALSE will use precalculated RK prediction, svm tuning
+RUN.ALL <- FALSE
 ```
 
 
@@ -44,29 +45,30 @@ Global Soil Partnership, Food and Agriculture Organization of the United Nations
 
 ## Contributing Authors {-}
 
-* Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands
-* Mario Guevara - University of Delaware, USA
-* Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands
-* Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands
-* Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands
-* Titia VL Mulder - Wageningen University, Department of Environmental Sciences,
-the Netherlands
-* Guillermo Federico Olmedo - Instituto Nacional de Tecnología Agropecuaria,
-Mendoza, Argentina
-* Laura Poggio - The James Hutton Institute, Craigiebuckler Aberdeen, Scotland UK
-* Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands
-* Christian Thine Omuto - Department of Environmental and Biosystems Engineering,
-University of Nairobi, Kenya
-* Yusuf Yigini - Food and Agriculture Organization of the United Nations
-* Ronald R Vargas - Food and Agriculture Organization of the United Nations
+|               |                                      |
+|------|--------------------------------------|
+| ![](contrAuthors/Brus.jpg)  |  Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands |
+| ![](contrAuthors/Guevara.jpg)  |  Mario Guevara - University of Delaware, USA |
+| ![](contrAuthors/Hengl.jpg)  |  Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands |
+| ![](contrAuthors/Heuvelink.jpg)  |  Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands |
+| ![](contrAuthors/Kempen.jpg)  |  Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands |
+| ![](contrAuthors/Mulder.jpeg)  |  Titia VL Mulder - Wageningen University, Department of Environmental Sciences, the Netherlands |
+| ![](contrAuthors/Olmedo.png)  |  Guillermo Federico Olmedo - Instituto Nacional de Tecnología Agropecuaria, Mendoza, Argentina |
+| ![](contrAuthors/Poggio.jpg)  |  Laura Poggio - The James Hutton Institute, Craigiebuckler Aberdeen, Scotland UK |
+| ![](contrAuthors/Ribeiro.jpg)  |  Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands |
+| ![](contrAuthors/Omuto.jpg)  |  Christian Thine Omuto - Department of Environmental and Biosystems Engineering, University of Nairobi, Kenya |
+| ![](contrAuthors/Yigini.jpg)  |  Yusuf Yigini - Food and Agriculture Organization of the United Nations |
+| ![](contrAuthors/Vargas.jpg)  |  Ronald R Vargas - Food and Agriculture Organization of the United Nations |
+
+
+
+
 
 # Copyright and disclaimer {-}
 
 **Recommended citation:**
 
 > FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y Yigini, GF Olmedo, K Viatkin, R Baritz, and RR Vargas, (Eds). 2nd edition, 2018. 
-
-
 
 The designations employed and the presentation of material in this information product do not imply the expression of any opinion whatsoever on the part of the Food and Agriculture Organization of the United Nations (FAO) concerning the legal or development status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. The mention of specific companies or products of manufacturers, whether or not these have been patented, does not imply that these have been endorsed or recommended by FAO in preference to others of a similar nature that are not mentioned.
 
