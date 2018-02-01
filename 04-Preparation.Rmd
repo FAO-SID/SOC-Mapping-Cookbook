@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Preparation of Local Soil Property Data
 *GF Olmedo & R Baritz*
 
@@ -55,7 +60,7 @@ The *GSP Guidelines for Sharing National Data/Information to Compile a Global So
 
 SOC stocks for soil horizons or targeted soil depths can be calculated using the equations in section 8.4.3 of the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*. Carbon concentration, bulk density and stone content for a certain depth or genetic horizon are needed to calculate the amount of carbon stored in that depth interval/soil horizon. In many countries, legacy data from former surveys and projects, as well as from various owners and data sources are compiled. Often, measured bulk densities are either missing, only available for few soil profiles, or are estimated. Stones in the soil profile are usually only estimated, and if augers are used for sampling, stone content is not assessed at all. Pedotransfer functions can be used to fill data gaps (bulk density), and interpolation approaches can be used to infer from measured depths to target depths. 
 
-a) Stones
+### Stones
 
 The estimation of stoniness is difficult and time consuming, and therefore not carried out in many national soil inventories, or only estimated visually in the profile. Unfortunately, if soil inventories and sampling are done with simple pits or augers rather than standard soil pits, stones are very often not assessed. 
 
@@ -72,17 +77,33 @@ hist(dat$CRF, col = "light gray")
 ```
 
 
-b) Bulk density
+### Bulk density
 
-The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered (depth x reference area) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
+The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered (depth	\times reference area) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
 
 Most of the soil profiles in national databases come from agricultural land. Very often, BD estimates do not consider fine stones because top soils (e.g. plough layers) seem to be free of visible stones.
 
-|                 |                        |                                   |
-|-----------------|------------------------|-----------------------------------|
-Mineral soil | Default values: General Guide for Estimating Moist Bulk Density | If analytical BD is missing, BD can be estimated using pedo-transfer functions (examples are listed below) | 
-Forest floor | Default bulk densities: \cite{ottmar_litter_2007} Pine:  L 0.018 g/cm3 ,F/H 0.057 g/cm3 Hardwood L 0.012 g/cm3, F/H 0.043 g/cm3 \cite{barney_forest_1981} 1): Birch: L/H 0.17 g/cm3 Spruce: L 0.051 g/cm3, H 0.13 g/cm3 | L (litter) layer (or Oi horizon, U.S. soil taxonomy) Organic layer, or duff layer: partially decomposed material above the mineral soil and beneath the litter layer; F (fermentation) and H (humus) horizons (Oe and Oa, U.S. soil taxonomy) |
-Peat |  Default value: 0.31 g/m3 \citep{batjes1996total} \citep{agus_measuring_2011} distinguish different peat decomposition types (with different C content): Sapric 0.174 (48.90 % C) Hemic 0.117 (52.27% C) Fibric 0.089 (53.56 % C)  | The range of peat BD is generally about 0.02–0.3 t/m3 depending on maturity and compaction, as well as the ash content \citep{agus_measuring_2011} |
+**Mineral soil**: Default values from [*General Guide for Estimating Moist Bulk Density*](https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/office/ssr10/tr/?cid=nrcs144p2_074844). If analytical BD is missing, BD can be estimated using pedo-transfer functions (see examples listed below).
+
+For organic soil material, BD can be estimated as follows, considering  the litter layer L (or Oi horizon); the organic or duff layer, which is partially decomposed material above the mineral soil and beneath the litter layer; F (fermentation); and H (humus) horizons (Oe and Oa), as described by the [*U.S. Soil Taxonomy*](https://www.nrcs.usda.gov/Internet/FSE_DOCUMENTS/nrcs142p2_051232.pdf).
+
+**Forest floor**: Default values from @ottmar_litter_2007.
+
+* Pine:  L 0.018 g/cm3 ,F/H 0.057 g/cm3
+
+* Hardwood: L 0.012 g/cm3 [@barney_forest_1981]
+
+* Birch: L/H 0.17 g/cm3
+
+* Spruce: L 0.051 g/cm3, H 0.13 g/cm3
+
+**Peat**: Default value: 0.31 g m^-3^. The range of peat BD is generally about 0.02 to 0.3 t m^3^ depending on maturity and compaction, as well as the ash content [@agus_measuring_2011].@batjes1996total and @agus_measuring_2011 distinguish different peat decomposition types (with different C content):
+
+* Sapric 0.174 (48.90 % C)
+
+* Hemic 0.117 (52.27% C)
+
+* Fibric 0.089 (53.56 % C).
 
 Examples for pedotransfer functions to estimate BD, based on the soil organic matter ($OM$) content in percent:
 
@@ -162,7 +183,7 @@ hist(dat$BLD, col = 'light gray', breaks = 32)
 
 
 
-c) Soil carbon analysis
+### Soil Carbon Analysis
 
 \cite{rosell2001soil} have closely reviewed the different SOC and SOM estimation procedures, and have also drawn some conclusions about the sources of errors. Determination of SOC from dry combustion methods is least susceptible to errors.
 
@@ -172,13 +193,13 @@ c) Soil carbon analysis
 
 Usually, an average of 76% organic carbon is recovered, leading to a standard oxidation factor or 1.33 \citep{lettens2005soil}.
 
-d) Carbonates
+### Carbonates
 
 In case the total organic carbon is determined with temperatures higher than 600°C to 800°C, the proportion of mineral soil in CaCO3 has to be subtracted in order to derive the amount of organic carbon (inorganic carbon is also oxidized). The pH value gives the first indication whether the sample has to be analyzed for inorganic carbon or not.
 
 It is crucial to report in the metadata whether national SOC values refer to total C or if the inorganic component has been considered.
 
-e) Depth
+### Depth
 
 The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depending on the available data, by genetic horizon or depth classes. The following depths are additionally considered for GSOCmap (optional):
 * Forest floor: thickness [cm] subdivision in horizons depending on national soil inventory method (e.g. L, F, H)
