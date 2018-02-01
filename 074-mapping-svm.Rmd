@@ -184,7 +184,7 @@ plot(OCSsvm)
 
 Finally, we can evaluate the contribution of each covariate to the model [@guyon2003introduction]:
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 # Variable importance in svm. Code by:
 # stackoverflow.com/questions/34781495/how-to-find-important-factors-
 # in-support-vector-machine
