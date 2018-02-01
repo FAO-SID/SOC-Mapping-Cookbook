@@ -189,9 +189,9 @@ Finally, we can evaluate the contribution of each covariate to the model [@guyon
 # stackoverflow.com/questions/34781495/how-to-find-important-factors-
 # in-support-vector-machine
 
-
-w <- t(tunedModel$coefs) %*% tunedModel$SV                 # weight vectors
+w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
 w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
+
 w <- sort(w, decreasing = T)
 print(w)
 ```
