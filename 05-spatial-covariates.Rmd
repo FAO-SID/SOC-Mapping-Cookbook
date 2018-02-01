@@ -20,7 +20,7 @@ Currently, two global level 30 m DEMs are freely available: the Shuttle Radar To
 
 In both cases noise and artefacts need to be filtered out. ASTER seems to contain more large artefacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering. 
 
-```{r, fig.cap="SRTM 90m, resampled to 1km for Macedonia", warning=FALSE}
+```{r, fig.cap="SRTM 90m, resampled to 1km for FYROM", warning=FALSE}
 #For handling raster data, we load raster package
 library(raster)
 
@@ -223,7 +223,7 @@ covs <- stack(files)
 
 ### Combine the covariates provided with the raster version of the soil map
 
-```{r, fig.cap="Macedonia soil covariates"}
+```{r, fig.cap="FYROM soil covariates"}
 # soilmap.r is the rasterization of the soil map and was obtained
 # in a previous step
 covs <- stack(covs, soilmap.r)
