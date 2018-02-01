@@ -61,7 +61,7 @@ Many authors report the root mean squared error (${RMSE}$) instead of the ${MSE}
 The model efficiency, or Amount of Variance Explained (${AVE}$) [@angelini2016mapping, @samuel2015more], quantifies the fraction of the variation in the data that is explained by the prediction model. It measures the improvement of the model prediction over using the mean of the data set as predictor and is defined as follows [@krause2005comparison]:
 
 \begin{equation}
-A V E = 1 -  \frac{\sum_{i=1}^{N} (\hat{Z}(s_i) - Z(s_i))^2}{\sum_{i=1}^{N} \hfill (Z(s_i) - \underline{Z})^2 \hfill}
+A V E = 1 -  \frac{\sum_{i=1}^{N} (\hat{Z}(s_i) - Z(s_i))^2}{\sum_{i=1}^{N}  (Z(s_i) - \underline{Z})^2}
 \end{equation}
 
 where ${\underline{Z}}$ is the population mean of soil property $Z$. The quantity in the numerator is the sum of the squared prediction errors (for each location the prediction error is computed and squared; the squared prediction errors are summed over all locations in the area). In linear regression this quantity is known as the residual sum of squares (${RSS}$). The quantity in the denominator is also a sum of squared prediction errors, but here the mean of the area is used as predictor. In linear regression this quantity is known as the total sum of squares (${TSS}$). Note that if we would divide the quantity in the denominator by the number of locations in the mapping area $N$ we would obtain the population variance (spatial variance) of the soil property $Z$. 
@@ -209,7 +209,7 @@ The $MSDR$ is estimated by:
 and the $AVE$ by:
 
 \begin{equation}
-\widehat{A V E} = 1 - \frac{\sum_{i=1}^{n} (\hat{Z}(s_i) - Z(s_i))^2}{ \sum_{i=1}^{n} \hfill (Z(s_i) -  \underline{\hat{Z}})^2 \hfill}
+\widehat{A V E} = 1 - \frac{\sum_{i=1}^{n} (\hat{Z}(s_i) - Z(s_i))^2}{ \sum_{i=1}^{n} (Z(s_i) -  \underline{\hat{Z}})^2}
 \end{equation}
 
 where $\underline{\hat{Z}}$ is the mean of the target soil property estimated from the validation sample.
@@ -297,7 +297,7 @@ Table 9.1 gives the map unit purities and class representations for this example
 
 ### Data-Splitting
 
-In data-splitting the sample data set is split in two subsets. One subset is used to calibrate the prediction model. The other subset is used for validation. A frequently used splitting criterion is 70-30, where 70% of the sample data are used for calibration and 30% for validation. The choice of a splitting criterion however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.
+In data-splitting the sample data set is split in two subsets. One subset is used to calibrate the prediction model. The other subset is used for validation. A frequently used splitting criterion is 70-30, where 70\% of the sample data are used for calibration and 30\% for validation. The choice of a splitting criterion however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.
 
 It is important to note here that a random subsample of (legacy) data that are collected with a purposive (non-probability) design, is not a probability sample of the study area. This means that design-based estimation of map quality measures is not possible. 
 
