@@ -1,0 +1,116 @@
+
+\clearpage
+## Data mining: Random Forest
+*C Thine, RR Vargas*
+
+  ### Overview
+
+  Random forest is a type of machine learning for uncovering statistical relationship between a dependent variable (e.g. soil property) and its predictors. It belongs to the decision-tree class of models in which the models (also known as classifiers) are like trees with stem, many branches, and leaves. The leaves are the prediction outcomes (final decisions) that flow from the roots through the stem to the branches \citep{breiman1984classification}. The decision tree model recursively splits the data into final uniform groups (classes) or unique values based on a set of rules. In random forest, there are many decision trees and each tree recursively splits randomly selected sub-samples from the data (Figure 6.14). The name random forest originates from the fact that the original data is first randomly split into sub-samples, and many decision trees (or forest) are used to model the sub-samples.
+
+![The concept of Random Forest and Decision Trees](images/randomForestconcept.png)
+
+Random forest has been tested by many researchers in digital soil mapping (see for example @poggio2013regional; @rad2014updating, and references therein). Specifically in soil carbon mapping, there are authors who have shown that it holds a lot of promises when compared to other prediction models. They have demonstrated that it has a relatively improved accurate spatial prediction, is a better approach to dealing with model over-fitting and data noise, and is capable of handling both dimensionally linear and nonlinear relationships [@wiesmeier2011digital]. Furthermore, with the advent of open-source platforms and freely downloadable ancillary data, the application of random forest and other such models has increasingly become more appealing in digital soil mapping.
+
+The objective of this chapter is to demonstrate how random forest can be implemented in freely downloadable R software for spatial prediction of soil organic carbon. The R package of random forest, known as randomForest, was used [@breiman2017cutler].
+
+**Requirements**
+
+  The following are required to implement the Random Forest modelling of SOC in R:
+
+  * [Setting-up the Software Environment](Latest version of R software, network connection and sufficient RAM,  storage capacity)
+
+* [Obtaining and Installing R Studio](Latest version of RStudio)
+
+* [R Packages](R packages)
+
+* [Preparation of local soil property data](Point Dataset)
+
+* [Preparation of spatial covariates](Environmental predictors)
+
++ [DEM-derived covariates](Relief (e.g. DEM, Slope, TWI))
+
++ [Land cover/Land use](Organism map (e.g. land use, NDVI, land cover))
+
++ [Climate](Climate Data (e.g. mean precipitation, mean temperature))
+
++ [Parent material](Parent material (parent material, geology))
+
+
+
+### Techinical Steps - Random Forest
+
+#### Data Preparation
+
+The following sample data demonstrate the data requirement characteristics and application of random forest in mapping SOC (Figure 6.15) The soil data was obtained from a study of SOC in north-eastern Kenya. The data was collected using a Y-shape sampling frame \citep{omuto2008assessment} for topsoil (0-30 cm) (Figure 6.16).
+
+The following table shows how the data should be arranged in the spreadsheet database such as MS Excel or Arc-Shapefile. Note that the first row should contain the header with names for the columns. Although the database can have many columns, the necessary columns are: Sample name, spatial coordinates (latitudes and longitudes), and the SOC values. In the example in the Figure 6.17, the three columns are Sample (for sample name), X (for longitude), Y (for latitude), and SOC (for SOC values in g/kg). This data can be saved as text file (such as Tab delimited or CSV text file) in MS Excel or it can be a GIS vector data (such as shapefile). The illustration given in this chapter uses Tab delimited text-file (in which the saved data is denoted as SOC.txt).
+
+#### Set the working directory
+
+This first step is important for creating the path to the working directory where the data is stored. It’s important to note the single-forward-slash between the directory path items. In the next step, the R packages for data exploration are supposed to have been installed in R (from CRAN repository) before loading them.
+
+#### Load the libraries for importing
+
+In case the libraries are not yet installed in the R environment, this can be done from R-Studio as shown in Figure 6.18 Internet connectivity is required to download the packages.
+
+#### Explore the data
+
+The exploratory analysis of the data showed that Soil Organic Content (g/kg) is not normally distributed (Anderson-Darling test<0.05), positively skewed (Skew>0) and has a high degree of peakedness (Kurtosis > 1). Furthermore, the data has high values in the northeast corner and low values in the western side; giving the impression of west-northeast low-high pattern (Figure 6.19). In general, the exploratory data analysis shows that the data need transformation to normalize it before subjecting it to spatial modelling. The Box-Cox transformation \citep{box1964analysis}, can be used to transform the data in the next step.
+
+#### Transform the data using Box-Cox transformation
+
+The spatial covariates for mapping soil data need also to be loaded into R and aligned with the soil data. According to \cite{jenny_factors_1941} and \cite{mcbratney2003digital}, the covariates for mapping are the following soil forming factors: other available and correlated soil properties, climate data, land use/cover, relief, spatial reference, and geology. Many researchers have used varied forms and combinations of these soil forming factors to predict soil organic carbon. For example, \cite{grimm2008soil} used relief attributes (curvature, topographic wetness index, slope, aspect, etc.), soil attributes (colour and texture), forest history, and geology to predict soil carbon concentrations in Barro Colorado Island in Panama. \cite{adhikari2014digital} used relief attributes (elevation, topographic wetness index, and valley bottom flatness), precipitation, land use, soil type, and wetlands to predict soil organic carbon in Denmark. In the present example, the following covariates were used: landform, rainfall, Normalized Difference Vegetation Index (NDVI), elevation, and spatial coordinates (latitudes and longitudes). These covariates were resampled to 250 m spatial resolution. The following step shows how these covariates are imported into R and aligned with the soil data. The R packages for spatial data have the facility for specifying the projection of the GIS data. This projection is used to align the datasets and it has to be known a priori. QGIS software (http://qgis.org/) can be used to obtain this information in case it is not readily known.
+
+#### Data Processing
+
+Apart from seeing that the sample locations are evenly distributed in the study area, it could also be important to assess how the points are distributed in the feature space of each covariate (e.g. landform feature space in Figure 6.21). If the distribution is not even or uniform then potential errors could arise and hamper the model training. Nothing much can be done to increase the number of samples in each feature space if the cost of adding more samples is inconceivable at this stage. However, it’s important to note how this facility can be used to plan sampling in DSM.
+
+While building the random forest models, if it’s necessary to assess the predictive performance of the model. One may do so by splitting the data into two: a hold-out sample part on which to build the model, and the other part for model testing. After testing the model and accepting the achieved accuracy level, it’s important to develop a final model using the whole data (NB: refer to the validation section of this cookbook for more in-depth discussions). In the following scripts, we use the sample function to randomly split the data into two parts: training and testing parts.
+
+#### Splitting the soil data for model testing and training and subsequent performance evaluation.
+
+The above results appear like the predictive performance of the random forest model was good.
+
+However, a closer look at the plot of predicted versus observed values reveal that the model over-predicted low values and under-predicted high values (Figure 6.22). Thus, high values and low values in the resultant map may need to be treated with caution.
+
+#### Spatial prediction of the soil organic carbon.
+
+
+```{r, eval=FALSE}
+library(reshape)
+
+# Correlation analysis to select covariates
+names(dat)
+COR <- cor(as.matrix(dat[,7]), as.matrix(dat[,-c(1:8)]))
+COR
+x <- subset(melt(COR), value != 1 | value != NA)
+x <- x[with(x, order(-abs(x$value))),]
+x[1:25,]
+
+idx <- as.character(x$X2[1:25])
+
+dat2 <- dat[c('OCSKGM', idx)]
+names(dat2)
+
+COVall <- COV
+COV <- COV[[idx]]
+
+plot(COV)
+
+
+library(randomForest)
+
+# Try different values of mtry and select the model with the optimal
+# value
+model <- tuneRF(dat[,c(names(COV))], dat$OCSKGM, stepFactor=1.5,
+                doBest = TRUE, improve = 0.5)
+
+# Use the model to predict the SOC in the covariates space
+beginCluster()
+start <- Sys.time()
+pred <- clusterR(COV, predict, args=list(model))
+print(Sys.time() - start)
+endCluster()
+
+```
+
