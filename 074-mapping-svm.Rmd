@@ -1,8 +1,8 @@
 \clearpage
 ## Data minning: Support Vector Machines
-*GF Olmedo, M Guevara $ Y Yigini*
+*GF Olmedo & M Guevara*
 
-  SVM apply a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates a hyperplane through n-dimensional spectral-space. Then, SVM separates numerical data based on a kernel function and parameters (e.g. gamma and cost) that maximize the margin from the closest point to the hyperplane that divides data with the largest possible margin, being the support vectors the points which fall within. Then, linear models are fitted to the support vectors.
+SVM apply a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates a hyperplane through n-dimensional spectral-space. Then, SVM separates numerical data based on a kernel function and parameters (e.g. gamma and cost) that maximize the margin from the closest point to the hyperplane that divides data with the largest possible margin, being the support vectors the points which fall within. Then, linear models are fitted to the support vectors.
 
 ### Technical Steps - Fitting a SVM Model to Predict the SOC
 
@@ -182,14 +182,16 @@ OCSsvm <- predict(COV, tunedModel)
 plot(OCSsvm)
 ```
 
-```{r, echo=FALSE, eval=FALSE}
-# varaible importance in svm
-#https://stackoverflow.com/questions/34781495/how-to-find-important-factors-in-support-vector-machine
-# http://jmlr.csail.mit.edu/papers/v3/guyon03a.html
-cat('SVM model case:\n')
-fit2 <- svm(Species ~ ., data = iris)
-w <- t(fit2$coefs) %*% fit2$SV                 # weight vectors
+Finally, we can evaluate the contribution of each covariate to the model [@guyon2003introduction]:
+
+```{r, echo=TRUE, eval=TRUE}
+# Variable importance in svm. Code by:
+# stackoverflow.com/questions/34781495/how-to-find-important-factors-
+# in-support-vector-machine
+
+w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
 w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
+
 w <- sort(w, decreasing = T)
 print(w)
 ```
