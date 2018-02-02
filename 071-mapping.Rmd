@@ -17,7 +17,7 @@ in order to develop a representative and large national soil database, very ofte
 
 **Data source 1**: soil profile database with 13,000 points of genetic horizons; for each site, there is information about the soil series, map coordinates and land use class; for each horizon, there is information about depth and thickness, textural fractions and class, volume percentage of rock fragments; analytically, there is the organic carbon content and inorganic carbon content. 
 
-**Data source 2**: forest soil data base which includes ectorganic horizons. According to their national definition, the term “ectorganic” designates the surface horizons with an organic matter content of at least 30%, thus, it includes both the litter layer and the organic soil layers. For the calculation of SOC stocks for the ectorganic layer, no fixed-depth was used, instead the measured thickness of the organic layers and litter layers was applied.
+**Data source 2**: forest soil data base which includes ectorganic horizons. According to their national definition, the term “ectorganic” designates the surface horizons with an organic matter content of at least $30\%$, thus, it includes both the litter layer and the organic soil layers. For the calculation of SOC stocks for the ectorganic layer, no fixed-depth was used, instead the measured thickness of the organic layers and litter layers was applied.
 
 **Data source 3**: 15,000 soil surface samples were used (upper 20 cm of mineral soil); carbon measurements are available per depth class.
 

@@ -53,7 +53,7 @@ Regression analysis generates an equation to describe the statistical relationsh
 
 **R-sq**
 
-R2 is the percentage of variation in the response that is explained by the model. The higher the R2 Value, the better the model fits your data. R-squared is always between 0% and 100%. R2 usually increases when additional predictors are added in the model.
+R2 is the percentage of variation in the response that is explained by the model. The higher the R2 Value, the better the model fits your data. R-squared is always between $0\%$ and $100\%$. R2 usually increases when additional predictors are added in the model.
 
 **P Values**
 
@@ -212,7 +212,7 @@ From the summary of our fitted model (model.MLR) above, it seems only a few of t
 model.MLR.step <- step(model.MLR, direction="both")
 ```
 
-Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about 23 % of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model.
+Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about $23\%$ of variation of the target variable. Obviously the “full” model is more complex as it has more parameters than the “step” model.
 
 ```{r, results='hold'}
 # summary and anova of the new model using stepwise covariates
@@ -221,7 +221,7 @@ summary(model.MLR.step)
 anova(model.MLR.step)
 ```
 
-In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation. Lets fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
+In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation. Lets fit a new model using a random subset of the available data. We will sample $70\%$ of the SOC data for the model calibration data set.
 
 Now we can evaluate the test statistics of the calibration model using the goof() function from the  “ithir” package.
 

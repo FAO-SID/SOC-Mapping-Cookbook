@@ -99,11 +99,11 @@ For organic soil material, $BD_x$ can be estimated as follows, considering exist
 
 **Peat**: Default value: $BD_{P} = 0.31 g \cdot cm^{-3}$. The range of peat BD is generally from 0.02 to 0.3 $t \cdot m^{-3}$ depending on maturity and compaction, as well as the ash content [@agus_measuring_2011].@batjes1996total and @agus_measuring_2011 distinguish different peat decomposition types (with different C content):
 
-* Sapric: $BD_{P_{sapric}} = 0.174 g \cdot cm^{-3}$ (48.90 \% C)
+* Sapric: $BD_{P_{sapric}} = 0.174 g \cdot cm^{-3}$ ($48.90\%$ C)
 
-* Hemic: $BD_{P_{hemic}} = 0.117 g \cdot cm^{-3}$ (52.27 \% C)
+* Hemic: $BD_{P_{hemic}} = 0.117 g \cdot cm^{-3}$ ($52.27\%$ C)
 
-* Fibric: $BD_{P_{fibric}} = 0.089 g \cdot cm^{-3}$ (53.56 \% C)
+* Fibric: $BD_{P_{fibric}} = 0.089 g \cdot cm^{-3}$ ($53.56\%$ C)
 
 Examples for pedo-transfer functions to estimate $BD$, based on the soil organic matter ($OM$) content in percent $(\%)$:
 
