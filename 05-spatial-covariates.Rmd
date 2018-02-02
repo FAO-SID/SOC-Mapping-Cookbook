@@ -1,7 +1,7 @@
 # Preparation of Spatial covariates
 *R Baritz & Y Yigini*
 
-The example covariates from this chapter were prepared by ISRIC. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
+The example covariates from this chapter were prepared by *ISRIC*. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
 
 ```{r details of covariates, echo=F}
 covs.t <- read.csv("covs/CovsDescription.csv")
@@ -15,8 +15,8 @@ knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates pro
 
 Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
 
-> * Recommended for national level applications: 30 m GDEM / SRTM
-> * Recommended for global level applications: SRTM 90 m, resampled 1 kilometre.
+> * Recommended for national level applications: 30 m GDEM / SRTM.
+> * Recommended for global level applications: SRTM 90 m, resampled 1 kilometer.
 
 In both cases noise and artefacts need to be filtered out. ASTER seems to contain more large artefacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering. 
 
@@ -30,27 +30,27 @@ plot(DEM)
 ```
 
 
-> GRASS GIS or GDAL: use "mdenoise" module/utility to remove noise while preserving sharp features like ridges, lines and valleys.
+> *GRASS GIS* or GDAL: Use "mdenoise" module/utility to remove noise while preserving sharp features like ridges, lines and valleys.
 
 SRTM contains many gaps (pixels with no-data). These gaps could be filled using splines. SAGA GIS has a module called ‘Close Gaps with Splines’ and other similar tools for doing this.
 
 ## Parent Material
 
-Parent material has a crucial impact on soil formation, soil geochemistry and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from Geology maps. These maps focus on rock formation, mineral components and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. The most commonly available approximation to parent material is certainly a geology map. Its geochemistry has essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness. 
+Parent material has a crucial impact on soil formation, soil geochemistry and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from geological maps. These maps focus on rock formation, mineral components and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. Its geochemistry has essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness. 
 
-National parent material and geology maps may be used. Other available datasets and data portals are given on the ISRIC WorldGrids website (worldgrids.org). 
+National parent material and geological maps may be used. Other available datasets and data portals are given on the *ISRIC* [WorldGrids](http://worldgrids.org/doku.php) website. 
 
-* OneGeology: The world geological maps are now being integrated via the OneGeology project which aims at producing a consistent Geological map of the world in approximate scale 1:1M [@jackson2007onegeology] http://www.onegeology.org/.
+* OneGeology: The world geological maps are now being integrated via the OneGeology project which aims at producing a consistent geological map of the world in approximate scale 1:1M [@jackson2007onegeology]; Link: http://www.onegeology.org/.
 
-* USGS has several data portals, e.g. that allow browsing of the International Surface Geology (split into South Asia, South America, Iran, Gulf of Mexico, Former Soviet Union, Europe, Caribbean, Bangladesh, Asia Pacific, Arctic, Arabian Peninsula, Africa and Afghanistan) https://mrdata.usgs.gov/geology/world/.
+* *USGS* has several data portals, e.g. that allow browsing of the International Surface Geology (split into South Asia, South America, Iran, Gulf of Mexico, Former Soviet Union, Europe, Caribbean, Bangladesh, Asia Pacific, Arctic, Arabian Peninsula, Africa and Afghanistan); Link: https://mrdata.usgs.gov/geology/world/.
 
-* @hartmann2012new have assembled a global, purely lithological database called GLiM (Global Lithological Map). GLiM consists of over 1.25 million digital polygons that are  classified in three levels (a total of 42 rock-type classes). https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html).
+* @hartmann2012new have assembled a global, purely lithological database called GLiM (Global Lithological Map). GLiM consists of over 1.25 million digital polygons that are  classified in three levels (a total of 42 rock-type classes);  Link: https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html).
 
-* USGS jointly with ESRI has released in 2014 a Global Ecological Land Units map at 250 m resolution. This also includes world layer of rock types. This data can be downloaded from the USGS site (http://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/).
+* *USGS* jointly with *ESRI* has released in 2014 a Global Ecological Land Units map at 250 m resolution. This also includes world layer of rock types. This data can be downloaded from the USGS site (http://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/).
 
 ## Soil Maps
 
-Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology and climate so not correlate well with the dependent variable, here soil carbon stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps. 
+Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology and climate do not correlate well with the dependent variable, here SOC stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps. 
 
 FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see also section 3.6).
 
@@ -259,15 +259,15 @@ summary(dat@data)
 
 ### Overlay Covariates and Spatial Data
 
-In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of soil organic carbon, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, raster package resample and projectRaster functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
+In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, **raster** package resample and `projectRaster()` functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
 
-After the extraction, It's useful to check if there are missing values (NAs) both in the target variable and covariates. In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the complete.cases() function.
+After the extraction, it's useful to check if there are missing values (`NAs`) both in the target variable and covariates. In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the `complete.cases()` function.
 
-After removing NAs now there do not appear to be any missing data as indicated by the integer(0) output above. It means we have zero rows with missing information.
+After removing NAs, now there do not appear to be any missing data as indicated by the `integer(0)` output above. It means we have zero rows with missing information.
 
 The last step involves exporting a table our regression matrix including the soil data and the values of the enviromental covariates in position of the point samples.
 
-The summary of the 'dat data.frame' shows 2 points with NA values for most of the covariates. And 30 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
+The summary of the dat data.frame' shows 2 points with NA values for most of the covariates. And 30 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
 
 * In some cases this NA values are from points with bad position data. Therefore the points area outside the study area. In  this case, the solution is to correct the coordinates or eliminate the points. This is the case for the two points with NA values for most of the covariates.
 
