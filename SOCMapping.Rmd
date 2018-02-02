@@ -1,3 +1,146 @@
+--- 
+title: "Soil Organic Carbon Mapping cookbook"
+author: ""
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+papersize: b5
+fontsize: 10pt
+bibliography: "References.bib"
+biblio-style: plain
+link-citations: yes
+description: "The soilll cookbook."
+---
+
+# reproducible results
+
+Placeholder
+
+
+## redefine str for the width option
+## Boolean object for running all the code #####
+## Editorial Board {-}
+## Contributing Authors {-}
+
+<!--chapter:end:index.Rmd-->
+
+\mainmatter
+\tableofcontents
+\listoffigures
+\listoftables
+
+# Presentation
+
+Soils provide ecosystem sercives critical to live on Earth. The Food and Agricultural Organization of the United Nations (FAO) recognizes the need to preserve soil resources from degradation and restore them. In 2012, the Global Soil Partnership (GSP) was established to improve soil governance and promote sustainable soil management. 
+
+The GSP aims to promote sustainable soil management at all levels globally through normative tools relying on evidence based science. Understanding the status of a given soil in different land uses, including its properties and functions, and relating this information to the various ecosystem services provided by soils, becomes mandatory for sustainable soil management decisions. As the availability and use of soil data and information is fundamental to underpin these decisions, members of the GSP decided to establish a Global Soil Information System (GLOSIS) based on the development of national soil information systems.
+
+In the process of establishing GLOSIS, a number of tools and networks are being created, including the International Network of Soil Information Institutions (INSII), a [*GSP Soil Data Policy*](http://www.fao.org/3/a-bs975e.pdf) and more. Taking advantage of this process and responding to a request for support in addressing the Sustainable Development Goal Indicators, especially indicator 15.3 which includes the restoration of degraded soils, the GSP Plenary Assembly in 2016 instructed the Intergovernmental Technical Panel on Soils (ITPS) and the GSP Secretariat to develop the first ever Global Soil Organic Carbon Map (GSOCMap) following the same bottom-up approach as GLOSIS. To this end, members under the INSII umbrella developed guidelines and technical specifications for the preparation of the [GSOCMap](http://www.fao.org/3/a-bp164e.pdf) and countries were invited to prepare their national soil organic carbon maps according to these specifications.
+
+Given the scientific advances in tools for mapping soil organic carbon (SOC), many countries requested the GSP Secretariat to support them in the process of preparing national maps, hence an intensive capacity development programme on SOC mapping has been implemented to support countries in this process. Various regional and national training sessions were organized using an on-the-job-training modality to ensure national experts were trained to utilize their own datasets to produce reliable SOC maps. The GSP Secretariat invited a group of experts to prepare a *Soil Organic Carbon Mapping Cookbook* as a comprehensible reference knowledge source to support the capacity development process.
+
+The second edition of the cookbook provides generic methodologies and technical steps to produce SOC maps. This edition has been updated with knowledge and practical experiences gained during the implementaion process of GSOCmap V1.0 throughout 2017. The cookbook includes step-by-step guidance for developing 1 km grids for SOC stocks, as well as for the preparation of local soil data, the compilation and preprocessing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessment methods. Guidance is mainly specific to SOC data, but as this cookbook contains generic sections on soil grid development it can be applicsable to map various soil properties. 
+
+The guidance is focusing on the upscaling of national SOC stocks in order to produce the GSOCMap. Therefore, the cookbook supplements the [*GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*](http://www.fao.org/3/a-bp164e.pdf), providing technical guidelines to prepare and evaluate spatial soil data sets to: 
+* Determine SOC stocks from local samples to a target depth of 30 cm;
+* Prepare spatial covariates for upscaling; and
+* Select and apply the best suitable upscaling methodology.
+
+In terms of statistical upscaling methods, the use of conventional upscaling methods using soil maps and soil profiles is still very common, although this approach is mostly considered empirical by soil mappers. Even though evaluations are based on polygon soil maps, the resulting SOC maps can be rasterized to any target grid. However, a spatially-explicit assessment of uncertainties is impossible. The use of digital soil mapping to upscale local soil information is increasingly applied and recommended.
+
+This cookbook presents two approaches in detail, namely spatial modelling using either regression or data mining analysis, combined with geostatistics such as regression kriging. The second edition includes updates in the section on uncertainty assessment.
+
+It is our hope that this cookbook will fulfill its mandate of easily enabling any user to produce a digital SOC or other soil property map using soil legacy data and modern methods of digital soil mapping with the overall aim for improved decision making on soil management.
+
+<!--chapter:end:02-Presentation.Rmd-->
+
+# Soil Property Maps
+
+*R Baritz*
+
+## Definitions and Objectives
+
+Soil property maps represent spatial information about soil properties to a certain depth or for soil horizons. Conventionally, soil property maps are generated as polygon maps, with properties from typical soil profiles representing soil mapping units.
+Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properties, including the spatial quantification of the prediction error. The quality of such predictions improves with increasing number of local observations (e.g. soil profiles) available to build the prediction model. Whenever possible, DSM is recommended. 
+
+The development of soil property maps via DSM is spatially flexible. For different soil properties (e.g. concentration and stocks of nutrients in the soil, carbon, heavy metals, pH, cation exchange capacity, physical soil properties such as particle sizes and bulk density, etc.), various depth classes and spatial resolution can be modelled depending on project and mapping objectives and available input data. For GSOCmap, a 1 km grid is pursued. The same methodology and input data can also be used to produce higher resolution soil grids.
+
+The mapping of global soil organic carbon (GSOC) stocks will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems, and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO and its regional offices, as well as the Regional Soil Partnerships, are challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping. 
+
+## Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates
+
+The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular GSOCmap.
+
+|   |   |                                                                       | 
+|-------------------|-------------------------|-----------------------------------------|
+| Conventional upscaling [@lettens2004soil]  |  Class-matching | Derive average SOC stocks per class: soil type for which a national map exists, or combination with other spatial covariates (e.g. land use category, climate type, biome, etc.). This approach is used in the absence of spatial coordinates of the source data.  |
+|                         | Geomatching     | Point locations with spatial referencing are overlaid with GIS layers of important covariates (e.g. a soil map). Upscaling is based on averaged SOC values per mapping unit.  | 
+|  Digital soil mapping [@dobos2006digital]   | Data mining and geostatistics  | Multiple regression, classification tree, random forests, regression kriging, kriging with external drift.  | 
+
+
+Digital soil mapping is based on the development of functions for upscaling point data (with soil measurements) to a full spatial extent using correlated environmental covariates, for which spatial data are available.
+
+> DSM: Concept of environmental correlation that explores the quantitative relationship among environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.
+
+
+<!--chapter:end:03-Soil-property-maps.Rmd-->
+
+
+# Setting-Up the Software Environment
+
+Placeholder
+
+
+## Use of R , RStudio and R Packages
+### Obtaining and Installing R
+### Obtaining and Installing R Studio
+### Getting Started with R
+## R Packages
+### Finding R Packages
+### Most Used R Packages for Digital Soil Mapping 
+#### Soil Science and Pedometrics
+#### Spatial Analysis
+#### Modeling
+#### Mapping and Plotting
+## R and Spatial Data
+### Reading Shapefiles 
+### Coordinate Reference Systems (CRS) in R
+## print the CRS for the object soilmap
+### Working with Rasters
+## Other DSM Related Software and Tools
+
+<!--chapter:end:035-software-environment.Rmd-->
+
+
+# Preparation of Local Soil Property Data
+
+Placeholder
+
+
+## Soil Profiles and Soil Augers
+## Soil Database
+### Technical Steps - Loading Data from Tables in R
+## Completeness of Measurements and Estimates
+### Stones
+### Bulk density
+### Soil Carbon Analysis
+### Carbonates
+### Depth
+## Completeness of Depth Estimate
+### Technical Steps - Equal-Area Splines Using R
+#### Promote table `dat` to `SoilProfileCollection`
+#### Add site-level data and coordinates
+#### Run mass preserving splines for all the needed propierties
+## Estimate 0-30 standard horizon usin mass preserving splines
+#### Convert back to table
+## Prepare final data frame
+## Take a look to the results
+#### Estimate the soil organic carbon stock using the virtual horizons
+## We can save our processed data as a table
+
+<!--chapter:end:04-Preparation.Rmd-->
+
 # Preparation of Spatial covariates
 *R Baritz & Y Yigini*
 
@@ -90,6 +233,8 @@ legend("bottomright",legend = Symbol.levels, fill=rainbow(21),
 Besides soil, geology and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.
 
 ```{r, background=('#F7F7F7'), R.options=(width = 69)}
+options(width = 69)
+knitr::opts_knit$set(width = 69)
 landcover <- raster("covs/LCEE10.tif")
 
 # Land cover is a categorical covariate, this has to be made 
@@ -265,11 +410,11 @@ After removing NAs, now there do not appear to be any missing data as indicated 
 
 The last step involves exporting a table our regression matrix including the soil data and the values of the enviromental covariates in position of the point samples.
 
-The summary of the `dat data.frame` shows 2 points with NA values for most of the covariates. And 30 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
+The summary of the dat data.frame' shows 2 points with NA values for most of the covariates. And 30 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
 
-* **Option 1**: In some cases this NA values are from points with bad position data. Therefore, the points area outside the study area. In  this case, the solution is to correct the coordinates or eliminate the points. This is the case for the two points with NA values for most of the covariates.
+* In some cases this NA values are from points with bad position data. Therefore the points area outside the study area. In  this case, the solution is to correct the coordinates or eliminate the points. This is the case for the two points with NA values for most of the covariates.
 
-* **Option 2**: Another case is when a covariate is incomplete and does not cover all the area. This could produce many NA values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for soilmap layer and the 30 points. 
+* Another case is when a covariate is incomplete and does not cover all the area. This coul produce many NA values. There are two different solutions, eliminate the covariate or eliminate the point data. This is the case for soilmap layer and the 30 points. 
 
 ### Convert result to data.frame and save as a csv table
 
@@ -282,4 +427,201 @@ dat <- dat[complete.cases(dat),]
 # export as a csv table
 write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
 ```
+
+
+<!--chapter:end:05-spatial-covariates.Rmd-->
+
+
+# Mapping Methods
+
+Placeholder
+
+
+## Conventional Mapping Using Soil Maps
+### Overview
+### Technical Steps: Class-matching
+#### Data Preparation
+#### Preparatory GIS Operations
+#### Mapping
+### Technical Steps: Geo-Matching
+#### Setting Up a QGIS Project
+#### Geo-Matching SOC with WRB Soil Map
+#### Geo-Matching SOC with Other Environmental Variables: Land Use
+#### Joining Landscape Units and Soil Mapping Units to Support Class- and Geo-Matching (Optional)
+
+<!--chapter:end:071-mapping.Rmd-->
+
+
+# load data
+
+Placeholder
+
+
+## Regression-Kriging
+### Overview
+###  Assumptions
+### Pre-Processing of Covariates
+###  The Terminology
+### Interpret the Key Results of Multiple Regression
+### Using the Results of a Regression Analysis to Make Predictions
+### Technical Steps - Regression Kriging
+#### Setting Working Space and Initial Steps
+#### Data Preparation
+#### Fitting the MLR Model
+## stepwise variable selection
+#### Prediction and Residual Kriging
+### RK model
+## Run regression kriging prediction. This step can take hours...!
+## Convert prediction and standard deviation to rasters
+## And back-tansform the vlaues
+## Save results as tif files
+
+<!--chapter:end:072-mapping-RK.Rmd-->
+
+
+# Correlation analysis to select covariates
+
+Placeholder
+
+
+## Data mining: Random Forest
+### Overview
+### Techinical Steps - Random Forest
+#### Data Preparation
+#### Set the working directory
+#### Load the libraries for importing
+#### Explore the data
+#### Transform the data using Box-Cox transformation
+#### Data Processing
+#### Splitting the soil data for model testing and training and subsequent performance evaluation.
+#### Spatial prediction of the soil organic carbon.
+
+<!--chapter:end:073-mapping-rf.Rmd-->
+
+
+# load data
+
+Placeholder
+
+
+## Data minning: Support Vector Machines
+### Technical Steps - Fitting a SVM Model to Predict the SOC
+#### Setting Working Space and Initial Steps
+#### Variable selection using correlation analysis
+#### Fitting a svm model using different epsilon and cost parameters
+#### Select the model with the best combination of epsilon and cost
+#### Predict the OCS using the model
+
+<!--chapter:end:074-mapping-svm.Rmd-->
+
+
+# Validation
+
+Placeholder
+
+
+## What is Validation?
+## Map Quality Measures
+### Quality Measures for Quantitative Soil Maps
+### Quality Measures for Qualitative Soil Maps
+### Estimating the Map Quality Measures and Associated Uncertainty
+## Graphical Map Quality Measures
+## Validation Methods and Statistical Inference
+### Additional Probability Sampling
+### Data-Splitting
+### Cross-Validation
+
+<!--chapter:end:08-Validation.Rmd-->
+
+
+# Uncertainty
+
+Placeholder
+
+
+## Sources of Uncertainty
+### Attribute Uncertainty of Soil Measurements
+### Positional Uncertainty of Soil Measurements
+### Uncertainty in Covariates
+### Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data
+## Uncertainty and Spatial Data Quality
+## Quantifying Prediction Uncertainty
+### Uncertainty Characterised by Probability Distributions
+### Propagation of Model Uncertainty
+### Propagation of Attribute, Positional and Covariate Uncertainty
+
+<!--chapter:end:09-Uncertainty.Rmd-->
+
+
+# Data Sharing
+
+Placeholder
+
+
+## Export Formats
+### Type of Soil Data and Their Formatting
+### General GIS Data Formats: Vector, Raster, Table
+### Recommended GIS Data Exchange Formats
+## Web Services - Serving Soil Data Using Web Technology
+### Third-Party Services
+### GeoServer (Web Serving and Web Processing)
+### Visualizing Data Using Leaflet and/or Google Earth
+## Preparing Soil Data for Distribution
+### Metadata
+### Exporting Data — Final Tips
+## Export Formats 
+
+<!--chapter:end:10-Data-sharing.Rmd-->
+
+
+# Technical Overview and the Checklist
+
+Placeholder
+
+
+## Point Dataset 
+## Covariates
+## Statistical Inference
+## Spatial Interpolation
+## Calculation of STOCKS 
+## Evaluation of Output and Quality Assessment
+
+<!--chapter:end:11-Checklist.Rmd-->
+
+# Deliverables
+*Y Yigini*
+
+Data shared by countries will be collected by the GSP Secretariat. The GSP data policy (see GSP GSOC Guidelines, Chapter 8.5) will ensure that the national terms of condition are fully respected.  Data will be shared using common GIS formats, and metadata should be compiled in an excel file. The Soil Organic Carbon Map will be delivered as grid using the 30 arc-seconds grid.
+
+The following data will be delivered:
+
+*	The Soil Organic Carbon Map: will be digitally delivered in grid with 30 arc-seconds resolution. An empty grid is provided by the GSP Secretariat (ftp://gsp.isric2.org/<countryname>/mask/mask.tif). The SOC values should be transferred to this empty grid from the produced SOC data. To transfer values to the empty grid, QGis (Raster Calculator), ArcGIS (Mosaicing tool, Raster Calculator) can be used.
+*	Uncertainty Layers and prediction quality figures: a) Qualitative assessment (Conventional Upscaling) b) Quantitative assessment for DSM Methods. The uncertainty associated to the estimated map quality measures will be provided (Mean Error (ME), Mean Absolute Error (MAE), and MSE (Mean Squared Error).
+*	Metadata : Metadata is data describing data sets. It provides standardized information about a data set, for example, the maintaining institution through which the data can be accessed. It thus helps a user to find spatial data sets and services and to indicate for which purpose it can be used.
+In the case of the GSOC maps, a project-specific metadata template has been prepared. It deviates from the metadata elements listed in common standards such as ISO 19115. Following the guideline for SOC mapping , the importance of soil-specific methodical elements is given. This includes metadata describing the data sources used for SOC mapping and the upscaling method.
+
+<!--chapter:end:12-Deliverables.Rmd-->
+
+
+# Code examples
+
+Placeholder
+
+
+## Data Preparation for Soil Profiles
+## Estimate 0-30 standard horizon usin mass preserving splines
+## Prepare final data frame
+## Take a look to the results
+## We can save our processed data as a table
+## Data Preparation for Top Soil or Auger Samples 
+## Take a look to the results
+## We can save our processed data as a table
+## Mixing Covariates and Soil Points Data
+## Fitting a RK model to predict the OCS
+## summary  of the new model using stepwise covariates selection
+## Save results as tif files
+## Fitting a random forest model to predict the SOC
+## Fitting a svm model to predict the SOC
+
+<!--chapter:end:13-Code-examples.Rmd-->
 
