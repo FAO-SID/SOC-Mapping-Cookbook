@@ -90,8 +90,6 @@ legend("bottomright",legend = Symbol.levels, fill=rainbow(21),
 Besides soil, geology and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.
 
 ```{r, background=('#F7F7F7'), R.options=(width = 69)}
-options(width = 69)
-knitr::opts_knit$set(width = 69)
 landcover <- raster("covs/LCEE10.tif")
 
 # Land cover is a categorical covariate, this has to be made 
