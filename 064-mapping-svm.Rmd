@@ -12,7 +12,10 @@ One of the first steps should be setting our working directory. If you read/writ
 
 Note that we must use the forward slash / or double backslash \\\\ in R! Single backslash \\ will not work. Now we can check if the working directory has been correctly set by using the function:
 
-Now load the necessary R packages (you may need to install them onto your computer first):
+```{r, eval=FALSE}
+getwd()
+```
+
 
 #### Data Preparation
 
@@ -22,9 +25,9 @@ We previously applied spline function to produce continuous soil information to 
 
 **Environmental Predictors (Covariates)**
 
-In the Chapter 3, several global and continental datasets and access information can be found. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOC-data-repo).
 
-In section [Overlay covariates and spatial data],a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
+In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
 Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
 
@@ -52,13 +55,13 @@ class(dat)
 
 SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set the CRS used was: WGS84  (EPSG:4326).
 
-To clearly tell R this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library http://trac.osgeo.org/proj/. An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
+To clearly tell R this information we define the CRS which describes a reference system in a way understood by the [PROJ.4 projection library](http://trac.osgeo.org/proj/). An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
 Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
 
 Now, we will define our CRS:
 
-  ```{r}
+```{r}
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 
 dat@proj4string

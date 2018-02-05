@@ -1,4 +1,4 @@
-# Preparation of Spatial covariates
+# Preparation of Spatial covariates {#covariates}
 *R Baritz & Y Yigini*
 
 The example covariates from this chapter were prepared by *ISRIC*. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
@@ -168,7 +168,7 @@ The following parameters are available at 1 day time resolution:
 
 Data Access: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx
 
-## GSOCMap - Data Repository (ISRIC, 2017)
+## GSOCMap - Data Repository (ISRIC, 2017) {#GSOC-data-repo}
 
 ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a digital soil mapping exercise.
 
@@ -203,7 +203,7 @@ The upscaling procedures (section 4) depend on the rationale, that the accumulat
 
 > In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
 
-## Technical Steps - Mixing Covariates and Soil Points Data
+## Technical Steps - Overlay Covariates and Soil Points Data {#overlay-soil-covariates}
 
 ### Load soil sample data and covariates
 
