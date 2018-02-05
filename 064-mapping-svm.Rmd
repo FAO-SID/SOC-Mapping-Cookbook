@@ -153,7 +153,9 @@ names(COV)
 ```
 
 
-#### Fitting a svm model using different epsilon and cost parameters
+#### Fitting a svm model tunning epsilon and cost parameters
+
+To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 paramenters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon wich is the insensitive-loss function. The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost wich is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. this is a very heavy step in computational terms and can take a lot of time, because we will have to try a lot of different model. 
 
 ```{r svm RUN.ALL, echo=FALSE, eval=TRUE}
 library(e1071)
@@ -162,8 +164,8 @@ if(RUN.ALL == TRUE){
   # run the model
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                                          names(COV))],
-                     ranges = list(epsilon = seq(0,0.5,0.1),
-                                   cost = seq(4,6,1)))
+                     ranges = list(epsilon = seq(0.05,0.12,0.01),
+                                   cost = seq(0,20,5)))
   # save the model for later
   saveRDS(object = tuneResult, file = "results/svm.model.Rds")
 }
@@ -172,7 +174,6 @@ if(RUN.ALL == FALSE){
   tuneResult <- readRDS("results/svm.model.Rds")
 }
 ```
-
 
 ```{r svm model tunning, eval=FALSE}
 library(e1071)
@@ -185,7 +186,16 @@ tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                  cost = seq(4,6,1)))
 ```
 
+We can plot the performance of the different models. When the region is darker, the RMSE is closer to zero. 
+
+```{r, fig.cap="Performance of the different svm models in the parameter tuning procedure"}
+plot(tuneResult)
+```
+
+
 #### Select the model with the best combination of epsilon and cost
+
+The best model is chosen as the one with the lowest mean squared error using cross validation. The parameters for the cross validation can be defined in the `tune.control()` function. By default it uses cross-validation using 10 partitions.
 
 ```{r}
 tuneResult$best.model
