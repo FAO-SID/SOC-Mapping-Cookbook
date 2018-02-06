@@ -286,14 +286,13 @@ Table 9.1 gives the map unit purities and class representations for this example
 
 **Table 9.1.** Map unit purity and class representation statistics for the hypothetical example given in Figure 9.4.
 
-|                    |                     |                                       | 
-|--------------------|---------------------|---------------------------------------|
-|                    |   map unit purity   |      class representation             |
-|    Anthrosol       |      0.679          |      0.633                            |
-|    Cambisol        |      0.508          |      0.516                            |
-|    Gleysol         |      0.508          |      0.463                            |
-|    Luvisol         |      0.592          |      0.700                            |
-|    Podzol          |      0.576          |      0.594                            |
+|               | map unit purity  | class representation |
+|:--------------|------------:|------------:|
+|    Anthrosol  |   0.679     |  0.633      |
+|    Cambisol   |   0.508     |  0.516      |
+|    Gleysol    |   0.508     |  0.463      |
+|    Luvisol    |   0.592     |  0.700      |
+|    Podzol     |   0.576     |  0.594      |
 
 ### Data-Splitting
 
