@@ -237,7 +237,10 @@ covs <- mask(x = covs, mask = mask)
 plot(covs)
 ```
 
-### Extract covariate values at location of the soil samples
+### Overlay Covariates and Spatial Data
+
+In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, **raster** package resample and `projectRaster()` functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
+
 
 ```{r}
 #upgrade points data frame to SpatialPointsDataFrame
@@ -254,10 +257,6 @@ levels(soilmap) <- Symbol.levels
 
 summary(dat@data)
 ```
-
-### Overlay Covariates and Spatial Data
-
-In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, **raster** package resample and `projectRaster()` functions are for harmonising all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
 
 After the extraction, it's useful to check if there are missing values (`NAs`) both in the target variable and covariates. In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the `complete.cases()` function.
 
