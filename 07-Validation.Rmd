@@ -323,3 +323,20 @@ $K$ is typically chosen as 5 or 10, or as $N$ the number of data points. The lat
 Note that the problem of spatially correlated errors remains when data are non-probability sample data. Cross-validation using a non-probability sampling dataset suffers from the same drawbacks with respect to unbiasedness and validity of the estimates of the map quality measures as data-splitting. The estimates cannot be interpreted as being valid for the mapping area, but only for the validation locations. 
 
 In R, the caret package [@kuhn2016short] offers functionality for data-splitting and cross-validation.
+
+### Technical steps - Validation
+*GF Olmedo*
+
+```{r}
+library(caret)
+
+dat <- read.csv("data/dataproc.csv")
+
+train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
+train <- dat[ train.ind,]
+test  <- dat[-train.ind,]
+
+write.csv(train, file="data/dat_train.csv", row.names = FALSE)
+write.csv(test, file="data/dat_test.csv", row.names = FALSE)
+```
+

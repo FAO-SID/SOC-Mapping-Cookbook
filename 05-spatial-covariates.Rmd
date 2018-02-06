@@ -210,7 +210,7 @@ The upscaling procedures (section 4) depend on the rationale, that the accumulat
 ```{r}
 # Load the processed data. This table was prepared in the previous 
 # chapter.
-dat <- read.csv("data/dataproc.csv")
+dat <- read.csv("data/dat_train.csv")
 
 # read covariates from tif raster files
 files <- list.files(path = "covs", pattern = "tif$", 
@@ -264,7 +264,7 @@ After removing NAs, now there do not appear to be any missing data as indicated 
 
 The last step involves exporting a table our regression matrix including the soil data and the values of the enviromental covariates in position of the point samples.
 
-The summary of the `dat data.frame` shows 2 points with NA values for most of the covariates. And 30 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
+The summary of the `dat data.frame` shows 1 points with NA values for most of the covariates. And 22 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:
 
 * **Option 1**: In some cases this NA values are from points with bad position data. Therefore, the points area outside the study area. In  this case, the solution is to correct the coordinates or eliminate the points. This is the case for the two points with NA values for most of the covariates.
 

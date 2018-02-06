@@ -124,8 +124,8 @@ names(dat@data)
 For the variable selection we will use `cor()` function. `x` must be a table including only the column with the response variable, and `y` must be a table including ONLY the covariates. Besides, remember `dat@data` in the `data.frame` included in the `spatialPointsDataFrame`. For `y`, columns 1 to 7 are out, because they are not covariates. At the same time, correlation analysis cannot be applied to categorical covariates, this means that columns 13 and 21 have to be removed too.
 
 ```{r variable selection in svm}
-COR <- cor(x = as.matrix(dat@data[,6]),
-           y = as.matrix(dat@data[,-c(1:7,13,21)]))
+COR <- cor(x = as.matrix(dat@data[,5]),
+           y = as.matrix(dat@data[,-c(1:6,12,20)]))
 
 # print correlation results
 COR
@@ -152,7 +152,7 @@ names(COV)
 
 #### Categorical variables in svm models
 
-According to @hsu2003practical, svm requieres each variable to be represented by a vector of real number. This means that factor variables, like `covs$LCEE10` and `covs$soilmap`has to be converted into numeric data. In statistics this kind of variables are called boolean indicators or dummy variables. Dummy variables take a value of 0 or 1 indicating the presence of ausence of an  specific value/category in our factor covariate, i.e. if we have 5 categories like in `covs$LCEE10`, we will have 5 dummy variables indicating the presence/ausence of every category. FOr converting our covariates to dummies we will have to create a new function that returns the dummy version from the factor covariate.
+According to @hsu2003practical, svm requieres each variable to be represented by a vector of real number. This means that factor variables, like `covs$LCEE10` and `covs$soilmap`has to be converted into numeric data. In statistics this kind of variables are called boolean indicators or dummy variables. Dummy variables take a value of 0 or 1 indicating the presence of ausence of an  specific value/category in our factor covariate, i.e. if we have 5 categories like in `covs$LCEE10`, we will have 5 dummy variables indicating the presence/ausence of every category. For converting our covariates to dummies we will have to create a new function that returns the dummy rasterStack from the factor version of the rasterLayer.
 
 ```{r}
 dummyRaster <- function(rast){
@@ -160,13 +160,14 @@ dummyRaster <- function(rast){
   result <- list()
   for(i in 1:length(levels(rast)[[1]][[1]])){
     result[[i]] <- rast == levels(rast)[[1]][[1]][i]
-    names(result[[i]]) <- paste0(names(rast), levels(rast)[[1]][[1]][i])
+    names(result[[i]]) <- paste0(names(rast), 
+                                 levels(rast)[[1]][[1]][i])
   }
   return(stack(result))
 }
 ```
 
-We can use this function we just created to convert our categorical covariates to dummies and then stack all the layers together.
+We can use the function we just created to convert our categorical covariates to dummies and then stack all the layers together.
 
 ```{r}
 # convert soilmap from factor to dummy
@@ -182,7 +183,7 @@ COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
 names(COV)
 ```
 
-We have to convert the factors in the soil samples `data.frame` to dummies as well. For doing this we can use function `model.matrix()`. After this, we use `cbind()` to merge the resulting data.frame.
+We have to convert the collumns with categorical variables in the soil samples `data.frame` to dummies as well. For doing this we can use function `model.matrix()`. After this, we use `cbind()` to merge the resulting `data.frame`.
 
 ```{r}
 # convert soilmap column to dummy, the result is a matrix
@@ -208,15 +209,15 @@ names(dat@data)
 
 To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 paramenters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon wich is the insensitive-loss function. The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost wich is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. this is a very heavy step in computational terms and can take a lot of time, because we will have to try a lot of different model. 
 
-```{r svm RUN.ALL, echo=FALSE, eval=TRUE, results='hide'}
+```{r svm RUN.ALL, echo=FALSE, eval=TRUE, results='hide', warning=FALSE}
 library(e1071)
 library(caret)
 if(RUN.ALL == TRUE){
   # run the model
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                                          names(COV))],
-                     ranges = list(epsilon = seq(0.05,0.12,0.01),
-                                   cost = seq(5,40,5)))
+                     ranges = list(epsilon = seq(0.08,0.16,0.02),
+                                   cost = c(1,3,5,7)))
   # save the model for later
   saveRDS(object = tuneResult, file = "results/svm.model.Rds")
 }
@@ -231,10 +232,10 @@ library(e1071)
 library(caret)
 
 #  Test different values of epsilon and cost
-tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
+  tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                                          names(COV))],
-                     ranges = list(epsilon = seq(0.05,0.12,0.01),
-                                   cost = seq(5,40,5)))
+                     ranges = list(epsilon = seq(0.08,0.16,0.02),
+                                   cost = c(1,3,5,7)))
 ```
 
 We can plot the performance of the different models. When the region is darker, the RMSE is closer to zero. 

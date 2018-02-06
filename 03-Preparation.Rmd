@@ -291,5 +291,5 @@ dat <- dat[dat$OCSKGM>0,]
 summary(dat)
 
 ## We can save our processed data as a table
-write.csv(dat, "data/dataproc.csv")
+write.csv(dat, "data/dataproc.csv", row.names = FALSE)
 ```
