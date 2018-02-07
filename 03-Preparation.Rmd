@@ -12,9 +12,9 @@ Sampling locations can be representative for a certain location, project, field,
 
 ## Soil Database
 
-In order to process and evaluate soil information from field assessments, soil profile data and analytical information needs to be stored in a database. This can be a set of simple *Excel* spreadsheets, or a relational or object-oriented data base management system [@baritz2008environmental]. When working in **R**, `SoilProfileCollections` from the **R** **aqp** package are a useful tool. Tables 2.1 – 2.3 are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modelling exercises [@baritz2008environmental].
+In order to process and evaluate soil information from field assessments, soil profile data and analytical information needs to be stored in a database. This can be a set of simple *Excel* spreadsheets, or a relational or object-oriented data base management system [@baritz2008environmental]. When working in **R**, `SoilProfileCollections` from the **R** **aqp** package are a useful tool. Tables \@ref(tab:example table for site-level) and \@ref(tab:example table for horizon-level) are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modelling exercises [@baritz2008environmental].
 
-Table [tab:example table for site-level] stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
+Table \@ref(tab:example table for site-level) stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
 
 ```{r example table for site-level, echo=F}
 dat <- read.csv("examples/site-ex.csv")
@@ -31,7 +31,7 @@ knitr::kable(dat, caption = "Example for profile-description table")
 
 ### Technical Steps - Loading Data from Tables in R
 
-This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section [Data preparation for soil profiles]. The second example is using top soil or auger data and is presented in section [Data preparation for top soil or auger samples].
+This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(Data preparation for soil profiles). The second example is using top soil or auger data and is presented in section \@ref(Data preparation for top soil or auger samples).
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
