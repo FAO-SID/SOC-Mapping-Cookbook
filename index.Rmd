@@ -54,7 +54,7 @@ Global Soil Partnership, Food and Agriculture Organization of the United Nations
 | ![](contrAuthors/Baritz.jpg)   |  Rainer Bartiz - Food and Agriculture Organization of the United Nations |
 | ![](contrAuthors/Brus.jpg)     |  Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands |
 | ![](contrAuthors/Guevara.jpg)  |  Mario Guevara - University of Delaware, USA |
-| ![](contrAu1thors/Hengl.jpg)    |  Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands |
+| ![](contrAuthors/Hengl.jpg)    |  Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands |
 | ![](contrAuthors/Heuvelink.jpg)|  Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands |
 | ![](contrAuthors/Kempen.jpg)   |  Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands |
 | ![](contrAuthors/Mulder.jpeg)  |  Titia VL Mulder - Wageningen University, Department of Environmental Sciences, the Netherlands |
