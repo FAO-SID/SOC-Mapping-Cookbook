@@ -158,32 +158,11 @@ dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 dat@proj4string
 ```
 
-Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. We will use stack() function from raster package. In this example we use 13 covariates from the GSOCMap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R].
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example we use 13 covariates from the GSOCMap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of chapter \@ref(covariates).
 
 ```{r}
-library(raster)
+load(file = "covariates.RData")
 
-# list all the itf files in the folder covs/
-files <- list.files(path = "covs", pattern = "tif$",
-                    full.names = TRUE)
-
-# load all the tif files in one rasterStack object
-covs <- stack(files)
-
-# load the vectorial version of the soil map
-soilmap <- shapefile("MK_soilmap_simple.shp")
-
-# rasterize using the Symbol layer
-soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
-soilmap.r <- rasterize(x = soilmap, y = covs[[1]], field = "Symbol")
-
-# stack the soil map and the other covariates
-covs <- stack(covs, soilmap.r)
-
-# correct the name for layer 14
-names(covs)[14] <- "soilmap"
-
-# print the names of the 14 layers:
 names(covs)
 ```
 

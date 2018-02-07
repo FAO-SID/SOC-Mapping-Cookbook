@@ -228,14 +228,21 @@ covs <- stack(covs, soilmap.r)
 
 # correct the name for layer 14
 names(covs)[14] <- "soilmap"
+```
 
+Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as 1 file. This will allow us to load this file in the following chapters of this book.
+
+```{r}
 #mask the covariates with the country mask from the data repository
 mask <- raster("data/mask.tif")
-
 covs <- mask(x = covs, mask = mask)
+
+# export all the covariates 
+save(covs, file = "covariates.RData")
 
 plot(covs)
 ```
+
 
 ### Overlay Covariates and Spatial Data
 
