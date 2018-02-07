@@ -103,18 +103,18 @@ names(dat@data)
 For the variable selection we will use `cor()` function. `x` must be a table including only the column with the response variable, and `y` must be a table including ONLY the covariates. Besides, remember `dat@data` in the `data.frame` included in the `spatialPointsDataFrame`. For `y`, columns 1 to 7 are out, because they are not covariates. At the same time, correlation analysis cannot be applied to categorical covariates, this means that columns 13 and 21 have to be removed too.
 
 ```{r variable selection in svm}
-COR <- cor(x = as.matrix(dat@data[,5]),
+selectedCovs <- cor(x = as.matrix(dat@data[,5]),
            y = as.matrix(dat@data[,-c(1:6,12,20)]))
 
 # print correlation results
-COR
+selectedCovs
 ```
 
 Now we used the correlation results to select the top five covariates.
 
 ```{r var selection in svm continued}
 library(reshape)
-x <- subset(melt(COR), value != 1 | value != NA)
+x <- subset(melt(selectedCovs), value != 1 | value != NA)
 x <- x[with(x, order(-abs(x$value))),]
 
 idx <- as.character(x$X2[1:5])
