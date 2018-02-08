@@ -1,7 +1,7 @@
 # Code examples
 *GF Olmedo*
 
-## Data Preparation for Soil Profiles
+## Data Preparation for Soil Profiles{#Data Preparation for Soil Profiles}
 
 ```{r data prep for soil profiles, eval=FALSE}
 dat <- read.csv(file = "data/horizons.csv")
@@ -105,7 +105,7 @@ summary(dat)
 write.csv(dat, "data/dataproc.csv")
 ```
 
-## Data Preparation for Top Soil or Auger Samples 
+## Data Preparation for Top Soil or Auger Samples {#Data Preparation for Top Soil or Auger Samples}  
 
 ```{r data prep for auger data, eval=FALSE}
 dat <- read.csv(file = "data/auger.csv")

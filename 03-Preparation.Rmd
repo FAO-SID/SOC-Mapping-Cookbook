@@ -31,7 +31,7 @@ knitr::kable(dat, caption = "Example for profile-description table")
 
 ### Technical Steps - Loading Data from Tables in R
 
-This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(Data preparation for soil profiles). The second example is using top soil or auger data and is presented in section \@ref(Data preparation for top soil or auger samples).
+This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(Data Preparation for Soil Profiles). The second example is using top soil or auger data and is presented in section \@ref(Data Preparation for Top Soil or Auger Samples).
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
@@ -213,7 +213,7 @@ For both **Options 2** and **3**, transformation is needed, using e.g. equal-are
 
 ### Technical Steps - Equal-Area Splines Using R
 
-In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see section 4.3.2). For illustration, a sample dataset has been used (see Chapter 5.). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables 2.1, 2.2 and 2.3) can be transformed to a SPC.
+In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see section \@ref(Soil Science and Pedometrics)). For illustration, a sample dataset has been used (see chapter \@ref(covariates)). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables \@ref(tab:example table for site-level), \@ref(tab:example table for horizon-level)) can be transformed to a SPC.
 
 The function `GSIF::mpspline` has several arguments. One of the arguments is the lambda value mentioned before. The proposed default value is 0.1. Another argument for this function is the target standard depths. The function produces spline-estimated values at these depths. However, this function also produces spline-estimated values at 1 cm increments. 
 
