@@ -29,7 +29,7 @@ The PCA + Linear Regression (PCR) method may be coarsely divided into three main
 ###  The Terminology
 
 * **Dependent variable (Y)**: What we are trying to predict (e.g. soil organic carbon content).
-* **Independent variables (Predictors) (X)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates - DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter 3.
+* **Independent variables (Predictors) (X)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates - DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in chapter \@ref(covariates).
 * **Coefficients (β)**: values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
 * **Residuals (ε)**: the portion of the dependent variable that cannot be explained by the model; the model under/over predictions.
 
@@ -116,7 +116,7 @@ We previously applied spline function to produce continuous soil information to 
 
 **Environmental Predictors (Covariates)**
 
-In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOC-data-repo).
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in section \@ref(GSOCDataRepo).
 
 In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 

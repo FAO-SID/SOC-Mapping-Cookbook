@@ -1,7 +1,7 @@
 # Preparation of Spatial covariates {#covariates}
 *R Baritz & Y Yigini*
 
-The example covariates from this chapter were prepared by *ISRIC*. The access and use limitations are presented in section [GSOCMap - Data Repository (ISRIC, 2017)]. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
+The example covariates from this chapter were prepared by *ISRIC*. The access and use limitations are presented in section \@ref(GSOCDataRepo). A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
 
 ```{r details of covariates, echo=F}
 covs.t <- read.csv("covs/CovsDescription.csv")
@@ -52,7 +52,7 @@ National parent material and geological maps may be used. Other available datase
 
 Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology and climate do not correlate well with the dependent variable, here SOC stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps. 
 
-FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see also section 3.6).
+FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see section \@ref(GSOCDataRepo)).
 
 ```{r, fig.cap="soil map of MK", eval=T, fig.width=8}
 # load the soil map from a shapefile file
@@ -168,7 +168,7 @@ The following parameters are available at 1 day time resolution:
 
 Data Access: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx
 
-## GSOCMap - Data Repository (ISRIC, 2017) {#GSOC-data-repo}
+## GSOCMap - Data Repository (ISRIC, 2017) {#GSOCDataRepo}
 
 ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a digital soil mapping exercise.
 
@@ -195,11 +195,11 @@ LICENCE and ACKNOWLEDGEMENT
 
 ## Extending the Soil Property Table for Spatial Statistics
 
-The upscaling procedures (Chapter 6) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
+The upscaling procedures (see chapter \@ref(mappingMethods)) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
 
 ## Preparation of a Soil Property Table for Spatial Statistics
 
-The upscaling procedures (section 4) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in section 3. An example is the clay content, which may be derived from a soil type or parent rock map. 
+The upscaling procedures (see chapter \@ref(mappingMethods)) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in section 3. An example is the clay content, which may be derived from a soil type or parent rock map. 
 
 > In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
 
