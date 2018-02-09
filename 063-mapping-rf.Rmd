@@ -90,28 +90,15 @@ load(file = "covariates.RData")
 names(covs)
 ```
 
-Random forest does not have assumptions about the statistical distribution of the response variable, but it is a good practice prior to model building to analyze the statistical distribution of the response variable (e.g., if is normal or not) and its relationships with the prediction factors. Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. 
-
-```{r, eval=FALSE}
-#Best correlated variables with OCSKGM
-d_cor <- as.matrix(cor(dat[-c(1,15)]))
-d_cor_melt <- arrange(melt(d_cor), -abs(value))
-d_cor_melt[d_cor_melt$Var2=='OCSKGMlog',]
-
-# Note that the main effects are not the same. 
-# This results can be used to interpret the drivers of OCSKGM 
-# spatial variability.
-```
-
-From the previous plots, we can say that the statistical distribution of *OCSKGM* tends to normality after the natural logarithm  transformation and also increases the correlation with the prediction factors. Therefore for further analysis we will use the dataset transformed to its natural logarithm (OCSKGMlog). We will build a working hypothesis from our conceptual model, using all the continous prediction factors for *OCSKGMlog*:
+Random forest does not have assumptions about the statistical distribution of the response variable, but it is a good practice prior to model building to analyze the statistical distribution of the response variable (e.g., if is normal or not) and its relationships with the prediction factors. Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. Therefore for further analysis we will use the dataset transformed to its natural logarithm (OCSKGMlog). We will build a working hypothesis from our conceptual model, using all the continous prediction factors for *OCSKGMlog*:
 
  *OCSKGMlog* ~ randomForest *B04CHE3 + B07CHE3 + B13CHE3 + B14CHE3 + DEMENV5 + LCEE10 + PRSCHE3 + SLPMRG5 + TMDMOD3 + TMNMOD3 + TWIMRG5 + VBFMRG5 + VDPMRG5* 
  
  
-```{r, eval=FALSE}
+```{r}
 # For its use on R we need to define a model formula
 
-fm = as.formula(paste("OCSKGMlog ~", paste0(names(covariates[[-14]]),
+fm = as.formula(paste("log(OCSKGM) ~", paste0(names(covs[[-14]]),
                                             collapse = "+"))) 
 
 ```
@@ -126,68 +113,75 @@ Keep in mind that selecting the most appropriate prediction factors is required 
 
 Now we will use the cross-validation strategy implemented in the train function of the caret package  (Kuhn et al. 2017), which default is 10-fold. The result of this function includes information to select the best mtry parameter and to decide the appropriate number of trees. The out-of-bag root mean squared error (rmse) will be used to select the optimal mtry model. To analyze the ntree parameter we will plot the number of trees against the out-of-bag rmse, an optimal ntree can be selected with the number of trees when this relationships stabilizes. Reduncing the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence of multidimensional and highly correlated prediction factors, avoiding an excessive number of trees will also reduce the risk of overfitting. 
 
-```{r, eval=FALSE}
+```{r tunning rf}
+library(randomForest)
+library(caret)
 
-#Default 10-fold cross-validation
+# Default 10-fold cross-validation
 ctrl <- trainControl(method = "cv", savePred=T)
-#Search for the best mtry parameter
-mod <- train(fm, data=train, method = "rf", trControl = ctrl, 
+# Search for the best mtry parameter
+rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl, 
              importance=TRUE)
-
 
 ```
 
 The object derived from the train function can be used to generate predictions of OCSKGMlog at the spatial resolution of the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, \%IncMSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that Random forest uses to reduce overfitting. 
 
-```{r, eval=FALSE}
-#Variable importance plot, compare with the correlation matrix
-#Select the best prediction factors and repeat  
-varImpPlot(mod[11][[1]], main='model decreasing error and node purity')
-#Check if the error stabilizes 
-plot(mod[11][[1]], main='select ntree')
-#Make a prediction across all Macedonia
-#Note that the units are still in log
-pred <- predict(covariates, mod)
-
-plot(pred, 'prediction of log transformed values')
+```{r, fig.cap='Model Decreasing Error and Node Purity'}
+# Variable importance plot, compare with the correlation matrix
+# Select the best prediction factors and repeat  
+varImpPlot(rfmodel[11][[1]])
 ```
 
+```{r, fig.cap='select ntree'}
+# Check if the error stabilizes 
+plot(rfmodel[11][[1]])
+```
+
+
 Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our Random forest model needs to be validated using the independent dataset to complement the results of the cross validation (e.g., rmse and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the rmse and the explained variance derived from the independent validations are slightly lower than the values obtained using cross validation. 
+
+```{r rf prediction, fig.cap='SOC prediction using a randomForest model'}
+#Make a prediction across all Macedonia
+#Note that the units are still in log
+pred <- predict(covs, rfmodel)
+
+# Back transform predictions log transformed
+pred <- exp(pred)
+
+plot(pred)
+```
+
 
 ### Modelling Uncertainty Using Random Forest 
 
 Ideally a digital soil map should include a spatial explicit metric of uncertainty. The uncertainty can be roughly divided on four main components, uncertainty in soil data, uncertainty in soil covariates, uncertainty in the model and uncertainty in variations of available data. Here, we show an approach to estimate the sensitivity of the model to available data and the uncertainty of the model. The first two are beyond of the aim of this chapter. For the third and fourth we will generate a reproducible example. 
 
+#### Technical steps - Using quantile regression forest to model uncertainty
+
 To analyze the sensitivity of the model to available data we just need to random split the data several times (e.g., 10 or more) in training and testing subsets. A run separate construction of the model and final prediction, in a way that the dispersion of the predicted values at the pixel level will represent sensitivity of the model to variations in available data. This process will take much more computational time and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example we will use only 10 realizations and random splits of 25% of available data. The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realization each with a different random combination of data for training and validating the models. The rmse and the explained variance of the models is stored in the object validation (type `summary(validation)`). The standard deviation of all the ten predictions allows to generate a map of model sensitivity to available data.
 
 ```{r, eval=FALSE}
-#Plot the observed vs modeled including a regression line
-#This model was generated with the 75% of all data
-plot(test$OCSKGMlog, test$pred, main='validation plot' )
-abline(lm(test$pred~test$OCSKGMlog), col='black', xlab='observed', 
-       ylab='modeled')
-
 #Generate an empty dataframe
 validation <- data.frame(rmse=numeric(), r2=numeric())
 #Sensitivity to the dataset
 #Start a loop with 10 model realizations
 for (i in 1:10){
-#We will build 10 models using random samples of 25%  
-smp_size <- floor(0.25 * nrow(dat))
-train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
-train <- dat[train_ind, ]
-test <- dat[-train_ind, ]
-#cross validate and make predictions for each model
-modn <- train(fm, data=train, method = "rf", trControl = ctrl)
-pred <- stack(pred, predict(covariates, modn))
-test$pred <- predict(modn[11][[1]], test)
-#Store the results in a dataframe
-validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
-validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
-#Plot the regression line of each model 
-abline(lm(test$pred~test$OCSKGMlog), col='gray')
-print(i)
+  # We will build 10 models using random samples of 25%  
+  smp_size <- floor(0.25 * nrow(dat))
+  train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
+  train <- dat[train_ind, ]
+  test <- dat[-train_ind, ]
+  # cross validate and make predictions for each model
+  modn <- train(fm, data=train, method = "rf", trControl = ctrl)
+  pred <- stack(pred, predict(covariates, modn))
+  test$pred <- predict(modn[11][[1]], test)
+  # Store the results in a dataframe
+  validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
+  validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
 }
+
+
 #The sensitivity map is the dispersion of all individual models
 sensitivity <- calc(pred[[-1]], sd)
 #Sensitivity of validation metrics
@@ -232,31 +226,3 @@ endCluster()
 ```
 
 We have created two maps in the working directory, one represent the predicted OCSKGM and the second one its uncertainty, which is the sum of the model sensitivity to data variations and the full conditional distribution of the response variable as a function of available prediction factors. The following chapters of this book will show you how to prepare a stock report based on this soil carbon digital soil maps.   
-
-
-
-##References
-
--Bonfatti BR, Hartemink AE, Giasson E, Tornquist CG, Adhikari K (2016) Digital mapping of soil carbon in a viticultural region of Southern Brazil. Geoderma, 261, 204–221.
-
--Breiman L (1996) Bagging Predictors. Machine Learning, 24, 123–140.
-
--Breiman L (2001) Random Forests. Machine Learning, 45, 5–32.
-
--Florinsky IV (2012) The Dokuchaev hypothesis as a basis for predictive digital soil mapping (on the 125th anniversary of its publication). Eurasian Soil Science, 45, 445–451.
-
--Guevara M, Olmedo GF, Stell E et al. (2018) No Silver Bullet for Digital Soil Mapping: Country-specific Soil Organic Carbon Estimates across Latin America. SOIL Discussions, 1–20.
-
--Hengl T, de Jesus JM, MacMillan RA et al. (2014) SoilGrids1km — Global Soil Information Based on Automated Mapping (ed Bond-Lamberty B). PLoS ONE, 9, e105992.
-
--Hengl T, Mendes de Jesus J, Heuvelink GBM et al. (2017) SoilGrids250m: Global gridded soil information based on machine learning (ed Bond-Lamberty B). PLOS ONE, 12, e0169748.
-
--Kuhn M. Contributions from Jed Wing, Steve Weston, Andre Williams,  Chris Keefer, Allan Engelhardt, Tony Cooper, Zachary Mayer, Brenton  Kenkel, the R Core Team, Michael Benesty, Reynald Lescarbeau, Andrew  Ziem, Luca Scrucca, Yuan Tang, Can Candan and Tyler Hunt. (2017).  caret: Classification and Regression Training. R package version  6.0-78. https://CRAN.R-project.org/package=caret
-
--McBratney A., Mendonça Santos M., Minasny B (2003) On digital soil mapping. Geoderma, 117, 3–52.
-
--Meinshausen N., (2006) Quantile Regression Forests. J. Mach. Learn. Res., 7, 983–999.
-
--R Core Team (2016). R: A language and environment for statistical  computing. R Foundation for 	Statistical Computing, Vienna, Austria.  URL https://www.R-project.org/.
-
--Vaysse K, Lagacherie P (2017) Using quantile regression forest to estimate uncertainty of digital soil mapping products. Geoderma, 291, 55–64.

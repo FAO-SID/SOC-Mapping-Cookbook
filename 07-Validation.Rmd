@@ -346,3 +346,13 @@ write.csv(train, file="data/dat_train.csv", row.names = FALSE)
 write.csv(test, file="data/dat_test.csv", row.names = FALSE)
 ```
 
+
+```{r}
+#Plot the observed vs modeled including a regression line
+#This model was generated with the 75% of all data
+plot(test$OCSKGMlog, test$pred, main='validation plot' )
+abline(lm(test$pred~test$OCSKGMlog), col='black', xlab='observed', 
+       ylab='modeled')
+```
+
+

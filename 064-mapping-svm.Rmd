@@ -252,8 +252,7 @@ Finally, we can evaluate the contribution of each covariate to the model [@guyon
 
 ```{r, echo=TRUE, eval=TRUE}
 # Variable importance in svm. Code by:
-# stackoverflow.com/questions/34781495/how-to-find-important-factors-
-# in-support-vector-machine
+# stackoverflow.com/questions/34781495
 
 w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
 w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
