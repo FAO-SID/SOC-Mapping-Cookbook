@@ -38,7 +38,7 @@ The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org
 
 As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following subsections we are going to present the most used packages related to digital soil property mapping.
 
-#### Soil Science and Pedometrics{#Soil Science and Pedometrics}
+#### Soil Science and Pedometrics{#SoilPedometrics}
 
 [**aqp**](https://CRAN.R-project.org/package=aqp): Algorithms for quantitative pedology.  A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.
 
