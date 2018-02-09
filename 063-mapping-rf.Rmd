@@ -10,81 +10,99 @@ Random forest is a type of machine learning for uncovering statistical relations
 
 ![The concept of Random Forest and Decision Trees](images/randomForestconcept.png)
 
-Random forest has been tested by many researchers in digital soil mapping (see for example @poggio2013regional; @rad2014updating, and references therein). Specifically in soil carbon mapping, there are authors who have shown that it holds a lot of promises when compared to other prediction models. They have demonstrated that it has a relatively improved accurate spatial prediction, is a better approach to dealing with model over-fitting and data noise, and is capable of handling both dimensionally linear and nonlinear relationships [@wiesmeier2011digital]. Furthermore, with the advent of open-source platforms and freely downloadable ancillary data, the application of random forest and other such models has increasingly become more appealing in digital soil mapping.
-
-The objective of this chapter is to demonstrate how random forest can be implemented in freely downloadable R software for spatial prediction of soil organic carbon. The R package of random forest, known as randomForest, was used [@breiman2017cutler].
+Random forest has been tested by many researchers in digital soil mapping (see for example @poggio2013regional; @rad2014updating, Hengl et al., 2014; Bonfatti et al., 2016; Hengl et al., 2017; Guevara et al., 2018 and references therein). Specifically in soil carbon mapping, there are authors who have shown that it holds a lot of promises when compared to other prediction models. They have demonstrated that it has a relatively improved accurate spatial prediction, is a better approach to dealing with model over-fitting and data noise, and is capable of handling both dimensionally linear and nonlinear relationships [@wiesmeier2011digital]. Furthermore, with the advent of open-source platforms and freely downloadable ancillary data, the application of random forest and other such models has increasingly become more appealing in digital soil mapping.
 
 ### Random forests
 
-Random forests  consist in a ensemble of regression trees based on bagging, a bootstrapping aggregation technique where each sample is different from the original data set, but resembles it in distribution and variability (Breiman, 1996, 2001). On digital soil mapping, random forests allows uncovering statistical relationship between a dependent variable (e.g. soil property) and its prediction factors (e.g., terrain attributes, remote sensing, climate layers and/or legacy maps). Random forests generates multiple regression trees using different subsets of available data and random combinations of the prediction factors. Each tree is internally evaluated by an out-of-bag cross validation form which allows to assess the relatively importance of the available prediction factors. Thus, higher weight is given to the most accurate trees (which use the most informative prediction factors) and the final prediction to new data is the weigthed average of all generated trees.  This method has been used to generate accurate predictions of soil organic carbon from the plot to the global scale (Hengl et al., 2014; Bonfatti et al., 2016; Hengl et al., 2017; Guevara et al., 2018)and also in a country-specific basis. Random forest can be implemented for digital soil mapping using open source platforms and public sources of environmental information. The objective here is to show an example for the implementation of the Random forest algorithm applied for soil organic carbon predictive mapping including the uncertainty of model estimates and using open source platforms for statistical computing.  
+Random forests  consist in a ensemble of regression trees based on bagging, a bootstrapping aggregation technique where each sample is different from the original data set, but resembles it in distribution and variability (Breiman, 1996, 2001). On digital soil mapping, random forests allows uncovering statistical relationship between a dependent variable (e.g. soil property) and its prediction factors (e.g., terrain attributes, remote sensing, climate layers and/or legacy maps). Random forests generates multiple regression trees using different subsets of available data and random combinations of the prediction factors. Each tree is internally evaluated by an out-of-bag cross validation form which allows to assess the relatively importance of the available prediction factors. Thus, higher weight is given to the most accurate trees (which use the most informative prediction factors) and the final prediction to new data is the weigthed average of all generated trees.  This method has been used to generate accurate predictions of soil organic carbon from the plot to the global scale and also in a country-specific basis. Random forest can be implemented for digital soil mapping using open source platforms and public sources of environmental information. 
 
 ### Conceptual model and data preparation
 
-To use Random forest for digital soil organic carbon mapping the SCORPAN (Soils, Climate, Organisms, Relief, Parent material, Age and N space) conceptual model (McBratney et al., 2003; Florinsky, 2012) will have take the following form: $$\ OCSKGM{x,y~t}  ~  randomForest   (E{x,y~t})$$
-where soil organic carbon estimates (*OCSKGM*) for a specific site (*x,y*) and for a specific period of time (~t) can be modeled as a Random forest (randomForest) function of the soil forming environment ($\ Ex,y~t$), which is represented by the *OCSKGM* prediction factors (e.g., terrain attributes, remote sensing, climate layers and/or legacy maps). To feed the right side of the equation, *OCSKGM* $\ x,y~t$ is usually represented in a tabular form or a geo-spatial object (e.g., shapefile) with three fundamental columns. Two columns represent the spatial coordinates x and y (e.g., latitude and longitude) that are used to extract the values of the prediction factors for the representative locations of the *OCSKGM* estimates. *OCSKGM* estimates are represented in a third column (see previous chapters of this book dealing with the transformation of soil carbon density to mass units). The left side of the equation is generally represented by gridded (raster) files, so all available sources of information should be first harmonized into a common pixel size and coordinate reference system.
+To use Random forest for digital soil organic carbon mapping the SCORPAN (Soils, Climate, Organisms, Relief, Parent material, Age and N space) conceptual model (McBratney et al., 2003; Florinsky, 2012) will have take the following form: $\ \text{SOC}_{x,y~t}  \sim  \text{randomForest}   (E_{x,y~t})$ where soil organic carbon estimates (*SOC*) for a specific site (*x,y*) and for a specific period of time (~t) can be modeled as a Random forest (randomForest) function of the soil forming environment ($\ Ex,y~t$), which is represented by the *SOC* prediction factors (e.g., terrain attributes, remote sensing, climate layers and/or legacy maps). To feed the right side of the equation, $SOC_{x,y~t}$ is usually represented in a tabular form or a geo-spatial object (e.g., shapefile) with three fundamental columns. Two columns represent the spatial coordinates x and y (e.g., latitude and longitude) that are used to extract the values of the prediction factors for the representative locations of the *SOC* estimates. *SOC* estimates are represented in a third column (see previous chapters of this book dealing with the transformation of soil carbon density to mass units). The left side of the equation is generally represented by gridded (raster) files, so all available sources of information should be first harmonized into a common pixel size and coordinate reference system.
 
 ### Software
 
-For the Random forest implementation we will use the platform for statistical computing R (R Core Team, 2016). This is an open source object oriented software that rely on specific-contributor libraries. There are several implementations for the Random forest algorithm in R  as well as several variants that can be used to solve digital soil mapping problems. In this section we will show the use of Random forest using the quantregForest, raster and caret R packages. The quantile regression forest (quantregForest;  (Meinshausen, 2006)) has two main advantages. First, it can be used to extract the variance of all the trees generated by Random forest, not just the mean (as in the original randomForest package), and therefore we can calculate the dispersion of the full conditional distribution of SOC as a function of the prediction factors, which  given available data, represent the Random forest model uncertainty. Second, the quantile regression forest approach can run in parallel using all available computational resources, in a way that we can predict and estimate the uncertainty of predictions at reasonable time frames whit large datasets. 
+For the Random forest implementation we will use the platform for statistical computing R (R Core Team, 2016). This is an open source object oriented software that rely on specific-contributor libraries. There are several implementations for the Random forest algorithm in R  as well as several variants that can be used to solve digital soil mapping problems. In this section we will show the use of Random forest using the quantregForest, raster and caret R packages. The quantile regression forest (quantregForest;  (Meinshausen, 2006)) has two main advantages. First, it can be used to extract the variance of all the trees generated by Random forest, not just the mean (as in the original randomForest package), and therefore we can calculate the dispersion of the full conditional distribution of SOC as a function of the prediction factors, which  given available data, represent the Random forest model uncertainty. Second, the quantile regression forest approach can run in parallel using all available computational resources, in a way that we can predict and estimate the uncertainty of predictions at reasonable time frames with large datasets. 
 
 ### Tunning Random forest parameters
 
 Two important parameters of Random forest are mtry and ntree. The mtry parameter controls the number of prediction factors that are randomly used on each tree, while the ntree parameter controls the number of trees generated by Random forest. These two parameters can be selected by the means of cross-validation to maximize the prediction capacity of Random forest. We will use the caret package to select the most appropriate values for these parameters using repeated cross-validation (Kuhn et al. 2017). Tunning the main parameters of Random forest (or any other model) can be time consuming in computational terms, because implies the need to run and internally validate an independent model for each possible combination of parameter values. Thus, tunning the Random forest parameters would be relevant, given available data, to achieve the best possible accuracy of predictions. 
 
-### Technical steps - RAndom forest
+### Technical steps - Random forest
 
-We will begin this exercise using two previously prepared databases for Macedonia by the Global Soil Parthnership staff (see previous chapters of this book dealing with data preparation). The first dataset contains in a tabular form the *OCSKGM* values (n=3865) and the values of the prediction factors for the same locations (e.g., x, y, *OCSKGM*, covariate1, covariate2...) while the second database is represented by a stack of raster files containing prediction factors across all the area of interest at the spatial resolution of 0.0083º (approx. 1km, Fig. 1). Lets import the data sets and load in R all our libraries of interest. First download the files from the working directory, the covariate space (the right side of the conceptual framework,  'MKDcovariate_space_1km_FAO_2018.tif’), the covariate names file ('namesMKDcovariate_space_1km_FAO_2018.rds') and the regression matrix (the left side of the conceptual framework ‘MKDregression_matrix_OCSKGM.rds’). 
+We will begin this exercise using two previously prepared databases for Macedonia by the Global Soil Parthnership staff (see previous chapters of this book dealing with data preparation). The first dataset contains in a tabular form the *OCSKGM* values and the values of the prediction factors for the same locations (e.g., x, y, *OCSKGM*, covariate1, covariate2...) while the second database is represented by a stack of raster files containing prediction factors across all the area of interest at the spatial resolution of 0.0083º (approx. 1km, Fig. 1). Lets import the data sets and load in R all our libraries of interest.  
 
+#### Data Preparation
 
+**Point Dataset**
 
-```{r, eval=FALSE}
+We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the section 2.4. Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
-setwd("~/Downloads/Global comparison/MKD")
-library(caret)
-library(raster)
-library(randomForest)
-library(quantregForest)
-library(dplyr)
-library(reshape2)
-library(Metrics)
-covariates <- stack('MKDcovariate_space_1km_FAO_2018.tif')
-name <- readRDS('namesMKDcovariate_space_1km_FAO_2018.rds')
-dat <- readRDS('MKDregression_matrix_OCSKGM.rds')
-names(covariates) <- name
-#OCSKGM estimates
-class(dat)
-names(dat)
-dim(dat)
-#OCSKGM prediction factors
-class(covariates)
-names(covariates)
-projection(covariates)
-res(covariates)
+**Environmental Predictors (Covariates)**
 
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOC-data-repo).
+
+In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
+
+Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
+
+```{r}
+# load data
+dat <- read.csv("data/MKD_RegMatrix.csv")
+
+dat$LCEE10 <- as.factor(dat$LCEE10)
+dat$soilmap <- as.factor(dat$soilmap)
+
+# explore the data structure
+str(dat)
 ```
-Random forest does not have assumptions about the statistical distribution of the response variable, but it is a good practice prior to model building to analyze the statistical distribution of the response variable (e.g., if is normal or not) and its relationships with the prediction factors. Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*OCSKGM*) tends to normality and 2) if this transformation increases the simple correlation of *OCSKGM* and its prediction factors. 
+
+Since we will be working with spatial data we need to define the coordinates for the imported data. Using the coordinates()  function from the sp package we can define the columns in the data frame to refer to spatial coordinates—here the coordinates are listed in columns X and Y.
+
+```{r}
+library(sp)
+
+# Promote to spatialPointsDataFrame
+coordinates(dat) <- ~ X + Y
+
+class(dat)
+```
+
+SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set the CRS used was: WGS84  (EPSG:4326).
+
+To clearly tell R this information we define the CRS which describes a reference system in a way understood by the [PROJ.4 projection library](http://trac.osgeo.org/proj/). An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
+
+Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
+
+Now, we will define our CRS:
+
+```{r}
+dat@proj4string <- CRS(projargs = "+init=epsg:4326")
+
+dat@proj4string
+```
+
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example we use 13 covariates from the GSOCMap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of chapter \@ref(covariates).
+
+```{r}
+load(file = "covariates.RData")
+
+names(covs)
+```
+
+Random forest does not have assumptions about the statistical distribution of the response variable, but it is a good practice prior to model building to analyze the statistical distribution of the response variable (e.g., if is normal or not) and its relationships with the prediction factors. Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. 
 
 ```{r, eval=FALSE}
-
-#Generate a new column with the transformed OCSKGM to its natural logarithm
-dat$OCSKGMlog <- log(dat$OCSKGM)
-plot(density(dat$OCSKGM), main='Statistical distribution of original values')
-
-plot(density(dat$OCSKGMlog), main='Statistical distribution of log transformed values')
-
-#Correlation matrix, higher correlations with OCSKGMlog than with OCSKGM
-
-round(cor(dat[-15]), 2)
-
 #Best correlated variables with OCSKGM
 d_cor <- as.matrix(cor(dat[-c(1,15)]))
 d_cor_melt <- arrange(melt(d_cor), -abs(value))
 d_cor_melt[d_cor_melt$Var2=='OCSKGMlog',]
 
-#Note that the main effects are not the same. 
-#This results can be used to interpret the drivers of OCSKGM spatial variability.
-
+# Note that the main effects are not the same. 
+# This results can be used to interpret the drivers of OCSKGM 
+# spatial variability.
 ```
+
 From the previous plots, we can say that the statistical distribution of *OCSKGM* tends to normality after the natural logarithm  transformation and also increases the correlation with the prediction factors. Therefore for further analysis we will use the dataset transformed to its natural logarithm (OCSKGMlog). We will build a working hypothesis from our conceptual model, using all the continous prediction factors for *OCSKGMlog*:
 
  *OCSKGMlog* ~ randomForest *B04CHE3 + B07CHE3 + B13CHE3 + B14CHE3 + DEMENV5 + LCEE10 + PRSCHE3 + SLPMRG5 + TMDMOD3 + TMNMOD3 + TWIMRG5 + VBFMRG5 + VDPMRG5* 
@@ -93,40 +111,35 @@ From the previous plots, we can say that the statistical distribution of *OCSKGM
 ```{r, eval=FALSE}
 # For its use on R we need to define a model formula
 
-(fm = as.formula(paste("OCSKGMlog ~", paste0(names(covariates[[-14]]), collapse = "+")))) 
-
-```
-This is the R syntax to define a model formula required for the model structure, where soil organic carbon transformed to its natural logarithm (*OCSKGMlog*) can be predicted as a function of the available prediction factors (each explained in previous chapters of this book, e.g., B04CHE3, B07CHE3, B13CHE3, B14CHE3, DEMENV5 , LCEE10, PRSCHE3, SLPMRG5, TMDMOD3, TMNMOD3, TWIMRG5, VBFMRG5, VDPMRG5). Note that the variable soilmap is categorical, so is not included in the correlation analysis. In fact, although soil type polygon maps are in theory powerful predictors for *OCSKGM* we will not use this map for modeling, because not all categories in the map are represented by available *OCSKGM* estimations, therefore this map requires a generalization of soil type units in function of the classes represented by the sites of *OCSKGM* estimates, which is beyond the scope of this chapter. Ideally the number of observations across all the categories of soil type or any other factorial variable should be balanced. Keep in mind that selecting the most appropriate prediction factors is required to generate an interpretable model and high accuracy of prediction in places where no information is available. Variable selection ideally should incorporate expert soil knowledge about the study area and a statistical criteria (e.g., just to use the best correlated predictors). Multivariate analysis (e.g., principal component analysis) are a widely used approach to select the most informative predictors. Here we use this combination of prediction factors to be consistent with other book chapters and because they were previously prepared for this exercise using expert knowledge about the spatial variability of OCSKGM estimates.
-
-Having a working hypothesis we will randomly split available datasets in two parts for training a Random forest model (75%) and for validating it (25%). We can check if 25% of available data is representative of the complete population by overlapping the probability distribution functions.
-
-```{r, eval=FALSE}
-
-#Set the seed to make your partition reproductible
-set.seed(123)
-#0.75 = 75% of available data
-smp_size <- floor(0.75 * nrow(dat))
-#Remove the OCSKGM and the soilmap variables from the dataset
-dat <- dat[-c(1, 15)]
-#Randomly split the dataset for training and validating the models
-train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
-train <- dat[train_ind, ]
-test <- dat[-train_ind, ]
-plot(density (train$OCSKGM), col='red', main='Statistical distribution of train and test datasets')
-lines(density (test$OCSKGM), col='blue')
-legend('topright', legend=c("train", "test"),
-       col=c("red", "blue"), lty=1, cex=1.5)
+fm = as.formula(paste("OCSKGMlog ~", paste0(names(covariates[[-14]]),
+                                            collapse = "+"))) 
 
 ```
 
-Now we will use the cross-validation strategy implemented in the train function of the caret package  (Kuhn et al. 2017), which default is 10-fold. The result of this function includes information to select the best mtry parameter and to decide the appropriate number of trees. The out-of-bag root mean squared error (rmse) was used to select the optimal mtry model using the smallest value. To analyze the ntree parameter we will plot the number of trees against the out-of-bag rmse, an optimal ntree can be selected with the number of trees when this relationships stabilizes. To reduce the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence multidimensional and highly correlated prediction factors, avoid an excessive number o trees will also reduce the risk of overfitting. 
+This is the R syntax to define a model formula required for the model structure, where soil organic carbon transformed to its natural logarithm (*OCSKGMlog*) can be predicted as a function of the available prediction factors (each explained in previous chapters of this book, e.g., B04CHE3, B07CHE3, B13CHE3, B14CHE3, DEMENV5 , LCEE10, PRSCHE3, SLPMRG5, TMDMOD3, TMNMOD3, TWIMRG5, VBFMRG5, VDPMRG5). 
+
+Note that the variable soilmap is categorical, so is not included in the correlation analysis. In fact, although soil type polygon maps are in theory powerful predictors for *OCSKGM* we will not use this map for modeling, because not all categories in the map are represented by available *OCSKGM* estimations, therefore this map requires a generalization of soil type units in function of the classes represented by the sites of *OCSKGM* estimates, which is beyond the scope of this chapter. Ideally the number of observations across all the categories of soil type or any other factorial variable should be balanced. 
+
+Keep in mind that selecting the most appropriate prediction factors is required to generate an interpretable model and high accuracy of prediction in places where no information is available. Variable selection ideally should incorporate expert soil knowledge about the study area and a statistical criteria (e.g., just to use the best correlated predictors). Multivariate analysis (e.g., principal component analysis) are a widely used approach to select the most informative predictors. Here we use this combination of prediction factors to be consistent with other book chapters and because they were previously prepared for this exercise using expert knowledge about the spatial variability of OCSKGM estimates.
+
+**Step - Tuning parameters**
+
+Now we will use the cross-validation strategy implemented in the train function of the caret package  (Kuhn et al. 2017), which default is 10-fold. The result of this function includes information to select the best mtry parameter and to decide the appropriate number of trees. The out-of-bag root mean squared error (rmse) will be used to select the optimal mtry model. To analyze the ntree parameter we will plot the number of trees against the out-of-bag rmse, an optimal ntree can be selected with the number of trees when this relationships stabilizes. Reduncing the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence of multidimensional and highly correlated prediction factors, avoiding an excessive number of trees will also reduce the risk of overfitting. 
 
 ```{r, eval=FALSE}
 
 #Default 10-fold cross-validation
 ctrl <- trainControl(method = "cv", savePred=T)
 #Search for the best mtry parameter
-(mod <- train(fm, data=train, method = "rf", trControl = ctrl, importance=TRUE))
+mod <- train(fm, data=train, method = "rf", trControl = ctrl, 
+             importance=TRUE)
+
+
+```
+
+The object derived from the train function can be used to generate predictions of OCSKGMlog at the spatial resolution of the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, \%IncMSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that Random forest uses to reduce overfitting. 
+
+```{r, eval=FALSE}
 #Variable importance plot, compare with the correlation matrix
 #Select the best prediction factors and repeat  
 varImpPlot(mod[11][[1]], main='model decreasing error and node purity')
@@ -135,26 +148,24 @@ plot(mod[11][[1]], main='select ntree')
 #Make a prediction across all Macedonia
 #Note that the units are still in log
 pred <- predict(covariates, mod)
-plot(pred, 'prediction of log transformed values')
-#Validate against the test dataset
-test$pred <- predict(mod[11][[1]], test)
-print(rmse(test$OCSKGMlog, test$pred))
-print(cor(test$OCSKGMlog, test$pred)^2)
 
+plot(pred, 'prediction of log transformed values')
 ```
 
-The object derived from the train function can be used to generate predictions of OCSKGMlog at the spatial resolution if the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, %IncMSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that Random forest uses to reduce overfitting. 
-
 Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our Random forest model needs to be validated using the independent dataset to complement the results of the cross validation (e.g., rmse and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the rmse and the explained variance derived from the independent validations are slightly lower than the values obtained using cross validation. 
+
+### Modelling Uncertainty Using Random Forest 
+
 Ideally a digital soil map should include a spatial explicit metric of uncertainty. The uncertainty can be roughly divided on four main components, uncertainty in soil data, uncertainty in soil covariates, uncertainty in the model and uncertainty in variations of available data. Here, we show an approach to estimate the sensitivity of the model to available data and the uncertainty of the model. The first two are beyond of the aim of this chapter. For the third and fourth we will generate a reproducible example. 
 
-To analyze the sensitivity of the model to available data we just need to repeat several times (e.g., 10 or more) the random split for training and testing the models, the construction of the model and the final prediction, in a way that the dispersion of the predicted values at the pixel level will represent sensitivity of the model to variations in available data. This process will take much more computational time and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example we will use only 10 realizations and random splits of 25% of available data. The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realization each with a different random combination of data for training and validating the models. The rmse and the explained variance of the models is stored in the object validation (type summary(validation)). The standard deviation of all the ten predictions allows to generate a map of model sensitivity to available data.
+To analyze the sensitivity of the model to available data we just need to random split the data several times (e.g., 10 or more) in training and testing subsets. A run separate construction of the model and final prediction, in a way that the dispersion of the predicted values at the pixel level will represent sensitivity of the model to variations in available data. This process will take much more computational time and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example we will use only 10 realizations and random splits of 25% of available data. The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realization each with a different random combination of data for training and validating the models. The rmse and the explained variance of the models is stored in the object validation (type `summary(validation)`). The standard deviation of all the ten predictions allows to generate a map of model sensitivity to available data.
 
 ```{r, eval=FALSE}
 #Plot the observed vs modeled including a regression line
 #This model was generated with the 75% of all data
 plot(test$OCSKGMlog, test$pred, main='validation plot' )
-abline(lm(test$pred~test$OCSKGMlog), col='black', xlab='observed', ylab='modeled')
+abline(lm(test$pred~test$OCSKGMlog), col='black', xlab='observed', 
+       ylab='modeled')
 
 #Generate an empty dataframe
 validation <- data.frame(rmse=numeric(), r2=numeric())
@@ -183,8 +194,10 @@ sensitivity <- calc(pred[[-1]], sd)
 summary(validation)
 #Plot of the map based on 75% of data and the sensitivity to data variations
 prediction75 <- exp(pred[[1]])
-plot(prediction75, main='OCSKGM prediction based on 75% of data', col=rev(topo.colors(10)))
-plot(sensitivity, main='Sensitivity based on 10 realizations using 25% random samples', col=rev(topo.colors(10)))
+plot(prediction75, main='OCSKGM prediction based on 75% of data', 
+     col=rev(topo.colors(10)))
+plot(sensitivity, col=rev(topo.colors(10)), 
+     main='Sensitivity based on 10 realizations using 25% samples')
 
 ```
 
@@ -192,11 +205,14 @@ Finally we are going to estimate the model uncertainty, represented by the full 
 
 ```{r, eval=FALSE}
 
-#Use quantile regression forest to estimate the full conditional distribution of OCSKGMlog
-model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500, keep.inbag=TRUE)
-#The argument nthread allows to run this line in parallel
+# Use quantile regression forest to estimate the full conditional 
+# distribution of OCSKGMlog
+model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500, 
+                        keep.inbag=TRUE)
+# The argument nthread allows to run this line in parallel
 
-#Estimate model uncertainty at the pixel level using parallel computing, using 3 cores
+# Estimate model uncertainty at the pixel level using parallel 
+# computing, using 3 cores
 beginCluster(3,type="SOCK")
 #Estimate model uncertainty
 unc <- clusterR(covariates, predict, args=list(model=model,what=sd))
@@ -207,17 +223,17 @@ unc <- unc + sensitivity
 #Express the uncertainty in percent (divide by the mean)
 Total_unc_Percent <- exp(unc)/exp(mean)
 #Plot both maps (the predicted OCSKGM and its associated uncertainty)
-plot(exp(mean),, main='OCSKGM based in all data', col=rev(topo.colors(10)))
-plot(Total_unc_Percent, col=rev(heat.colors(100)), zlim=c(0, 5), main='Total uncertainty')
+plot(exp(mean), main='OCSKGM based in all data', 
+     col=rev(topo.colors(10)))
+plot(Total_unc_Percent, col=rev(heat.colors(100)), zlim=c(0, 5), 
+     main='Total uncertainty')
 #Save the resulting maps in separated *.tif files
-writeRaster(exp(mean), file='randomForestOCSKGMprediction.tif', overwrite=TRUE)
-writeRaster(Total_unc_Percent, file='randomForestOCSKGMtotalUncertaintyPercent.tif', overwrite=TRUE)
 endCluster()
-#The clusteR function also can be used to other model objects
-
 ```
 
 We have created two maps in the working directory, one represent the predicted OCSKGM and the second one its uncertainty, which is the sum of the model sensitivity to data variations and the full conditional distribution of the response variable as a function of available prediction factors. The following chapters of this book will show you how to prepare a stock report based on this soil carbon digital soil maps.   
+
+
 
 ##References
 

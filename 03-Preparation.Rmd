@@ -289,7 +289,21 @@ dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
 dat <- dat[dat$OCSKGM>0,]
 summary(dat)
+```
+
+Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. 
+
+```{r, eval=FALSE}
+# Generate a new column with the transformed OCSKGM to its natural 
+# logarithm
+dat$OCSKGMlog <- log(dat$OCSKGM)
+plot(density(dat$OCSKGM), 
+     main='Statistical distribution of original values')
+
+plot(density(dat$OCSKGMlog), 
+     main='Statistical distribution of log transformed values')
 
 ## We can save our processed data as a table
 write.csv(dat, "data/dataproc.csv", row.names = FALSE)
 ```
+
