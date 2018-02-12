@@ -242,7 +242,7 @@ print(tunedModel)
 OCSsvm <- predict(COV, tunedModel)
 
 # Save the result
-writeRaster(OCSsvm, filename = "MKD_OCSKGM_svm.tif",
+writeRaster(OCSsvm, filename = "results/MKD_OCSKGM_svm.tif",
             overwrite=TRUE)
 
 plot(OCSsvm)

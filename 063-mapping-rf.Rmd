@@ -151,6 +151,11 @@ pred <- predict(covs, rfmodel)
 # Back transform predictions log transformed
 pred <- exp(pred)
 
+# Save the result as a tiff file
+writeRaster(pred, filename = "results/MKD_OCSKGM_rf.tif",
+            overwrite=TRUE)
+
+
 plot(pred)
 ```
 
