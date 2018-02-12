@@ -172,7 +172,6 @@ for (i in 1:10){
   train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
   train <- dat[train_ind, ]
   test <- dat[-train_ind, ]
-  # cross validate and make predictions for each mosers who want to improve their programming skills and understanding of the language. It del
   modn <- train(fm, data=train, method = "rf", trControl = ctrl)
   pred <- stack(pred, predict(covariates, modn))
   test$pred <- predict(modn[11][[1]], test)
@@ -196,7 +195,8 @@ summary(validation)
 ```
 
 ```{r, eval=FALSE, fig.cap='OCSKGM prediction based on 75% of data'}
-#Plot of the map based on 75% of data and the sensitivity to data variations
+# Plot of the map based on 75% of data and the sensitivity to data 
+# variations
 prediction75 <- exp(pred[[1]])
 
 plot(prediction75, main='OCSKGM prediction based on 75% of data', 
@@ -223,15 +223,17 @@ beginCluster(3,type="SOCK")
 # Estimate model uncertainty
 unc <- clusterR(covariates, predict, args=list(model=model,what=sd))
 # OCSKGMlog prediction based in all available data
-mean <- clusterR(covariates, predict, args=list(model=model,what=mean))
-# The total uncertainty is the sum of sensitivity and model uncertainty
+mean <- clusterR(covariates, predict, 
+                 args=list(model=model, what=mean))
+# The total uncertainty is the sum of sensitivity and model 
+# uncertainty
 unc <- unc + sensitivity
 # Express the uncertainty in percent (divide by the mean)
 Total_unc_Percent <- exp(unc)/exp(mean)
 endCluster()
 ```
 ```{r, eval=FALSE, fig.cap='OCSKGM quantregForest prediction'}
-# Plot both maps (the predicted OCSKGM and its associated uncertainty)
+# Plot both maps (the predicted OCSKGM + its associated uncertainty)
 plot(exp(mean), main='OCSKGM based in all data', 
      col=rev(topo.colors(10)))
 ```
@@ -246,8 +248,10 @@ Finally, the predicted OCSKGM and the total uncertainty can be saved in the work
 
 ```{r, eval=FALSE}
 #Save the resulting maps in separated *.tif files
-writeRaster(exp(mean), file='randomForestOCSKGMprediction.tif', overwrite=TRUE)
-writeRaster(Total_unc_Percent, file='randomForestOCSKGMtotalUncertaintyPercent.tif', overwrite=TRUE)
+writeRaster(exp(mean), file='rfOCSKGMprediction.tif', 
+            overwrite=TRUE)
+writeRaster(Total_unc_Percent, file='rfOCSKGMtotalUncertPercent.tif',
+            overwrite=TRUE)
 ```
 
 We have created two maps in the working directory, one represent the predicted OCSKGM and the second one its uncertainty, which is the sum of the model sensitivity to data variations and the full conditional distribution of the response variable as a function of available prediction factors. The following chapters of this book will show you how to prepare a stock report based on this soil carbon digital soil maps.   
