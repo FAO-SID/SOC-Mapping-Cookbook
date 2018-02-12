@@ -2,7 +2,7 @@
 ## Data minning: Support Vector Machines
 *GF Olmedo & M Guevara*
 
-Support vector machines (svm) is a machine learning technique used for classification and regresion analysis. According to @scikit-learn the advantages of svm are:
+Support vector machines (svm) is a machine learning technique used for classification and regresion analysis. According to @scikit the advantages of svm are:
 
 * Effective in high dimensional spaces.
 * Still effective in cases where number of dimensions is greater than the number of samples.
