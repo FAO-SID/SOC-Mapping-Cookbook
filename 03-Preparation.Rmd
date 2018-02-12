@@ -247,7 +247,7 @@ dat
 
 #### Run mass preserving splines for all the needed propierties
 
-```{r splines, results='hide', message=FALSE, eval=FALSE}
+```{r splines, results='hide', message=FALSE, eval=TRUE}
 library(GSIF)
 
 ## Estimate 0-30 standard horizon usin mass preserving splines
@@ -258,7 +258,7 @@ try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
 
 #### Convert back to table
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 ## Prepare final data frame
 dat <- data.frame(id = dat@site$ProfID,
                   Y = dat@sp@coords[,2],
@@ -277,7 +277,8 @@ head(dat)
 
 Finally, the estimation of the soil organic carbon stock (OKS) can be done using the **GSIF** package.
 
-```{r estimation of OCS, eval=FALSE}
+```{r estimation of OCS, eval=TRUE}
+library(GSIF)
 # Estimate Organic Carbon Stock
 # SOC must be in g/kg
 # BLD in kg/m3
@@ -293,15 +294,19 @@ summary(dat)
 
 Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE, fig.cap='Statistical distribution of original vs log-transformed values'}
 # Generate a new column with the transformed OCSKGM to its natural 
 # logarithm
 dat$OCSKGMlog <- log(dat$OCSKGM)
-plot(density(dat$OCSKGM), 
-     main='Statistical distribution of original values')
 
-plot(density(dat$OCSKGMlog), 
-     main='Statistical distribution of log transformed values')
+## plot the next two plots as one
+par(mfrow=c(1,2))
+plot(density(dat$OCSKGM),
+     main='original values')
+
+plot(density(dat$OCSKGMlog),
+     main='log transformed values')
+par(mfrow=c(1,1))
 
 ## We can save our processed data as a table
 write.csv(dat, "data/dataproc.csv", row.names = FALSE)

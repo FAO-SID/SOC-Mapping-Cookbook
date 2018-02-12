@@ -324,10 +324,10 @@ Note that the problem of spatially correlated errors remains when data are non-p
 
 In R, the caret package [@kuhn2016short] offers functionality for data-splitting and cross-validation.
 
-### Technical steps - Validation
+## Technical steps - Validation
 *GF Olmedo*
 
-#### Prediction error
+### Prediction error
 
 First, we will load the test dataset. This dataset was measured at the same time as the modelling dataset. After data preparation in chapter \ref@(preparation), we used the code in section \ref@(dataSplit) to split the database: 75\% of the points were used in the models from chapter \ref@(mappingMethods) and now we will use the remaing 25\% of the points to test the results.
 
@@ -342,7 +342,7 @@ dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 
 Now, we will load the results from chapter \ref@(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
 
-```{r}
+```{r ,warning=FALSE}
 library(raster)
 
 OCSKGM_RK <- raster("results/MKD_OCSKGM_RK.tif")
@@ -353,12 +353,127 @@ dat <- extract(x = OCSKGM_RK, y = dat, sp = TRUE)
 dat <- extract(x = OCSKGM_rf, y = dat, sp = TRUE)
 dat <- extract(x = OCSKGM_svm, y = dat, sp = TRUE)
 
+dat$PE_RK <- dat$MKD_OCSKGM_RK - dat$OCSKGM
+dat$PE_rf <- dat$MKD_OCSKGM_rf - dat$OCSKGM
+dat$PE_svm <- dat$MKD_OCSKGM_svm - dat$OCSKGM
+```
 
+
+```{r summary of prediction error for 3 different methods, echo=FALSE}
+prederrors <-  as.data.frame(cbind(summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
+names(prederrors) <- c('RK', 'randomForest', 'svm')
+knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different methods", digits = 2, align = "lll")
+```
+
+### Estimating the Map Quality Measures
+
+```{r}
+# Mean Error
+ME_RK <- mean(dat$PE_RK, na.rm=TRUE)
+ME_rf <- mean(dat$PE_rf, na.rm=TRUE)
+ME_svm <- mean(dat$PE_svm, na.rm=TRUE)
+
+# Mean Absolute Error (MAE)
+MAE_RK <- mean(abs(dat$PE_RK), na.rm=TRUE)
+MAE_rf <- mean(abs(dat$PE_rf), na.rm=TRUE)
+MAE_svm <- mean(abs(dat$PE_svm), na.rm=TRUE)
+
+# Mean Squared Error (MSE)
+MSE_RK <- mean(dat$PE_RK^2, na.rm=TRUE)
+MSE_rf <- mean(dat$PE_rf^2, na.rm=TRUE)
+MSE_svm <- mean(dat$PE_svm^2, na.rm=TRUE)
+
+# Root Mean Squared Error (RMSE)
+RMSE_RK <- sqrt(sum(dat$PE_RK^2, na.rm=TRUE) / length(dat$PE_RK))
+RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
+RMSE_svm <- sqrt(sum(dat$PE_svm^2, na.rm=TRUE) / length(dat$PE_svm))
+
+# Amount of Variance Explained (AVE)
+AVE_RK <- 1 - sum(dat$PE_RK^2, na.rm=TRUE) / 
+  sum( (dat$MKD_OCSKGM_RK - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+       na.rm = TRUE)
+
+AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) / 
+  sum( (dat$MKD_OCSKGM_rf - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+       na.rm = TRUE)
+
+AVE_svm <- 1 - sum(dat$PE_svm^2, na.rm=TRUE) / 
+  sum( (dat$MKD_OCSKGM_svm - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+       na.rm = TRUE)
+
+# Mean Squared Deviation Ratio (MSDR)
+MSDR_RK <- 1  # filler
+MSDR_rf <- 1
+MSDR_svm <- 1
+```
+
+```{r summary of map qualitity measures for 3 different methods, echo=FALSE}
+validation <- data.frame(ME = c(ME_RK, ME_rf, ME_svm),
+                         MAE= c(MAE_RK, MAE_rf, MAE_svm),
+                         MSE= c(MSE_RK, MSE_rf, MSE_svm),
+                         RMSE= c(RMSE_RK, RMSE_rf, RMSE_svm),
+                         AVE= c(AVE_RK, AVE_rf, AVE_svm),
+                         MSDR= c(MSDR_RK, MSDR_rf, MSDR_svm)
+                         )
+validation <- as.data.frame(t(validation))
+names(validation) <- c('RK', 'randomForest', 'svm')
+
+knitr::kable(validation, caption = "Summary of prediction errors for 3 different methods", digits = 3, align = "lll")
+```
+
+### Graphical Map Quality Measures 
+
+```{r, fig.asp=3, fig.cap='Scatter plots of predicted against observed values'}
+par(mfrow=c(3,1)) # Two plots in one plot
+
+# scatter plot
+plot(dat$MKD_OCSKGM_RK, dat$OCSKGM, main="RK", xlab="predicted", 
+     ylab='observed')
+# 1:1 line in black
+abline(0,1, lty=2, col='black')
+# regression line between predicted and observed in blue
+abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_RK), col = 'blue', lty=2)
+
+# scatter plot
+plot(dat$MKD_OCSKGM_rf, dat$OCSKGM, main="rf", xlab="predicted", 
+     ylab='observed')
+# 1:1 line in black
+abline(0,1, lty=2, col='black')
+# regression line between predicted and observed in blue
+abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_rf), col = 'blue', lty=2)
+
+# scatter plot
+plot(dat$MKD_OCSKGM_svm, dat$OCSKGM, main="svm", xlab="predicted", 
+     ylab='observed')
+# 1:1 line in black
+abline(0,1, lty=2, col='black')
+# regression line between predicted and observed in blue
+abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_svm), col = 'blue', lty=2)
+
+par(mfrow=c(1,1))
+```
+
+```{r, fig.cap='Spatial bubble of the prediction errors for RK'}
+# spatial bubbles for prediction errors
+bubble(dat[!is.na(dat$PE_RK),], "PE_RK", pch = 21, 
+       col=c('red', 'green'))
+```
+
+```{r, fig.cap='Spatial bubble of the prediction errors for rf'}
+# spatial bubbles for prediction errors
+bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21, 
+       col=c('red', 'green'))
+```
+
+```{r, fig.cap='Spatial bubble of the prediction errors for svm'}
+# spatial bubbles for prediction errors
+bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21, 
+       col=c('red', 'green'))
 ```
 
 
 
-#### Data-Splitting {#dataSplit}
+### Data-Splitting {#dataSplit}
 
 ```{r, eval=TRUE, fig.cap='Statistical distribution of train and test datasets'}
 library(caret)
@@ -376,7 +491,7 @@ legend('topright', legend=c("train", "test"),
       col=c("red", "blue"), lty=1, cex=1.5)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 write.csv(train, file="data/dat_train.csv", row.names = FALSE)
 write.csv(test, file="data/dat_test.csv", row.names = FALSE)
 ```
