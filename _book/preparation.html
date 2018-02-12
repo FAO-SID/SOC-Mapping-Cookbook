@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Soil Organic Carbon Mapping cookbook</title>
+  <meta name="description" content="The soilll cookbook.">
+  <meta name="generator" content="bookdown 0.5.15 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Soil Organic Carbon Mapping cookbook" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="The soilll cookbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Soil Organic Carbon Mapping cookbook" />
+  
+  <meta name="twitter:description" content="The soilll cookbook." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="">
+
+
+<meta name="date" content="2018-02-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="soil-property-maps.html">
+<link rel="next" href="setting-up-the-software-environment.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Foreword</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#editorial-board"><i class="fa fa-check"></i>Editorial Board</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#contributing-authors"><i class="fa fa-check"></i>Contributing Authors</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="copyright-and-disclaimer.html"><a href="copyright-and-disclaimer.html"><i class="fa fa-check"></i>Copyright and disclaimer</a></li>
+<li class="chapter" data-level="1" data-path="presentation.html"><a href="presentation.html"><i class="fa fa-check"></i><b>1</b> Presentation</a></li>
+<li class="chapter" data-level="2" data-path="soil-property-maps.html"><a href="soil-property-maps.html"><i class="fa fa-check"></i><b>2</b> Soil Property Maps</a><ul>
+<li class="chapter" data-level="2.1" data-path="soil-property-maps.html"><a href="soil-property-maps.html#definitions-and-objectives"><i class="fa fa-check"></i><b>2.1</b> Definitions and Objectives</a></li>
+<li class="chapter" data-level="2.2" data-path="soil-property-maps.html"><a href="soil-property-maps.html#generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates"><i class="fa fa-check"></i><b>2.2</b> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="preparation.html"><a href="preparation.html"><i class="fa fa-check"></i><b>3</b> Preparation of Local Soil Property Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="preparation.html"><a href="preparation.html#soil-profiles-and-soil-augers"><i class="fa fa-check"></i><b>3.1</b> Soil Profiles and Soil Augers</a></li>
+<li class="chapter" data-level="3.2" data-path="preparation.html"><a href="preparation.html#soil-database"><i class="fa fa-check"></i><b>3.2</b> Soil Database</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="preparation.html"><a href="preparation.html#technical-steps---loading-data-from-tables-in-r"><i class="fa fa-check"></i><b>3.2.1</b> Technical Steps - Loading Data from Tables in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="preparation.html"><a href="preparation.html#completeness-of-measurements-and-estimates"><i class="fa fa-check"></i><b>3.3</b> Completeness of Measurements and Estimates</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="preparation.html"><a href="preparation.html#stones"><i class="fa fa-check"></i><b>3.3.1</b> Stones</a></li>
+<li class="chapter" data-level="3.3.2" data-path="preparation.html"><a href="preparation.html#bulk-density"><i class="fa fa-check"></i><b>3.3.2</b> Bulk density</a></li>
+<li class="chapter" data-level="3.3.3" data-path="preparation.html"><a href="preparation.html#soil-carbon-analysis"><i class="fa fa-check"></i><b>3.3.3</b> Soil Carbon Analysis</a></li>
+<li class="chapter" data-level="3.3.4" data-path="preparation.html"><a href="preparation.html#carbonates"><i class="fa fa-check"></i><b>3.3.4</b> Carbonates</a></li>
+<li class="chapter" data-level="3.3.5" data-path="preparation.html"><a href="preparation.html#depth"><i class="fa fa-check"></i><b>3.3.5</b> Depth</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="preparation.html"><a href="preparation.html#completeness-of-depth-estimate"><i class="fa fa-check"></i><b>3.4</b> Completeness of Depth Estimate</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="preparation.html"><a href="preparation.html#EqualAreaSplines"><i class="fa fa-check"></i><b>3.4.1</b> Technical Steps - Equal-Area Splines Using R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html"><i class="fa fa-check"></i><b>4</b> Setting-Up the Software Environment</a><ul>
+<li class="chapter" data-level="4.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#use-of-r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>4.1</b> Use of R , RStudio and R Packages</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r"><i class="fa fa-check"></i><b>4.1.1</b> Obtaining and Installing R</a></li>
+<li class="chapter" data-level="4.1.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r-studio"><i class="fa fa-check"></i><b>4.1.2</b> Obtaining and Installing R Studio</a></li>
+<li class="chapter" data-level="4.1.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#getting-started-with-r"><i class="fa fa-check"></i><b>4.1.3</b> Getting Started with R</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-packages"><i class="fa fa-check"></i><b>4.2</b> R Packages</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#finding-r-packages"><i class="fa fa-check"></i><b>4.2.1</b> Finding R Packages</a></li>
+<li class="chapter" data-level="4.2.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#most-used-r-packages-for-digital-soil-mapping"><i class="fa fa-check"></i><b>4.2.2</b> Most Used R Packages for Digital Soil Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-and-spatial-data"><i class="fa fa-check"></i><b>4.3</b> R and Spatial Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading Shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#coordinate-reference-systems-crs-in-r"><i class="fa fa-check"></i><b>4.3.2</b> Coordinate Reference Systems (CRS) in R</a></li>
+<li class="chapter" data-level="4.3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#working-with-rasters"><i class="fa fa-check"></i><b>4.3.3</b> Working with Rasters</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#other-dsm-related-software-and-tools"><i class="fa fa-check"></i><b>4.4</b> Other DSM Related Software and Tools</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="covariates.html"><a href="covariates.html"><i class="fa fa-check"></i><b>5</b> Preparation of Spatial covariates</a><ul>
+<li class="chapter" data-level="5.1" data-path="covariates.html"><a href="covariates.html#dem-derived-covariates"><i class="fa fa-check"></i><b>5.1</b> DEM-Derived Covariates</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="covariates.html"><a href="covariates.html#dem-source-data-sets"><i class="fa fa-check"></i><b>5.1.1</b> DEM Source Data Sets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="covariates.html"><a href="covariates.html#parent-material"><i class="fa fa-check"></i><b>5.2</b> Parent Material</a></li>
+<li class="chapter" data-level="5.3" data-path="covariates.html"><a href="covariates.html#soil-maps"><i class="fa fa-check"></i><b>5.3</b> Soil Maps</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="covariates.html"><a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r"><i class="fa fa-check"></i><b>5.3.1</b> Technical Steps - Rasterizing a Vector Layer in R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="covariates.html"><a href="covariates.html#land-cover-and-land-use"><i class="fa fa-check"></i><b>5.4</b> Land Cover and Land use</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="covariates.html"><a href="covariates.html#globcover-global"><i class="fa fa-check"></i><b>5.4.1</b> GlobCover (Global)</a></li>
+<li class="chapter" data-level="5.4.2" data-path="covariates.html"><a href="covariates.html#landsat-geocover-global"><i class="fa fa-check"></i><b>5.4.2</b> Landsat GeoCover (Global)</a></li>
+<li class="chapter" data-level="5.4.3" data-path="covariates.html"><a href="covariates.html#globeland30-global"><i class="fa fa-check"></i><b>5.4.3</b> Globeland30 (Global)</a></li>
+<li class="chapter" data-level="5.4.4" data-path="covariates.html"><a href="covariates.html#corine-land-cover-europe-only"><i class="fa fa-check"></i><b>5.4.4</b> CORINE Land Cover (Europe Only)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="covariates.html"><a href="covariates.html#climate"><i class="fa fa-check"></i><b>5.5</b> Climate</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="covariates.html"><a href="covariates.html#worldclim-v1.4-and-v2-global"><i class="fa fa-check"></i><b>5.5.1</b> WorldClim V1.4 and V2 (Global)</a></li>
+<li class="chapter" data-level="5.5.2" data-path="covariates.html"><a href="covariates.html#gridded-agro-meteorological-data-in-europe-europe"><i class="fa fa-check"></i><b>5.5.2</b> Gridded Agro-Meteorological Data in Europe (Europe)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="covariates.html"><a href="covariates.html#GSOCDataRepo"><i class="fa fa-check"></i><b>5.6</b> GSOCMap - Data Repository (ISRIC, 2017)</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="covariates.html"><a href="covariates.html#covariates-and-empty-mask"><i class="fa fa-check"></i><b>5.6.1</b> Covariates and Empty Mask</a></li>
+<li class="chapter" data-level="5.6.2" data-path="covariates.html"><a href="covariates.html#data-specifications"><i class="fa fa-check"></i><b>5.6.2</b> Data Specifications</a></li>
+<li class="chapter" data-level="5.6.3" data-path="covariates.html"><a href="covariates.html#data-access"><i class="fa fa-check"></i><b>5.6.3</b> Data Access</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="covariates.html"><a href="covariates.html#extending-the-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.7</b> Extending the Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.8" data-path="covariates.html"><a href="covariates.html#preparation-of-a-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.8</b> Preparation of a Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.9" data-path="covariates.html"><a href="covariates.html#overlay-soil-covariates"><i class="fa fa-check"></i><b>5.9</b> Technical Steps - Overlay Covariates and Soil Points Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="covariates.html"><a href="covariates.html#load-soil-sample-data-and-covariates"><i class="fa fa-check"></i><b>5.9.1</b> Load soil sample data and covariates</a></li>
+<li class="chapter" data-level="5.9.2" data-path="covariates.html"><a href="covariates.html#combine-the-covariates-provided-with-the-raster-version-of-the-soil-map"><i class="fa fa-check"></i><b>5.9.2</b> Combine the covariates provided with the raster version of the soil map</a></li>
+<li class="chapter" data-level="5.9.3" data-path="covariates.html"><a href="covariates.html#overlay-covariates-and-spatial-data"><i class="fa fa-check"></i><b>5.9.3</b> Overlay Covariates and Spatial Data</a></li>
+<li class="chapter" data-level="5.9.4" data-path="covariates.html"><a href="covariates.html#convert-result-to-data.frame-and-save-as-a-csv-table"><i class="fa fa-check"></i><b>5.9.4</b> Convert result to data.frame and save as a csv table</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="mappingMethods.html"><a href="mappingMethods.html"><i class="fa fa-check"></i><b>6</b> Mapping Methods</a><ul>
+<li class="chapter" data-level="6.1" data-path="mappingMethods.html"><a href="mappingMethods.html#conventional-upscaling-using-soil-maps"><i class="fa fa-check"></i><b>6.1</b> Conventional Upscaling Using Soil Maps</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview"><i class="fa fa-check"></i><b>6.1.1</b> Overview</a></li>
+<li class="chapter" data-level="6.1.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-class-matching"><i class="fa fa-check"></i><b>6.1.2</b> Technical Steps: Class-matching</a></li>
+<li class="chapter" data-level="6.1.3" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-geo-matching"><i class="fa fa-check"></i><b>6.1.3</b> Technical Steps: Geo-Matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="mappingMethods.html"><a href="mappingMethods.html#regression-kriging"><i class="fa fa-check"></i><b>6.2</b> Regression-Kriging</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-1"><i class="fa fa-check"></i><b>6.2.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2.2" data-path="mappingMethods.html"><a href="mappingMethods.html#assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="mappingMethods.html"><a href="mappingMethods.html#pre-processing-of-covariates"><i class="fa fa-check"></i><b>6.2.3</b> Pre-Processing of Covariates</a></li>
+<li class="chapter" data-level="6.2.4" data-path="mappingMethods.html"><a href="mappingMethods.html#the-terminology"><i class="fa fa-check"></i><b>6.2.4</b> The Terminology</a></li>
+<li class="chapter" data-level="6.2.5" data-path="mappingMethods.html"><a href="mappingMethods.html#interpret-the-key-results-of-multiple-regression"><i class="fa fa-check"></i><b>6.2.5</b> Interpret the Key Results of Multiple Regression</a></li>
+<li class="chapter" data-level="6.2.6" data-path="mappingMethods.html"><a href="mappingMethods.html#using-the-results-of-a-regression-analysis-to-make-predictions"><i class="fa fa-check"></i><b>6.2.6</b> Using the Results of a Regression Analysis to Make Predictions</a></li>
+<li class="chapter" data-level="6.2.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---regression-kriging"><i class="fa fa-check"></i><b>6.2.7</b> Technical Steps - Regression Kriging</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="mappingMethods.html"><a href="mappingMethods.html#data-mining-random-forest"><i class="fa fa-check"></i><b>6.3</b> Data mining: Random Forest</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-2"><i class="fa fa-check"></i><b>6.3.1</b> Overview</a></li>
+<li class="chapter" data-level="6.3.2" data-path="mappingMethods.html"><a href="mappingMethods.html#random-forests"><i class="fa fa-check"></i><b>6.3.2</b> Random forests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="mappingMethods.html"><a href="mappingMethods.html#conceptual-model-and-data-preparation"><i class="fa fa-check"></i><b>6.3.3</b> Conceptual model and data preparation</a></li>
+<li class="chapter" data-level="6.3.4" data-path="mappingMethods.html"><a href="mappingMethods.html#software"><i class="fa fa-check"></i><b>6.3.4</b> Software</a></li>
+<li class="chapter" data-level="6.3.5" data-path="mappingMethods.html"><a href="mappingMethods.html#tunning-random-forest-parameters"><i class="fa fa-check"></i><b>6.3.5</b> Tunning Random forest parameters</a></li>
+<li class="chapter" data-level="6.3.6" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---random-forest"><i class="fa fa-check"></i><b>6.3.6</b> Technical steps - Random forest</a></li>
+<li class="chapter" data-level="6.3.7" data-path="mappingMethods.html"><a href="mappingMethods.html#modelling-uncertainty-using-random-forest"><i class="fa fa-check"></i><b>6.3.7</b> Modelling Uncertainty Using Random Forest</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="mappingMethods.html"><a href="mappingMethods.html#data-minning-support-vector-machines"><i class="fa fa-check"></i><b>6.4</b> Data minning: Support Vector Machines</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---fitting-a-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>6.4.1</b> Technical Steps - Fitting a SVM Model to Predict the SOC</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>7</b> Validation</a><ul>
+<li class="chapter" data-level="7.1" data-path="validation.html"><a href="validation.html#what-is-validation"><i class="fa fa-check"></i><b>7.1</b> What is Validation?</a></li>
+<li class="chapter" data-level="7.2" data-path="validation.html"><a href="validation.html#map-quality-measures"><i class="fa fa-check"></i><b>7.2</b> Map Quality Measures</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="validation.html"><a href="validation.html#quality-measures-for-quantitative-soil-maps"><i class="fa fa-check"></i><b>7.2.1</b> Quality Measures for Quantitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.2" data-path="validation.html"><a href="validation.html#quality-measures-for-qualitative-soil-maps"><i class="fa fa-check"></i><b>7.2.2</b> Quality Measures for Qualitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.3" data-path="validation.html"><a href="validation.html#estimating-the-map-quality-measures-and-associated-uncertainty"><i class="fa fa-check"></i><b>7.2.3</b> Estimating the Map Quality Measures and Associated Uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="validation.html"><a href="validation.html#graphical-map-quality-measures"><i class="fa fa-check"></i><b>7.3</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="7.4" data-path="validation.html"><a href="validation.html#validation-methods-and-statistical-inference"><i class="fa fa-check"></i><b>7.4</b> Validation Methods and Statistical Inference</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="validation.html"><a href="validation.html#additional-probability-sampling"><i class="fa fa-check"></i><b>7.4.1</b> Additional Probability Sampling</a></li>
+<li class="chapter" data-level="7.4.2" data-path="validation.html"><a href="validation.html#data-splitting"><i class="fa fa-check"></i><b>7.4.2</b> Data-Splitting</a></li>
+<li class="chapter" data-level="7.4.3" data-path="validation.html"><a href="validation.html#cross-validation"><i class="fa fa-check"></i><b>7.4.3</b> Cross-Validation</a></li>
+<li class="chapter" data-level="7.4.4" data-path="validation.html"><a href="validation.html#technical-steps---validation"><i class="fa fa-check"></i><b>7.4.4</b> Technical steps - Validation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="uncertainty.html"><a href="uncertainty.html"><i class="fa fa-check"></i><b>8</b> Uncertainty</a><ul>
+<li class="chapter" data-level="8.1" data-path="uncertainty.html"><a href="uncertainty.html#sources-of-uncertainty"><i class="fa fa-check"></i><b>8.1</b> Sources of Uncertainty</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="uncertainty.html"><a href="uncertainty.html#attribute-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>8.1.1</b> Attribute Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="8.1.2" data-path="uncertainty.html"><a href="uncertainty.html#positional-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>8.1.2</b> Positional Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="8.1.3" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-covariates"><i class="fa fa-check"></i><b>8.1.3</b> Uncertainty in Covariates</a></li>
+<li class="chapter" data-level="8.1.4" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-models-predicting-soil-properties-from-covariates-and-soil-point-data"><i class="fa fa-check"></i><b>8.1.4</b> Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-and-spatial-data-quality"><i class="fa fa-check"></i><b>8.2</b> Uncertainty and Spatial Data Quality</a></li>
+<li class="chapter" data-level="8.3" data-path="uncertainty.html"><a href="uncertainty.html#quantifying-prediction-uncertainty"><i class="fa fa-check"></i><b>8.3</b> Quantifying Prediction Uncertainty</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-characterised-by-probability-distributions"><i class="fa fa-check"></i><b>8.3.1</b> Uncertainty Characterised by Probability Distributions</a></li>
+<li class="chapter" data-level="8.3.2" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-model-uncertainty"><i class="fa fa-check"></i><b>8.3.2</b> Propagation of Model Uncertainty</a></li>
+<li class="chapter" data-level="8.3.3" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-attribute-positional-and-covariate-uncertainty"><i class="fa fa-check"></i><b>8.3.3</b> Propagation of Attribute, Positional and Covariate Uncertainty</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="data-sharing.html"><a href="data-sharing.html"><i class="fa fa-check"></i><b>9</b> Data Sharing</a><ul>
+<li class="chapter" data-level="9.1" data-path="data-sharing.html"><a href="data-sharing.html#export-formats"><i class="fa fa-check"></i><b>9.1</b> Export Formats</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="data-sharing.html"><a href="data-sharing.html#type-of-soil-data-and-their-formatting"><i class="fa fa-check"></i><b>9.1.1</b> Type of Soil Data and Their Formatting</a></li>
+<li class="chapter" data-level="9.1.2" data-path="data-sharing.html"><a href="data-sharing.html#general-gis-data-formats-vector-raster-table"><i class="fa fa-check"></i><b>9.1.2</b> General GIS Data Formats: Vector, Raster, Table</a></li>
+<li class="chapter" data-level="9.1.3" data-path="data-sharing.html"><a href="data-sharing.html#recommended-gis-data-exchange-formats"><i class="fa fa-check"></i><b>9.1.3</b> Recommended GIS Data Exchange Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="data-sharing.html"><a href="data-sharing.html#web-services---serving-soil-data-using-web-technology"><i class="fa fa-check"></i><b>9.2</b> Web Services - Serving Soil Data Using Web Technology</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="data-sharing.html"><a href="data-sharing.html#third-party-services"><i class="fa fa-check"></i><b>9.2.1</b> Third-Party Services</a></li>
+<li class="chapter" data-level="9.2.2" data-path="data-sharing.html"><a href="data-sharing.html#geoserver-web-serving-and-web-processing"><i class="fa fa-check"></i><b>9.2.2</b> GeoServer (Web Serving and Web Processing)</a></li>
+<li class="chapter" data-level="9.2.3" data-path="data-sharing.html"><a href="data-sharing.html#visualizing-data-using-leaflet-andor-google-earth"><i class="fa fa-check"></i><b>9.2.3</b> Visualizing Data Using Leaflet and/or Google Earth</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="data-sharing.html"><a href="data-sharing.html#preparing-soil-data-for-distribution"><i class="fa fa-check"></i><b>9.3</b> Preparing Soil Data for Distribution</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="data-sharing.html"><a href="data-sharing.html#metadata"><i class="fa fa-check"></i><b>9.3.1</b> Metadata</a></li>
+<li class="chapter" data-level="9.3.2" data-path="data-sharing.html"><a href="data-sharing.html#exporting-data-final-tips"><i class="fa fa-check"></i><b>9.3.2</b> Exporting Data — Final Tips</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="data-sharing.html"><a href="data-sharing.html#export-formats-1"><i class="fa fa-check"></i><b>9.4</b> Export Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html"><i class="fa fa-check"></i><b>10</b> Technical Overview and the Checklist</a><ul>
+<li class="chapter" data-level="10.1" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#point-dataset"><i class="fa fa-check"></i><b>10.1</b> Point Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#covariates-1"><i class="fa fa-check"></i><b>10.2</b> Covariates</a></li>
+<li class="chapter" data-level="10.3" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#statistical-inference"><i class="fa fa-check"></i><b>10.3</b> Statistical Inference</a></li>
+<li class="chapter" data-level="10.4" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#spatial-interpolation"><i class="fa fa-check"></i><b>10.4</b> Spatial Interpolation</a></li>
+<li class="chapter" data-level="10.5" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#calculation-of-stocks"><i class="fa fa-check"></i><b>10.5</b> Calculation of STOCKS</a></li>
+<li class="chapter" data-level="10.6" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#evaluation-of-output-and-quality-assessment"><i class="fa fa-check"></i><b>10.6</b> Evaluation of Output and Quality Assessment</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="deliverables.html"><a href="deliverables.html"><i class="fa fa-check"></i><b>11</b> Deliverables</a></li>
+<li class="chapter" data-level="12" data-path="code-examples.html"><a href="code-examples.html"><i class="fa fa-check"></i><b>12</b> Code examples</a><ul>
+<li class="chapter" data-level="12.1" data-path="code-examples.html"><a href="code-examples.html#PreparationProfiles"><i class="fa fa-check"></i><b>12.1</b> Data Preparation for Soil Profiles</a></li>
+<li class="chapter" data-level="12.2" data-path="code-examples.html"><a href="code-examples.html#PreparationAuger"><i class="fa fa-check"></i><b>12.2</b> Data Preparation for Top Soil or Auger Samples</a></li>
+<li class="chapter" data-level="12.3" data-path="code-examples.html"><a href="code-examples.html#mixing-covariates-and-soil-points-data"><i class="fa fa-check"></i><b>12.3</b> Mixing Covariates and Soil Points Data</a></li>
+<li class="chapter" data-level="12.4" data-path="code-examples.html"><a href="code-examples.html#fitting-a-rk-model-to-predict-the-ocs"><i class="fa fa-check"></i><b>12.4</b> Fitting a RK model to predict the OCS</a></li>
+<li class="chapter" data-level="12.5" data-path="code-examples.html"><a href="code-examples.html#fitting-a-random-forest-model-to-predict-the-soc"><i class="fa fa-check"></i><b>12.5</b> Fitting a random forest model to predict the SOC</a></li>
+<li class="chapter" data-level="12.6" data-path="code-examples.html"><a href="code-examples.html#fitting-a-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>12.6</b> Fitting a svm model to predict the SOC</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Soil Organic Carbon Mapping cookbook</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="preparation" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Preparation of Local Soil Property Data</h1>
+<p><em>GF Olmedo &amp; R Baritz</em></p>
+<div id="soil-profiles-and-soil-augers" class="section level2">
+<h2><span class="header-section-number">3.1</span> Soil Profiles and Soil Augers</h2>
+<p>Soil profiles are complex real world entities. They are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods. As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat, etc.). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape.</p>
+<p>Most <em>commonly</em>, soils are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizon or by depth class.</p>
+<p>Sampling of soils is the basis to obtain quantitative information. Depending on the goal of a project, sampling can be quite diverse. Sampling can follow the description of the soil, or can be conducted without, for example using a spade or auger to generate a composite sample (for a certain depth independent of the morphological features such as soil horizons).
+Sampling locations can be representative for a certain location, project, field, or mapped object, such as a soil type.</p>
+</div>
+<div id="soil-database" class="section level2">
+<h2><span class="header-section-number">3.2</span> Soil Database</h2>
+<p>In order to process and evaluate soil information from field assessments, soil profile data and analytical information needs to be stored in a database. This can be a set of simple <em>Excel</em> spreadsheets, or a relational or object-oriented data base management system <span class="citation">(Baritz et al. <a href="#ref-baritz2008environmental">2008</a>)</span>. When working in <strong>R</strong>, <code>SoilProfileCollections</code> from the <strong>R</strong> <strong>aqp</strong> package are a useful tool. Tables @ref(tab:example table for site-level) and @ref(tab:example table for horizon-level) are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modelling exercises <span class="citation">(Baritz et al. <a href="#ref-baritz2008environmental">2008</a>)</span>.</p>
+<p>Table @ref(tab:example table for site-level) stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.</p>
+<table>
+<caption>(#tab:example table for site-level)Example for site-level data table</caption>
+<thead>
+<tr class="header">
+<th align="left">ProfID</th>
+<th align="right">X_coord</th>
+<th align="right">Y_coord</th>
+<th align="right">Year</th>
+<th align="left">Soil_Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">P1276</td>
+<td align="right">7591265</td>
+<td align="right">4632108</td>
+<td align="right">2012</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+<tr class="even">
+<td align="left">P1277</td>
+<td align="right">7592027</td>
+<td align="right">4631664</td>
+<td align="right">2012</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+<tr class="odd">
+<td align="left">P1278</td>
+<td align="right">7592704</td>
+<td align="right">4631941</td>
+<td align="right">2012</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+<tr class="even">
+<td align="left">P1279</td>
+<td align="right">7590817</td>
+<td align="right">4633115</td>
+<td align="right">2013</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+</tbody>
+</table>
+<p>Table @ref(tab:example table for horizon-level) stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modelling soil properties over the soil profile.</p>
+<table>
+<caption>(#tab:example table for horizon-level)Example for profile-description table</caption>
+<thead>
+<tr class="header">
+<th align="left">ProfID</th>
+<th align="left">HorID</th>
+<th align="right">top</th>
+<th align="right">bottom</th>
+<th align="right">SOC</th>
+<th align="right">BLD</th>
+<th align="right">CRF</th>
+<th align="right">Sand</th>
+<th align="right">Silt</th>
+<th align="right">Clay</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">P1276</td>
+<td align="left">P1276H01</td>
+<td align="right">0</td>
+<td align="right">50</td>
+<td align="right">2.78</td>
+<td align="right">1.05</td>
+<td align="right">11</td>
+<td align="right">52</td>
+<td align="right">39</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">P1276</td>
+<td align="left">P1276H02</td>
+<td align="right">50</td>
+<td align="right">76</td>
+<td align="right">1.75</td>
+<td align="right">1.45</td>
+<td align="right">4</td>
+<td align="right">56</td>
+<td align="right">31</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="left">P1276</td>
+<td align="left">P1276H03</td>
+<td align="right">76</td>
+<td align="right">100</td>
+<td align="right">1.19</td>
+<td align="right">1.22</td>
+<td align="right">2</td>
+<td align="right">43</td>
+<td align="right">35</td>
+<td align="right">22</td>
+</tr>
+<tr class="even">
+<td align="left">P1277</td>
+<td align="left">P1277H01</td>
+<td align="right">0</td>
+<td align="right">28</td>
+<td align="right">1.93</td>
+<td align="right">1.36</td>
+<td align="right">8</td>
+<td align="right">59</td>
+<td align="right">22</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">P1277</td>
+<td align="left">P1277H02</td>
+<td align="right">28</td>
+<td align="right">48</td>
+<td align="right">1.60</td>
+<td align="right">1.43</td>
+<td align="right">9</td>
+<td align="right">69</td>
+<td align="right">15</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">P1277</td>
+<td align="left">P1277H03</td>
+<td align="right">48</td>
+<td align="right">63</td>
+<td align="right">1.26</td>
+<td align="right">NA</td>
+<td align="right">25</td>
+<td align="right">65</td>
+<td align="right">21</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">P1277</td>
+<td align="left">P1277H04</td>
+<td align="right">63</td>
+<td align="right">120</td>
+<td align="right">0.86</td>
+<td align="right">NA</td>
+<td align="right">54</td>
+<td align="right">63</td>
+<td align="right">23</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">P1278</td>
+<td align="left">P1278H01</td>
+<td align="right">0</td>
+<td align="right">40</td>
+<td align="right">2.32</td>
+<td align="right">1.27</td>
+<td align="right">0</td>
+<td align="right">50</td>
+<td align="right">39</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">P1278</td>
+<td align="left">P1278H02</td>
+<td align="right">40</td>
+<td align="right">68</td>
+<td align="right">1.80</td>
+<td align="right">1.48</td>
+<td align="right">1</td>
+<td align="right">46</td>
+<td align="right">39</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">P1278</td>
+<td align="left">P1278H03</td>
+<td align="right">68</td>
+<td align="right">120</td>
+<td align="right">0.89</td>
+<td align="right">1.18</td>
+<td align="right">0</td>
+<td align="right">47</td>
+<td align="right">39</td>
+<td align="right">14</td>
+</tr>
+</tbody>
+</table>
+<div id="technical-steps---loading-data-from-tables-in-r" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Technical Steps - Loading Data from Tables in R</h3>
+<p>This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section <a href="code-examples.html#PreparationProfiles">12.1</a>. The second example is using top soil or auger data and is presented in section <a href="code-examples.html#PreparationAuger">12.2</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/horizons.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Explore the data</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">str</span>(dat)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">summary</span>(dat)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    10292 obs. of  10 variables:
+##  $ ProfID: Factor w/ 4118 levels &quot;P0000&quot;,&quot;P0001&quot;,..: 1 1 1 2 2 ..
+##  $ HorID : Factor w/ 9914 levels &quot;P0000H01&quot;,&quot;P0000H02&quot;,..: 1 2 ..
+##  $ top   : int  4 23 46 2 11 0 22 63 0 3 ...
+##  $ bottom: int  23 46 59 11 31 22 63 90 19 10 ...
+##  $ SOC   : num  NA NA NA NA NA ...
+##  $ BLD   : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ CRF   : num  54 62 47 66 70 57 77 87 8 4 ...
+##  $ SAND  : int  52 59 67 45 40 52 48 43 50 48 ...
+##  $ SILT  : num  34 31 24 39 31 33 36 42 16 35 ...
+##  $ CLAY  : num  14 11 8 16 28 15 16 16 34 17 ...
+##      ProfID           HorID            top        
+##  P2881  :   64   P2881H01:   64   Min.   :  0.00  
+##  P1481  :   32   P0434H02:    8   1st Qu.:  0.00  
+##  P2096  :   32   P1286H01:    8   Median : 20.00  
+##  P3623  :   32   P2056H01:    8   Mean   : 27.48  
+##  P2056  :   24   P2056H02:    8   3rd Qu.: 47.00  
+##  P2142  :   24   P2056H03:    8   Max.   :285.00  
+##  (Other):10084   (Other) :10188                   
+##      bottom            SOC               BLD      
+##  Min.   :  1.00   Min.   :  0.000   Min.   :0.00  
+##  1st Qu.: 25.00   1st Qu.:  1.090   1st Qu.:1.40  
+##  Median : 45.00   Median :  1.800   Median :1.54  
+##  Mean   : 55.82   Mean   :  2.635   Mean   :1.55  
+##  3rd Qu.: 80.00   3rd Qu.:  2.940   3rd Qu.:1.66  
+##  Max.   :295.00   Max.   :306.000   Max.   :2.93  
+##                   NA&#39;s   :831       NA&#39;s   :7845  
+##       CRF             SAND             SILT      
+##  Min.   :  0.0   Min.   :  0.00   Min.   : 0.00  
+##  1st Qu.:  2.0   1st Qu.: 44.00   1st Qu.:16.00  
+##  Median :  8.0   Median : 58.00   Median :24.00  
+##  Mean   : 13.5   Mean   : 57.67   Mean   :25.64  
+##  3rd Qu.: 21.0   3rd Qu.: 72.00   3rd Qu.:33.00  
+##  Max.   :104.0   Max.   :100.00   Max.   :80.00  
+##  NA&#39;s   :3360    NA&#39;s   :1049     NA&#39;s   :920    
+##       CLAY      
+##  Min.   : 0.00  
+##  1st Qu.: 7.00  
+##  Median :14.00  
+##  Mean   :17.08  
+##  3rd Qu.:24.00  
+##  Max.   :83.00  
+##  NA&#39;s   :927</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">dat_sites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/site-level.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Explore the data</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">str</span>(dat_sites)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    4118 obs. of  6 variables:
+##  $ X.1       : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ ProfID    : Factor w/ 4118 levels &quot;P0000&quot;,&quot;P0001&quot;,..: 1 2 3 ..
+##  $ soiltype  : Factor w/ 58 levels &quot;Albic Luvisol&quot;,..: 3 3 3 57..
+##  $ Land.Cover: int  25 24 25 26 26 27 27 27 22 23 ...
+##  $ X         : num  20.8 20.8 20.8 20.8 20.8 ...
+##  $ Y         : num  42 42 42 42 42 ...</code></pre>
+</div>
+</div>
+<div id="completeness-of-measurements-and-estimates" class="section level2">
+<h2><span class="header-section-number">3.3</span> Completeness of Measurements and Estimates</h2>
+<p>The <em>GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map</em> specify which soil parameters are needed to produce a GSOCmap. Of course, other soil properties can be evaluated and modelled using this cookbook as well.</p>
+<p>SOC stocks for soil horizons or targeted soil depths can be calculated using the equations in section 8.4.3 of the <em>GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map</em>. Carbon concentration, bulk density and stone content for a certain depth or genetic horizon are needed to calculate the amount of carbon stored in that depth interval/soil horizon. In many countries, legacy data from former surveys and projects, as well as from various owners and data sources are compiled. Often, measured bulk densities are either missing, only available for few soil profiles, or are estimated. Stones in the soil profile are usually only estimated, and if augers are used for sampling, stone content is not assessed at all. Pedo-transfer functions can be used to fill data gaps (e.g. bulk density), and interpolation approaches can be used to infer from measured depths to target depths.</p>
+<div id="stones" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Stones</h3>
+<p>The estimation of stoniness is difficult and time consuming, and therefore not carried out in many national soil inventories, or only estimated visually in the profile. Unfortunately, if soil inventories and sampling are done with simple pits or augers rather than standard soil pits, stones are very often not assessed.</p>
+<p>As a proxy, it is recommended to derive national default values from well described soil profile pits by soil type.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># summary of column CRF (Coarse Fragments) in the example data base</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">summary</span>(dat<span class="op">$</span>CRF)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##     0.0     2.0     8.0    13.5    21.0   104.0    3360</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Convert NA&#39;s to 0</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">dat<span class="op">$</span>CRF[<span class="kw">is.na</span>(dat<span class="op">$</span>CRF)] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">hist</span>(dat<span class="op">$</span>CRF, <span class="dt">col =</span> <span class="st">&quot;light gray&quot;</span>)</a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="bulk-density" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Bulk density</h3>
+<p>The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered (<span class="math inline">\(\text{depth} \times \text{reference area}\)</span>) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.</p>
+<p>Most of the soil profiles in national databases come from agricultural land. Very often, BD estimates do not consider fine stones because top soils (e.g. plough layers) seem to be free of visible stones.</p>
+<p><strong>Mineral soil</strong>: Default values from <a href="https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/office/ssr10/tr/?cid=nrcs144p2_074844"><em>General Guide for Estimating Moist Bulk Density</em></a>. If analytical BD is missing, BD can be estimated using pedo-transfer functions (see examples listed below).</p>
+<p>For organic soil material, <span class="math inline">\(BD_x\)</span> can be estimated as follows, considering existing litter layers L (or Oi horizon); organic or duff layers, partially decomposed material above the mineral soil and beneath the litter layer; F (fermentation) horizons; H (humus) horizons (Oe and Oa); and peat (P), as described in the <a href="https://www.nrcs.usda.gov/Internet/FSE_DOCUMENTS/nrcs142p2_051232.pdf"><em>U.S. Soil Taxonomy</em></a>.</p>
+<p><strong>Forest floor</strong>: Default values from <span class="citation">Ottmar and Andreu (<a href="#ref-ottmar_litter_2007">2007</a>)</span>.</p>
+<ul>
+<li><p>Pine: <span class="math inline">\(BD_{L} = 0.018 g \cdot cm^{-3}\)</span>; <span class="math inline">\(BD_{F,H} = 0.057 g \cdot cm^{-3}\)</span></p></li>
+<li><p>Hardwood: <span class="math inline">\(BD_{L} = 0.012 g \cdot cm^{-3}\)</span> <span class="citation">(Barney et al. <a href="#ref-barney_forest_1981">1981</a>)</span></p></li>
+<li><p>Birch: <span class="math inline">\(BD_{F,H} = 0.17 g \cdot cm^{-3}\)</span></p></li>
+<li><p>Spruce: <span class="math inline">\(BD_{L} = 0.051 g \cdot cm^{-3}\)</span>; <span class="math inline">\(BD_{H}= 0.13 g \cdot cm^{-3}\)</span></p></li>
+</ul>
+<p><strong>Peat</strong>: Default value: <span class="math inline">\(BD_{P} = 0.31 g \cdot cm^{-3}\)</span>. The range of peat BD is generally from 0.02 to 0.3 <span class="math inline">\(t \cdot m^{-3}\)</span> depending on maturity and compaction, as well as the ash content <span class="citation">(Agus, Hairiah, and Mulyani <a href="#ref-agus_measuring_2011">2011</a>)</span>.@batjes1996total and <span class="citation">Agus, Hairiah, and Mulyani (<a href="#ref-agus_measuring_2011">2011</a>)</span> distinguish different peat decomposition types (with different C content):</p>
+<ul>
+<li><p>Sapric: <span class="math inline">\(BD_{P_{sapric}} = 0.174 g \cdot cm^{-3}\)</span> (<span class="math inline">\(48.90\%\)</span> C)</p></li>
+<li><p>Hemic: <span class="math inline">\(BD_{P_{hemic}} = 0.117 g \cdot cm^{-3}\)</span> (<span class="math inline">\(52.27\%\)</span> C)</p></li>
+<li><p>Fibric: <span class="math inline">\(BD_{P_{fibric}} = 0.089 g \cdot cm^{-3}\)</span> (<span class="math inline">\(53.56\%\)</span> C)</p></li>
+</ul>
+<p>Examples for pedo-transfer functions to estimate <span class="math inline">\(BD\)</span>, based on the soil organic matter (<span class="math inline">\(OM\)</span>) content in percent <span class="math inline">\((\%)\)</span>:</p>
+<span class="math display">\[\begin{equation}
+BD = 1.62-0.06 * OM
+\end{equation}\]</span>
+
+<span class="math display">\[\begin{equation}
+BD = 1/(0.6268 + 0.0361 * OM)
+\end{equation}\]</span>
+
+<span class="math display">\[\begin{equation}
+BD = 1.482 - 0.6786 * (log OM)
+\end{equation}\]</span>
+
+<span class="math display">\[\begin{equation}
+BD = 0.669 + 0.941 * e^{(-0,06 * OM)}
+\end{equation}\]</span>
+
+<span class="math display">\[\begin{equation}
+BD = 100/(OM/0.244 + (100-OM))/MBD
+\end{equation}\]</span>
+
+<span class="math display">\[\begin{equation}
+BD = 1/(0.564 + 0.0556*OM)
+\end{equation}\]</span>
+
+<p>where <span class="math inline">\(MDB\)</span> is the mineral particle density, assumed to be the specific gravity of quartz, <span class="math inline">\(2.65 Mg \cdot m^{-3}\)</span>. And <span class="math inline">\(OM\)</span> is the organic matter content, estimated as <span class="math inline">\(OM = SOC(\%) × 1.724\)</span></p>
+<p>Each method is derived from a specific set of regional soils that is regionally adapted. Selection of the proper method for a given country shall be based on existing reviews and comparisons.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Creating a function in R to estimate BLD using the SOC</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># SOC is the soil organic carbon content in \%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">estimateBD &lt;-<span class="st"> </span><span class="cf">function</span>(SOC, <span class="dt">method=</span><span class="st">&quot;Saini1996&quot;</span>){</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">  OM &lt;-<span class="st"> </span>SOC <span class="op">*</span><span class="st"> </span><span class="fl">1.724</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Saini1996&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">1.62</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.06</span> <span class="op">*</span><span class="st"> </span>OM}</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Drew1973&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="fl">0.6268</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.0361</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Jeffrey1979&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">1.482</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.6786</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">log</span>(OM))}</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Grigal1989&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">0.669</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.941</span> <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="dv">1</span>)<span class="op">^</span>(<span class="op">-</span><span class="fl">0.06</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Adams1973&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">/</span><span class="st"> </span>(OM <span class="op">/</span><span class="fl">0.244</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">-</span><span class="st"> </span>OM)<span class="op">/</span><span class="fl">2.65</span>)}</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Honeyset_Ratkowsky1989&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(<span class="fl">0.564</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.0556</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  <span class="kw">return</span>(BD)</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># summary of BLD (bulk density) in the example data base</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">summary</span>(dat<span class="op">$</span>BLD)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    0.00    1.40    1.54    1.55    1.66    2.93    7845</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># See the summary of values produced using the pedo-transfer </span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># function with one of the proposed methods.</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">summary</span>(<span class="kw">estimateBD</span>(dat<span class="op">$</span>SOC[<span class="kw">is.na</span>(dat<span class="op">$</span>BLD)], </a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                   <span class="dt">method=</span><span class="st">&quot;Honeyset_Ratkowsky1989&quot;</span>))</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##  0.0334  1.1599  1.3498  1.2972  1.4981  1.7730     729</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Fill NA&#39;s using the pedo-transfer function:</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">dat<span class="op">$</span>BLD[<span class="kw">is.na</span>(dat<span class="op">$</span>BLD)] &lt;-<span class="st"> </span><span class="kw">estimateBD</span>(dat<span class="op">$</span>SOC[<span class="kw">is.na</span>(dat<span class="op">$</span>BLD)], </a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">                                      <span class="dt">method=</span><span class="st">&quot;Grigal1989&quot;</span>)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co"># explore the results</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="kw">hist</span>(dat<span class="op">$</span>BLD, <span class="dt">col =</span> <span class="st">&#39;light gray&#39;</span>, <span class="dt">breaks =</span> <span class="dv">32</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-5"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-5-1.png" alt="Histogram of bulk density values" width="672" />
+<p class="caption">
+Figure 3.1: Histogram of bulk density values
+</p>
+</div>
+</div>
+<div id="soil-carbon-analysis" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Soil Carbon Analysis</h3>
+<p> have closely reviewed the different SOC and SOM estimation procedures, and have also drawn some conclusions about the sources of errors. Determination of SOC from dry combustion methods is least susceptible to errors.</p>
+<ul>
+<li><p><strong>Dry combustion by Loss on Ignition (LOI)</strong>: SOC is re-calculated applying a conversion factor. It is commonly assumed, that organic matter contains an average of <span class="math inline">\(58\%\)</span> organic carbon (so-called Van Bemmelen factor <span class="math inline">\(1.724\)</span>; for non-organic horizons: <span class="math inline">\(SOC = SOM / 1.724\)</span>). For organic horizons, conversion factor ranges from <span class="math inline">\(1.9\)</span> to <span class="math inline">\(2.5\)</span> . The inorganic carbon is not resolved, since typically, temperatures between 400°C and 550°C are used.</p></li>
+<li><p><strong>Wet oxidation</strong>: Since wet oxidation is applied without additional (external) heating, low temperatures of around 120°C (internal heat) are typical. Thus, the oxidation of carbon is incomplete, and a so-called oxidation factor needs to be applied. With external heating, the C-recovery of the method becomes improved, up to complete recovery. No correction against the mineral carbon is needed. Wet oxidation should typically only be applied to samples with <span class="math inline">\(&lt;5\%\)</span> organic matter.</p></li>
+</ul>
+<p>Usually, an average of <span class="math inline">\(76\%\)</span> organic carbon is recovered, leading to a standard oxidation factor or <span class="math inline">\(1.33\)</span> .</p>
+</div>
+<div id="carbonates" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Carbonates</h3>
+<p>In case the total organic carbon is determined with temperatures higher than 600°C to 800°C, the proportion of mineral soil in <span class="math inline">\(CaCO_3\)</span> has to be subtracted in order to derive the amount of organic carbon (inorganic carbon is also oxidized). The pH value gives the first indication whether the sample has to be analyzed for inorganic carbon or not.</p>
+<p>It is crucial to report in the metadata whether national SOC values refer to total C or if the inorganic component has been considered.</p>
+</div>
+<div id="depth" class="section level3">
+<h3><span class="header-section-number">3.3.5</span> Depth</h3>
+<p>The standard depth for GSOCmap is <strong>0 to 30 cm</strong>. Subdivisions are possible depending on the available data, by genetic horizon or depth classes. The following depths are additionally considered for GSOCmap (optional):
+* Forest floor: thickness (cm) subdivision in horizons depending on national soil inventory method (e.g. L, F, H)
+* Peat: &gt;30 , &lt;100 depending on national data</p>
+</div>
+</div>
+<div id="completeness-of-depth-estimate" class="section level2">
+<h2><span class="header-section-number">3.4</span> Completeness of Depth Estimate</h2>
+<p>Soil properties are commonly collected from field inventories (see Table 2.2) or from sampling and analysing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the <em>GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map</em>, data holders are confronted with the following options:</p>
+<ul>
+<li><strong>Option 1</strong>: Soil sampling has already considered this depth, data can be directly used for upscaling (see chapter <a href="mappingMethods.html#mappingMethods">6</a>).</li>
+<li><strong>Option 2</strong>: Horizons or layers/depth classes are sampled but aggregation is needed over the 0 to 30 cm.</li>
+<li><strong>Option 3</strong>: The target depth (0 to 30 cm) was not completely covered by sampling, e.g. only the A horizon or a topsoil layer (e.g. 0 to 20 cm) has been sampled.</li>
+</ul>
+<p>For both <strong>Options 2</strong> and <strong>3</strong>, transformation is needed, using e.g. equal-area splines. In the case of <strong>Option 2</strong>, the use of equal-area splines was first proposed by , and later tested against real data . This technique is based on fitting continuous depth functions for modelling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, thereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. In case of <strong>Option 3</strong>, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by .</p>
+<div id="EqualAreaSplines" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Technical Steps - Equal-Area Splines Using R</h3>
+<p>In <strong>R</strong> environment, the easiest way to apply equal-area splines is using the function <code>GSIF::mpspline</code> from the <strong>R</strong> package <strong>GSIF</strong> (, see section <a href="setting-up-the-software-environment.html#SoilPedometrics">4.2.2.1</a>). For illustration, a sample dataset has been used (see chapter <a href="covariates.html#covariates">5</a>). This function requires data stored as <code>SoilProfileCollection</code> (SPC) using package <strong>aqp</strong>. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables @ref(tab:example table for site-level), @ref(tab:example table for horizon-level)) can be transformed to a SPC.</p>
+<p>The function <code>GSIF::mpspline</code> has several arguments. One of the arguments is the lambda value mentioned before. The proposed default value is 0.1. Another argument for this function is the target standard depths. The function produces spline-estimated values at these depths. However, this function also produces spline-estimated values at 1 cm increments.</p>
+<p>The following technical steps require <strong>R</strong> and the named packages.</p>
+<div id="promote-table-dat-to-soilprofilecollection" class="section level4">
+<h4><span class="header-section-number">3.4.1.1</span> Promote table <code>dat</code> to <code>SoilProfileCollection</code></h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Load aqp package</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">library</span>(aqp)</a></code></pre></div>
+<pre><code>## This is aqp 1.15</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># Promote to SoilProfileCollection </span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co"># The SoilProfileCollection is a object class in R designed to </span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co"># handle soil profiles</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="kw">depths</span>(dat) &lt;-<span class="st"> </span>ProfID <span class="op">~</span><span class="st"> </span>top <span class="op">+</span><span class="st"> </span>bottom</a></code></pre></div>
+<pre><code>## Warning: converting IDs from factor to character</code></pre>
+</div>
+<div id="add-site-level-data-and-coordinates" class="section level4">
+<h4><span class="header-section-number">3.4.1.2</span> Add site-level data and coordinates</h4>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># Merge the soil horizons information with the site-level </span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co"># information from dat_sites</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw">site</span>(dat) &lt;-<span class="st"> </span>dat_sites</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co"># Set spatial coordinates</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co"># A summary of our SoilProfileCollection</span></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9">dat</a></code></pre></div>
+<pre><code>## Object of class SoilProfileCollection
+## Number of profiles: 4118
+## Depth range: 5-295 cm
+## 
+## Horizon attributes:
+##   ProfID    HorID top bottom SOC BLD CRF SAND SILT CLAY
+## 1  P0000 P0000H01   4     23  NA  NA  54   52   34   14
+## 2  P0000 P0000H02  23     46  NA  NA  62   59   31   11
+## 3  P0000 P0000H03  46     59  NA  NA  47   67   24    8
+## 4  P0001 P0001H01   2     11  NA  NA  66   45   39   16
+## 5  P0001 P0001H02  11     31  NA  NA  70   40   31   28
+## 6  P0002 P0002H01   0     22  NA  NA  57   52   33   15
+## 
+## Sampling site attributes:
+##   ProfID X.1                                 soiltype Land.Cover
+## 1  P0000   1                                 Cambisol         25
+## 2  P0001   2                                 Cambisol         24
+## 3  P0002   3                                 Cambisol         25
+## 4  P0003   4                        Rendzic Leptosols         26
+## 5  P0004   5                        Rendzic Leptosols         26
+## 6  P0005   6 Complex of Rendzic Leptosol and Leptosol         27
+## 
+## Spatial Data:
+##        min      max
+## X 20.46434 23.01039
+## Y 40.68543 42.35932
+## [1] NA</code></pre>
+</div>
+<div id="run-mass-preserving-splines-for-all-the-needed-propierties" class="section level4">
+<h4><span class="header-section-number">3.4.1.3</span> Run mass preserving splines for all the needed propierties</h4>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">library</span>(GSIF)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">## Estimate 0-30 standard horizon usin mass preserving splines</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="kw">try</span>(SOC &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;SOC&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="kw">try</span>(BLD &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;BLD&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="kw">try</span>(CRFVOL &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;CRF&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a></code></pre></div>
+</div>
+<div id="convert-back-to-table" class="section level4">
+<h4><span class="header-section-number">3.4.1.4</span> Convert back to table</h4>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">## Prepare final data frame</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> dat<span class="op">@</span>site<span class="op">$</span>ProfID,</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">                  <span class="dt">Y =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">                  <span class="dt">X =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">                  <span class="dt">SOC =</span> SOC<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">                  <span class="dt">BLD =</span> BLD<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">                  <span class="dt">CRFVOL =</span> CRFVOL<span class="op">$</span>var.std[,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11">## Take a look to the results</a>
+<a class="sourceLine" id="cb21-12" data-line-number="12"><span class="kw">head</span>(dat)</a></code></pre></div>
+</div>
+<div id="estimate-the-soil-organic-carbon-stock-using-the-virtual-horizons" class="section level4">
+<h4><span class="header-section-number">3.4.1.5</span> Estimate the soil organic carbon stock using the virtual horizons</h4>
+<p>Finally, the estimation of the soil organic carbon stock (OKS) can be done using the <strong>GSIF</strong> package.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Estimate Organic Carbon Stock</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co"># SOC must be in g/kg</span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co"># BLD in kg/m3</span></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># CRF in percentage</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">OCSKGM &lt;-<span class="st"> </span><span class="kw">OCSKGM</span>(<span class="dt">ORCDRC =</span> dat<span class="op">$</span>SOC, <span class="dt">BLD =</span> dat<span class="op">$</span>BLD<span class="op">*</span><span class="dv">1000</span>, </a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">                 <span class="dt">CRFVOL =</span> dat<span class="op">$</span>CRFVOL, <span class="dt">HSIZE =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8">dat<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span>OCSKGM</a>
+<a class="sourceLine" id="cb22-9" data-line-number="9">dat<span class="op">$</span>meaERROR &lt;-<span class="st"> </span><span class="kw">attr</span>(OCSKGM,<span class="st">&quot;measurementError&quot;</span>)</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10">dat &lt;-<span class="st"> </span>dat[dat<span class="op">$</span>OCSKGM<span class="op">&gt;</span><span class="dv">0</span>,]</a>
+<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="kw">summary</span>(dat)</a></code></pre></div>
+<p>Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (<em>SOC</em>) tends to normality and 2) if this transformation increases the simple correlation of <em>SOC</em> and its prediction factors.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># Generate a new column with the transformed OCSKGM to its natural </span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co"># logarithm</span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">dat<span class="op">$</span>OCSKGMlog &lt;-<span class="st"> </span><span class="kw">log</span>(dat<span class="op">$</span>OCSKGM)</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">density</span>(dat<span class="op">$</span>OCSKGM), </a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">     <span class="dt">main=</span><span class="st">&#39;Statistical distribution of original values&#39;</span>)</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="kw">plot</span>(<span class="kw">density</span>(dat<span class="op">$</span>OCSKGMlog), </a>
+<a class="sourceLine" id="cb23-8" data-line-number="8">     <span class="dt">main=</span><span class="st">&#39;Statistical distribution of log transformed values&#39;</span>)</a>
+<a class="sourceLine" id="cb23-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb23-10" data-line-number="10">## We can save our processed data as a table</a>
+<a class="sourceLine" id="cb23-11" data-line-number="11"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/dataproc.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+
+</div>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-baritz2008environmental">
+<p>Baritz, R, E Eberhardt, MH Van Liedekerke, and P Panagos. 2008. “Environmental Assessment of Soil for Monitoring: Volume Iii Database Design and Selection.” <em>EUR</em> 23490:125.</p>
+</div>
+<div id="ref-ottmar_litter_2007">
+<p>Ottmar, Roger, and Anne Andreu. 2007. “Litter and Duff Bulk Densities in the Southern United States: Final Report for Joint Fire Sciences Program, Project 04-2-1-49.” Pacific Northwest. <a href="https://www.firescience.gov/projects/04-2-1-49/project/04-2-1-49_final_report.pdf" class="uri">https://www.firescience.gov/projects/04-2-1-49/project/04-2-1-49_final_report.pdf</a>.</p>
+</div>
+<div id="ref-barney_forest_1981">
+<p>Barney, Richard J., Collin D. Bevins, Larry S. Bradshaw, Mont ) Forestry Sciences Laboratory (Missoula, United States. Forest Service, and Utah) Intermountain Forest and Range Experiment Station (Ogden. 1981. <em>Forest Floor Fuel Loads, Depths and Bulk Densities in Four Interior Alaskan Cover Types</em>. Ogden, Utah : U.S. Dept. of Agriculture, Forest Service, Intermountain Forest; Range Experiment Station. <a href="http://archive.org/details/forestfloorfuell304barn" class="uri">http://archive.org/details/forestfloorfuell304barn</a>.</p>
+</div>
+<div id="ref-agus_measuring_2011">
+<p>Agus, Fahmuddin, Kurniatun Hairiah, and Anny Mulyani. 2011. “Measuring Carbon Stock in Peat Soils: Practical Guidelines World Agroforestry Centre.” Bogor, Indonesia: World Agroforestry Centre (ICRAF) Southeast Asia Regional Program, Indonesian Centre for Agricultural Land Resources Research; Development. <a href="http://www.worldagroforestry.org/publication/measuring-carbon-stock-peat-soils-practical-guidelines" class="uri">http://www.worldagroforestry.org/publication/measuring-carbon-stock-peat-soils-practical-guidelines</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="soil-property-maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="setting-up-the-software-environment.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-Preparation.Rmd",
+"text": "Edit"
+},
+"download": ["SOCMapping.pdf", "SOCMapping.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

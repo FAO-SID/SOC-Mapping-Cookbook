@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Soil Organic Carbon Mapping cookbook</title>
+  <meta name="description" content="The soilll cookbook.">
+  <meta name="generator" content="bookdown 0.5.15 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Soil Organic Carbon Mapping cookbook" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="The soilll cookbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Soil Organic Carbon Mapping cookbook" />
+  
+  <meta name="twitter:description" content="The soilll cookbook." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="">
+
+
+<meta name="date" content="2018-02-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="deliverables.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Foreword</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#editorial-board"><i class="fa fa-check"></i>Editorial Board</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#contributing-authors"><i class="fa fa-check"></i>Contributing Authors</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="copyright-and-disclaimer.html"><a href="copyright-and-disclaimer.html"><i class="fa fa-check"></i>Copyright and disclaimer</a></li>
+<li class="chapter" data-level="1" data-path="presentation.html"><a href="presentation.html"><i class="fa fa-check"></i><b>1</b> Presentation</a></li>
+<li class="chapter" data-level="2" data-path="soil-property-maps.html"><a href="soil-property-maps.html"><i class="fa fa-check"></i><b>2</b> Soil Property Maps</a><ul>
+<li class="chapter" data-level="2.1" data-path="soil-property-maps.html"><a href="soil-property-maps.html#definitions-and-objectives"><i class="fa fa-check"></i><b>2.1</b> Definitions and Objectives</a></li>
+<li class="chapter" data-level="2.2" data-path="soil-property-maps.html"><a href="soil-property-maps.html#generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates"><i class="fa fa-check"></i><b>2.2</b> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="preparation.html"><a href="preparation.html"><i class="fa fa-check"></i><b>3</b> Preparation of Local Soil Property Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="preparation.html"><a href="preparation.html#soil-profiles-and-soil-augers"><i class="fa fa-check"></i><b>3.1</b> Soil Profiles and Soil Augers</a></li>
+<li class="chapter" data-level="3.2" data-path="preparation.html"><a href="preparation.html#soil-database"><i class="fa fa-check"></i><b>3.2</b> Soil Database</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="preparation.html"><a href="preparation.html#technical-steps---loading-data-from-tables-in-r"><i class="fa fa-check"></i><b>3.2.1</b> Technical Steps - Loading Data from Tables in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="preparation.html"><a href="preparation.html#completeness-of-measurements-and-estimates"><i class="fa fa-check"></i><b>3.3</b> Completeness of Measurements and Estimates</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="preparation.html"><a href="preparation.html#stones"><i class="fa fa-check"></i><b>3.3.1</b> Stones</a></li>
+<li class="chapter" data-level="3.3.2" data-path="preparation.html"><a href="preparation.html#bulk-density"><i class="fa fa-check"></i><b>3.3.2</b> Bulk density</a></li>
+<li class="chapter" data-level="3.3.3" data-path="preparation.html"><a href="preparation.html#soil-carbon-analysis"><i class="fa fa-check"></i><b>3.3.3</b> Soil Carbon Analysis</a></li>
+<li class="chapter" data-level="3.3.4" data-path="preparation.html"><a href="preparation.html#carbonates"><i class="fa fa-check"></i><b>3.3.4</b> Carbonates</a></li>
+<li class="chapter" data-level="3.3.5" data-path="preparation.html"><a href="preparation.html#depth"><i class="fa fa-check"></i><b>3.3.5</b> Depth</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="preparation.html"><a href="preparation.html#completeness-of-depth-estimate"><i class="fa fa-check"></i><b>3.4</b> Completeness of Depth Estimate</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="preparation.html"><a href="preparation.html#EqualAreaSplines"><i class="fa fa-check"></i><b>3.4.1</b> Technical Steps - Equal-Area Splines Using R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html"><i class="fa fa-check"></i><b>4</b> Setting-Up the Software Environment</a><ul>
+<li class="chapter" data-level="4.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#use-of-r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>4.1</b> Use of R , RStudio and R Packages</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r"><i class="fa fa-check"></i><b>4.1.1</b> Obtaining and Installing R</a></li>
+<li class="chapter" data-level="4.1.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r-studio"><i class="fa fa-check"></i><b>4.1.2</b> Obtaining and Installing R Studio</a></li>
+<li class="chapter" data-level="4.1.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#getting-started-with-r"><i class="fa fa-check"></i><b>4.1.3</b> Getting Started with R</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-packages"><i class="fa fa-check"></i><b>4.2</b> R Packages</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#finding-r-packages"><i class="fa fa-check"></i><b>4.2.1</b> Finding R Packages</a></li>
+<li class="chapter" data-level="4.2.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#most-used-r-packages-for-digital-soil-mapping"><i class="fa fa-check"></i><b>4.2.2</b> Most Used R Packages for Digital Soil Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-and-spatial-data"><i class="fa fa-check"></i><b>4.3</b> R and Spatial Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading Shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#coordinate-reference-systems-crs-in-r"><i class="fa fa-check"></i><b>4.3.2</b> Coordinate Reference Systems (CRS) in R</a></li>
+<li class="chapter" data-level="4.3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#working-with-rasters"><i class="fa fa-check"></i><b>4.3.3</b> Working with Rasters</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#other-dsm-related-software-and-tools"><i class="fa fa-check"></i><b>4.4</b> Other DSM Related Software and Tools</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="covariates.html"><a href="covariates.html"><i class="fa fa-check"></i><b>5</b> Preparation of Spatial covariates</a><ul>
+<li class="chapter" data-level="5.1" data-path="covariates.html"><a href="covariates.html#dem-derived-covariates"><i class="fa fa-check"></i><b>5.1</b> DEM-Derived Covariates</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="covariates.html"><a href="covariates.html#dem-source-data-sets"><i class="fa fa-check"></i><b>5.1.1</b> DEM Source Data Sets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="covariates.html"><a href="covariates.html#parent-material"><i class="fa fa-check"></i><b>5.2</b> Parent Material</a></li>
+<li class="chapter" data-level="5.3" data-path="covariates.html"><a href="covariates.html#soil-maps"><i class="fa fa-check"></i><b>5.3</b> Soil Maps</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="covariates.html"><a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r"><i class="fa fa-check"></i><b>5.3.1</b> Technical Steps - Rasterizing a Vector Layer in R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="covariates.html"><a href="covariates.html#land-cover-and-land-use"><i class="fa fa-check"></i><b>5.4</b> Land Cover and Land use</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="covariates.html"><a href="covariates.html#globcover-global"><i class="fa fa-check"></i><b>5.4.1</b> GlobCover (Global)</a></li>
+<li class="chapter" data-level="5.4.2" data-path="covariates.html"><a href="covariates.html#landsat-geocover-global"><i class="fa fa-check"></i><b>5.4.2</b> Landsat GeoCover (Global)</a></li>
+<li class="chapter" data-level="5.4.3" data-path="covariates.html"><a href="covariates.html#globeland30-global"><i class="fa fa-check"></i><b>5.4.3</b> Globeland30 (Global)</a></li>
+<li class="chapter" data-level="5.4.4" data-path="covariates.html"><a href="covariates.html#corine-land-cover-europe-only"><i class="fa fa-check"></i><b>5.4.4</b> CORINE Land Cover (Europe Only)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="covariates.html"><a href="covariates.html#climate"><i class="fa fa-check"></i><b>5.5</b> Climate</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="covariates.html"><a href="covariates.html#worldclim-v1.4-and-v2-global"><i class="fa fa-check"></i><b>5.5.1</b> WorldClim V1.4 and V2 (Global)</a></li>
+<li class="chapter" data-level="5.5.2" data-path="covariates.html"><a href="covariates.html#gridded-agro-meteorological-data-in-europe-europe"><i class="fa fa-check"></i><b>5.5.2</b> Gridded Agro-Meteorological Data in Europe (Europe)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="covariates.html"><a href="covariates.html#GSOCDataRepo"><i class="fa fa-check"></i><b>5.6</b> GSOCMap - Data Repository (ISRIC, 2017)</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="covariates.html"><a href="covariates.html#covariates-and-empty-mask"><i class="fa fa-check"></i><b>5.6.1</b> Covariates and Empty Mask</a></li>
+<li class="chapter" data-level="5.6.2" data-path="covariates.html"><a href="covariates.html#data-specifications"><i class="fa fa-check"></i><b>5.6.2</b> Data Specifications</a></li>
+<li class="chapter" data-level="5.6.3" data-path="covariates.html"><a href="covariates.html#data-access"><i class="fa fa-check"></i><b>5.6.3</b> Data Access</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="covariates.html"><a href="covariates.html#extending-the-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.7</b> Extending the Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.8" data-path="covariates.html"><a href="covariates.html#preparation-of-a-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.8</b> Preparation of a Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.9" data-path="covariates.html"><a href="covariates.html#overlay-soil-covariates"><i class="fa fa-check"></i><b>5.9</b> Technical Steps - Overlay Covariates and Soil Points Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="covariates.html"><a href="covariates.html#load-soil-sample-data-and-covariates"><i class="fa fa-check"></i><b>5.9.1</b> Load soil sample data and covariates</a></li>
+<li class="chapter" data-level="5.9.2" data-path="covariates.html"><a href="covariates.html#combine-the-covariates-provided-with-the-raster-version-of-the-soil-map"><i class="fa fa-check"></i><b>5.9.2</b> Combine the covariates provided with the raster version of the soil map</a></li>
+<li class="chapter" data-level="5.9.3" data-path="covariates.html"><a href="covariates.html#overlay-covariates-and-spatial-data"><i class="fa fa-check"></i><b>5.9.3</b> Overlay Covariates and Spatial Data</a></li>
+<li class="chapter" data-level="5.9.4" data-path="covariates.html"><a href="covariates.html#convert-result-to-data.frame-and-save-as-a-csv-table"><i class="fa fa-check"></i><b>5.9.4</b> Convert result to data.frame and save as a csv table</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="mappingMethods.html"><a href="mappingMethods.html"><i class="fa fa-check"></i><b>6</b> Mapping Methods</a><ul>
+<li class="chapter" data-level="6.1" data-path="mappingMethods.html"><a href="mappingMethods.html#conventional-upscaling-using-soil-maps"><i class="fa fa-check"></i><b>6.1</b> Conventional Upscaling Using Soil Maps</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview"><i class="fa fa-check"></i><b>6.1.1</b> Overview</a></li>
+<li class="chapter" data-level="6.1.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-class-matching"><i class="fa fa-check"></i><b>6.1.2</b> Technical Steps: Class-matching</a></li>
+<li class="chapter" data-level="6.1.3" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-geo-matching"><i class="fa fa-check"></i><b>6.1.3</b> Technical Steps: Geo-Matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="mappingMethods.html"><a href="mappingMethods.html#regression-kriging"><i class="fa fa-check"></i><b>6.2</b> Regression-Kriging</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-1"><i class="fa fa-check"></i><b>6.2.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2.2" data-path="mappingMethods.html"><a href="mappingMethods.html#assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="mappingMethods.html"><a href="mappingMethods.html#pre-processing-of-covariates"><i class="fa fa-check"></i><b>6.2.3</b> Pre-Processing of Covariates</a></li>
+<li class="chapter" data-level="6.2.4" data-path="mappingMethods.html"><a href="mappingMethods.html#the-terminology"><i class="fa fa-check"></i><b>6.2.4</b> The Terminology</a></li>
+<li class="chapter" data-level="6.2.5" data-path="mappingMethods.html"><a href="mappingMethods.html#interpret-the-key-results-of-multiple-regression"><i class="fa fa-check"></i><b>6.2.5</b> Interpret the Key Results of Multiple Regression</a></li>
+<li class="chapter" data-level="6.2.6" data-path="mappingMethods.html"><a href="mappingMethods.html#using-the-results-of-a-regression-analysis-to-make-predictions"><i class="fa fa-check"></i><b>6.2.6</b> Using the Results of a Regression Analysis to Make Predictions</a></li>
+<li class="chapter" data-level="6.2.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---regression-kriging"><i class="fa fa-check"></i><b>6.2.7</b> Technical Steps - Regression Kriging</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="mappingMethods.html"><a href="mappingMethods.html#data-mining-random-forest"><i class="fa fa-check"></i><b>6.3</b> Data mining: Random Forest</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-2"><i class="fa fa-check"></i><b>6.3.1</b> Overview</a></li>
+<li class="chapter" data-level="6.3.2" data-path="mappingMethods.html"><a href="mappingMethods.html#random-forests"><i class="fa fa-check"></i><b>6.3.2</b> Random forests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="mappingMethods.html"><a href="mappingMethods.html#conceptual-model-and-data-preparation"><i class="fa fa-check"></i><b>6.3.3</b> Conceptual model and data preparation</a></li>
+<li class="chapter" data-level="6.3.4" data-path="mappingMethods.html"><a href="mappingMethods.html#software"><i class="fa fa-check"></i><b>6.3.4</b> Software</a></li>
+<li class="chapter" data-level="6.3.5" data-path="mappingMethods.html"><a href="mappingMethods.html#tunning-random-forest-parameters"><i class="fa fa-check"></i><b>6.3.5</b> Tunning Random forest parameters</a></li>
+<li class="chapter" data-level="6.3.6" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---random-forest"><i class="fa fa-check"></i><b>6.3.6</b> Technical steps - Random forest</a></li>
+<li class="chapter" data-level="6.3.7" data-path="mappingMethods.html"><a href="mappingMethods.html#modelling-uncertainty-using-random-forest"><i class="fa fa-check"></i><b>6.3.7</b> Modelling Uncertainty Using Random Forest</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="mappingMethods.html"><a href="mappingMethods.html#data-minning-support-vector-machines"><i class="fa fa-check"></i><b>6.4</b> Data minning: Support Vector Machines</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---fitting-a-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>6.4.1</b> Technical Steps - Fitting a SVM Model to Predict the SOC</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>7</b> Validation</a><ul>
+<li class="chapter" data-level="7.1" data-path="validation.html"><a href="validation.html#what-is-validation"><i class="fa fa-check"></i><b>7.1</b> What is Validation?</a></li>
+<li class="chapter" data-level="7.2" data-path="validation.html"><a href="validation.html#map-quality-measures"><i class="fa fa-check"></i><b>7.2</b> Map Quality Measures</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="validation.html"><a href="validation.html#quality-measures-for-quantitative-soil-maps"><i class="fa fa-check"></i><b>7.2.1</b> Quality Measures for Quantitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.2" data-path="validation.html"><a href="validation.html#quality-measures-for-qualitative-soil-maps"><i class="fa fa-check"></i><b>7.2.2</b> Quality Measures for Qualitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.3" data-path="validation.html"><a href="validation.html#estimating-the-map-quality-measures-and-associated-uncertainty"><i class="fa fa-check"></i><b>7.2.3</b> Estimating the Map Quality Measures and Associated Uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="validation.html"><a href="validation.html#graphical-map-quality-measures"><i class="fa fa-check"></i><b>7.3</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="7.4" data-path="validation.html"><a href="validation.html#validation-methods-and-statistical-inference"><i class="fa fa-check"></i><b>7.4</b> Validation Methods and Statistical Inference</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="validation.html"><a href="validation.html#additional-probability-sampling"><i class="fa fa-check"></i><b>7.4.1</b> Additional Probability Sampling</a></li>
+<li class="chapter" data-level="7.4.2" data-path="validation.html"><a href="validation.html#data-splitting"><i class="fa fa-check"></i><b>7.4.2</b> Data-Splitting</a></li>
+<li class="chapter" data-level="7.4.3" data-path="validation.html"><a href="validation.html#cross-validation"><i class="fa fa-check"></i><b>7.4.3</b> Cross-Validation</a></li>
+<li class="chapter" data-level="7.4.4" data-path="validation.html"><a href="validation.html#technical-steps---validation"><i class="fa fa-check"></i><b>7.4.4</b> Technical steps - Validation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="uncertainty.html"><a href="uncertainty.html"><i class="fa fa-check"></i><b>8</b> Uncertainty</a><ul>
+<li class="chapter" data-level="8.1" data-path="uncertainty.html"><a href="uncertainty.html#sources-of-uncertainty"><i class="fa fa-check"></i><b>8.1</b> Sources of Uncertainty</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="uncertainty.html"><a href="uncertainty.html#attribute-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>8.1.1</b> Attribute Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="8.1.2" data-path="uncertainty.html"><a href="uncertainty.html#positional-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>8.1.2</b> Positional Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="8.1.3" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-covariates"><i class="fa fa-check"></i><b>8.1.3</b> Uncertainty in Covariates</a></li>
+<li class="chapter" data-level="8.1.4" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-models-predicting-soil-properties-from-covariates-and-soil-point-data"><i class="fa fa-check"></i><b>8.1.4</b> Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-and-spatial-data-quality"><i class="fa fa-check"></i><b>8.2</b> Uncertainty and Spatial Data Quality</a></li>
+<li class="chapter" data-level="8.3" data-path="uncertainty.html"><a href="uncertainty.html#quantifying-prediction-uncertainty"><i class="fa fa-check"></i><b>8.3</b> Quantifying Prediction Uncertainty</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-characterised-by-probability-distributions"><i class="fa fa-check"></i><b>8.3.1</b> Uncertainty Characterised by Probability Distributions</a></li>
+<li class="chapter" data-level="8.3.2" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-model-uncertainty"><i class="fa fa-check"></i><b>8.3.2</b> Propagation of Model Uncertainty</a></li>
+<li class="chapter" data-level="8.3.3" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-attribute-positional-and-covariate-uncertainty"><i class="fa fa-check"></i><b>8.3.3</b> Propagation of Attribute, Positional and Covariate Uncertainty</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="data-sharing.html"><a href="data-sharing.html"><i class="fa fa-check"></i><b>9</b> Data Sharing</a><ul>
+<li class="chapter" data-level="9.1" data-path="data-sharing.html"><a href="data-sharing.html#export-formats"><i class="fa fa-check"></i><b>9.1</b> Export Formats</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="data-sharing.html"><a href="data-sharing.html#type-of-soil-data-and-their-formatting"><i class="fa fa-check"></i><b>9.1.1</b> Type of Soil Data and Their Formatting</a></li>
+<li class="chapter" data-level="9.1.2" data-path="data-sharing.html"><a href="data-sharing.html#general-gis-data-formats-vector-raster-table"><i class="fa fa-check"></i><b>9.1.2</b> General GIS Data Formats: Vector, Raster, Table</a></li>
+<li class="chapter" data-level="9.1.3" data-path="data-sharing.html"><a href="data-sharing.html#recommended-gis-data-exchange-formats"><i class="fa fa-check"></i><b>9.1.3</b> Recommended GIS Data Exchange Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="data-sharing.html"><a href="data-sharing.html#web-services---serving-soil-data-using-web-technology"><i class="fa fa-check"></i><b>9.2</b> Web Services - Serving Soil Data Using Web Technology</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="data-sharing.html"><a href="data-sharing.html#third-party-services"><i class="fa fa-check"></i><b>9.2.1</b> Third-Party Services</a></li>
+<li class="chapter" data-level="9.2.2" data-path="data-sharing.html"><a href="data-sharing.html#geoserver-web-serving-and-web-processing"><i class="fa fa-check"></i><b>9.2.2</b> GeoServer (Web Serving and Web Processing)</a></li>
+<li class="chapter" data-level="9.2.3" data-path="data-sharing.html"><a href="data-sharing.html#visualizing-data-using-leaflet-andor-google-earth"><i class="fa fa-check"></i><b>9.2.3</b> Visualizing Data Using Leaflet and/or Google Earth</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="data-sharing.html"><a href="data-sharing.html#preparing-soil-data-for-distribution"><i class="fa fa-check"></i><b>9.3</b> Preparing Soil Data for Distribution</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="data-sharing.html"><a href="data-sharing.html#metadata"><i class="fa fa-check"></i><b>9.3.1</b> Metadata</a></li>
+<li class="chapter" data-level="9.3.2" data-path="data-sharing.html"><a href="data-sharing.html#exporting-data-final-tips"><i class="fa fa-check"></i><b>9.3.2</b> Exporting Data — Final Tips</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="data-sharing.html"><a href="data-sharing.html#export-formats-1"><i class="fa fa-check"></i><b>9.4</b> Export Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html"><i class="fa fa-check"></i><b>10</b> Technical Overview and the Checklist</a><ul>
+<li class="chapter" data-level="10.1" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#point-dataset"><i class="fa fa-check"></i><b>10.1</b> Point Dataset</a></li>
+<li class="chapter" data-level="10.2" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#covariates-1"><i class="fa fa-check"></i><b>10.2</b> Covariates</a></li>
+<li class="chapter" data-level="10.3" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#statistical-inference"><i class="fa fa-check"></i><b>10.3</b> Statistical Inference</a></li>
+<li class="chapter" data-level="10.4" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#spatial-interpolation"><i class="fa fa-check"></i><b>10.4</b> Spatial Interpolation</a></li>
+<li class="chapter" data-level="10.5" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#calculation-of-stocks"><i class="fa fa-check"></i><b>10.5</b> Calculation of STOCKS</a></li>
+<li class="chapter" data-level="10.6" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#evaluation-of-output-and-quality-assessment"><i class="fa fa-check"></i><b>10.6</b> Evaluation of Output and Quality Assessment</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="deliverables.html"><a href="deliverables.html"><i class="fa fa-check"></i><b>11</b> Deliverables</a></li>
+<li class="chapter" data-level="12" data-path="code-examples.html"><a href="code-examples.html"><i class="fa fa-check"></i><b>12</b> Code examples</a><ul>
+<li class="chapter" data-level="12.1" data-path="code-examples.html"><a href="code-examples.html#PreparationProfiles"><i class="fa fa-check"></i><b>12.1</b> Data Preparation for Soil Profiles</a></li>
+<li class="chapter" data-level="12.2" data-path="code-examples.html"><a href="code-examples.html#PreparationAuger"><i class="fa fa-check"></i><b>12.2</b> Data Preparation for Top Soil or Auger Samples</a></li>
+<li class="chapter" data-level="12.3" data-path="code-examples.html"><a href="code-examples.html#mixing-covariates-and-soil-points-data"><i class="fa fa-check"></i><b>12.3</b> Mixing Covariates and Soil Points Data</a></li>
+<li class="chapter" data-level="12.4" data-path="code-examples.html"><a href="code-examples.html#fitting-a-rk-model-to-predict-the-ocs"><i class="fa fa-check"></i><b>12.4</b> Fitting a RK model to predict the OCS</a></li>
+<li class="chapter" data-level="12.5" data-path="code-examples.html"><a href="code-examples.html#fitting-a-random-forest-model-to-predict-the-soc"><i class="fa fa-check"></i><b>12.5</b> Fitting a random forest model to predict the SOC</a></li>
+<li class="chapter" data-level="12.6" data-path="code-examples.html"><a href="code-examples.html#fitting-a-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>12.6</b> Fitting a svm model to predict the SOC</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Soil Organic Carbon Mapping cookbook</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="code-examples" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> Code examples</h1>
+<p><em>GF Olmedo</em></p>
+<div id="PreparationProfiles" class="section level2">
+<h2><span class="header-section-number">12.1</span> Data Preparation for Soil Profiles</h2>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/horizons.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb159-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb159-3" data-line-number="3"><span class="co"># Explore the data</span></a>
+<a class="sourceLine" id="cb159-4" data-line-number="4"><span class="kw">str</span>(dat)</a>
+<a class="sourceLine" id="cb159-5" data-line-number="5"><span class="kw">summary</span>(dat)</a>
+<a class="sourceLine" id="cb159-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb159-7" data-line-number="7">dat_sites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/site-level.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb159-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb159-9" data-line-number="9"><span class="co"># Explore the data</span></a>
+<a class="sourceLine" id="cb159-10" data-line-number="10"><span class="kw">str</span>(dat_sites)</a>
+<a class="sourceLine" id="cb159-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb159-12" data-line-number="12"><span class="co"># summary of column CRF (Coarse Fragments) in the example data base</span></a>
+<a class="sourceLine" id="cb159-13" data-line-number="13"><span class="kw">summary</span>(dat<span class="op">$</span>CRF)</a>
+<a class="sourceLine" id="cb159-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb159-15" data-line-number="15"><span class="co"># Convert NA&#39;s to 0</span></a>
+<a class="sourceLine" id="cb159-16" data-line-number="16">dat<span class="op">$</span>CRF[<span class="kw">is.na</span>(dat<span class="op">$</span>CRF)] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb159-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb159-18" data-line-number="18"><span class="kw">hist</span>(dat<span class="op">$</span>CRF)</a>
+<a class="sourceLine" id="cb159-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb159-20" data-line-number="20"><span class="co"># Creating a function in R to estimate BLD using the SOC</span></a>
+<a class="sourceLine" id="cb159-21" data-line-number="21"><span class="co"># SOC is the soil organic carbon content in \%</span></a>
+<a class="sourceLine" id="cb159-22" data-line-number="22">estimateBD &lt;-<span class="st"> </span><span class="cf">function</span>(SOC, <span class="dt">method=</span><span class="st">&quot;Saini1996&quot;</span>){</a>
+<a class="sourceLine" id="cb159-23" data-line-number="23">  OM &lt;-<span class="st"> </span>SOC <span class="op">*</span><span class="st"> </span><span class="fl">1.724</span></a>
+<a class="sourceLine" id="cb159-24" data-line-number="24">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Saini1996&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">1.62</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.06</span> <span class="op">*</span><span class="st"> </span>OM}</a>
+<a class="sourceLine" id="cb159-25" data-line-number="25">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Drew1973&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="fl">0.6268</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.0361</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb159-26" data-line-number="26">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Jeffrey1979&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">1.482</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.6786</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">log</span>(OM))}</a>
+<a class="sourceLine" id="cb159-27" data-line-number="27">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Grigal1989&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">0.669</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.941</span> <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="dv">1</span>)<span class="op">^</span>(<span class="op">-</span><span class="fl">0.06</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb159-28" data-line-number="28">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Adams1973&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">/</span><span class="st"> </span>(OM <span class="op">/</span><span class="fl">0.244</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">-</span><span class="st"> </span>OM)<span class="op">/</span><span class="fl">2.65</span>)}</a>
+<a class="sourceLine" id="cb159-29" data-line-number="29">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Honeyset_Ratkowsky1989&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(<span class="fl">0.564</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.0556</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb159-30" data-line-number="30">  <span class="kw">return</span>(BD)</a>
+<a class="sourceLine" id="cb159-31" data-line-number="31">}</a>
+<a class="sourceLine" id="cb159-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb159-33" data-line-number="33"><span class="co"># summary of BLD (bulk density) in the example data base</span></a>
+<a class="sourceLine" id="cb159-34" data-line-number="34"><span class="kw">summary</span>(dat<span class="op">$</span>BLD)</a>
+<a class="sourceLine" id="cb159-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb159-36" data-line-number="36"><span class="co"># See the summary of values produced using the pedo-transfer </span></a>
+<a class="sourceLine" id="cb159-37" data-line-number="37"><span class="co"># function with one of the proposed methods.</span></a>
+<a class="sourceLine" id="cb159-38" data-line-number="38"><span class="kw">summary</span>(<span class="kw">estimateBD</span>(dat<span class="op">$</span>SOC[<span class="kw">is.na</span>(dat<span class="op">$</span>BLD)], m</a>
+<a class="sourceLine" id="cb159-39" data-line-number="39">                   <span class="dt">ethod=</span><span class="st">&quot;Honeyset_Ratkowsky1989&quot;</span>))</a>
+<a class="sourceLine" id="cb159-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb159-41" data-line-number="41"><span class="co"># Fill NA&#39;s using the pedotransfer function:</span></a>
+<a class="sourceLine" id="cb159-42" data-line-number="42">dat<span class="op">$</span>BLD[<span class="kw">is.na</span>(dat<span class="op">$</span>BLD)] &lt;-<span class="st"> </span><span class="kw">estimateBD</span>(dat<span class="op">$</span>SOC[<span class="kw">is.na</span>(dat<span class="op">$</span>BLD)], </a>
+<a class="sourceLine" id="cb159-43" data-line-number="43">                                      <span class="dt">method=</span><span class="st">&quot;Grigal1989&quot;</span>)</a>
+<a class="sourceLine" id="cb159-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb159-45" data-line-number="45"><span class="co"># explore the results</span></a>
+<a class="sourceLine" id="cb159-46" data-line-number="46"><span class="kw">boxplot</span>(dat<span class="op">$</span>BLD)</a>
+<a class="sourceLine" id="cb159-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb159-48" data-line-number="48"><span class="co"># Load aqp package</span></a>
+<a class="sourceLine" id="cb159-49" data-line-number="49"><span class="kw">library</span>(aqp)</a>
+<a class="sourceLine" id="cb159-50" data-line-number="50"></a>
+<a class="sourceLine" id="cb159-51" data-line-number="51"><span class="co"># Promote to SoilProfileCollection </span></a>
+<a class="sourceLine" id="cb159-52" data-line-number="52"><span class="co"># The SoilProfileCollection is a object class in R designed to </span></a>
+<a class="sourceLine" id="cb159-53" data-line-number="53"><span class="co"># handle soil profiles</span></a>
+<a class="sourceLine" id="cb159-54" data-line-number="54"><span class="kw">depths</span>(dat) &lt;-<span class="st"> </span>ProfID <span class="op">~</span><span class="st"> </span>top <span class="op">+</span><span class="st"> </span>bottom</a>
+<a class="sourceLine" id="cb159-55" data-line-number="55"></a>
+<a class="sourceLine" id="cb159-56" data-line-number="56"><span class="co"># Merge the soil horizons information with the site-level </span></a>
+<a class="sourceLine" id="cb159-57" data-line-number="57"><span class="co"># information from dat_sites</span></a>
+<a class="sourceLine" id="cb159-58" data-line-number="58"><span class="kw">site</span>(dat) &lt;-<span class="st"> </span>dat_sites</a>
+<a class="sourceLine" id="cb159-59" data-line-number="59"></a>
+<a class="sourceLine" id="cb159-60" data-line-number="60"><span class="co"># Set spatial coordinates</span></a>
+<a class="sourceLine" id="cb159-61" data-line-number="61"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb159-62" data-line-number="62"></a>
+<a class="sourceLine" id="cb159-63" data-line-number="63"><span class="co"># A summary of our SoilProfileCollection</span></a>
+<a class="sourceLine" id="cb159-64" data-line-number="64">dat</a>
+<a class="sourceLine" id="cb159-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb159-66" data-line-number="66"><span class="kw">library</span>(GSIF)</a>
+<a class="sourceLine" id="cb159-67" data-line-number="67"></a>
+<a class="sourceLine" id="cb159-68" data-line-number="68">## Estimate 0-30 standard horizon usin mass preserving splines</a>
+<a class="sourceLine" id="cb159-69" data-line-number="69"><span class="kw">try</span>(SOC &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;SOC&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb159-70" data-line-number="70"><span class="kw">try</span>(BLD &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;BLD&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb159-71" data-line-number="71"><span class="kw">try</span>(CRFVOL &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;CRF&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb159-72" data-line-number="72"></a>
+<a class="sourceLine" id="cb159-73" data-line-number="73">## Prepare final data frame</a>
+<a class="sourceLine" id="cb159-74" data-line-number="74">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> dat<span class="op">@</span>site<span class="op">$</span>ProfID,</a>
+<a class="sourceLine" id="cb159-75" data-line-number="75">                  <span class="dt">Y =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb159-76" data-line-number="76">                  <span class="dt">X =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb159-77" data-line-number="77">                  <span class="dt">SOC =</span> SOC<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb159-78" data-line-number="78">                  <span class="dt">BLD =</span> BLD<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb159-79" data-line-number="79">                  <span class="dt">CRFVOL =</span> CRFVOL<span class="op">$</span>var.std[,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb159-80" data-line-number="80"></a>
+<a class="sourceLine" id="cb159-81" data-line-number="81">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb159-82" data-line-number="82"></a>
+<a class="sourceLine" id="cb159-83" data-line-number="83">## Take a look to the results</a>
+<a class="sourceLine" id="cb159-84" data-line-number="84"><span class="kw">head</span>(dat)</a>
+<a class="sourceLine" id="cb159-85" data-line-number="85"></a>
+<a class="sourceLine" id="cb159-86" data-line-number="86"><span class="co"># Estimate Organic Carbon Stock</span></a>
+<a class="sourceLine" id="cb159-87" data-line-number="87"><span class="co"># SOC must be in g/kg</span></a>
+<a class="sourceLine" id="cb159-88" data-line-number="88"><span class="co"># BLD in kg/m3</span></a>
+<a class="sourceLine" id="cb159-89" data-line-number="89"><span class="co"># CRF in percentage</span></a>
+<a class="sourceLine" id="cb159-90" data-line-number="90">OCSKGM &lt;-<span class="st"> </span><span class="kw">OCSKGM</span>(<span class="dt">ORCDRC =</span> dat<span class="op">$</span>SOC, <span class="dt">BLD =</span> dat<span class="op">$</span>BLD<span class="op">*</span><span class="dv">1000</span>, </a>
+<a class="sourceLine" id="cb159-91" data-line-number="91">                 <span class="dt">CRFVOL =</span> dat<span class="op">$</span>CRFVOL, <span class="dt">HSIZE =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb159-92" data-line-number="92"></a>
+<a class="sourceLine" id="cb159-93" data-line-number="93">dat<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span>OCSKGM</a>
+<a class="sourceLine" id="cb159-94" data-line-number="94">dat<span class="op">$</span>meaERROR &lt;-<span class="st"> </span><span class="kw">attr</span>(OCSKGM,<span class="st">&quot;measurementError&quot;</span>)</a>
+<a class="sourceLine" id="cb159-95" data-line-number="95">dat &lt;-<span class="st"> </span>dat[dat<span class="op">$</span>OCSKGM<span class="op">&gt;</span><span class="dv">0</span>,]</a>
+<a class="sourceLine" id="cb159-96" data-line-number="96"><span class="kw">summary</span>(dat)</a>
+<a class="sourceLine" id="cb159-97" data-line-number="97"></a>
+<a class="sourceLine" id="cb159-98" data-line-number="98">## We can save our processed data as a table</a>
+<a class="sourceLine" id="cb159-99" data-line-number="99"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/dataproc.csv&quot;</span>)</a></code></pre></div>
+</div>
+<div id="PreparationAuger" class="section level2">
+<h2><span class="header-section-number">12.2</span> Data Preparation for Top Soil or Auger Samples</h2>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/auger.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb160-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb160-3" data-line-number="3"><span class="co"># Explore the data</span></a>
+<a class="sourceLine" id="cb160-4" data-line-number="4"><span class="kw">str</span>(dat)</a>
+<a class="sourceLine" id="cb160-5" data-line-number="5"><span class="kw">summary</span>(dat)</a>
+<a class="sourceLine" id="cb160-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb160-7" data-line-number="7"><span class="co"># Creating a function in R to estimate BLD using the SOC</span></a>
+<a class="sourceLine" id="cb160-8" data-line-number="8"><span class="co"># SOC is the soil organic carbon content in \%</span></a>
+<a class="sourceLine" id="cb160-9" data-line-number="9">estimateBD &lt;-<span class="st"> </span><span class="cf">function</span>(SOC, <span class="dt">method=</span><span class="st">&quot;Saini1996&quot;</span>){</a>
+<a class="sourceLine" id="cb160-10" data-line-number="10">  OM &lt;-<span class="st"> </span>SOC <span class="op">*</span><span class="st"> </span><span class="fl">1.724</span></a>
+<a class="sourceLine" id="cb160-11" data-line-number="11">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Saini1996&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">1.62</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.06</span> <span class="op">*</span><span class="st"> </span>OM}</a>
+<a class="sourceLine" id="cb160-12" data-line-number="12">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Drew1973&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="fl">0.6268</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.0361</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb160-13" data-line-number="13">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Jeffrey1979&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">1.482</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.6786</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">log</span>(OM))}</a>
+<a class="sourceLine" id="cb160-14" data-line-number="14">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Grigal1989&quot;</span>){BD &lt;-<span class="st"> </span><span class="fl">0.669</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.941</span> <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="dv">1</span>)<span class="op">^</span>(<span class="op">-</span><span class="fl">0.06</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb160-15" data-line-number="15">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Adams1973&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">100</span> <span class="op">/</span><span class="st"> </span>(OM <span class="op">/</span><span class="fl">0.244</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">100</span> <span class="op">-</span><span class="st"> </span>OM)<span class="op">/</span><span class="fl">2.65</span>)}</a>
+<a class="sourceLine" id="cb160-16" data-line-number="16">  <span class="cf">if</span>(method<span class="op">==</span><span class="st">&quot;Honeyset_Ratkowsky1989&quot;</span>){BD &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(<span class="fl">0.564</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.0556</span> <span class="op">*</span><span class="st"> </span>OM)}</a>
+<a class="sourceLine" id="cb160-17" data-line-number="17">  <span class="kw">return</span>(BD)</a>
+<a class="sourceLine" id="cb160-18" data-line-number="18">}</a>
+<a class="sourceLine" id="cb160-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb160-20" data-line-number="20"><span class="co"># See the summary of values produced using the pedo-transfer </span></a>
+<a class="sourceLine" id="cb160-21" data-line-number="21"><span class="co"># function with one of the proposed methods.</span></a>
+<a class="sourceLine" id="cb160-22" data-line-number="22"><span class="kw">summary</span>(<span class="kw">estimateBD</span>(dat<span class="op">$</span>SOC, <span class="dt">method=</span><span class="st">&quot;Honeyset_Ratkowsky1989&quot;</span>))</a>
+<a class="sourceLine" id="cb160-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb160-24" data-line-number="24"><span class="co"># Estimate BLD using the pedotransfer function:</span></a>
+<a class="sourceLine" id="cb160-25" data-line-number="25">dat<span class="op">$</span>BLD &lt;-<span class="st"> </span><span class="kw">estimateBD</span>(dat<span class="op">$</span>SOC, <span class="dt">method=</span><span class="st">&quot;Grigal1989&quot;</span>)</a>
+<a class="sourceLine" id="cb160-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb160-27" data-line-number="27"><span class="co"># explore the results</span></a>
+<a class="sourceLine" id="cb160-28" data-line-number="28"><span class="kw">boxplot</span>(dat<span class="op">$</span>BLD)</a>
+<a class="sourceLine" id="cb160-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb160-30" data-line-number="30"><span class="co"># Remove points with NA&#39;s values</span></a>
+<a class="sourceLine" id="cb160-31" data-line-number="31">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb160-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb160-33" data-line-number="33">## Take a look to the results</a>
+<a class="sourceLine" id="cb160-34" data-line-number="34"><span class="kw">head</span>(dat)</a>
+<a class="sourceLine" id="cb160-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb160-36" data-line-number="36"><span class="co"># Estimate Organic Carbon Stock</span></a>
+<a class="sourceLine" id="cb160-37" data-line-number="37"><span class="co"># SOC must be in g/kg</span></a>
+<a class="sourceLine" id="cb160-38" data-line-number="38"><span class="co"># BLD in kg/m3</span></a>
+<a class="sourceLine" id="cb160-39" data-line-number="39"><span class="co"># CRF in percentage</span></a>
+<a class="sourceLine" id="cb160-40" data-line-number="40">OCSKGM &lt;-<span class="st"> </span><span class="kw">OCSKGM</span>(<span class="dt">ORCDRC =</span> dat<span class="op">$</span>SOC, <span class="dt">BLD =</span> dat<span class="op">$</span>BLD<span class="op">*</span><span class="dv">1000</span>, <span class="dt">CRFVOL =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb160-41" data-line-number="41">                 <span class="dt">HSIZE =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb160-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb160-43" data-line-number="43">dat<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span>OCSKGM</a>
+<a class="sourceLine" id="cb160-44" data-line-number="44">dat<span class="op">$</span>meaERROR &lt;-<span class="st"> </span><span class="kw">attr</span>(OCSKGM,<span class="st">&quot;measurementError&quot;</span>)</a>
+<a class="sourceLine" id="cb160-45" data-line-number="45">dat &lt;-<span class="st"> </span>dat[dat<span class="op">$</span>OCSKGM<span class="op">&gt;</span><span class="dv">0</span>,]</a>
+<a class="sourceLine" id="cb160-46" data-line-number="46"><span class="kw">summary</span>(dat)</a>
+<a class="sourceLine" id="cb160-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb160-48" data-line-number="48">## We can save our processed data as a table</a>
+<a class="sourceLine" id="cb160-49" data-line-number="49"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/dataproc.csv&quot;</span>)</a></code></pre></div>
+</div>
+<div id="mixing-covariates-and-soil-points-data" class="section level2">
+<h2><span class="header-section-number">12.3</span> Mixing Covariates and Soil Points Data</h2>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="co"># Load the processed data. This table was prepared in the previous </span></a>
+<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="co"># chapter.</span></a>
+<a class="sourceLine" id="cb161-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dataproc.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb161-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb161-5" data-line-number="5">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;tif$&quot;</span>, </a>
+<a class="sourceLine" id="cb161-6" data-line-number="6">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb161-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb161-8" data-line-number="8">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a>
+<a class="sourceLine" id="cb161-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb161-10" data-line-number="10">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(covs, soilmap.r)</a>
+<a class="sourceLine" id="cb161-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb161-12" data-line-number="12"><span class="co"># correct the name for layer 14</span></a>
+<a class="sourceLine" id="cb161-13" data-line-number="13"><span class="kw">names</span>(covs)[<span class="dv">14</span>] &lt;-<span class="st"> &quot;soilmap&quot;</span></a>
+<a class="sourceLine" id="cb161-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb161-15" data-line-number="15"><span class="co">#mask the covariates with the country mask from the data repository</span></a>
+<a class="sourceLine" id="cb161-16" data-line-number="16">mask &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/mask.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb161-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb161-18" data-line-number="18">covs &lt;-<span class="st"> </span><span class="kw">mask</span>(<span class="dt">x =</span> covs, <span class="dt">mask =</span> mask)</a>
+<a class="sourceLine" id="cb161-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb161-20" data-line-number="20"><span class="kw">plot</span>(covs)</a>
+<a class="sourceLine" id="cb161-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb161-22" data-line-number="22"><span class="co">#upgrade points data frame to SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb161-23" data-line-number="23"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb161-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb161-25" data-line-number="25"><span class="co"># extract values from covariates to the soil points</span></a>
+<a class="sourceLine" id="cb161-26" data-line-number="26">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> covs, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb161-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb161-28" data-line-number="28"><span class="co"># LCEE10 and soilmap are categorical variables</span></a>
+<a class="sourceLine" id="cb161-29" data-line-number="29">dat<span class="op">@</span>data<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb161-30" data-line-number="30">dat<span class="op">@</span>data<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb161-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb161-32" data-line-number="32"><span class="co">#levels(soilmap) &lt;- Symbol.levels</span></a>
+<a class="sourceLine" id="cb161-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb161-34" data-line-number="34"><span class="kw">summary</span>(dat<span class="op">@</span>data)</a>
+<a class="sourceLine" id="cb161-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb161-36" data-line-number="36">dat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat)</a>
+<a class="sourceLine" id="cb161-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb161-38" data-line-number="38"><span class="co"># The points with NA values has to be removed </span></a>
+<a class="sourceLine" id="cb161-39" data-line-number="39">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb161-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb161-41" data-line-number="41"><span class="co"># export as a csv table</span></a>
+<a class="sourceLine" id="cb161-42" data-line-number="42"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
+<div id="fitting-a-rk-model-to-predict-the-ocs" class="section level2">
+<h2><span class="header-section-number">12.4</span> Fitting a RK model to predict the OCS</h2>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="co"># load data</span></a>
+<a class="sourceLine" id="cb162-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb162-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb162-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb162-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb162-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb162-7" data-line-number="7"><span class="co"># explore the data structure</span></a>
+<a class="sourceLine" id="cb162-8" data-line-number="8"><span class="kw">str</span>(dat)</a>
+<a class="sourceLine" id="cb162-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb162-10" data-line-number="10"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb162-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb162-12" data-line-number="12"><span class="co"># Promote to spatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb162-13" data-line-number="13"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb162-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb162-15" data-line-number="15"><span class="kw">class</span>(dat)</a>
+<a class="sourceLine" id="cb162-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb162-17" data-line-number="17">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
+<a class="sourceLine" id="cb162-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb162-19" data-line-number="19">dat<span class="op">@</span>proj4string</a>
+<a class="sourceLine" id="cb162-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb162-21" data-line-number="21"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb162-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb162-23" data-line-number="23"><span class="co"># list all the itf files in the folder covs/</span></a>
+<a class="sourceLine" id="cb162-24" data-line-number="24">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;tif$&quot;</span>, </a>
+<a class="sourceLine" id="cb162-25" data-line-number="25">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb162-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb162-27" data-line-number="27"><span class="co"># load all the tif files in one rasterStack object</span></a>
+<a class="sourceLine" id="cb162-28" data-line-number="28">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a>
+<a class="sourceLine" id="cb162-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb162-30" data-line-number="30"><span class="co"># load the vectorial version of the soil map</span></a>
+<a class="sourceLine" id="cb162-31" data-line-number="31">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a>
+<a class="sourceLine" id="cb162-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb162-33" data-line-number="33"><span class="co"># rasterize using the Symbol layer</span></a>
+<a class="sourceLine" id="cb162-34" data-line-number="34">soilmap<span class="op">@</span>data<span class="op">$</span>Symbol &lt;-<span class="st"> </span><span class="kw">as.factor</span>(soilmap<span class="op">@</span>data<span class="op">$</span>Symbol)</a>
+<a class="sourceLine" id="cb162-35" data-line-number="35">soilmap.r &lt;-<span class="st"> </span><span class="kw">rasterize</span>(<span class="dt">x =</span> soilmap, <span class="dt">y =</span> covs[[<span class="dv">1</span>]], <span class="dt">field =</span> <span class="st">&quot;Symbol&quot;</span>)</a>
+<a class="sourceLine" id="cb162-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb162-37" data-line-number="37"><span class="co"># stack the soil map and the other covariates</span></a>
+<a class="sourceLine" id="cb162-38" data-line-number="38">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(covs, soilmap.r)</a>
+<a class="sourceLine" id="cb162-39" data-line-number="39"></a>
+<a class="sourceLine" id="cb162-40" data-line-number="40"><span class="co"># correct the name for layer 14</span></a>
+<a class="sourceLine" id="cb162-41" data-line-number="41"><span class="kw">names</span>(covs)[<span class="dv">14</span>] &lt;-<span class="st"> &quot;soilmap&quot;</span></a>
+<a class="sourceLine" id="cb162-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb162-43" data-line-number="43"><span class="co"># print the names of the 14 layers:</span></a>
+<a class="sourceLine" id="cb162-44" data-line-number="44"><span class="kw">names</span>(covs)</a>
+<a class="sourceLine" id="cb162-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb162-46" data-line-number="46">datdf &lt;-<span class="st"> </span>dat<span class="op">@</span>data</a>
+<a class="sourceLine" id="cb162-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb162-48" data-line-number="48">datdf &lt;-<span class="st"> </span>datdf[, <span class="kw">c</span>(<span class="st">&quot;OCSKGM&quot;</span>, <span class="kw">names</span>(covs))]</a>
+<a class="sourceLine" id="cb162-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb162-50" data-line-number="50"><span class="co"># Fit a multiple linear regression model between the log transformed</span></a>
+<a class="sourceLine" id="cb162-51" data-line-number="51"><span class="co"># values of OCS and the top 20 covariates</span></a>
+<a class="sourceLine" id="cb162-52" data-line-number="52">model.MLR &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(OCSKGM) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> datdf) </a>
+<a class="sourceLine" id="cb162-53" data-line-number="53"></a>
+<a class="sourceLine" id="cb162-54" data-line-number="54"><span class="co"># stepwise variable selection</span></a>
+<a class="sourceLine" id="cb162-55" data-line-number="55">model.MLR.step &lt;-<span class="st"> </span><span class="kw">step</span>(model.MLR, <span class="dt">direction=</span><span class="st">&quot;both&quot;</span>)</a>
+<a class="sourceLine" id="cb162-56" data-line-number="56"></a>
+<a class="sourceLine" id="cb162-57" data-line-number="57"><span class="co"># summary and anova of the new model using stepwise covariates </span></a>
+<a class="sourceLine" id="cb162-58" data-line-number="58"><span class="co"># selection</span></a>
+<a class="sourceLine" id="cb162-59" data-line-number="59"><span class="kw">summary</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb162-60" data-line-number="60"><span class="kw">anova</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb162-61" data-line-number="61"></a>
+<a class="sourceLine" id="cb162-62" data-line-number="62"><span class="co"># graphical diagnosis of the regression analysis</span></a>
+<a class="sourceLine" id="cb162-63" data-line-number="63"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) </a>
+<a class="sourceLine" id="cb162-64" data-line-number="64"><span class="kw">plot</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb162-65" data-line-number="65"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb162-66" data-line-number="66"></a>
+<a class="sourceLine" id="cb162-67" data-line-number="67"><span class="co"># collinearity test using variance inflation factors</span></a>
+<a class="sourceLine" id="cb162-68" data-line-number="68"><span class="kw">library</span>(car)</a>
+<a class="sourceLine" id="cb162-69" data-line-number="69"><span class="kw">vif</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb162-70" data-line-number="70"></a>
+<a class="sourceLine" id="cb162-71" data-line-number="71"><span class="co"># problematic covariates should have sqrt(VIF) &gt; 2</span></a>
+<a class="sourceLine" id="cb162-72" data-line-number="72"><span class="kw">sqrt</span>(<span class="kw">vif</span>(model.MLR.step))</a>
+<a class="sourceLine" id="cb162-73" data-line-number="73"></a>
+<a class="sourceLine" id="cb162-74" data-line-number="74"><span class="co"># Removing B07CHE3 from the stepwise model:</span></a>
+<a class="sourceLine" id="cb162-75" data-line-number="75">model.MLR.step &lt;-<span class="st"> </span><span class="kw">update</span>(model.MLR.step, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>B07CHE3)</a>
+<a class="sourceLine" id="cb162-76" data-line-number="76"></a>
+<a class="sourceLine" id="cb162-77" data-line-number="77"><span class="co"># Test the vif again:</span></a>
+<a class="sourceLine" id="cb162-78" data-line-number="78"><span class="kw">sqrt</span>(<span class="kw">vif</span>(model.MLR.step))</a>
+<a class="sourceLine" id="cb162-79" data-line-number="79"></a>
+<a class="sourceLine" id="cb162-80" data-line-number="80">## summary  of the new model using stepwise covariates selection</a>
+<a class="sourceLine" id="cb162-81" data-line-number="81"><span class="kw">summary</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb162-82" data-line-number="82"></a>
+<a class="sourceLine" id="cb162-83" data-line-number="83"><span class="co"># outlier test using the Bonferroni test</span></a>
+<a class="sourceLine" id="cb162-84" data-line-number="84"><span class="kw">outlierTest</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb162-85" data-line-number="85"></a>
+<a class="sourceLine" id="cb162-86" data-line-number="86"><span class="co"># Project point data. </span></a>
+<a class="sourceLine" id="cb162-87" data-line-number="87">dat &lt;-<span class="st"> </span><span class="kw">spTransform</span>(dat, <span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:6204&quot;</span>))</a>
+<a class="sourceLine" id="cb162-88" data-line-number="88"></a>
+<a class="sourceLine" id="cb162-89" data-line-number="89"><span class="co"># project covariates to VN-2000 UTM 48N</span></a>
+<a class="sourceLine" id="cb162-90" data-line-number="90">covs &lt;-<span class="st"> </span><span class="kw">projectRaster</span>(covs, <span class="dt">crs =</span> <span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:6204&quot;</span>), </a>
+<a class="sourceLine" id="cb162-91" data-line-number="91">                      <span class="dt">method=</span><span class="st">&#39;ngb&#39;</span>)</a>
+<a class="sourceLine" id="cb162-92" data-line-number="92"></a>
+<a class="sourceLine" id="cb162-93" data-line-number="93">covs<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb162-94" data-line-number="94">covs<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb162-95" data-line-number="95"></a>
+<a class="sourceLine" id="cb162-96" data-line-number="96"><span class="co"># Promote covariates to spatial grid dataframe. Takes some time and </span></a>
+<a class="sourceLine" id="cb162-97" data-line-number="97"><span class="co"># a lot of memory!</span></a>
+<a class="sourceLine" id="cb162-98" data-line-number="98">covs.sp &lt;-<span class="st"> </span><span class="kw">as</span>(covs, <span class="st">&quot;SpatialGridDataFrame&quot;</span>)</a>
+<a class="sourceLine" id="cb162-99" data-line-number="99">covs.sp<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs.sp<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb162-100" data-line-number="100">covs.sp<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs.sp<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb162-101" data-line-number="101"></a>
+<a class="sourceLine" id="cb162-102" data-line-number="102"><span class="co"># RK model </span></a>
+<a class="sourceLine" id="cb162-103" data-line-number="103"><span class="kw">library</span>(automap)</a>
+<a class="sourceLine" id="cb162-104" data-line-number="104"></a>
+<a class="sourceLine" id="cb162-105" data-line-number="105"></a>
+<a class="sourceLine" id="cb162-106" data-line-number="106"><span class="co"># Run regression kriging prediction. This step can take hours...!</span></a>
+<a class="sourceLine" id="cb162-107" data-line-number="107">OCS.krige &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(<span class="dt">formula =</span> </a>
+<a class="sourceLine" id="cb162-108" data-line-number="108">                         <span class="kw">as.formula</span>(model.MLR.step<span class="op">$</span>call<span class="op">$</span>formula), </a>
+<a class="sourceLine" id="cb162-109" data-line-number="109">                       <span class="dt">input_data =</span> dat, </a>
+<a class="sourceLine" id="cb162-110" data-line-number="110">                       <span class="dt">new_data =</span> covs.sp,</a>
+<a class="sourceLine" id="cb162-111" data-line-number="111">                       <span class="dt">verbose =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb162-112" data-line-number="112">                       <span class="dt">block =</span> <span class="kw">c</span>(<span class="dv">1000</span>, <span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb162-113" data-line-number="113"></a>
+<a class="sourceLine" id="cb162-114" data-line-number="114">OCS.krige</a>
+<a class="sourceLine" id="cb162-115" data-line-number="115"></a>
+<a class="sourceLine" id="cb162-116" data-line-number="116"><span class="co"># Convert prediction and standard deviation to rasters</span></a>
+<a class="sourceLine" id="cb162-117" data-line-number="117"><span class="co"># And back-tansform the vlaues</span></a>
+<a class="sourceLine" id="cb162-118" data-line-number="118">RKprediction &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">raster</span>(OCS.krige<span class="op">$</span>krige_output[<span class="dv">1</span>]))</a>
+<a class="sourceLine" id="cb162-119" data-line-number="119">RKpredsd &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">raster</span>(OCS.krige<span class="op">$</span>krige_output[<span class="dv">3</span>]))</a>
+<a class="sourceLine" id="cb162-120" data-line-number="120"></a>
+<a class="sourceLine" id="cb162-121" data-line-number="121"></a>
+<a class="sourceLine" id="cb162-122" data-line-number="122"><span class="kw">plot</span>(RKprediction)</a>
+<a class="sourceLine" id="cb162-123" data-line-number="123"></a>
+<a class="sourceLine" id="cb162-124" data-line-number="124">## Save results as tif files</a>
+<a class="sourceLine" id="cb162-125" data-line-number="125"><span class="kw">writeRaster</span>(RKprediction, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_RK.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb162-126" data-line-number="126">            <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb162-127" data-line-number="127"></a>
+<a class="sourceLine" id="cb162-128" data-line-number="128"><span class="kw">writeRaster</span>(RKpredsd, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_RKpredsd.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb162-129" data-line-number="129">            <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb162-130" data-line-number="130"></a>
+<a class="sourceLine" id="cb162-131" data-line-number="131"><span class="co"># save the model</span></a>
+<a class="sourceLine" id="cb162-132" data-line-number="132"><span class="kw">saveRDS</span>(model.MLR.step, <span class="dt">file=</span><span class="st">&quot;results/RKmodel.Rds&quot;</span>)</a></code></pre></div>
+</div>
+<div id="fitting-a-random-forest-model-to-predict-the-soc" class="section level2">
+<h2><span class="header-section-number">12.5</span> Fitting a random forest model to predict the SOC</h2>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="kw">library</span>(reshape)</a>
+<a class="sourceLine" id="cb163-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb163-3" data-line-number="3"><span class="co"># Correlation analysis to select covariates</span></a>
+<a class="sourceLine" id="cb163-4" data-line-number="4"><span class="kw">names</span>(dat)</a>
+<a class="sourceLine" id="cb163-5" data-line-number="5">COR &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="kw">as.matrix</span>(dat[,<span class="dv">7</span>]), <span class="kw">as.matrix</span>(dat[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>)]))</a>
+<a class="sourceLine" id="cb163-6" data-line-number="6">COR</a>
+<a class="sourceLine" id="cb163-7" data-line-number="7">x &lt;-<span class="st"> </span><span class="kw">subset</span>(<span class="kw">melt</span>(COR), value <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>value <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb163-8" data-line-number="8">x &lt;-<span class="st"> </span>x[<span class="kw">with</span>(x, <span class="kw">order</span>(<span class="op">-</span><span class="kw">abs</span>(x<span class="op">$</span>value))),]</a>
+<a class="sourceLine" id="cb163-9" data-line-number="9">x[<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>,]</a>
+<a class="sourceLine" id="cb163-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb163-11" data-line-number="11">idx &lt;-<span class="st"> </span><span class="kw">as.character</span>(x<span class="op">$</span>X2[<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>])</a>
+<a class="sourceLine" id="cb163-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb163-13" data-line-number="13">dat2 &lt;-<span class="st"> </span>dat[<span class="kw">c</span>(<span class="st">&#39;OCSKGM&#39;</span>, idx)]</a>
+<a class="sourceLine" id="cb163-14" data-line-number="14"><span class="kw">names</span>(dat2)</a>
+<a class="sourceLine" id="cb163-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb163-16" data-line-number="16">COVall &lt;-<span class="st"> </span>COV</a>
+<a class="sourceLine" id="cb163-17" data-line-number="17">COV &lt;-<span class="st"> </span>COV[[idx]]</a>
+<a class="sourceLine" id="cb163-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb163-19" data-line-number="19"><span class="kw">plot</span>(COV)</a>
+<a class="sourceLine" id="cb163-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb163-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb163-22" data-line-number="22"><span class="kw">library</span>(randomForest)</a>
+<a class="sourceLine" id="cb163-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb163-24" data-line-number="24"><span class="co"># Try different values of mtry and select the model with the optimal </span></a>
+<a class="sourceLine" id="cb163-25" data-line-number="25"><span class="co"># value</span></a>
+<a class="sourceLine" id="cb163-26" data-line-number="26">model &lt;-<span class="st"> </span><span class="kw">tuneRF</span>(dat[,<span class="kw">c</span>(<span class="kw">names</span>(COV))], dat<span class="op">$</span>OCSKGM, <span class="dt">stepFactor=</span><span class="fl">1.5</span>, </a>
+<a class="sourceLine" id="cb163-27" data-line-number="27">                <span class="dt">doBest =</span> <span class="ot">TRUE</span>, <span class="dt">improve =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb163-28" data-line-number="28">                       </a>
+<a class="sourceLine" id="cb163-29" data-line-number="29"><span class="co"># Use the model to predict the SOC in the covariates space</span></a>
+<a class="sourceLine" id="cb163-30" data-line-number="30"><span class="kw">beginCluster</span>()</a>
+<a class="sourceLine" id="cb163-31" data-line-number="31">start &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</a>
+<a class="sourceLine" id="cb163-32" data-line-number="32">pred &lt;-<span class="st"> </span><span class="kw">clusterR</span>(COV, predict, <span class="dt">args=</span><span class="kw">list</span>(model))</a>
+<a class="sourceLine" id="cb163-33" data-line-number="33"><span class="kw">print</span>(<span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>start)</a>
+<a class="sourceLine" id="cb163-34" data-line-number="34"><span class="kw">endCluster</span>()</a></code></pre></div>
+</div>
+<div id="fitting-a-svm-model-to-predict-the-soc" class="section level2">
+<h2><span class="header-section-number">12.6</span> Fitting a svm model to predict the SOC</h2>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="co"># Correlation analysis to select covariates</span></a>
+<a class="sourceLine" id="cb164-2" data-line-number="2"><span class="kw">names</span>(dat)</a>
+<a class="sourceLine" id="cb164-3" data-line-number="3">COR &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="kw">as.matrix</span>(dat[,<span class="dv">7</span>]), <span class="kw">as.matrix</span>(dat[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>)]))</a>
+<a class="sourceLine" id="cb164-4" data-line-number="4">COR</a>
+<a class="sourceLine" id="cb164-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw">subset</span>(<span class="kw">melt</span>(COR), value <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>value <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb164-6" data-line-number="6">x &lt;-<span class="st"> </span>x[<span class="kw">with</span>(x, <span class="kw">order</span>(<span class="op">-</span><span class="kw">abs</span>(x<span class="op">$</span>value))),]</a>
+<a class="sourceLine" id="cb164-7" data-line-number="7">x[<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>,]</a>
+<a class="sourceLine" id="cb164-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb164-9" data-line-number="9">idx &lt;-<span class="st"> </span><span class="kw">as.character</span>(x<span class="op">$</span>X2[<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>])</a>
+<a class="sourceLine" id="cb164-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb164-11" data-line-number="11">dat2 &lt;-<span class="st"> </span>dat[<span class="kw">c</span>(<span class="st">&#39;OCSKGM&#39;</span>, idx)]</a>
+<a class="sourceLine" id="cb164-12" data-line-number="12"><span class="kw">names</span>(dat2)</a>
+<a class="sourceLine" id="cb164-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb164-14" data-line-number="14">COVall &lt;-<span class="st"> </span>COV</a>
+<a class="sourceLine" id="cb164-15" data-line-number="15">COV &lt;-<span class="st"> </span>COV[[idx]]</a>
+<a class="sourceLine" id="cb164-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb164-17" data-line-number="17"><span class="kw">plot</span>(COV)</a>
+<a class="sourceLine" id="cb164-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb164-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb164-20" data-line-number="20"><span class="kw">library</span>(e1071)</a>
+<a class="sourceLine" id="cb164-21" data-line-number="21"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb164-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb164-23" data-line-number="23"><span class="co">#  Test different values of epsilon and cost</span></a>
+<a class="sourceLine" id="cb164-24" data-line-number="24">tuneResult &lt;-<span class="st"> </span><span class="kw">tune</span>(svm, OCSKGM <span class="op">~</span>.,  <span class="dt">data =</span> dat[,<span class="kw">c</span>(<span class="st">&quot;OCSKGM&quot;</span>, </a>
+<a class="sourceLine" id="cb164-25" data-line-number="25">                                                  <span class="kw">names</span>(COV))],</a>
+<a class="sourceLine" id="cb164-26" data-line-number="26">                   <span class="dt">ranges =</span> <span class="kw">list</span>(<span class="dt">epsilon =</span> <span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.1</span>), </a>
+<a class="sourceLine" id="cb164-27" data-line-number="27">                                 <span class="dt">cost =</span> <span class="kw">c</span>(.<span class="dv">5</span>,<span class="dv">1</span>,<span class="fl">1.5</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb164-28" data-line-number="28">)</a>
+<a class="sourceLine" id="cb164-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb164-30" data-line-number="30"><span class="co"># Choose the model with the best combination of epsilon and cost</span></a>
+<a class="sourceLine" id="cb164-31" data-line-number="31">tunedModel &lt;-<span class="st"> </span>tuneResult<span class="op">$</span>best.model</a>
+<a class="sourceLine" id="cb164-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb164-33" data-line-number="33"><span class="co"># Use the model to predict the SOC in the covariates space</span></a>
+<a class="sourceLine" id="cb164-34" data-line-number="34"><span class="kw">beginCluster</span>()</a>
+<a class="sourceLine" id="cb164-35" data-line-number="35">start &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</a>
+<a class="sourceLine" id="cb164-36" data-line-number="36">pred &lt;-<span class="st"> </span><span class="kw">clusterR</span>(COV, predict, <span class="dt">args=</span><span class="kw">list</span>(tunedModel))</a>
+<a class="sourceLine" id="cb164-37" data-line-number="37"><span class="kw">print</span>(<span class="kw">Sys.time</span>() <span class="op">-</span><span class="st"> </span>start)</a>
+<a class="sourceLine" id="cb164-38" data-line-number="38"><span class="kw">endCluster</span>()</a></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="deliverables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/12-Code-examples.Rmd",
+"text": "Edit"
+},
+"download": ["SOCMapping.pdf", "SOCMapping.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
