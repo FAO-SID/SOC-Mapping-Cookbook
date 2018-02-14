@@ -26,7 +26,7 @@ set.seed(123)
 
 ## Boolean object for running all the code #####
 # if FALSE will use precalculated RK prediction and svm tuning
-RUN.ALL <- FALSE
+RUN.ALL <- TRUE
 
 # Cache results
 knitr::opts_chunk$set(cache=TRUE)

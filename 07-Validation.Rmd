@@ -418,7 +418,7 @@ validation <- data.frame(ME = c(ME_RK, ME_rf, ME_svm),
 validation <- as.data.frame(t(validation))
 names(validation) <- c('RK', 'randomForest', 'svm')
 
-knitr::kable(validation, caption = "Summary of prediction errors for 3 different methods", digits = 3, align = "lll")
+knitr::kable(validation, caption = "Summary of prediction errors for 3 different methods", digits = 3, align = "rlll")
 ```
 
 ### Graphical Map Quality Measures 
@@ -475,7 +475,14 @@ bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21,
 
 ### Data-Splitting {#dataSplit}
 
-```{r, eval=TRUE, fig.cap='Statistical distribution of train and test datasets'}
+```{r, echo=F}
+# fix randomness for data splitting to produce a complete train 
+# dataset for soilmap class 1, where we have only 1 sample
+set.seed(1234)
+```
+
+
+```{r, eval=T, fig.cap='Statistical distribution of train and test datasets'}
 library(caret)
 
 dat <- read.csv("data/dataproc.csv")
@@ -491,7 +498,7 @@ legend('topright', legend=c("train", "test"),
       col=c("red", "blue"), lty=1, cex=1.5)
 ```
 
-```{r, eval=TRUE}
+```{r, eval=F}
 write.csv(train, file="data/dat_train.csv", row.names = FALSE)
 write.csv(test, file="data/dat_test.csv", row.names = FALSE)
 ```
