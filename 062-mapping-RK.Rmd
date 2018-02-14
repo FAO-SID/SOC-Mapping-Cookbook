@@ -1,5 +1,5 @@
 \clearpage
-## Regression-Kriging
+## Regression-Kriging {#RK}
 *GF Olmedo & Y Yigini*
 
 ### Overview
@@ -309,8 +309,6 @@ OCS.krige <- autoKrige(formula =
 OCS.krige
 ```
 
-
-
 ```{r}
 ## Convert prediction and standard deviation to rasters
 ## And back-tansform the vlaues
@@ -340,3 +338,15 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif",
 # save the model
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
+
+### Technical Steps - Cross-validation of Regression Kriging models
+
+Cross-validation is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package.
+
+```{r}
+OCS.krige.cv <- autoKrige.cv(formula = as.formula(model.MLR.step$call$formula), 
+                             input_data = dat, nfold = 10)
+
+summary(OCS.krige.cv)
+```
+
