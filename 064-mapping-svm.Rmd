@@ -1,5 +1,5 @@
 \clearpage
-## Data minning: Support Vector Machines
+## Data minning: Support Vector Machines {#svm}
 *GF Olmedo & M Guevara*
 
 ### Overview 

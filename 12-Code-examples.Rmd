@@ -1,9 +1,33 @@
-# Code examples
+# Compedium of the code examples included in the cookbook
 *GF Olmedo*
 
+## Overview
 
+In this chapter we present a compedium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil propierty prediction map starting from the soil samples, covariates preparation, modelling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes: soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
-## Data Preparation for Soil Profiles{#PreparationProfiles}
+1. Soil data preparation
+  - **Option A**: Data Preparation for Soil Profiles (Code \@ref(cd:PreparationProfiles))
+  - **Option B**: Data Preparation for Top Soil or Auger Samples (Code \@ref(cd:PreparationAuger))
+  - *[optional]*: Split the soil data in test and validations datasets (Code \@ref(cd:data-splitting))
+2. Covariates preparation
+  - *[optional]* Rasterizing a Vector Layer in R (Code \@ref(cd:Rasterizing))
+  - Overlay Covariates and Soil Points Data (Code \@ref(cd:Overlay))
+3. Spatial interpolation model
+  - **Option A**: Fitting a Regression-Kriging model to predict the OCS (Code \@ref(cd:RK))
+  - **Option B**: Fitting a Random Forest model to predict the SOC (Code \@ref(cd:rf))
+  - **Option C**: Fitting a Support Vector Machines model to predict the SOC (Code \@ref(cd:svm))
+4. Validation
+  - Quality measures for quantitative data (Code \@ref(cd:Validation))
+  - *[optional]* Graphical quality measures for quantitative data (Code \@ref(cd:Graphs))
+  - Cross-validation for Regression-Kriging Models (Code \@ref(cd:xvalRK))
+  - Validation of Random Forest using Quantile Regression Trees (Code \@ref(cd:quantreg))
+  
+  
+\clearpage
+## Data Preparation for Soil Profiles{#cd:PreparationProfiles}
+
+The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by GF Olmedo & R Baritz.
+
 
 ```{r data prep for soil profiles, eval=FALSE}
 dat <- read.csv(file = "data/horizons.csv")
@@ -107,7 +131,10 @@ summary(dat)
 write.csv(dat, "data/dataproc.csv")
 ```
 
-## Data Preparation for Top Soil or Auger Samples {#PreparationAuger}  
+\clearpage
+## Data Preparation for Top Soil or Auger Samples {#cd:PreparationAuger}  
+
+The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by GF Olmedo & R Baritz.
 
 ```{r data prep for auger data, eval=FALSE}
 dat <- read.csv(file = "data/auger.csv")
@@ -161,7 +188,10 @@ summary(dat)
 write.csv(dat, "data/dataproc.csv")
 ```
 
-## Rasterizing a Vector Layer in R
+\clearpage
+## Rasterizing a Vector Layer in R {#cd:Rasterizing}
+
+The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
 
 ```{r, eval = T}
 # the "Symbol" attribute from the vector layer will be used for the
@@ -181,7 +211,10 @@ legend("bottomright",legend = Symbol.levels, fill=rainbow(21),
        cex=0.5)
 ```
 
-## Overlay Covariates and Soil Points Data
+\clearpage
+## Overlay Covariates and Soil Points Data{#cd:Overlay}
+
+The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
 
 ```{r "join covariates and soil samples", eval=FALSE}
 # Load the processed data. This table was prepared in the previous 
@@ -228,8 +261,10 @@ dat <- dat[complete.cases(dat),]
 write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
 ```
 
+\clearpage
+## Fitting a Regression-Kriging model to predict the OCS{#cd:RK}
 
-## Fitting a Regression-Kriging model to predict the OCS
+The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
 ```{r "RK full example", eval=FALSE}
 # load data
@@ -366,9 +401,23 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif",
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
 
-## Fitting a random forest model to predict the SOC
+### Cross-validation of Regression Kriging models {#cd:xvalRK}
 
-```{r, eval=TRUE}
+The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
+
+```{r, eval=FALSE}
+OCS.krige.cv <- autoKrige.cv(formula = as.formula(model.MLR.step$call$formula), 
+                             input_data = dat, nfold = 10)
+
+summary(OCS.krige.cv)
+```
+
+\clearpage
+## Fitting a random forest model to predict the SOC{#cd:rf}
+
+The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
+
+```{r, eval=FALSE}
 # load data
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
@@ -432,8 +481,91 @@ writeRaster(pred, filename = "results/MKD_OCSKGM_rf.tif",
 plot(pred)
 ```
 
+\clearpage
+## Using Quantile Regression Forest to estimate uncertainty {#cd:quantreg}
 
-## Fitting a svm model to predict the SOC
+The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
+
+```{r, eval=FALSE}
+#Generate an empty dataframe
+validation <- data.frame(rmse=numeric(), r2=numeric())
+#Sensitivity to the dataset
+#Start a loop with 10 model realizations
+for (i in 1:10){
+  # We will build 10 models using random samples of 25%  
+  smp_size <- floor(0.25 * nrow(dat))
+  train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
+  train <- dat[train_ind, ]
+  test <- dat[-train_ind, ]
+  modn <- train(fm, data=train, method = "rf", trControl = ctrl)
+  pred <- stack(pred, predict(covariates, modn))
+  test$pred <- predict(modn[11][[1]], test)
+  # Store the results in a dataframe
+  validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
+  validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
+}
+
+#The sensitivity map is the dispersion of all individual models
+sensitivity <- calc(pred[[-1]], sd)
+
+plot(sensitivity, col=rev(topo.colors(10)), 
+     main='Sensitivity based on 10 realizations using 25% samples')
+
+#Sensitivity of validation metrics
+summary(validation)
+
+# Plot of the map based on 75% of data and the sensitivity to data 
+# variations
+prediction75 <- exp(pred[[1]])
+
+plot(prediction75, main='OCSKGM prediction based on 75% of data', 
+     col=rev(topo.colors(10)))
+
+# Use quantile regression forest to estimate the full conditional 
+# distribution of OCSKGMlog, note that we are using the mtry parameter that was selected by 
+#the train funtion of the caret package, assuming that the 75% of data previously used well resembles the 
+#statistical distribution of the entire data population. 
+#Otherwise repeat the train function with all available data (using the object dat that instead of train) to select mtry.
+#(mod <- train(fm, data=dat, method = "rf", trControl = ctrl, importance=TRUE))
+
+model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500, 
+                        keep.inbag=TRUE, mtry = as.numeric(mod$bestTune))                        
+
+library(snow)
+# Estimate model uncertainty at the pixel level using parallel 
+# computing
+beginCluster() #define number of cores to use
+# Estimate model uncertainty
+unc <- clusterR(covariates, predict, args=list(model=model,what=sd))
+# OCSKGMlog prediction based in all available data
+mean <- clusterR(covariates, predict, 
+                 args=list(model=model, what=mean))
+# The total uncertainty is the sum of sensitivity and model 
+# uncertainty
+unc <- unc + sensitivity
+# Express the uncertainty in percent (divide by the mean)
+Total_unc_Percent <- exp(unc)/exp(mean)
+endCluster()
+```
+```{r, eval=FALSE, fig.cap='OCSKGM quantregForest prediction'}
+# Plot both maps (the predicted OCSKGM + its associated uncertainty)
+plot(exp(mean), main='OCSKGM based in all data', 
+     col=rev(topo.colors(10)))
+
+plot(Total_unc_Percent, col=rev(heat.colors(100)), zlim=c(0, 5), 
+     main='Total uncertainty')
+
+#Save the resulting maps in separated *.tif files
+writeRaster(exp(mean), file='rfOCSKGMprediction.tif', 
+            overwrite=TRUE)
+writeRaster(Total_unc_Percent, file='rfOCSKGMtotalUncertPercent.tif',
+            overwrite=TRUE)
+```
+
+\clearpage
+## Fitting a svm model to predict the SOC{#cd:svm}
+
+The extended and discussed version of the following code is presented in Section \@ref(svm), by GF Olmedo & M Guevara.
 
 ```{r, eval=FALSE}
 # load data
@@ -562,9 +694,13 @@ w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
 
 w <- sort(w, decreasing = T)
 print(w)
+
 ```
 
-## Validation
+\clearpage
+## Validation{#cd:Validation}
+
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
 
 ```{r, eval=FALSE}
 
@@ -600,9 +736,14 @@ RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
 AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) / 
   sum( (dat$MKD_OCSKGM_rf - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
+```
 
-# Graphical Map Quality Measures 
+\clearpage
+## Graphical Map Quality Measures {#cd:Graphs}
 
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
+
+```{r, eval=FALSE}
 # scatter plot
 plot(dat$MKD_OCSKGM_rf, dat$OCSKGM, main="rf", xlab="predicted", 
      ylab='observed')
@@ -616,7 +757,10 @@ bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21,
        col=c('red', 'green'))
 ```
 
-## Data-Splitting
+\clearpage
+## Data-Splitting{#cd:data-splitting}
+
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
 
 ```{r, eval=FALSE}
 library(caret)

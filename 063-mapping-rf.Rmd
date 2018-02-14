@@ -1,6 +1,6 @@
 \clearpage
-## Data mining: Random Forest
-*M Guevara, C Thine, GF Olmedo, RR Vargas*
+## Data mining: Random Forest {#rf}
+*M Guevara, C Thine, GF Olmedo & RR Vargas*
 
 ### Overview
 

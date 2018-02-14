@@ -1,4 +1,4 @@
-# Validation
+# Validation {#chvalidation}
 *B Kempen, DJ Brus & GBM Heuvelink*
 
 ## What is Validation?
@@ -314,7 +314,7 @@ In most studies however, spatial correlation is not accounted for when estimatin
 
 In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted.
 
-### Cross-Validation
+### Cross-Validation {#xval}
 
 In $K$-fold cross-validation (CV), the dataset is split into $K$ roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the $K$-1 sets and used to predict the target variable for the data points set aside. From this prediction the prediction error is calculated. This procedure is repeated $K$ times, each time setting a different set aside for validation. In this way we obtain $K$ estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.
 
