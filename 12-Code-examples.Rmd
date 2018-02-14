@@ -564,5 +564,78 @@ w <- sort(w, decreasing = T)
 print(w)
 ```
 
+## Validation
+
+```{r, eval=FALSE}
+
+dat <- read.csv("data/dat_test.csv")
+
+# Promote to spatialPointsDataFrame 
+coordinates(dat) <- ~ X + Y
+
+dat@proj4string <- CRS(projargs = "+init=epsg:4326")
+
+library(raster)
+
+OCSKGM_rf <- raster("results/MKD_OCSKGM_rf.tif")
+
+dat <- extract(x = OCSKGM_rf, y = dat, sp = TRUE)
+
+# prediction error
+dat$PE_rf <- dat$MKD_OCSKGM_rf - dat$OCSKGM
+
+# Mean Error
+ME_rf <- mean(dat$PE_rf, na.rm=TRUE)
+
+# Mean Absolute Error (MAE)
+MAE_rf <- mean(abs(dat$PE_rf), na.rm=TRUE)
+
+# Mean Squared Error (MSE)
+MSE_rf <- mean(dat$PE_rf^2, na.rm=TRUE)
+
+# Root Mean Squared Error (RMSE)
+RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
+
+# Amount of Variance Explained (AVE)
+AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) / 
+  sum( (dat$MKD_OCSKGM_rf - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+       na.rm = TRUE)
+
+# Graphical Map Quality Measures 
+
+# scatter plot
+plot(dat$MKD_OCSKGM_rf, dat$OCSKGM, main="rf", xlab="predicted", 
+     ylab='observed')
+# 1:1 line in black
+abline(0,1, lty=2, col='black')
+# regression line between predicted and observed in blue
+abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_rf), col = 'blue', lty=2)
+
+# spatial bubbles for prediction errors
+bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21, 
+       col=c('red', 'green'))
+```
+
+## Data-Splitting
+
+```{r, eval=FALSE}
+library(caret)
+
+dat <- read.csv("data/dataproc.csv")
+
+train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
+train <- dat[ train.ind,]
+test  <- dat[-train.ind,]
+
+plot(density (log(train$OCSKGM)), col='red',
+    main='Statistical distribution of train and test datasets')
+lines(density(log(test$OCSKGM)), col='blue')
+legend('topright', legend=c("train", "test"),
+      col=c("red", "blue"), lty=1, cex=1.5)
+
+write.csv(train, file="data/dat_train.csv", row.names = FALSE)
+write.csv(test, file="data/dat_test.csv", row.names = FALSE)
+```
+
 
 `r if (knitr:::is_html_output()) '# References {-}'`
