@@ -4,10 +4,10 @@
 
 ### Overview 
 
-Support vector machines (svm) is a machine learning technique used for classification and regresion analysis. According to @scikit the advantages of svm are:
+Support vector machines (svm) is a machine learning technique used for classification and regression analysis. According to @scikit the advantages of svm are:
 
 * Effective in high dimensional spaces.
-* Still effective in cases where number of dimensions is greater than the number of samples.
+* Still effective in cases where the number of dimensions is greater than the number of samples.
 * Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient.
 * Versatile: different Kernel functions can be specified for the decision function. Common kernels are provided, but it is also possible to specify custom kernels.
 
@@ -16,19 +16,19 @@ And the disadvantages of support vector machines include:
 * If the number of features is much greater than the number of samples, avoid over-fitting in choosing Kernel functions and regularization term is crucial.
 * SVMs do not directly provide probability estimates, these are calculated using an expensive five-fold cross-validation (see Scores and probabilities, below).
 
-In digital soil mapping, the problems usually involve working in high dimensional spaces (were the dimesions are the covariates) with a limited number of samples. svm is a technique mostly used in classification problems, but it can be used to solve regression problems, like the modelling of SOC using enviromental covariates. When svm is used to solve regression problem is called support vector regression. 
+In digital soil mapping, the problems usually involve working in high dimensional spaces (were the dimensions are the covariates) with a limited number of samples. svm is a technique mostly used in classification problems, but it can be used to solve regression problems, like the modeling of SOC using environmental covariates. When svm is used to solve regression problem is called support vector regression. 
 
 For doing support vector regression, svm applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. Then, it creates a hyperplane through n-dimensional spectral-space. And separates numerical data based on a kernel function and parameters (e.g. gamma and cost) that maximize the margin from the closest point to the hyperplane that divides data with the largest possible margin, being the support vectors the points which fall within. Then, linear models are fitted to the support vectors [@soil-2017-40].
 
-In the example below we will use the implementation of svm in the R package `e1071` [@e1071]. The package e1071 offers an interface to the award-winning C++ implementation by Chih-Chung Chang and Chih-Jen Lin, libsvm (current version: 2.6). For further implementation details on libsvm, see @chang2001libsvm.
+In the example below, we will use the implementation of svm in the R package `e1071` [@e1071]. The package e1071 offers an interface to the award-winning C++ implementation by Chih-Chung Chang and Chih-Jen Lin, libsvm (current version: 2.6). For further implementation details on libsvm, see @chang2001libsvm.
 
-svm is a huge area of study, we can recommend the following books: @vapnik2013nature, @friedman2001elements and @james2013introduction.
+svm is a huge area of study, we can recommend the following books: @vapnik2013nature, @friedman2001elements, and @james2013introduction.
 
-### Technical Steps - Fitting a SVM Model to Predict the SOC
+### Technical Steps - Fitting an SVM Model to Predict the SOC
 
 #### Setting Working Space and Initial Steps
 
-One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our  folder which contains data for the study area (point data, covariates).
+One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our folder which contains data for the study area (point data, covariates).
 
 Note that we must use the forward slash / or double backslash \\\\ in R! Single backslash \\ will not work. Now we can check if the working directory has been correctly set by using the function:
 
@@ -45,7 +45,7 @@ We previously applied spline function to produce continuous soil information to 
 
 **Environmental Predictors (Covariates)**
 
-In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOCDataRepo).
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOCDataRepo).
 
 In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
@@ -73,9 +73,9 @@ coordinates(dat) <- ~ X + Y
 class(dat)
 ```
 
-SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set the CRS used was: WGS84  (EPSG:4326).
+SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set, the CRS used was: WGS84  (EPSG:4326).
 
-To clearly tell R this information we define the CRS which describes a reference system in a way understood by the [PROJ.4 projection library](http://trac.osgeo.org/proj/). An interface to the PROJ.4 library is available in the rgdal package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
+To clearly tell R this information we define the CRS which describes a reference system in a way understood by the [PROJ.4 projection library](http://trac.osgeo.org/proj/). An interface to the PROJ.4 library is available in the rgdal package. As an alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
 Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
 
@@ -87,7 +87,7 @@ dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 dat@proj4string
 ```
 
-Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example we use 13 covariates from the GSOCMap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of chapter \@ref(covariates).
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example, we use 13 covariates from the GSOCMap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of chapter \@ref(covariates).
 
 ```{r}
 load(file = "covariates.RData")
@@ -133,7 +133,7 @@ names(COV)
 
 #### Categorical variables in svm models
 
-According to @hsu2003practical, svm requieres each variable to be represented by a vector of real number. This means that factor variables, like `covs$LCEE10` and `covs$soilmap`has to be converted into numeric data. In statistics this kind of variables are called boolean indicators or dummy variables. Dummy variables take a value of 0 or 1 indicating the presence of ausence of an  specific value/category in our factor covariate, i.e. if we have 5 categories like in `covs$LCEE10`, we will have 5 dummy variables indicating the presence/ausence of every category. For converting our covariates to dummies we will have to create a new function that returns the dummy rasterStack from the factor version of the rasterLayer.
+According to @hsu2003practical, svm requires each variable to be represented by a vector of real numbers. This means that factor variables, like `covs$LCEE10` and `covs$soilmap`has to be converted into numeric data. In statistics, this kind of variables are called boolean indicators or dummy variables. Dummy variables take a value of 0 or 1 indicating the presence or absence of a specific value/category in our factor covariate, i.e. if we have 5 categories like in `covs$LCEE10`, we will have 5 dummy variables indicating the presence/absence of every category. For converting our covariates to dummies we will have to create a new function that returns the dummy rasterStack from the factor version of the rasterLayer.
 
 ```{r}
 dummyRaster <- function(rast){
@@ -164,7 +164,7 @@ COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
 names(COV)
 ```
 
-We have to convert the collumns with categorical variables in the soil samples `data.frame` to dummies as well. For doing this we can use function `model.matrix()`. After this, we use `cbind()` to merge the resulting `data.frame`.
+We have to convert the columns with categorical variables in the soil samples `data.frame` to dummies as well. For doing this we can use function `model.matrix()`. After this, we use `cbind()` to merge the resulting `data.frame`.
 
 ```{r}
 # convert soilmap column to dummy, the result is a matrix
@@ -188,7 +188,7 @@ names(dat@data)
 
 #### Fitting a svm model
 
-To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 paramenters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon wich is the insensitive-loss function. The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost wich is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. this is a very heavy step in computational terms and can take a lot of time, because we will have to try a lot of different model. 
+To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 parameters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon which is the insensitive-loss function. The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost which is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. this is a very heavy step in computational terms and can take a lot of time because we will have to try a lot of different models. 
 
 ```{r svm RUN.ALL, echo=FALSE, eval=TRUE, results='hide', warning=FALSE}
 library(e1071)
@@ -228,7 +228,7 @@ plot(tuneResult)
 
 #### Select the model with the best combination of epsilon and cost
 
-The best model is chosen as the one with the lowest mean squared error using cross validation. The parameters for the cross validation can be defined in the `tune.control()` function. By default it uses cross-validation using 10 partitions.
+The best model is chosen as the one with the lowest mean squared error using cross-validation. The parameters for the cross-validation can be defined in the `tune.control()` function. By default, it uses cross-validation using 10 partitions.
 
 ```{r}
 # Choose the model with the best combination of epsilon and cost

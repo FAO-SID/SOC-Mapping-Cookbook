@@ -7,13 +7,13 @@
 Soil property maps represent spatial information about soil properties to a certain depth or for soil horizons. Conventionally, soil property maps are generated as polygon maps, with properties from typical soil profiles representing soil mapping units.
 Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properties, including the spatial quantification of the prediction error. The quality of such predictions improves with increasing number of local observations (e.g. soil profiles) available to build the prediction model. Whenever possible, DSM is recommended. 
 
-The development of soil property maps via DSM is spatially flexible. For different soil properties (e.g. concentration and stocks of nutrients in the soil, carbon, heavy metals, pH, cation exchange capacity, physical soil properties such as particle sizes and bulk density, etc.), various depth classes and spatial resolution can be modelled depending on project and mapping objectives and available input data. For GSOCmap, a 1 km grid is pursued. The same methodology and input data can also be used to produce higher resolution soil grids.
+The development of soil property maps via DSM is spatially flexible. For different soil properties (e.g. concentration and stocks of nutrients in the soil, carbon, heavy metals, pH, cation exchange capacity, physical soil properties such as particle sizes and bulk density, etc.), various depth classes and spatial resolution can be modeled depending on project and mapping objectives and available input data. For GSOCmap, a 1 km grid is pursued. The same methodology and input data can also be used to produce higher resolution soil grids.
 
-The mapping of global soil organic carbon (GSOC) stocks will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems, and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO and its regional offices, as well as the Regional Soil Partnerships, are challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping. 
+The mapping of global soil organic carbon (GSOC) stocks will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO, and its regional offices, as well as the Regional Soil Partnerships, are challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping. 
 
 ## Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates
 
-The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular GSOCmap.
+The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular, GSOCmap.
 
 |   |   |                                                                       | 
 |-------------------|-------------------------|-----------------------------------------|
@@ -24,5 +24,5 @@ The following table presents an overview of different geographic upscaling appro
 
 Digital soil mapping is based on the development of functions for upscaling point data (with soil measurements) to a full spatial extent using correlated environmental covariates, for which spatial data are available.
 
-> DSM: Concept of environmental correlation that explores the quantitative relationship among environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.
+> DSM: Concept of environmental correlation that explores the quantitative relationship between environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.
 

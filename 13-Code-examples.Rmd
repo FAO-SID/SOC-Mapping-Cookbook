@@ -1,9 +1,9 @@
-# Compedium of the code examples included in the cookbook
+# Compendium of the code examples included in the cookbook
 *GF Olmedo*
 
 ## Overview
 
-In this chapter we present a compedium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil propierty prediction map starting from the soil samples, covariates preparation, modelling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes: soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
+In this chapter, we present a compendium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
 1. Soil data preparation
   - **Option A**: Data Preparation for Soil Profiles (Code \@ref(cd:PreparationProfiles))
@@ -193,7 +193,7 @@ write.csv(dat, "data/dataproc.csv")
 
 The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
 
-```{r, eval = T}
+```{r, eval = FALSE}
 # the "Symbol" attribute from the vector layer will be used for the
 # rasterization process. It has to be a factor
 soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
@@ -406,8 +406,9 @@ saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
 ```{r, eval=FALSE}
-OCS.krige.cv <- autoKrige.cv(formula = as.formula(model.MLR.step$call$formula), 
-                             input_data = dat, nfold = 10)
+OCS.krige.cv <- autoKrige.cv(formula = 
+                            as.formula(model.MLR.step$call$formula), 
+                            input_data = dat, nfold = 10)
 
 summary(OCS.krige.cv)
 ```
@@ -455,8 +456,9 @@ ctrl <- trainControl(method = "cv", savePred=T)
 # Search for the best mtry parameter
 rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl, 
              importance=TRUE)
-             #This is a very useful function to compare and test different prediction algorithms
-             #type names(getModelInfo()) to see all the possibilitites implemented on this function
+# This is a very useful function to compare and test different 
+# prediction algorithms type names(getModelInfo()) to see all the 
+# possibilitites implemented on this function
 
 
 # Variable importance plot, compare with the correlation matrix
@@ -522,14 +524,16 @@ plot(prediction75, main='OCSKGM prediction based on 75% of data',
      col=rev(topo.colors(10)))
 
 # Use quantile regression forest to estimate the full conditional 
-# distribution of OCSKGMlog, note that we are using the mtry parameter that was selected by 
-#the train funtion of the caret package, assuming that the 75% of data previously used well resembles the 
-#statistical distribution of the entire data population. 
-#Otherwise repeat the train function with all available data (using the object dat that instead of train) to select mtry.
-#(mod <- train(fm, data=dat, method = "rf", trControl = ctrl, importance=TRUE))
+# distribution of OCSKGMlog, note that we are using the mtry 
+# parameter that was selected by the train funtion of the caret 
+# package, assuming that the 75% of data previously used well 
+# resembles the statistical distribution of the entire data 
+# population. Otherwise repeat the train function with all available 
+#data (using the object dat that instead of train) to select mtry.
+
 
 model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500, 
-                        keep.inbag=TRUE, mtry = as.numeric(mod$bestTune))                        
+                    keep.inbag=TRUE, mtry = as.numeric(mod$bestTune))                        
 
 library(snow)
 # Estimate model uncertainty at the pixel level using parallel 
@@ -546,8 +550,7 @@ unc <- unc + sensitivity
 # Express the uncertainty in percent (divide by the mean)
 Total_unc_Percent <- exp(unc)/exp(mean)
 endCluster()
-```
-```{r, eval=FALSE, fig.cap='OCSKGM quantregForest prediction'}
+
 # Plot both maps (the predicted OCSKGM + its associated uncertainty)
 plot(exp(mean), main='OCSKGM based in all data', 
      col=rev(topo.colors(10)))
@@ -664,7 +667,7 @@ library(caret)
 
 #  Test different values of epsilon and cost
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
-                                                         names(COV))],
+                                                        names(COV))],
                      ranges = list(epsilon = seq(0.1,0.2,0.02),
                                    cost = c(5,7,15,20)))
 

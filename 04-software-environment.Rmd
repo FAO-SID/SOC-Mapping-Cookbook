@@ -1,11 +1,11 @@
 # Setting-Up the Software Environment
 *Y Yigini*
 
-This cookbook focuses on SOC modelling using open source digital mapping tools. The instructions and screen captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
+This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
 
-## Use of R , RStudio and R Packages
+## Use of R, RStudio and R Packages
 
-**R** is a language and environment for statistical computing. It provides a wide variety of statistical (e.g. linear modelling, statistical tests, time-series, classification, clustering, etc.) and graphical methods, and is highly extensible. 
+**R** is a language and environment for statistical computing. It provides a wide variety of statistical (e.g. linear modeling, statistical tests, time-series, classification, clustering, etc.) and graphical methods, and is highly extensible. 
 
 ### Obtaining and Installing R
 
@@ -36,7 +36,7 @@ The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org
 
 ### Most Used R Packages for Digital Soil Mapping 
 
-As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following subsections we are going to present the most used packages related to digital soil property mapping.
+As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following subsections, we are going to present the most used packages related to digital soil property mapping.
 
 #### Soil Science and Pedometrics{#SoilPedometrics}
 
@@ -46,7 +46,7 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 [**ithir**](http://ithir.r-forge.r-project.org/): A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.
 
-[**soiltexture**](https://CRAN.R-project.org/package=soiltexture): The [*Soil Texture Wizard*](https://cran.r-project.org/web/packages/soiltexture/vignettes/soiltexture_vignette.pdf) is a set of **R** functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allow to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). The set of functions is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text based GUI is provided: `soiltexture_gui()`.
+[**soiltexture**](https://CRAN.R-project.org/package=soiltexture): The [*Soil Texture Wizard*](https://cran.r-project.org/web/packages/soiltexture/vignettes/soiltexture_vignette.pdf) is a set of **R** functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allow to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). The set of functions is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (> 15) texture triangles from all around the world are predefined in the package. A simple text-based GUI is provided: `soiltexture_gui()`.
 
 #### Spatial Analysis
 
@@ -70,7 +70,7 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 [**nnet**](https://CRAN.R-project.org/package=nnet): Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
 
-[**gstat**](https://CRAN.R-project.org/package=gstat): Variogram modelling with simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation. The package includes variogram and variogram map plotting utility functions.
+[**gstat**](https://CRAN.R-project.org/package=gstat): Variogram modeling with simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation. The package includes variogram and variogram map plotting utility functions.
 
 [**automap**](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling [**gstat**](https://CRAN.R-project.org/package=gstat).
 
@@ -79,7 +79,7 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 Both **raster** and **sp** have handy functions for plotting spatial data. Besides using the base plotting functionality, another useful plotting package is [**ggplot2**](https://cran.r-project.org/web/packages/ggplot2/index.html).
 
-[**plotKML**](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
+[**plotKML**](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatiotemporal objects to KML following some basic cartographic rules.
 
 [**leaflet**](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the Leaflet JavaScript library and the [**htmlwidgets**](https://cran.r-project.org/web/packages/htmlwidgets/index.html) package. These maps can be used directly from the **R** console, from **RStudio**, in [**Shiny**](https://shiny.rstudio.com/) apps and **RMarkdown** documents.
 
@@ -115,7 +115,7 @@ shapefile(Fluvisols, filename = 'results/fluvisols.shp',
 
 We need to define the CRS (Coordinate Reference System) to be able to perform any sort of spatial analysis in **R**. To clearly tell **R** this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library http://trac.osgeo.org/proj/. 
 
-An interface to the PROJ.4 library is available in the **rgdal** package. Alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG (European Petroleum Survey Group) code. **rgdal** also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have, but know the CRS, you should consult http://spatialreference.org/ for assistance.
+An interface to the PROJ.4 library is available in the **rgdal** package. An alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG (European Petroleum Survey Group) code. **rgdal** also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
 ```{r}
 ## print the CRS for the object soilmap
@@ -131,11 +131,11 @@ dat_sites <- read.csv(file = "data/site-level.csv")
 # convert from table to spatial points object
 coordinates(dat_sites) <- ~ X + Y
 
-# check the cooridnate system:
+# check the coordinate system:
 dat_sites@proj4string
 
 # as the CRS is not defined, we can assign the correct CRS is we
-# have information about it. In this case it should be EPSG:4326
+# have information about it. In this case, it should be EPSG:4326
 dat_sites@proj4string <- CRS("+init=epsg:4326")
 
 # check the CRS again:
@@ -145,7 +145,7 @@ dat_sites@proj4string
 
 ### Working with Rasters
 
-Most of the functions for handling raster data are available in the **raster** package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in **R** environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by [*ISRIC*](http://www.isric.org/) for Former Yugoslav Republic of Macedonia (FYROM).
+Most of the functions for handling raster data are available in the **raster** package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping, we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in **R** environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by [*ISRIC*](http://www.isric.org/) for Former Yugoslav Republic of Macedonia (FYROM).
 
 ```{r}
 #For handling raster data, we load raster package
@@ -156,7 +156,7 @@ DEM <- raster("covs/DEMENV5.tif")
 ```
 
 
-We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writting a raster `?writeRaster` to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to *ESRI* Ascii, as it is a common and universal raster format.
+We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writing a raster `?writeRaster` to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to *ESRI* Ascii, as it is a common and universal raster format.
 
 We may also want to export our mac.dem to KML file using the `KML()` function. `KML()` is a handy function from the **raster** package for exporting grids to kml format. Note that we need to re-project the data to WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for this.
 
@@ -164,7 +164,3 @@ We may also want to export our mac.dem to KML file using the `KML()` function. `
 
 * *QGIS*:      Available at http://www.qgis.org/en/site/forusers/download.html 
 * *SAGA GIS*:  Available at https://sourceforge.net/projects/saga-gis/files/
-* *ArcGIS*:    60 day trial can be downloaded at http://www.esri.com/software/arcgis/free-trial (needs registration)
-
-
-
