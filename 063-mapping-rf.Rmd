@@ -40,7 +40,7 @@ We previously applied spline function to produce continuous soil information to 
 
 **Environmental Predictors (Covariates)**
 
-In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOC-data-repo).
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOC Map project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will  be used  as predictors in this section. Please download the covariates for your own study area from GSOCMap Data Repository as explained in Section \@ref(GSOCDataRepo).
 
 In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
@@ -109,7 +109,7 @@ This is the R syntax to define a model formula required for the model structure,
 
 Note that the variable soilmap is categorical, so is not included in the correlation analysis. In fact, although soil type polygon maps are in theory powerful predictors for *OCSKGM* we will not use this map for modeling, because not all categories in the map are represented by available *OCSKGM* estimations, therefore this map requires a generalization of soil type units in function of the classes represented by the sites of *OCSKGM* estimates, which is beyond the scope of this chapter. Ideally the number of observations across all the categories of soil type or any other factorial variable should be balanced. Another alternative to use a unbalanced categorical map is by generating dummy variables, where each category in the map becomes an indepentent binomial predictor variable (e.g., only 0 and 1 values) as is explained in the following chapter. The risk of doing so rely in the potential underestimation of the spatial variability of the target variable under each category with a low density of available data.  
 
-**Step - Tuning parameters**
+#### Tuning parameters
 
 Now we will use the cross-validation strategy implemented in the train function of the caret package  (Kuhn et al. 2017), which default is 10-fold. The result of this function includes information to select the best mtry parameter and to decide the appropriate number of trees. The out-of-bag root mean squared error (rmse) will be used to select the optimal mtry model. To analyze the ntree parameter we will plot the number of trees against the out-of-bag rmse, an optimal ntree can be selected with the number of trees  when this relationships stabilizes at the minimum possible rmse (in the y axis). Reduncing the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence of multidimensional and highly correlated prediction factors, avoiding an excessive number of trees will also reduce the risk of model overfitting. 
 

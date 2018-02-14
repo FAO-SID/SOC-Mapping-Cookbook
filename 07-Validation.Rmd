@@ -367,6 +367,8 @@ knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different
 
 ### Estimating the Map Quality Measures
 
+In this section we present the code needed to estimate the map quality measures for quantitative soil maps.
+
 ```{r}
 # Mean Error
 ME_RK <- mean(dat$PE_RK, na.rm=TRUE)
@@ -423,6 +425,8 @@ knitr::kable(validation, caption = "Summary of prediction errors for 3 different
 
 ### Graphical Map Quality Measures 
 
+In this section we will apply the proposed graphical quality measures to the results of chapter \ref@(mappingMethods).
+
 ```{r, fig.asp=3, fig.cap='Scatter plots of predicted against observed values'}
 par(mfrow=c(3,1)) # Two plots in one plot
 
@@ -475,6 +479,8 @@ bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21,
 
 ### Data-Splitting {#dataSplit}
 
+As explained before, many times for running validation analysis, we split the data before fitting the models. In this section we present the code needed to achieve this using **caret** package.
+
 ```{r, echo=F}
 # fix randomness for data splitting to produce a complete train 
 # dataset for soilmap class 1, where we have only 1 sample
@@ -502,16 +508,3 @@ legend('topright', legend=c("train", "test"),
 write.csv(train, file="data/dat_train.csv", row.names = FALSE)
 write.csv(test, file="data/dat_test.csv", row.names = FALSE)
 ```
-
-
-
-
-```{r, eval=FALSE}
-#Plot the observed vs modeled including a regression line
-#This model was generated with the 75% of all data
-plot(test$OCSKGMlog, test$pred, main='validation plot' )
-abline(lm(test$pred~test$OCSKGMlog), col='black', xlab='observed', 
-       ylab='modeled')
-```
-
-

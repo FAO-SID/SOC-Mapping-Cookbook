@@ -4,7 +4,7 @@ The Soil Organic Carbon mapping Cookbook
 
 ![](https://travis-ci.org/FAO-GSP/SOC-Mapping-Cookbook.svg?branch=master)
 
-This is the website for the second edition of the cookbook provides generic methodologies and technical steps to 
+This is the website for the second edition of the cookbook. The cookbook provides generic methodologies and technical steps to 
 produce SOC maps. This edition has been updated with knowledge and practical experiences gained during the implementaion 
 process of GSOCmap V1.0 throughout 2017. The cookbook includes step-by-step guidance for developing 1 km grids for SOC 
 stocks, as well as for the preparation of local soil data, the compilation and preprocessing of ancillary spatial data 
