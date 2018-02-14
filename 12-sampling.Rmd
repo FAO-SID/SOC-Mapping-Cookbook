@@ -1,0 +1,11 @@
+# Sampling
+*DJ Brus  & ME Angelini*
+
+## This chapter is a filler
+
+This chapter is currently under preparation and would be included in a future version.
+
+```{r}
+
+```
+
