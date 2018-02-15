@@ -4,7 +4,7 @@
 
 ### Overview 
 
-Support vector machines (svm) is a kernel-based machine learning technique suitable for mapping SOC. svm use decision surfaces (defined by a kernel function) to map non-linear relationships across a high-dimension induced feature spaces (Cortes and Vapnik 1995, Machine Learning,20, 273-297). svm is widely used to perform classification and regression analysis on digital soil mapping. According to @scikit the advantages of svm are:
+Support vector machines (svm) is a kernel-based machine learning technique suitable for mapping SOC. svm use decision surfaces (defined by a kernel function) to map non-linear relationships across a high-dimension induced feature space (Cortes and Vapnik 1995, Machine Learning,20, 273-297). svm is widely used to perform classification and regression analysis on digital soil mapping. According to @scikit the advantages of svm are:
 
 * Effective in high dimensional spaces.
 * Still effective in cases where the number of dimensions is greater than the number of samples.
@@ -263,4 +263,4 @@ w <- sort(w, decreasing = T)
 print(w)
 ```
 
-
+svm is a powerful technique which represent another welcome possibility to generate reliable and interpretable SOC predictions across different scales of data availability, including country-specific SOC maps.   
