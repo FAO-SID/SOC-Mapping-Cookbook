@@ -166,7 +166,7 @@ Probability sampling is random sampling such that:
 
 It should be noted that random sampling is often used for arbitrary or haphazard sampling. Such sampling is not probability sampling because the inclusion probabilities are not known. Design-based, model-free estimation of map quality measures is not possible in this case. All probability samples are random samples but not all random samples are probability samples. The term probability sampling should therefore only be used for random sampling with known inclusion probabilities.
 
-There are many different probability sampling designs: simple, stratified, systematic, two-stage, clustered random sampling. We will not give an exhaustive overview here of all these designs. A good resource is @de2006sampling. For reasons of simplicity, we focus here on simple random sampling.
+There are many different probability sampling designs: simple, stratified, systematic, two-stage, clustered random sampling. We will not give an exhaustive overview here of all these designs. A good resource is \cite{de2006sampling}. For reasons of simplicity, we focus here on simple random sampling.
 
 In simple random sampling, no restrictions are imposed on the random selection of sampling sites except that the sample size is fixed and chosen prior to sampling [@de2006sampling]. All sampling locations are selected with equal probability and independently from each other. This can, for instance, be done as follows [@de2006sampling]:
 

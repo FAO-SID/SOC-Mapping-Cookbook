@@ -8,7 +8,7 @@
 
 ### Random forests
 
-Random forest is a Decision-tree-based machine learning method used in digital soil mapping for uncovering the statistical relationship between a dependent variable (e.g., soil property) and its predictors. Decision-tree-based models (also known as classifiers) are literally like trees (e.g., with stem, many branches, and leaves). The leaves are the prediction outcomes (final decisions) that flow from higher levels based on decision rules through the stem and the branches \citep{breiman1984classification}. The decision tree model recursively splits the data into final uniform groups (classes) or unique values based on a set of rules (e.g., based on probability values and hypothesis testing). In random forest, there are many decision trees and each tree recursively splits randomly selected sub-samples from the data (Figure 6.14). The name random forest originates from the fact that the original data is first randomly split into sub-samples, and many decision trees (or forest) are used to model the sub-samples.
+Random forest is a Decision-tree-based machine learning method used in digital soil mapping for uncovering the statistical relationship between a dependent variable (e.g., soil property) and its predictors. Decision-tree-based models (also known as classifiers) are literally like trees (e.g., with stem, many branches, and leaves). The leaves are the prediction outcomes (final decisions) that flow from higher levels based on decision rules through the stem and the branches [@breiman1984classification]. The decision tree model recursively splits the data into final uniform groups (classes) or unique values based on a set of rules (e.g., based on probability values and hypothesis testing). In random forest, there are many decision trees and each tree recursively splits randomly selected sub-samples from the data (Figure 6.14). The name random forest originates from the fact that the original data is first randomly split into sub-samples, and many decision trees (or forest) are used to model the sub-samples.
 
 ![The concept of Random Forest and Decision Trees](images/randomForestconcept.png)
 
@@ -36,7 +36,7 @@ We will use the Macedonia dataset for this exercise (see previous chapters of th
 
 **Point Dataset**
 
-We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in section 2.4. Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), the estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
+We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), the estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
 **Environmental Predictors (Covariates)**
 
@@ -122,8 +122,9 @@ ctrl <- trainControl(method = "cv", savePred=T)
 # Search for the best mtry parameter
 rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl, 
              importance=TRUE)
-             #This is a very useful function to compare and test different prediction algorithms
-             #type names(getModelInfo()) to see all the possibilitites implemented on this function
+# This is a very useful function to compare and test different 
+# prediction algorithms. Type names(getModelInfo()) to see all the 
+# possibilitites implemented on this function
 
 ```
 
