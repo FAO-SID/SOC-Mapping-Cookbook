@@ -359,10 +359,10 @@ dat$PE_svm <- dat$MKD_OCSKGM_svm - dat$OCSKGM
 ```
 
 
-```{r summary of prediction error for 3 different methods, echo=FALSE}
+```{r prederrors, echo=FALSE}
 prederrors <-  as.data.frame(cbind(summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
 names(prederrors) <- c('RK', 'randomForest', 'svm')
-knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different methods", digits = 2, align = "lll")
+knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "lll")
 ```
 
 ### Estimating the Map Quality Measures
@@ -409,7 +409,7 @@ MSDR_rf <- 1
 MSDR_svm <- 1
 ```
 
-```{r summary of map qualitity measures for 3 different methods, echo=FALSE}
+```{r validation, echo=FALSE}
 validation <- data.frame(ME = c(ME_RK, ME_rf, ME_svm),
                          MAE= c(MAE_RK, MAE_rf, MAE_svm),
                          MSE= c(MSE_RK, MSE_rf, MSE_svm),
@@ -420,7 +420,7 @@ validation <- data.frame(ME = c(ME_RK, ME_rf, ME_svm),
 validation <- as.data.frame(t(validation))
 names(validation) <- c('RK', 'randomForest', 'svm')
 
-knitr::kable(validation, caption = "Summary of prediction errors for 3 different methods", digits = 3, align = "rlll")
+knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rlll")
 ```
 
 ### Graphical Map Quality Measures 

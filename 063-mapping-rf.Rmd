@@ -145,7 +145,7 @@ plot(rfmodel[11][[1]])
 
 Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our Random forest model needs to be validated using the independent dataset to complement the results of the cross-validation (e.g., rmse and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the rmse and the explained variance derived from the independent validations are slightly lower than the values obtained using cross-validation. 
 
-```{r rf prediction, fig.cap='SOC prediction using a randomForest model'}
+```{r rf-pred, fig.cap='SOC prediction using a randomForest model'}
 #Make a prediction across all Macedonia
 #Note that the units are still in log
 pred <- predict(covs, rfmodel)

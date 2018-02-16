@@ -12,19 +12,19 @@ Sampling locations can be representative of a certain location, project, field, 
 
 ## Soil Database
 
-In order to process and evaluate soil information from field assessments, soil profile data and analytical information need to be stored in a database. This can be a set of simple *Excel* spreadsheets, or a relational or object-oriented database management system [@baritz2008environmental]. When working in **R**, `SoilProfileCollections` from the **R** **aqp** package are a useful tool. Tables \@ref(tab:example table for site-level) and \@ref(tab:example table for horizon-level) are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modeling exercises [@baritz2008environmental].
+In order to process and evaluate soil information from field assessments, soil profile data and analytical information need to be stored in a database. This can be a set of simple *Excel* spreadsheets, or a relational or object-oriented database management system [@baritz2008environmental]. When working in **R**, `SoilProfileCollections` from the **R** **aqp** package are a useful tool. Tables \@ref(tab:site-level) and \@ref(tab:horizon-level) are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modeling exercises [@baritz2008environmental].
 
-Table \@ref(tab:example table for site-level) stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table, every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
+Table \@ref(tab:site-level) stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table, every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.
 
-```{r example table for site-level, echo=F}
+```{r site-level, echo=F}
 dat <- read.csv("examples/site-ex.csv")
 knitr::kable(dat, caption = "Example for site-level data table")
 ```
 
-Table \@ref(tab:example table for horizon-level) stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modeling soil properties over the soil profile.
+Table \@ref(tab:horizon-level) stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modeling soil properties over the soil profile.
 
 
-```{r example table for horizon-level, echo=FALSE}
+```{r horizon-level, echo=FALSE}
 dat <- read.csv("examples/horizons-ex.csv")
 knitr::kable(dat, caption = "Example for profile-description table")
 ```
@@ -94,11 +94,11 @@ For organic soil material, $BD_x$ can be estimated as follows, considering exist
 
 **Peat**: Default value: $BD_{P} = 0.31 g \cdot cm^{-3}$. The range of peat BD is generally from 0.02 to 0.3 $t \cdot m^{-3}$ depending on maturity and compaction, as well as the ash content [@agus_measuring_2011].@batjes1996total and @agus_measuring_2011 distinguish different peat decomposition types (with different C content):
 
-* Sapric: $BD_{P_{sapric}} = 0.174 g \cdot cm^{-3}$ ($48.90\%$ C)
+* Sapric: $BD_{P,\text{sapric}} = 0.174 g \cdot cm^{-3}$ ($48.90\%$ C)
 
-* Hemic: $BD_{P_{hemic}} = 0.117 g \cdot cm^{-3}$ ($52.27\%$ C)
+* Hemic: $BD_{P,\text{hemic}} = 0.117 g \cdot cm^{-3}$ ($52.27\%$ C)
 
-* Fibric: $BD_{P_{fibric}} = 0.089 g \cdot cm^{-3}$ ($53.56\%$ C)
+* Fibric: $BD_{P,\text{fibric}} = 0.089 g \cdot cm^{-3}$ ($53.56\%$ C)
 
 Examples for pedo-transfer functions to estimate $BD$, based on the soil organic matter ($OM$) content in percent $(\%)$:
 
@@ -294,7 +294,7 @@ summary(dat)
 
 Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. 
 
-```{r, eval=TRUE, fig.cap='Statistical distribution of original vs log-transformed values'}
+```{r, eval=TRUE, fig.cap='Statistical distribution of original OCS values vs log-transformed values'}
 # Generate a new column with the transformed OCSKGM to its natural 
 # logarithm
 dat$OCSKGMlog <- log(dat$OCSKGM)

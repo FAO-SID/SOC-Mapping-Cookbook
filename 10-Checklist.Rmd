@@ -32,7 +32,7 @@
 *    In case you did kriging, don’t forget to look at the kriging variance. This is a very important indicator of the accuracy. Otherwise, consider modeling the 90% confidence intervals of the predictions!
 *    Don’t forget to back-transform your predicted values! 
 
-## Calculation of STOCKS 
+## Calculation of Stocks
 You might want to calculate stocks per LU type, management type or by municipality.  If you do that make sure you give an informed number, i.e. an estimate plus an estimate of the uncertainty
 
 ## Evaluation of Output and Quality Assessment

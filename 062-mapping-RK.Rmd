@@ -342,11 +342,12 @@ saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 
 Cross-validation is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package. In this example, we will apply 10 fold cross-validation to our RK model.
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, results='hide'}
 OCS.krige.cv <- autoKrige.cv(formula = 
                             as.formula(model.MLR.step$call$formula), 
                              input_data = dat, nfold = 10)
-
-summary(OCS.krige.cv)
 ```
 
+```{r}
+summary(OCS.krige.cv)
+```
