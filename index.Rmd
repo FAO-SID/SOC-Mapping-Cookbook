@@ -29,7 +29,7 @@ set.seed(123)
 RUN.ALL <- TRUE
 
 # Cache results
-knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(cache=T)
 ```
 
 

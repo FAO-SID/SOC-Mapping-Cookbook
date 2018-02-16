@@ -4,25 +4,25 @@
 
 ### Overview 
 
-Support vector machines (svm) is a machine learning technique used for classification and regression analysis. According to @scikit the advantages of svm are:
+Support vector machines (svm) is a kernel-based machine learning technique suitable for mapping SOC. svm use decision surfaces (defined by a kernel function) to map non-linear relationships across a high-dimension induced feature space (Cortes and Vapnik 1995, Machine Learning,20, 273-297). svm is widely used to perform classification and regression analysis on digital soil mapping. According to @scikit the advantages of svm are:
 
 * Effective in high dimensional spaces.
 * Still effective in cases where the number of dimensions is greater than the number of samples.
 * Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient.
 * Versatile: different Kernel functions can be specified for the decision function. Common kernels are provided, but it is also possible to specify custom kernels.
 
-And the disadvantages of support vector machines include:
+And the disadvantages of svm include:
 
 * If the number of features is much greater than the number of samples, avoid over-fitting in choosing Kernel functions and regularization term is crucial.
-* SVMs do not directly provide probability estimates, these are calculated using an expensive five-fold cross-validation (see Scores and probabilities, below).
+* svm do not directly provide probability estimates, these are calculated using an expensive five-fold cross-validation.
 
-In digital soil mapping, the problems usually involve working in high dimensional spaces (were the dimensions are the covariates) with a limited number of samples. svm is a technique mostly used in classification problems, but it can be used to solve regression problems, like the modeling of SOC using environmental covariates. When svm is used to solve regression problem is called support vector regression. 
+In digital soil mapping, the problems usually involve working in high dimensional spaces (were the dimensions are the covariates) with a limited number of samples. svm is a technique mostly used in classification problems, but it can be used to solve regression problems, such as modeling the continuous variability of SOC using environmental covariates. When svm is used to solve regression problem is called support vector regression. 
 
-For doing support vector regression, svm applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. Then, it creates a hyperplane through n-dimensional spectral-space. And separates numerical data based on a kernel function and parameters (e.g. gamma and cost) that maximize the margin from the closest point to the hyperplane that divides data with the largest possible margin, being the support vectors the points which fall within. Then, linear models are fitted to the support vectors [@soil-2017-40].
+Support vector regression applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates n hyperplanes through the n-dimensional spectral-space and each hyperplanes separates numerical data based on a kernel function (e.g., Gaussian). svm uses parameters such as gamma, cost and epsilon. These parameters are used to define the shape of the hyperplane, including the margin from the closest point to the hyperplane that divides data with the largest possible margin and defines the tolerance to errors on each single training. Linear models are fitted to the support vectors and used for prediction purposes. The support vectors are the points which fall within each hyperplane [@soil-2017-40].
 
 In the example below, we will use the implementation of svm in the R package `e1071` [@e1071]. The package e1071 offers an interface to the award-winning C++ implementation by Chih-Chung Chang and Chih-Jen Lin, libsvm (current version: 2.6). For further implementation details on libsvm, see @chang2001libsvm.
 
-svm is a huge area of study, we can recommend the following books: @vapnik2013nature, @friedman2001elements, and @james2013introduction.
+svm is a broad research area and for a better understanding of the mathematical background we can recommend the following books: @vapnik2013nature, @friedman2001elements, and @james2013introduction.
 
 ### Technical Steps - Fitting an SVM Model to Predict the SOC
 
@@ -188,7 +188,7 @@ names(dat@data)
 
 #### Fitting a svm model
 
-To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 parameters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon which is the insensitive-loss function. The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost which is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. this is a very heavy step in computational terms and can take a lot of time because we will have to try a lot of different models. 
+To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 parameters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon which is the insensitive-loss function (The larger epsilon is, the larger errors in the solution are not penalized). The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost which is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. This is a heavy and time consuming computational step since we will try a extensive number of different models in order to find the best parameters for our svm model. 
 
 ```{r svm RUN.ALL, echo=FALSE, eval=TRUE, results='hide', warning=FALSE}
 library(e1071)
@@ -228,7 +228,7 @@ plot(tuneResult)
 
 #### Select the model with the best combination of epsilon and cost
 
-The best model is chosen as the one with the lowest mean squared error using cross-validation. The parameters for the cross-validation can be defined in the `tune.control()` function. By default, it uses cross-validation using 10 partitions.
+The best model is the one with the lowest mean squared error derived by cross-validation. The parameters for the cross-validation can be defined in the `tune.control()` function. By default, it uses cross-validation using 10 folds.
 
 ```{r}
 # Choose the model with the best combination of epsilon and cost
@@ -263,4 +263,4 @@ w <- sort(w, decreasing = T)
 print(w)
 ```
 
-
+svm is a powerful technique which represent another welcome possibility to generate reliable and interpretable SOC predictions across different scales of data availability, including country-specific SOC maps.   
