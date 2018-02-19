@@ -6,8 +6,9 @@
 In this chapter, we present a compendium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
 1. Soil data preparation
-  - **Option A**: Data Preparation for Soil Profiles (Code \@ref(cd:PreparationProfiles))
-  - **Option B**: Data Preparation for Top Soil or Auger Samples (Code \@ref(cd:PreparationAuger))
+  - **Option A**: Data Preparation - Soil Profiles (Code \@ref(cd:PreparationProfiles))
+  - **Option B**: Data Preparation - Top Soil or Auger Samples (Code \@ref(cd:PreparationAuger))
+  - **Option C**: Data Preparation - Merging Top Soil/Auger Samples and Soil Profiles (Code \@ref(cd:PreparationAuger))
   - *[optional]*: Split the soil data in test and validations datasets (Code \@ref(cd:data-splitting))
 2. Covariates preparation
   - *[optional]* Rasterizing a Vector Layer in R (Code \@ref(cd:Rasterizing))
