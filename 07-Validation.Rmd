@@ -366,7 +366,8 @@ write.csv(dat, "results/validation.csv", row.names = F)
 ```{r prederrors, echo=FALSE}
 prederrors <-  as.data.frame(cbind(summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
 names(prederrors) <- c('RK', 'randomForest', 'svm')
-knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "lll")
+knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "lll", booktabs = TRUE, format="latex") %>%
+             kable_styling(latex_options = "striped")
 ```
 
 ### Estimating the Map Quality Measures
@@ -423,9 +424,13 @@ validation <- data.frame(ME = c(ME_RK, ME_rf, ME_svm),
                          )
 validation <- as.data.frame(t(validation))
 names(validation) <- c('RK', 'randomForest', 'svm')
-
-knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rlll")
 ```
+
+```{r}
+knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rlll", booktabs = TRUE, format="latex") %>%
+             kable_styling(latex_options = "striped")
+```
+
 
 ### Graphical Map Quality Measures 
 
