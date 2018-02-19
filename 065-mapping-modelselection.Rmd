@@ -1,0 +1,65 @@
+\clearpage
+## Model Selection in Digital Soil Mapping
+*M Guevara & GF Olmedo*
+
+There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @soil-2017-40; @nussbaum2018evaluation). This section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM. Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled  SOC estimates derived from three different statistical methods (multiple linear regression-kriging RK (Sect.\@ref(RK)) random forests RF (Sect.\@ref(rf)), and support vector machines SVM (Sect.\@ref(svm))). The model evaluation methods presented here were adapted from the original work of Carslaw \& Ropkins for air quality assessments and its R package openair [@openair]. 
+
+We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first prepare a data frame containing the observed and modeled vectors as well as the method column.  
+
+```{r }
+#Load the openair library and the dataset 
+library(openair)
+
+dat <- read.csv("results/validation.csv")
+modRK <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_RK, 
+                    model = "RK")
+
+modRF <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_rf, 
+                    model = "RF")
+
+modSVM <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_svm, 
+                     model = "SVM")
+
+modData <- rbind(modRK, modRF, modSVM)
+
+summary(modData)
+```
+
+Now we will use the modStats function to calculate common numerical model evaluation statistics which are described and mathematically defined in the openair manual (@carslaw2015openair, Ch. 27, pp 231-233). These include:
+
+• n, the number of complete pairs of data. 
+• FAC2, fraction of predictions within a factor of two.
+• MB, the mean bias.
+• MGE, the mean gross error. 
+• NMB, the normalised mean bias.
+• NMGE, the normalised mean gross error.
+• RMSE, the root mean squared error.
+• r, the Pearson correlation coefficient.
+• COE, the Coefficient of Efficiency based on @legates1999evaluating, @legates2013refined. A perfect model has a COE = 1. A value of COE = 0.0 or negative implies no prediction capacity. 
+• IOA, the Index of Agreement based on @willmott2012refined, which spans between -1 and 1 with values approaching +1 representing better model performance.
+
+A perfect model would have a FAC2, r, COE and IOA ~ 1.0, while all the others ~ 0. However, digital soil mappers should have in mind that there is not such thing as a perfect model on digital SOC mapping for large areas, specially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures [@chang2004air]. 
+
+```{r}
+modsts <- modStats(modData,obs = "obs", mod = "mod", type = "model")
+cbind(modsts[1], round(modsts[-1], 2))
+```
+
+From our SOC mapping example across FYROM, the three models generate similar results. The FAC2 is close to 0.8 in all cases, being RK the one closer to 1. MB and NMB suggest that all the models tent to underestimate SOC, because they are negative. SVM tend to underestimate less than RK and RF. The MGE, NMGE and RMSE suggest however that SVM is generating the larger error rate and by the values of r COE and IOA, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM. 
+
+```{r taylor, fig.cap="Taylor diagram ..."}
+TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
+cols = c("orange", "red","blue"), cor.col='brown',rms.col='black')
+```
+
+The aforementioned conclusion can be verified by plotting a Taylor Diagram (Fig. \@ref(fig:taylor)), which summarize multiple aspects of model performance, such as the agreement and variance between observed and predicted values [@taylor2001summarizing]. Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the model of the three implemented algorithms.
+
+However, we need to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (Fig. \@ref(fig:condquant)). 
+
+```{r condquant, fig.cap="Conditionl quantiles ... "}
+conditionalQuantile(modData,obs = "obs", mod = "mod", type = "model")
+```
+
+The blue line shows the results for a perfect model. In this case the observations cover a range from 0 to 6 kg.m-2. Interestingly, the maximum predicted value is in all cases less than 3  kg.m-2, which is consistent with the MB and NMB previous results. Note that the median of predictions across the larger SOC values seems to have more variability across SVM and RK compared with RF, which could be generate less biased predictions across SOC values >2.0 kg.m-2. The red line shows the median value of the predictions. The shading shows the predicted quantile intervals (i.e. the 25/75th and the10/90th). A perfect model would lie on the blue line and have a very narrow spread and the histograms show the counts of observed (gray) and predicted values (blue).
+
+We conclude, for this specific example, that RK is the most suitable method predicting SOC values from the first to the third quantile of the data distribution, while RF may be more effective predicting the higher SOC values. Finally we want to highlight that Integrating different statistical methods and visualization tools, such as those provided by the openair package of R [@openair] will enhance our capacity to identify the best modeling approaches and combination of SOC prediction factors given a specific dataset. Model evaluation benefit our understanding of the circumstances why each modeling approach will generate different results, which is a first step towards reducing the uncertainty of model performance while increasing the spatial resolution of predictions, the eternal digital soil mapping problem. 
