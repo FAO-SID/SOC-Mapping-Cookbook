@@ -8,7 +8,7 @@ In this chapter, we present a compendium of the technical steps presented in the
 1. Soil data preparation
   - **Option A**: Data Preparation - Soil Profiles (Code \@ref(cd:PreparationProfiles))
   - **Option B**: Data Preparation - Top Soil or Auger Samples (Code \@ref(cd:PreparationAuger))
-  - **Option C**: Data Preparation - Merging Top Soil/Auger Samples and Soil Profiles (Code \@ref(cd:PreparationAuger))
+  - *[optional]*: Data Preparation - Merging Top Soil/Auger Samples and Soil Profiles (Code \@ref(cd:merging))
   - *[optional]*: Split the soil data in test and validations datasets (Code \@ref(cd:data-splitting))
 2. Covariates preparation
   - *[optional]* Rasterizing a Vector Layer in R (Code \@ref(cd:Rasterizing))
@@ -20,8 +20,8 @@ In this chapter, we present a compendium of the technical steps presented in the
 4. Validation
   - Quality measures for quantitative data (Code \@ref(cd:Validation))
   - *[optional]* Graphical quality measures for quantitative data (Code \@ref(cd:Graphs))
-  - Cross-validation for Regression-Kriging Models (Code \@ref(cd:xvalRK))
-  - Validation of Random Forest using Quantile Regression Trees (Code \@ref(cd:quantreg))
+  - *[optional]* Cross-validation for Regression-Kriging Models (Code \@ref(cd:xvalRK))
+  - *[optional]* Validation of Random Forest using Quantile Regression Trees (Code \@ref(cd:quantreg))
   
   
 \clearpage
@@ -188,6 +188,34 @@ summary(dat)
 ## We can save our processed data as a table
 write.csv(dat, "data/dataproc.csv")
 ```
+
+\clearpage
+## Merging Top Soil and Soil Profiles Databases{#cd:merging}
+
+\clearpage
+## Data-Splitting{#cd:data-splitting}
+
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
+
+```{r, eval=FALSE}
+library(caret)
+
+dat <- read.csv("data/dataproc.csv")
+
+train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
+train <- dat[ train.ind,]
+test  <- dat[-train.ind,]
+
+plot(density (log(train$OCSKGM)), col='red',
+    main='Statistical distribution of train and test datasets')
+lines(density(log(test$OCSKGM)), col='blue')
+legend('topright', legend=c("train", "test"),
+      col=c("red", "blue"), lty=1, cex=1.5)
+
+write.csv(train, file="data/dat_train.csv", row.names = FALSE)
+write.csv(test, file="data/dat_test.csv", row.names = FALSE)
+```
+
 
 \clearpage
 ## Rasterizing a Vector Layer in R {#cd:Rasterizing}
@@ -760,30 +788,5 @@ abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_rf), col = 'blue', lty=2)
 bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21, 
        col=c('red', 'green'))
 ```
-
-\clearpage
-## Data-Splitting{#cd:data-splitting}
-
-The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
-
-```{r, eval=FALSE}
-library(caret)
-
-dat <- read.csv("data/dataproc.csv")
-
-train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
-train <- dat[ train.ind,]
-test  <- dat[-train.ind,]
-
-plot(density (log(train$OCSKGM)), col='red',
-    main='Statistical distribution of train and test datasets')
-lines(density(log(test$OCSKGM)), col='blue')
-legend('topright', legend=c("train", "test"),
-      col=c("red", "blue"), lty=1, cex=1.5)
-
-write.csv(train, file="data/dat_train.csv", row.names = FALSE)
-write.csv(test, file="data/dat_test.csv", row.names = FALSE)
-```
-
 
 `r if (knitr:::is_html_output()) '# References {-}'`

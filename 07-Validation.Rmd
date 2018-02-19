@@ -324,12 +324,12 @@ Note that the problem of spatially correlated errors remains when data are non-p
 
 In R, the caret package [@kuhn2016short] offers functionality for data-splitting and cross-validation.
 
-## Technical steps - Validation
+## Technical steps - Validation {#TS:validation}
 *GF Olmedo*
 
 ### Prediction error
 
-First, we will load the test dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter \ref@(preparation), we used the code in section \ref@(dataSplit) to split the database: 75\% of the points were used in the models from chapter \ref@(mappingMethods) and now we will use the remaining 25\% of the points to test the results.
+First, we will load the test dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter \@ref(preparation), we used the code in section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test the results.
 
 ```{r}
 dat <- read.csv("data/dat_test.csv")
@@ -429,7 +429,7 @@ knitr::kable(validation, caption = "Summary of map quality measures for 3 differ
 
 ### Graphical Map Quality Measures 
 
-In this section, we will apply the proposed graphical quality measures to the results of chapter \ref@(mappingMethods).
+In this section, we will apply the proposed graphical quality measures to the results of chapter \@ref(mappingMethods).
 
 ```{r, fig.asp=3, fig.cap='Scatter plots of predicted against observed values'}
 par(mfrow=c(3,1)) # Two plots in one plot
