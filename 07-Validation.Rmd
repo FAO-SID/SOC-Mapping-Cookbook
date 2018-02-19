@@ -335,6 +335,7 @@ First, we will load the test dataset. This dataset was measured at the same time
 dat <- read.csv("data/dat_test.csv")
 
 # Promote to spatialPointsDataFrame 
+library(sp)
 coordinates(dat) <- ~ X + Y
 
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
@@ -356,6 +357,9 @@ dat <- extract(x = OCSKGM_svm, y = dat, sp = TRUE)
 dat$PE_RK <- dat$MKD_OCSKGM_RK - dat$OCSKGM
 dat$PE_rf <- dat$MKD_OCSKGM_rf - dat$OCSKGM
 dat$PE_svm <- dat$MKD_OCSKGM_svm - dat$OCSKGM
+
+# Save the validation results
+write.csv(dat, "results/validation.csv", row.names = F)
 ```
 
 
