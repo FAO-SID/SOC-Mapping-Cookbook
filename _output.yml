@@ -15,4 +15,5 @@ bookdown::pdf_book:
   toc: false
   citation_package: natbib
   keep_tex: yes
+  toc_bib: yes
 bookdown::epub_book: default

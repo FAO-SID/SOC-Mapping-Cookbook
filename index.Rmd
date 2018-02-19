@@ -17,6 +17,8 @@ description: "The soilll cookbook."
 ```{r set-options, echo=FALSE, cache=FALSE}
 options(width = 65)
 
+library(kableExtra)
+
 ## redefine str for the width option
 str <- function(...){
   utils::str(..., strict.width = "cut")}
