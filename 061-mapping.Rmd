@@ -78,20 +78,27 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 
 1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, Mac or Linux, 32 or 64 bit).
 2. Create a work folder, e.g. D:\\GSOC\\practical_matching. Copy the folder with the FYROM demonstration data into this folder.
-3. Start ‘QGIS desktop with GRASS’
-Figure 8.1 shows the start screen of QGIS desktop. In the upper left panel, there is the browser panel, which lists the geodata used for this example. In the bottom left, the layer information is given for the layers displayed on the right.
+3. Start ‘QGIS desktop with GRASS’. Figure \@ref(fig:qgis) shows the start screen of QGIS desktop. In the upper left panel, there is the browser panel, which lists the geodata used for this example. In the bottom left, the layer information is given for the layers displayed on the right.
 
-![QGIS Desktop with the browser panel on the upper left, the layer information on the bottom left and the display of your layers on the right.](images/Conv_upscaling1.png)
+```{r qgis, fig.cap="QGIS Desktop with the browser panel on the upper left, the layer information on the bottom left and the display of your layers on the right"}
+knitr::include_graphics("images/Conv_upscaling1.png")
+```
 
 4.  Load the FYROM soil map. Right-click the file in the Browser panel and add the map to your project.
-5.  Display the soil classes. Right-click on the file in the Layers Panel, properties. Go to Style and change from ‘Single symbol’ to ‘Categorized’ (Fig. 8.2). Select the column ‘WRB’ and press the icon ‘Classify’ and change the colors if you want. Next, apply the change and finish by clicking the OK-button.
+5.  Display the soil classes. Right-click on the file in the Layers Panel, properties. Go to Style and change from ‘Single symbol’ to ‘Categorized’ (Fig. \@ref(fig:layerprop)). Select the column ‘WRB’ and press the icon ‘Classify’ and change the colors if you want. Next, apply the change and finish by clicking the OK-button.
 
-![Load the FYROM Soil Map](images/Conv_upscaling2.png)
+```{r layerprop, fig.cap="Changing layer properties for the FYROM Soil Map"}
+knitr::include_graphics("images/Conv_upscaling2.png")
+```
 
 6.  Ensure the correct projection for this project. Go to: Project -> Project properties -> CRS
 In this case, you automatically use the local projection for FYROM. The EPSG code is 3909 which corresponds to MGI 1901/ Balkans zone 7 (Figure 8.3).
 
-![Project properties and projection settings](images/Conv_upscaling3.png)
+
+```{r, fig.cap="Project properties and projection settings"}
+knitr::include_graphics("images/Conv_upscaling3.png")
+```
+
 
 7.  Save the project in the created folder
 Load and display the pre-processed SOC point data. If a shapefile already exists, this is done the same way as described in Step 4. If you have the data as a text file, you need to create a vector layer out of that file. Go to Layer -> Add Layer -> Add Delimited Text layer. Select the correct file and proper CRS projection. The layer should be added to your Layers Panel and displayed on top of the Soil Map.
@@ -102,7 +109,10 @@ In this section you will make a SOC map, based on the FYROM Soil Map and the SOC
 
 1. Extract the soil map information to the soil profile data by ‘Join Attributes by location’. Vector -> Data Management Tools -> Join Attributes by location. Here, the target vector layers are the soil point data, and the join vector layer is the FYROM Soil Map. The geometric predicate is ‘intersects’. Specify at the ‘joined table’ to keep only matching records and save the ‘joined layer’ as a new file (Fig. 8.4).
 
-![Join attributes by location](images/Conv_upscaling4.png)
+```{r, fig.cap="Join attributes by location"}
+knitr::include_graphics("images/Conv_upscaling4.png")
+```
+
 
 2. Check the newly generated file, open the attribute table. The new file is added to the ‘Layers Panel’ . Right-click on the file and open the attribute table. The information from the FYROM Soil Map is now added to the soil point data.
 3. Most likely, the SOC values in the table are not numeric and thus statistics cannot be calculated. Check the data format, right-click on the file in the ‘Layers Panel’ and check the Type name of the SOC field under the tab ‘Fields’. If they are not integer then change the format.
@@ -113,24 +123,35 @@ In this section you will make a SOC map, based on the FYROM Soil Map and the SOC
   d. Output field length: 10, precision: 3
       i.  Expression: to_real(‘SOC’), the to_real function can be found under ‘conversions’ and the ‘SOC’ field is found under ‘Fields and Values’ 
 
-![Example field calculator](images/Conv_upscaling5.png)
+```{r, fig.cap="Example field calculator"}
+knitr::include_graphics("images/Conv_upscaling5.png")
+```
 
 5.  After calculating the field, save edits and leave the editing mode prior to closing the table. If changes are not saved, the added field will be lost.
 6. Calculate the median SOC stock per soil type. Go to the tab ‘Vector’-> group stats. Select the layer from the spatial join you made in Step 2. Add the field ‘SOC’ and median to the box with ‘Values’ and the field ‘WRB’ to the ‘Rows’. Make sure the box with ‘use only selected features’ is not checked. Now calculate the statistics. A table will be given in the left pane (Figure 8.6). Save this file as .csv and repeat the same for the standard deviation.
 
-![Calculate group statistics](images/Conv_upscaling6.png)
+```{r, fig.cap="Calculate group statistics"}
+knitr::include_graphics("images/Conv_upscaling6.png")
+```
+
 
 7.  Join the mean and standard deviation of SOC to the Soil Map. First, add the files generated during step 6 to the Layers Panels. In the Layers Panel, right-click on the FYROM Soil Map. Go to Properties -> Joins and add a new join for both the median and standard deviation of SOC. The Join and Target Field are both ‘WRB’.
 8.  Display the SOC maps. Go to the layer properties of the FYROM Soil Map. Go to Style and change the legend to a graduated legend. In the column, you indicate the assigned SOC values. Probably this is not a integer number and so you have to convert this number again to a numeric values. You can do this with the box next to the box (Fig. 8.7). Change the number of classes to e.g. 10 classes, change the mode of the legend and change the color scheme if you want and apply the settings. Now you have a map with the median SOC stocks per WRB soil class.
 
-![Change the legend style to display the SOC values](images/Conv_upscaling7.png)
+```{r, fig.cap="Change the legend style to display the SOC values"}
+knitr::include_graphics("images/Conv_upscaling7.png")
+```
+
 
 9.  In order to generate a proper layout, go to Project -> New Print Composer
   a. Add map using Layout -> Add Map. Define a square on the canvas and the selected map will be displayed.
   b. Similarly, title, scale bar, legend and a north arrow can be added. Specific properties can be changed in the box ‘Item properties’.
   c. When the map is finished, it can be exported as an image or pdf.
-  
-![Example of the Map composer](images/Conv_upscaling8.png)
+
+```{r, fig.cap="Example of the Map composer"}
+knitr::include_graphics("images/Conv_upscaling8.png")
+```
+
 
 10.  Repeat step 2-8 but now for the standard deviation of the SOC stocks.
 11. Save the file as a new shapefile: Go to ‘Layer Panels -> Save as -> ESRI ShapeFile and make sure that you define the symbology export: Feature Symbology. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
@@ -141,7 +162,9 @@ In this section you will make a SOC map, based on the FYROM Soil Map and the SOC
 2.    Add the Land Use raster file to the Layers Panels. This is a raster file with 1-kilometer resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3
 3.    Change the projection to the MGI 1901/ Balkans region7. Go to Raster -> Projections -> Warp and select the proper projection and a suitable file name, e.g. LU_projected_1km. Tick the checkbox for the resampling method and choose Near. This is the nearest neighbor and most suitable for a transformation of categorical data, such as land use (Fig. 8.9).
 
-![Change the projection of a raster file](images/Conv_upscaling9.png)
+```{r, fig.cap="Change the projection of a raster file"}
+knitr::include_graphics("images/Conv_upscaling9.png")
+```
 
 4. In order to geomatch the soil point data with Land Use, the raster file needs to be converted into a vector file. Go to Raster -> Conversions -> Polygonize. Set a proper output filename, e.g. LU_polygon_1km, and check the tickbox for Fieldname.
 5.  Change the legend style into categories (Step 1-5):
