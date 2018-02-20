@@ -288,22 +288,25 @@ Figure \@ref(fig:errormatrix2) shows a hypothetical example of a sample error ma
 meaning that for an estimated $57.5\%$ of the mapping area the mapped soil class is equal to the true soil class.
 
 
-```{r errormatrix2, fig.cap="Sample error matrix for a hypothetical soil class map" , out.width='80%', echo=FALSE}
+```{r errormatrix2, fig.cap="Sample error matrix for a hypothetical soil class map" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Validation_error_matrix2.png")
 ```
 
 
-Table 9.1 gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at $58.1\%$ of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for $58.1\%$ of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for $46.3\%$ of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that $22.5\%$ ($\frac{54}{240}$ $\times$ $100\%$) of our mapping area is covered by Gleysols. We map Gleysols for $17.9\%$ of the area ($\frac{43}{240}$ $\times$ $100\%$). It can happen that a soil class has a high map unit purity and a low-class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.
+Table \@ref(tab:purity) gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at $58.1\%$ of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for $58.1\%$ of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for $46.3\%$ of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that $22.5\%$ ($\frac{54}{240}$ $\times$ $100\%$) of our mapping area is covered by Gleysols. We map Gleysols for $17.9\%$ of the area ($\frac{43}{240}$ $\times$ $100\%$). It can happen that a soil class has a high map unit purity and a low-class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.
 
-**Table 7.1.** Map unit purity and class representation statistics for the hypothetical example given in Figure \@ref(fig:errormatrix2).
 
-|               | map unit purity  | class representation |
-|:--------------|------------:|------------:|
-|    Anthrosol  |   0.679     |  0.633      |
-|    Cambisol   |   0.508     |  0.516      |
-|    Gleysol    |   0.508     |  0.463      |
-|    Luvisol    |   0.592     |  0.700      |
-|    Podzol     |   0.576     |  0.594      |
+```{r purity, echo=FALSE}
+units <- c('Anthrosol', 'Cambisol', 'Gleysol', 'Luvisol', 'Podzol')
+purity <- c(0.679, 0.508, 0.508, 0.592, 0.576)
+classrep <- c(0.633, 0.516, 0.463, 0.700, 0.594)
+
+df <- data.frame(unit = units, "map unit purity" = purity, "class representation" = classrep)
+
+knitr::kable(df, caption = "Map unit purity and class representation statistics for an hypothetical example.", booktabs = TRUE, format="latex") %>%
+             kable_styling(latex_options = "striped")
+```
+
 
 ### Data-Splitting
 

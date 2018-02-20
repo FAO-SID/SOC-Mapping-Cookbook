@@ -11,7 +11,7 @@ Data mining uses different forms of statistics, such as machine learning, to exp
 Random forest is a Decision-tree-based machine learning method used in digital soil mapping for uncovering the statistical relationship between a dependent variable (e.g., soil property) and its predictors. Decision-tree-based models (also known as classifiers) are literally like trees (e.g., with stem, many branches, and leaves). The leaves are the prediction outcomes (final decisions) that flow from higher levels based on decision rules through the stem and the branches \citep{breiman1984classification}. The decision tree model recursively splits the data into final uniform groups (classes) or unique values based on a set of rules (e.g., based on probability values and hypothesis testing). In random forest, there are many decision trees and each tree recursively splits randomly selected sub-samples from the data (Figure \@ref(fig:rfschema)). The name random forest originates from the fact that the original data is first randomly split into sub-samples, and many decision trees (or forest) are used to model the sub-samples.
 
 
-```{r rfschema, fig.cap="Schematical representation of data splitting data to generate the random subsets used to train regression trees within a Random forest model (ensemble of regression trees)" , out.width='80%', echo=FALSE}
+```{r rfschema, fig.cap="Schematical representation of data splitting data to generate the random subsets used to train regression trees within a Random forest model (ensemble of regression trees)" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/randomForestconcept.png")
 ```
 

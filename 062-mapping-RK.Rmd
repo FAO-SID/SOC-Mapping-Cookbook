@@ -41,7 +41,7 @@ Before we proceed with the regression analysis, it is advisable to inspect the h
 
 The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
 
-```{r workflowRK, fig.cap="Workflow for Regression Kriging" , out.width='80%', echo=FALSE}
+```{r workflowRK, fig.cap="Workflow for Regression Kriging" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/RKworkflow.png")
 ```
 
