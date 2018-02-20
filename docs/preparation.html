@@ -347,11 +347,190 @@ Sampling locations can be representative of a certain location, project, field, 
 </div>
 <div id="soil-database" class="section level2">
 <h2><span class="header-section-number">3.2</span> Soil Database</h2>
-<p>In order to process and evaluate soil information from field assessments, soil profile data and analytical information need to be stored in a database. This can be a set of simple <em>Excel</em> spreadsheets, or a relational or object-oriented database management system <span class="citation">(Baritz et al. <a href="#ref-baritz2008environmental">2008</a>)</span>. When working in <strong>R</strong>, <code>SoilProfileCollections</code> from the <strong>R</strong> <strong>aqp</strong> package are a useful tool. Tables <a href="#tab:site-level"><strong>??</strong></a> and <a href="#tab:horizon-level"><strong>??</strong></a> are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modeling exercises <span class="citation">(Baritz et al. <a href="#ref-baritz2008environmental">2008</a>)</span>.</p>
-<p>Table <a href="#tab:site-level"><strong>??</strong></a> stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table, every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.</p>
-
-<p>Table <a href="#tab:horizon-level"><strong>??</strong></a> stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modeling soil properties over the soil profile.</p>
-
+<p>In order to process and evaluate soil information from field assessments, soil profile data and analytical information need to be stored in a database. This can be a set of simple <em>Excel</em> spreadsheets, or a relational or object-oriented database management system <span class="citation">(Baritz et al. <a href="#ref-baritz2008environmental">2008</a>)</span>. When working in <strong>R</strong>, <code>SoilProfileCollections</code> from the <strong>R</strong> <strong>aqp</strong> package are a useful tool. Tables <a href="preparation.html#tab:site-level">3.1</a> and <a href="preparation.html#tab:horizon-level">3.2</a> are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modeling exercises <span class="citation">(Baritz et al. <a href="#ref-baritz2008environmental">2008</a>)</span>.</p>
+<p>Table <a href="preparation.html#tab:site-level">3.1</a> stores site-level data, which describe the location of the soil description and/or sampling site: spatial coordinates, landscape attributes such as slope gradient and slope form, soil class, land cover type, rock type, etc. In this table, every row should hold a single soil profile. One column, usually the first one, should be the soil profile’s unique identifier. Using the latter, soil information can be easily linked from one table to another.</p>
+<table>
+<caption><span id="tab:site-level">Table 3.1: </span>Example for site-level data table</caption>
+<thead>
+<tr class="header">
+<th align="left">ProfID</th>
+<th align="right">X_coord</th>
+<th align="right">Y_coord</th>
+<th align="right">Year</th>
+<th align="left">Soil_Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">P1276</td>
+<td align="right">7591265</td>
+<td align="right">4632108</td>
+<td align="right">2012</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+<tr class="even">
+<td align="left">P1277</td>
+<td align="right">7592027</td>
+<td align="right">4631664</td>
+<td align="right">2012</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+<tr class="odd">
+<td align="left">P1278</td>
+<td align="right">7592704</td>
+<td align="right">4631941</td>
+<td align="right">2012</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+<tr class="even">
+<td align="left">P1279</td>
+<td align="right">7590817</td>
+<td align="right">4633115</td>
+<td align="right">2013</td>
+<td align="left">Complex of Chernozem …</td>
+</tr>
+</tbody>
+</table>
+<p>Table <a href="preparation.html#tab:horizon-level">3.2</a> stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modeling soil properties over the soil profile.</p>
+<table>
+<caption><span id="tab:horizon-level">Table 3.2: </span>Example for profile-description table</caption>
+<thead>
+<tr class="header">
+<th align="left">ProfID</th>
+<th align="left">HorID</th>
+<th align="right">top</th>
+<th align="right">bottom</th>
+<th align="right">SOC</th>
+<th align="right">BLD</th>
+<th align="right">CRF</th>
+<th align="right">Sand</th>
+<th align="right">Silt</th>
+<th align="right">Clay</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">P1276</td>
+<td align="left">P1276H01</td>
+<td align="right">0</td>
+<td align="right">50</td>
+<td align="right">2.78</td>
+<td align="right">1.05</td>
+<td align="right">11</td>
+<td align="right">52</td>
+<td align="right">39</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">P1276</td>
+<td align="left">P1276H02</td>
+<td align="right">50</td>
+<td align="right">76</td>
+<td align="right">1.75</td>
+<td align="right">1.45</td>
+<td align="right">4</td>
+<td align="right">56</td>
+<td align="right">31</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="left">P1276</td>
+<td align="left">P1276H03</td>
+<td align="right">76</td>
+<td align="right">100</td>
+<td align="right">1.19</td>
+<td align="right">1.22</td>
+<td align="right">2</td>
+<td align="right">43</td>
+<td align="right">35</td>
+<td align="right">22</td>
+</tr>
+<tr class="even">
+<td align="left">P1277</td>
+<td align="left">P1277H01</td>
+<td align="right">0</td>
+<td align="right">28</td>
+<td align="right">1.93</td>
+<td align="right">1.36</td>
+<td align="right">8</td>
+<td align="right">59</td>
+<td align="right">22</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">P1277</td>
+<td align="left">P1277H02</td>
+<td align="right">28</td>
+<td align="right">48</td>
+<td align="right">1.60</td>
+<td align="right">1.43</td>
+<td align="right">9</td>
+<td align="right">69</td>
+<td align="right">15</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">P1277</td>
+<td align="left">P1277H03</td>
+<td align="right">48</td>
+<td align="right">63</td>
+<td align="right">1.26</td>
+<td align="right">NA</td>
+<td align="right">25</td>
+<td align="right">65</td>
+<td align="right">21</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">P1277</td>
+<td align="left">P1277H04</td>
+<td align="right">63</td>
+<td align="right">120</td>
+<td align="right">0.86</td>
+<td align="right">NA</td>
+<td align="right">54</td>
+<td align="right">63</td>
+<td align="right">23</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="left">P1278</td>
+<td align="left">P1278H01</td>
+<td align="right">0</td>
+<td align="right">40</td>
+<td align="right">2.32</td>
+<td align="right">1.27</td>
+<td align="right">0</td>
+<td align="right">50</td>
+<td align="right">39</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">P1278</td>
+<td align="left">P1278H02</td>
+<td align="right">40</td>
+<td align="right">68</td>
+<td align="right">1.80</td>
+<td align="right">1.48</td>
+<td align="right">1</td>
+<td align="right">46</td>
+<td align="right">39</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">P1278</td>
+<td align="left">P1278H03</td>
+<td align="right">68</td>
+<td align="right">120</td>
+<td align="right">0.89</td>
+<td align="right">1.18</td>
+<td align="right">0</td>
+<td align="right">47</td>
+<td align="right">39</td>
+<td align="right">14</td>
+</tr>
+</tbody>
+</table>
 <div id="technical-steps---loading-data-from-tables-in-r" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> Technical Steps - Loading Data from Tables in R</h3>
 <p>This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section <a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:PreparationProfiles">13.2</a>. The second example is using topsoil or auger data and is presented in section <a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:PreparationAuger">13.3</a>.</p>
@@ -747,7 +926,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-Preparation.Rmd",
+"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/03-Preparation.Rmd",
 "text": "Edit"
 },
 "download": ["SOCMapping.pdf", "SOCMapping.epub"],

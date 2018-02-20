@@ -18,8 +18,7 @@ Table \@ref(tab:site-level) stores site-level data, which describe the location 
 
 ```{r site-level, echo=F}
 dat <- read.csv("examples/site-ex.csv")
-knitr::kable(dat, caption = "Example for site-level data table", booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+knitr::kable(dat, caption = "Example for site-level data table", booktabs = TRUE)
 ```
 
 Table \@ref(tab:horizon-level) stores information from the soil description, such as horizon name, horizon thickness, organic matter content, carbonate content, soil color, laboratory soil analysis, etc. The first column contains the soil profile’s unique identifier. It is important to include the upper and lower limits for each soil layer; in case the sampling strategy deviates from soil layers/soil horizons, the upper and lower depth of the sampling locations should be specified if possible. This information is needed for modeling soil properties over the soil profile.
@@ -27,8 +26,7 @@ Table \@ref(tab:horizon-level) stores information from the soil description, suc
 
 ```{r horizon-level, echo=FALSE}
 dat <- read.csv("examples/horizons-ex.csv")
-knitr::kable(dat, caption = "Example for profile-description table", booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+knitr::kable(dat, caption = "Example for profile-description table", booktabs = TRUE)
 ```
 
 ### Technical Steps - Loading Data from Tables in R

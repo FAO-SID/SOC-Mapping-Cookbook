@@ -546,8 +546,44 @@ Figure <a href="chvalidation.html#fig:errormatrix2">7.3</a> shows a hypothetical
 Figure 7.3: Sample error matrix for a hypothetical soil class map
 </p>
 </div>
-<p>Table <a href="#tab:purity"><strong>??</strong></a> gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at <span class="math inline">\(58.1\%\)</span> of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for <span class="math inline">\(58.1\%\)</span> of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for <span class="math inline">\(46.3\%\)</span> of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that <span class="math inline">\(22.5\%\)</span> (<span class="math inline">\(\frac{54}{240}\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(100\%\)</span>) of our mapping area is covered by Gleysols. We map Gleysols for <span class="math inline">\(17.9\%\)</span> of the area (<span class="math inline">\(\frac{43}{240}\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(100\%\)</span>). It can happen that a soil class has a high map unit purity and a low-class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.</p>
-
+<p>Table <a href="chvalidation.html#tab:purity">7.1</a> gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at <span class="math inline">\(58.1\%\)</span> of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for <span class="math inline">\(58.1\%\)</span> of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for <span class="math inline">\(46.3\%\)</span> of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that <span class="math inline">\(22.5\%\)</span> (<span class="math inline">\(\frac{54}{240}\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(100\%\)</span>) of our mapping area is covered by Gleysols. We map Gleysols for <span class="math inline">\(17.9\%\)</span> of the area (<span class="math inline">\(\frac{43}{240}\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(100\%\)</span>). It can happen that a soil class has a high map unit purity and a low-class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.</p>
+<table>
+<caption><span id="tab:purity">Table 7.1: </span>Map unit purity and class representation statistics for an hypothetical example.</caption>
+<thead>
+<tr class="header">
+<th align="left">unit</th>
+<th align="right">map.unit.purity</th>
+<th align="right">class.representation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Anthrosol</td>
+<td align="right">0.679</td>
+<td align="right">0.633</td>
+</tr>
+<tr class="even">
+<td align="left">Cambisol</td>
+<td align="right">0.508</td>
+<td align="right">0.516</td>
+</tr>
+<tr class="odd">
+<td align="left">Gleysol</td>
+<td align="right">0.508</td>
+<td align="right">0.463</td>
+</tr>
+<tr class="even">
+<td align="left">Luvisol</td>
+<td align="right">0.592</td>
+<td align="right">0.700</td>
+</tr>
+<tr class="odd">
+<td align="left">Podzol</td>
+<td align="right">0.576</td>
+<td align="right">0.594</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="data-splitting" class="section level3">
 <h3><span class="header-section-number">7.4.2</span> Data-Splitting</h3>
@@ -599,7 +635,61 @@ Figure 7.3: Sample error matrix for a hypothetical soil class map
 <a class="sourceLine" id="cb155-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb155-15" data-line-number="15"><span class="co"># Save the validation results</span></a>
 <a class="sourceLine" id="cb155-16" data-line-number="16"><span class="kw">write.csv</span>(dat, <span class="st">&quot;results/validation.csv&quot;</span>, <span class="dt">row.names =</span> F)</a></code></pre></div>
-
+<table>
+<caption><span id="tab:prederrors">Table 7.2: </span>Summary of prediction errors for 3 different mapping methods</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">RK</th>
+<th align="right">randomForest</th>
+<th align="right">svm</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Min.</td>
+<td align="right">-4.09</td>
+<td align="right">-4.25</td>
+<td align="right">-4.78</td>
+</tr>
+<tr class="even">
+<td>1st Qu.</td>
+<td align="right">-0.31</td>
+<td align="right">-0.30</td>
+<td align="right">-0.25</td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td align="right">0.00</td>
+<td align="right">0.01</td>
+<td align="right">0.04</td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td align="right">-0.08</td>
+<td align="right">-0.08</td>
+<td align="right">-0.03</td>
+</tr>
+<tr class="odd">
+<td>3rd Qu.</td>
+<td align="right">0.23</td>
+<td align="right">0.24</td>
+<td align="right">0.32</td>
+</tr>
+<tr class="even">
+<td>Max.</td>
+<td align="right">2.01</td>
+<td align="right">2.24</td>
+<td align="right">1.78</td>
+</tr>
+<tr class="odd">
+<td>NA’s</td>
+<td align="right">10.00</td>
+<td align="right">12.00</td>
+<td align="right">12.00</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="estimating-the-map-quality-measures" class="section level3">
 <h3><span class="header-section-number">7.5.2</span> Estimating the Map Quality Measures</h3>
@@ -641,7 +731,55 @@ Figure 7.3: Sample error matrix for a hypothetical soil class map
 <a class="sourceLine" id="cb156-35" data-line-number="35">MSDR_RK &lt;-<span class="st"> </span><span class="dv">1</span>  <span class="co"># filler</span></a>
 <a class="sourceLine" id="cb156-36" data-line-number="36">MSDR_rf &lt;-<span class="st"> </span><span class="dv">1</span></a>
 <a class="sourceLine" id="cb156-37" data-line-number="37">MSDR_svm &lt;-<span class="st"> </span><span class="dv">1</span></a></code></pre></div>
-
+<table>
+<caption><span id="tab:unnamed-chunk-87">Table 7.3: </span>Summary of map quality measures for 3 different mapping methods</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">RK</th>
+<th align="right">randomForest</th>
+<th align="right">svm</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ME</td>
+<td align="right">-0.077</td>
+<td align="right">-0.081</td>
+<td align="right">-0.026</td>
+</tr>
+<tr class="even">
+<td>MAE</td>
+<td align="right">0.359</td>
+<td align="right">0.369</td>
+<td align="right">0.392</td>
+</tr>
+<tr class="odd">
+<td>MSE</td>
+<td align="right">0.293</td>
+<td align="right">0.314</td>
+<td align="right">0.333</td>
+</tr>
+<tr class="even">
+<td>RMSE</td>
+<td align="right">0.538</td>
+<td align="right">0.557</td>
+<td align="right">0.574</td>
+</tr>
+<tr class="odd">
+<td>AVE</td>
+<td align="right">-1.054</td>
+<td align="right">-1.627</td>
+<td align="right">-1.426</td>
+</tr>
+<tr class="even">
+<td>MSDR</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="graphical-map-quality-measures-1" class="section level3">
 <h3><span class="header-section-number">7.5.3</span> Graphical Map Quality Measures</h3>
@@ -828,7 +966,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-Validation.Rmd",
+"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/07-Validation.Rmd",
 "text": "Edit"
 },
 "download": ["SOCMapping.pdf", "SOCMapping.epub"],

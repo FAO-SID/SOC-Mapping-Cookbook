@@ -424,7 +424,61 @@ Note how the spatial differences of the predicted SOC values have similar patter
 <a class="sourceLine" id="cb171-2" data-line-number="2"><span class="kw">library</span>(openair)</a>
 <a class="sourceLine" id="cb171-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb171-4" data-line-number="4">modsts &lt;-<span class="st"> </span><span class="kw">modStats</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
-
+<table>
+<caption><span id="tab:modsts">Table 8.1: </span>Summary of Different Model Evaluation Statistics for the 3 Models Compared</caption>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">FAC2</th>
+<th align="right">MB</th>
+<th align="right">MGE</th>
+<th align="right">NMB</th>
+<th align="right">NMGE</th>
+<th align="right">RMSE</th>
+<th align="right">r</th>
+<th align="right">COE</th>
+<th align="right">IOA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RK</td>
+<td align="right">0.89</td>
+<td align="right">-0.08</td>
+<td align="right">0.36</td>
+<td align="right">-0.07</td>
+<td align="right">0.32</td>
+<td align="right">0.54</td>
+<td align="right">0.63</td>
+<td align="right">0.25</td>
+<td align="right">0.63</td>
+</tr>
+<tr class="even">
+<td align="left">RF</td>
+<td align="right">0.88</td>
+<td align="right">-0.08</td>
+<td align="right">0.37</td>
+<td align="right">-0.07</td>
+<td align="right">0.33</td>
+<td align="right">0.56</td>
+<td align="right">0.59</td>
+<td align="right">0.23</td>
+<td align="right">0.62</td>
+</tr>
+<tr class="odd">
+<td align="left">SVM</td>
+<td align="right">0.86</td>
+<td align="right">-0.03</td>
+<td align="right">0.39</td>
+<td align="right">-0.02</td>
+<td align="right">0.36</td>
+<td align="right">0.58</td>
+<td align="right">0.53</td>
+<td align="right">0.18</td>
+<td align="right">0.59</td>
+</tr>
+</tbody>
+</table>
 <p>From our SOC mapping example across FYROM, the three models generate similar results. The FAC2 is close to 0.8 in all cases, being RK the one closer to 1. MB and NMB suggest that all the model’s tent to underestimate SOC because they are negative. SVM tend to underestimate less than RK and RF. The MGE, NMGE, and RMSE suggest however that SVM is generating the larger error rate and by the values of r COE and IOA, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM.</p>
 <p>The aforementioned conclusion can be verified by plotting a Taylor Diagram (Fig. <a href="model-evaluation-in-digital-soil-mapping.html#fig:taylor">8.1</a>), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values <span class="citation">(Taylor <a href="#ref-taylor2001summarizing">2001</a>)</span>. Recent reports show that the integration of simple validation metrics (e.g., the rmse correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias (<span class="citation">Guevara et al. (<a href="#ref-soil-2017-40">2018</a>)</span>; <span class="citation">Nussbaum et al. (<a href="#ref-nussbaum2018evaluation">2018</a>)</span>). Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the model of the three implemented algorithms.</p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">TaylorDiagram</span>(modData, <span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">group =</span> <span class="st">&quot;model&quot;</span>,</a>
@@ -520,7 +574,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/08-model-evaluation.Rmd",
+"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/08-model-evaluation.Rmd",
 "text": "Edit"
 },
 "download": ["SOCMapping.pdf", "SOCMapping.epub"],

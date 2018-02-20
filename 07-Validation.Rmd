@@ -303,8 +303,7 @@ classrep <- c(0.633, 0.516, 0.463, 0.700, 0.594)
 
 df <- data.frame(unit = units, "map unit purity" = purity, "class representation" = classrep)
 
-knitr::kable(df, caption = "Map unit purity and class representation statistics for an hypothetical example.", booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+knitr::kable(df, caption = "Map unit purity and class representation statistics for an hypothetical example.", booktabs = TRUE)
 ```
 
 
@@ -380,8 +379,7 @@ write.csv(dat, "results/validation.csv", row.names = F)
 ```{r prederrors, echo=FALSE}
 prederrors <-  as.data.frame(cbind(summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
 names(prederrors) <- c('RK', 'randomForest', 'svm')
-knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "rrr", booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "rrr", booktabs = TRUE)
 ```
 
 ### Estimating the Map Quality Measures
@@ -441,8 +439,7 @@ names(validation) <- c('RK', 'randomForest', 'svm')
 ```
 
 ```{r, echo=FALSE}
-knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rrr", booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rrr", booktabs = TRUE)
 ```
 
 

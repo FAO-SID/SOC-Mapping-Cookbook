@@ -107,8 +107,7 @@ modsts <- modStats(modData,obs = "obs", mod = "mod", type = "model")
 #modsts <- cbind(modsts[1], round(modsts[-1], 2))
 ## print a table
 knitr::kable(modsts[,c(1,3:11)], caption = "Summary of Different Model Evaluation Statistics for the 3 Models Compared", digits = 2,
-             row.names = F, booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+             row.names = F, booktabs = TRUE)
 ```
 
 

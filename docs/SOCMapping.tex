@@ -621,17 +621,14 @@ should hold a single soil profile. One column, usually the first one,
 should be the soil profile's unique identifier. Using the latter, soil
 information can be easily linked from one table to another.
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:site-level}Example for site-level data table}
 \centering
 \begin{tabular}[t]{lrrrl}
-\hiderowcolors
 \toprule
 ProfID & X\_coord & Y\_coord & Year & Soil\_Type\\
 \midrule
-\showrowcolors
 P1276 & 7591265 & 4632108 & 2012 & Complex of Chernozem …\\
 P1277 & 7592027 & 4631664 & 2012 & Complex of Chernozem …\\
 P1278 & 7592704 & 4631941 & 2012 & Complex of Chernozem …\\
@@ -639,7 +636,6 @@ P1279 & 7590817 & 4633115 & 2013 & Complex of Chernozem …\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 Table \ref{tab:horizon-level} stores information from the soil
 description, such as horizon name, horizon thickness, organic matter
@@ -651,17 +647,14 @@ upper and lower depth of the sampling locations should be specified if
 possible. This information is needed for modeling soil properties over
 the soil profile.
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:horizon-level}Example for profile-description table}
 \centering
 \begin{tabular}[t]{llrrrrrrrr}
-\hiderowcolors
 \toprule
 ProfID & HorID & top & bottom & SOC & BLD & CRF & Sand & Silt & Clay\\
 \midrule
-\showrowcolors
 P1276 & P1276H01 & 0 & 50 & 2.78 & 1.05 & 11 & 52 & 39 & 9\\
 P1276 & P1276H02 & 50 & 76 & 1.75 & 1.45 & 4 & 56 & 31 & 14\\
 P1276 & P1276H03 & 76 & 100 & 1.19 & 1.22 & 2 & 43 & 35 & 22\\
@@ -676,7 +669,6 @@ P1278 & P1278H03 & 68 & 120 & 0.89 & 1.18 & 0 & 47 & 39 & 14\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 \hypertarget{technical-steps---loading-data-from-tables-in-r}{%
 \subsection{Technical Steps - Loading Data from Tables in
@@ -1708,17 +1700,14 @@ The access and use limitations are presented in section
 of the soil forming factors, will be used for the examples. This subset
 is presented in the following table.
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:covariates}Code and name of example covariates provided with the cookbook.}
 \centering
 \begin{tabular}[t]{ll}
-\hiderowcolors
 \toprule
 CODE & ATTRIBUTE\_TITLE\\
 \midrule
-\showrowcolors
 DEMENV5 & Land surface elevation\\
 SLPMRG5 & Terrain slope\\
 VBFMRG5 & Multiresolution Index of Valley Bottom Flatness (MRVBF)\\
@@ -1737,7 +1726,6 @@ LCEE10 & ESA land cover map 2010\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 \hypertarget{dem-derived-covariates}{%
 \section{DEM-Derived Covariates}\label{dem-derived-covariates}}
@@ -5987,17 +5975,14 @@ class has a high map unit purity and a low-class representation. This
 means that if we map a Gleysol we will likely find a Gleysol there, but
 that a large extent of the true Gleysol area is not mapped as such.
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:purity}Map unit purity and class representation statistics for an hypothetical example.}
 \centering
 \begin{tabular}[t]{lrr}
-\hiderowcolors
 \toprule
 unit & map.unit.purity & class.representation\\
 \midrule
-\showrowcolors
 Anthrosol & 0.679 & 0.633\\
 Cambisol & 0.508 & 0.516\\
 Gleysol & 0.508 & 0.463\\
@@ -6006,7 +5991,6 @@ Podzol & 0.576 & 0.594\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 \hypertarget{data-splitting}{%
 \subsection{Data-Splitting}\label{data-splitting}}
@@ -6181,17 +6165,14 @@ then, estimate the prediction error.
 \end{Highlighting}
 \end{Shaded}
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:prederrors}Summary of prediction errors for 3 different mapping methods}
 \centering
 \begin{tabular}[t]{lrrrrrrrrr}
-\hiderowcolors
 \toprule
   & RK & randomForest & svm\\
 \midrule
-\showrowcolors
 Min. & -4.09 & -4.25 & -4.78\\
 1st Qu. & -0.31 & -0.30 & -0.25\\
 Median & 0.00 & 0.01 & 0.04\\
@@ -6203,7 +6184,6 @@ NA's & 10.00 & 12.00 & 12.00\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 \hypertarget{estimating-the-map-quality-measures}{%
 \subsection{Estimating the Map Quality
@@ -6254,17 +6234,14 @@ measures for quantitative soil maps.
 \end{Highlighting}
 \end{Shaded}
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:unnamed-chunk-87}Summary of map quality measures for 3 different mapping methods}
 \centering
 \begin{tabular}[t]{lrrrrrrrrr}
-\hiderowcolors
 \toprule
   & RK & randomForest & svm\\
 \midrule
-\showrowcolors
 ME & -0.077 & -0.081 & -0.026\\
 MAE & 0.359 & 0.369 & 0.392\\
 MSE & 0.293 & 0.314 & 0.333\\
@@ -6274,7 +6251,6 @@ MSDR & 1.000 & 1.000 & 1.000\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 \hypertarget{graphical-map-quality-measures-1}{%
 \subsection{Graphical Map Quality
@@ -6644,24 +6620,20 @@ to use a combination of the performance measures \citep{chang2004air}.
 \end{Highlighting}
 \end{Shaded}
 
-\rowcolors{2}{gray!6}{white}
 \begin{table}
 
 \caption{\label{tab:modsts}Summary of Different Model Evaluation Statistics for the 3 Models Compared}
 \centering
 \begin{tabular}[t]{lrrrrrrrrr}
-\hiderowcolors
 \toprule
 model & FAC2 & MB & MGE & NMB & NMGE & RMSE & r & COE & IOA\\
 \midrule
-\showrowcolors
 RK & 0.89 & -0.08 & 0.36 & -0.07 & 0.32 & 0.54 & 0.63 & 0.25 & 0.63\\
 RF & 0.88 & -0.08 & 0.37 & -0.07 & 0.33 & 0.56 & 0.59 & 0.23 & 0.62\\
 SVM & 0.86 & -0.03 & 0.39 & -0.02 & 0.36 & 0.58 & 0.53 & 0.18 & 0.59\\
 \bottomrule
 \end{tabular}
 \end{table}
-\rowcolors{2}{white}{white}
 
 From our SOC mapping example across FYROM, the three models generate
 similar results. The FAC2 is close to 0.8 in all cases, being RK the one

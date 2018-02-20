@@ -5,8 +5,7 @@ The example covariates from this chapter were prepared by *ISRIC*. The access an
 
 ```{r covariates, echo=F}
 covs.t <- read.csv("covs/CovsDescription.csv")
-knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates provided with the cookbook.", booktabs = TRUE, format="latex") %>%
-             kable_styling(latex_options = "striped")
+knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates provided with the cookbook.", booktabs = TRUE)
 ```
 
 
