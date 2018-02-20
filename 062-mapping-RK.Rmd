@@ -39,9 +39,12 @@ Before we proceed with the regression analysis, it is advisable to inspect the h
 
 > Both, the normality tests and the data transformation can be easily performed using any commercial or open source statistical tool (R, SPSS, MINITAB...)
 
-The main steps for the multiple linear regression analysis are shown in the Figure [fig:Workflow for Regression Kriging].
+The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
 
-![Workflow for Regression Kriging](images/RKworkflow.png)
+```{r workflowRK, fig.cap="Workflow for Regression Kriging" , out.width='80%', echo=FALSE}
+knitr::include_graphics("images/RKworkflow.png")
+```
+
 
 > 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in section [Overlay covariates and spatial data]. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS.
 2. The essential part of multiple regression analysis is to build a regression model by using the environmental predictors. After extracting the values of explanatory maps and target variables into the single table, we can now start fitting multiple regression model using the table that contains data from dependent variable and predictors.

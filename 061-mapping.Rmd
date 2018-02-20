@@ -78,9 +78,9 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 
 1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, Mac or Linux, 32 or 64 bit).
 2. Create a work folder, e.g. D:\\GSOC\\practical_matching. Copy the folder with the FYROM demonstration data into this folder.
-3. Start ‘QGIS desktop with GRASS’. Figure \@ref(fig:qgis) shows the start screen of QGIS desktop. In the upper left panel, there is the browser panel, which lists the geodata used for this example. In the bottom left, the layer information is given for the layers displayed on the right.
+3. Start ‘QGIS desktop with GRASS’. Fig. \@ref(fig:qgis) shows the start screen of QGIS desktop. In the upper left panel, there is the browser panel, which lists the geodata used for this example. In the bottom left, the layer information is given for the layers displayed on the right.
 
-```{r qgis, fig.cap="QGIS Desktop with the browser panel on the upper left, the layer information on the bottom left and the display of your layers on the right" , out.width='80%'}
+```{r qgis, fig.cap="QGIS Desktop with the browser panel on the upper left, the layer information on the bottom left and the display of your layers on the right" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling1.png")
 ```
 
@@ -92,10 +92,10 @@ knitr::include_graphics("images/Conv_upscaling2.png")
 ```
 
 6.  Ensure the correct projection for this project. Go to: Project -> Project properties -> CRS
-In this case, you automatically use the local projection for FYROM. The EPSG code is 3909 which corresponds to MGI 1901/ Balkans zone 7 (Figure 8.3).
+In this case, you automatically use the local projection for FYROM. The EPSG code is 3909 which corresponds to MGI 1901/ Balkans zone 7 (Fig. \@ref(fig:qgisepsg)).
 
 
-```{r, fig.cap="Project properties and projection settings" , out.width='80%'}
+```{r qgisepsg, fig.cap="Project properties and projection settings" , out.width='80%'}
 knitr::include_graphics("images/Conv_upscaling3.png")
 ```
 
@@ -109,7 +109,7 @@ In this section you will make a SOC map, based on the FYROM Soil Map and the SOC
 
 1. Extract the soil map information to the soil profile data by ‘Join Attributes by location’. Vector -> Data Management Tools -> Join Attributes by location. Here, the target vector layers are the soil point data, and the join vector layer is the FYROM Soil Map. The geometric predicate is ‘intersects’. Specify at the ‘joined table’ to keep only matching records and save the ‘joined layer’ as a new file (Fig. 8.4).
 
-```{r, fig.cap="Join attributes by location" , out.width='80%'}
+```{r, fig.cap="Join attributes by location" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling4.png")
 ```
 
@@ -123,14 +123,14 @@ knitr::include_graphics("images/Conv_upscaling4.png")
   d. Output field length: 10, precision: 3
       i.  Expression: to_real(‘SOC’), the to_real function can be found under ‘conversions’ and the ‘SOC’ field is found under ‘Fields and Values’ 
 
-```{r, fig.cap="Example field calculator" , out.width='80%'}
+```{r, fig.cap="Example field calculator" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling5.png")
 ```
 
 5.  After calculating the field, save edits and leave the editing mode prior to closing the table. If changes are not saved, the added field will be lost.
 6. Calculate the median SOC stock per soil type. Go to the tab ‘Vector’-> group stats. Select the layer from the spatial join you made in Step 2. Add the field ‘SOC’ and median to the box with ‘Values’ and the field ‘WRB’ to the ‘Rows’. Make sure the box with ‘use only selected features’ is not checked. Now calculate the statistics. A table will be given in the left pane (Figure 8.6). Save this file as .csv and repeat the same for the standard deviation.
 
-```{r, fig.cap="Calculate group statistics" , out.width='80%'}
+```{r, fig.cap="Calculate group statistics" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling6.png")
 ```
 
@@ -138,7 +138,7 @@ knitr::include_graphics("images/Conv_upscaling6.png")
 7.  Join the mean and standard deviation of SOC to the Soil Map. First, add the files generated during step 6 to the Layers Panels. In the Layers Panel, right-click on the FYROM Soil Map. Go to Properties -> Joins and add a new join for both the median and standard deviation of SOC. The Join and Target Field are both ‘WRB’.
 8.  Display the SOC maps. Go to the layer properties of the FYROM Soil Map. Go to Style and change the legend to a graduated legend. In the column, you indicate the assigned SOC values. Probably this is not a integer number and so you have to convert this number again to a numeric values. You can do this with the box next to the box (Fig. 8.7). Change the number of classes to e.g. 10 classes, change the mode of the legend and change the color scheme if you want and apply the settings. Now you have a map with the median SOC stocks per WRB soil class.
 
-```{r, fig.cap="Change the legend style to display the SOC values" , out.width='80%'}
+```{r, fig.cap="Change the legend style to display the SOC values" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling7.png")
 ```
 
@@ -148,7 +148,7 @@ knitr::include_graphics("images/Conv_upscaling7.png")
   b. Similarly, title, scale bar, legend and a north arrow can be added. Specific properties can be changed in the box ‘Item properties’.
   c. When the map is finished, it can be exported as an image or pdf.
 
-```{r, fig.cap="Example of the Map composer" , out.width='80%'}
+```{r, fig.cap="Example of the Map composer" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling8.png")
 ```
 
@@ -162,7 +162,7 @@ knitr::include_graphics("images/Conv_upscaling8.png")
 2.    Add the Land Use raster file to the Layers Panels. This is a raster file with 1-kilometer resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3
 3.    Change the projection to the MGI 1901/ Balkans region7. Go to Raster -> Projections -> Warp and select the proper projection and a suitable file name, e.g. LU_projected_1km. Tick the checkbox for the resampling method and choose Near. This is the nearest neighbor and most suitable for a transformation of categorical data, such as land use (Fig. 8.9).
 
-```{r, fig.cap="Change the projection of a raster file" , out.width='80%'}
+```{r, fig.cap="Change the projection of a raster file" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Conv_upscaling9.png")
 ```
 
