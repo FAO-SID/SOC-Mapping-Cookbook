@@ -33,7 +33,7 @@ knitr::kable(dat, caption = "Example for profile-description table", booktabs = 
 
 ### Technical Steps - Loading Data from Tables in R
 
-This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(PreparationProfiles). The second example is using topsoil or auger data and is presented in section \@ref(PreparationAuger).
+This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(cd:PreparationProfiles). The second example is using topsoil or auger data and is presented in section \@ref(cd:PreparationAuger).
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")

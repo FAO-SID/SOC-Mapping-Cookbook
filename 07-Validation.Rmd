@@ -355,7 +355,7 @@ coordinates(dat) <- ~ X + Y
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 ```
 
-Now, we will load the predicted layers from chapter \ref@(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
+Now, we will load the predicted layers from chapter \@ref(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
 
 ```{r ,warning=FALSE}
 library(raster)
