@@ -236,7 +236,7 @@ We should warn here that the calculation of the $CI$ is based on the assumption 
 **Estimation of qualitative map quality measures:** For validation of qualitative soil maps, a sample error matrix is constructed from the validation data (Figure \@ref(fig:errormatrix)). $n$ is the total number of validation locations in the sample. Element $n_{ij}$ of the matrix corresponds to the number of validation locations that have been predicted as class $i$, $i = 1, 2, \dots U$ and belong to class $j$, $j = 1, 2, \dots U$ [@lark1995components]. The matrix summarizes correct predictions and incorrect predictions within the validation data.
 
 
-```{r errormatrix, fig.cap="Sample error matrix" , out.width='80%', echo=FALSE}
+```{r errormatrix, fig.cap="Sample error matrix" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Validation_error_matrix.png")
 ```
 
@@ -477,19 +477,19 @@ abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_svm), col = 'blue', lty=2)
 par(mfrow=c(1,1))
 ```
 
-```{r, fig.cap='Spatial bubble of the prediction errors for RK'}
+```{r, fig.cap='Spatial bubble of the prediction errors for RK', out.width='60%'}
 # spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_RK),], "PE_RK", pch = 21, 
        col=c('red', 'green'))
 ```
 
-```{r, fig.cap='Spatial bubble of the prediction errors for rf'}
+```{r, fig.cap='Spatial bubble of the prediction errors for rf', out.width='60%'}
 # spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21, 
        col=c('red', 'green'))
 ```
 
-```{r, fig.cap='Spatial bubble of the prediction errors for svm'}
+```{r, fig.cap='Spatial bubble of the prediction errors for svm', out.width='60%'}
 # spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21, 
        col=c('red', 'green'))
@@ -517,7 +517,7 @@ train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
 train <- dat[ train.ind,]
 test  <- dat[-train.ind,]
 
-plot(density (log(train$OCSKGM)), col='red')
+plot(density (log(train$OCSKGM)), col='red', main="")
 lines(density(log(test$OCSKGM)), col='blue')
 legend('topright', legend=c("train", "test"),
       col=c("red", "blue"), lty=1, cex=1.5)

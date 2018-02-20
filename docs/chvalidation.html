@@ -500,7 +500,7 @@ CI_{95} = \underline{\hat{x}} \pm 1.96x\sqrt{Var(\underline{\hat{x}})}
 \end{equation}\]</span>
 <p>We should warn here that the calculation of the <span class="math inline">\(CI\)</span> is based on the assumption that the estimated map quality measure means have a normal distribution (the central limit theorem). For the squared errors this assumption can be unrealistic, especially for small sample sizes.</p>
 <p><strong>Estimation of qualitative map quality measures:</strong> For validation of qualitative soil maps, a sample error matrix is constructed from the validation data (Figure <a href="chvalidation.html#fig:errormatrix">7.2</a>). <span class="math inline">\(n\)</span> is the total number of validation locations in the sample. Element <span class="math inline">\(n_{ij}\)</span> of the matrix corresponds to the number of validation locations that have been predicted as class <span class="math inline">\(i\)</span>, <span class="math inline">\(i = 1, 2, \dots U\)</span> and belong to class <span class="math inline">\(j\)</span>, <span class="math inline">\(j = 1, 2, \dots U\)</span> <span class="citation">(Lark <a href="#ref-lark1995components">1995</a>)</span>. The matrix summarizes correct predictions and incorrect predictions within the validation data.</p>
-<div class="figure"><span id="fig:errormatrix"></span>
+<div class="figure" style="text-align: center"><span id="fig:errormatrix"></span>
 <img src="images/Validation_error_matrix.png" alt="Sample error matrix" width="80%" />
 <p class="caption">
 Figure 7.2: Sample error matrix
@@ -820,7 +820,7 @@ Figure 7.4: Scatter plots of predicted against observed values
 <a class="sourceLine" id="cb159-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_RK),], <span class="st">&quot;PE_RK&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
 <a class="sourceLine" id="cb159-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-89"></span>
-<img src="SOCMapping_files/figure-html4/unnamed-chunk-89-1.png" alt="Spatial bubble of the prediction errors for RK" width="672" />
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-89-1.png" alt="Spatial bubble of the prediction errors for RK" width="60%" />
 <p class="caption">
 Figure 7.5: Spatial bubble of the prediction errors for RK
 </p>
@@ -829,7 +829,7 @@ Figure 7.5: Spatial bubble of the prediction errors for RK
 <a class="sourceLine" id="cb160-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_rf),], <span class="st">&quot;PE_rf&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
 <a class="sourceLine" id="cb160-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-90"></span>
-<img src="SOCMapping_files/figure-html4/unnamed-chunk-90-1.png" alt="Spatial bubble of the prediction errors for rf" width="672" />
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-90-1.png" alt="Spatial bubble of the prediction errors for rf" width="60%" />
 <p class="caption">
 Figure 7.6: Spatial bubble of the prediction errors for rf
 </p>
@@ -838,7 +838,7 @@ Figure 7.6: Spatial bubble of the prediction errors for rf
 <a class="sourceLine" id="cb161-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_svm),], <span class="st">&quot;PE_svm&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
 <a class="sourceLine" id="cb161-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-91"></span>
-<img src="SOCMapping_files/figure-html4/unnamed-chunk-91-1.png" alt="Spatial bubble of the prediction errors for svm" width="672" />
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-91-1.png" alt="Spatial bubble of the prediction errors for svm" width="60%" />
 <p class="caption">
 Figure 7.7: Spatial bubble of the prediction errors for svm
 </p>
@@ -855,7 +855,7 @@ Figure 7.7: Spatial bubble of the prediction errors for svm
 <a class="sourceLine" id="cb162-6" data-line-number="6">train &lt;-<span class="st"> </span>dat[ train.ind,]</a>
 <a class="sourceLine" id="cb162-7" data-line-number="7">test  &lt;-<span class="st"> </span>dat[<span class="op">-</span>train.ind,]</a>
 <a class="sourceLine" id="cb162-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb162-9" data-line-number="9"><span class="kw">plot</span>(<span class="kw">density</span> (<span class="kw">log</span>(train<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</a>
+<a class="sourceLine" id="cb162-9" data-line-number="9"><span class="kw">plot</span>(<span class="kw">density</span> (<span class="kw">log</span>(train<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a>
 <a class="sourceLine" id="cb162-10" data-line-number="10"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">log</span>(test<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;blue&#39;</span>)</a>
 <a class="sourceLine" id="cb162-11" data-line-number="11"><span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;train&quot;</span>, <span class="st">&quot;test&quot;</span>),</a>
 <a class="sourceLine" id="cb162-12" data-line-number="12">      <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">cex=</span><span class="fl">1.5</span>)</a></code></pre></div>

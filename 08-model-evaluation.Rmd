@@ -9,7 +9,7 @@ We found in this package a very useful set of functions for model evaluation met
 
 We will import the predicted maps and harmonize them in to the same regular grid (~1x1km of spatial resolution). Then we will plot the statistical distribution and the correlation between the three different methods (RK, RF, SVM).   
 
-```{r}
+```{r, out.width='70%'}
 library(raster)
 RF<-raster('results/MKD_OCSKGM_rf.tif')
 RK<-raster('results/MKD_OCSKGM_RK.tif')

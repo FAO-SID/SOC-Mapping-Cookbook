@@ -358,7 +358,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb164-13" data-line-number="13">             <span class="dt">density =</span> <span class="ot">TRUE</span>,  <span class="co"># show density plots</span></a>
 <a class="sourceLine" id="cb164-14" data-line-number="14">             <span class="dt">ellipses =</span> <span class="ot">TRUE</span> <span class="co"># show correlation ellipses</span></a>
 <a class="sourceLine" id="cb164-15" data-line-number="15">             )                     </a></code></pre></div>
-<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-95-1.png" width="672" />
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-95-1.png" width="70%" />
 Here we found that the higher correlation between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches (0.79, RF and SVM). We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values.</p>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">library</span>(rasterVis)</a>
 <a class="sourceLine" id="cb165-2" data-line-number="2"><span class="kw">densityplot</span>(models)</a></code></pre></div>

@@ -60,7 +60,7 @@ FAO encourages the use, reproduction and dissemination of material in this infor
 All requests for translation and adaptation rights, and for resale and other commercial use rights should be made via www.fao.org/contact-us/licence-request or addressed to copyright@fao.org. 
 
 
-FAO information products are available on the FAO website (www.fao.org/publications) and can be purchased through publications-sales@fao.org. 
+FAO information products are available on the [FAO website](www.fao.org/publications) and can be purchased through publications-sales@fao.org. 
 
 
 # Foreword {-}

@@ -249,8 +249,9 @@ other commercial use rights should be made via
 www.fao.org/contact-us/licence-request or addressed to
 \href{mailto:copyright@fao.org}{\nolinkurl{copyright@fao.org}}.
 
-FAO information products are available on the FAO website
-(www.fao.org/publications) and can be purchased through
+FAO information products are available on the
+\href{www.fao.org/publications}{FAO website} and can be purchased
+through
 \href{mailto:publications-sales@fao.org}{\nolinkurl{publications-sales@fao.org}}.
 
 \hypertarget{foreword}{%
@@ -3261,28 +3262,26 @@ Kriging in R
 
 \begin{itemize}
 \item
-  \href{Latest\%20version\%20of\%20R\%20software,\%20network\%20connection\%20and\%20sufficient\%20RAM,\%20storage\%20capacity}{Setting-up
-  the Software Environment}
+  Setting-up the Software Environment
 \item
-  \href{Latest\%20version\%20of\%20RStudio}{Obtaining and Installing R
-  Studio}
+  Obtaining and Installing R Studio
 \item
-  \href{R\%20packages}{R Packages}
+  R Packages
 \item
-  \href{Point\%20Dataset}{Preparation of local soil property data}
+  Preparation of local soil property data
 \item
-  \href{Environmental\%20predictors}{Preparation of spatial covariates}
-\item
-  \href{Relief\%20(e.g.\%20DEM,\%20Slope,\%20TWI)}{DEM-derived
-  covariates}
-\item
-  \href{Organism\%20map\%20(e.g.\%20land\%20use,\%20NDVI,\%20land\%20cover)}{Land
-  cover/Land use}
-\item
-  \href{Climate\%20Data\%20(e.g.\%20mean\%20precipitation,\%20mean\%20temperature)}{Climate}
-\item
-  \href{Parent\%20material\%20(parent\%20material,\%20geology)}{Parent
-  material}
+  Preparation of spatial covariates
+
+  \begin{itemize}
+  \item
+    DEM-derived covariates
+  \item
+    Land cover/Land use
+  \item
+    Climate
+  \item
+    Parent material
+  \end{itemize}
 \end{itemize}
 
 \hypertarget{setting-working-space-and-initial-steps}{%
@@ -5886,7 +5885,12 @@ summarizes correct predictions and incorrect predictions within the
 validation data.
 
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{images/Validation_error_matrix} \caption{Sample error matrix}\label{fig:errormatrix}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/Validation_error_matrix} 
+
+}
+
+\caption{Sample error matrix}\label{fig:errormatrix}
 \end{figure}
 
 From the sample error matrix the overall purity, map unit purity and
@@ -6311,10 +6315,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-89-1.pdf}
-\caption{\label{fig:unnamed-chunk-89}Spatial bubble of the prediction errors
-for RK}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-89-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-89}
 \end{figure}
 
 \begin{Shaded}
@@ -6326,10 +6327,7 @@ for RK}
 \end{Shaded}
 
 \begin{figure}
-\centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-90-1.pdf}
-\caption{\label{fig:unnamed-chunk-90}Spatial bubble of the prediction errors
-for rf}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-90-1} \caption{Spatial bubble of the prediction errors for rf}\label{fig:unnamed-chunk-90}
 \end{figure}
 
 \begin{Shaded}
@@ -6341,10 +6339,7 @@ for rf}
 \end{Shaded}
 
 \begin{figure}
-\centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-91-1.pdf}
-\caption{\label{fig:unnamed-chunk-91}Spatial bubble of the prediction errors
-for svm}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-91-1} \caption{Spatial bubble of the prediction errors for svm}\label{fig:unnamed-chunk-91}
 \end{figure}
 
 \hypertarget{dataSplit}{%
@@ -6364,7 +6359,7 @@ the code needed to achieve this using \textbf{caret} package.
 \NormalTok{train <-}\StringTok{ }\NormalTok{dat[ train.ind,]}
 \NormalTok{test  <-}\StringTok{ }\NormalTok{dat[}\OperatorTok{-}\NormalTok{train.ind,]}
 
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{ (}\KeywordTok{log}\NormalTok{(train}\OperatorTok{$}\NormalTok{OCSKGM)), }\DataTypeTok{col=}\StringTok{'red'}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{ (}\KeywordTok{log}\NormalTok{(train}\OperatorTok{$}\NormalTok{OCSKGM)), }\DataTypeTok{col=}\StringTok{'red'}\NormalTok{, }\DataTypeTok{main=}\StringTok{""}\NormalTok{)}
 \KeywordTok{lines}\NormalTok{(}\KeywordTok{density}\NormalTok{(}\KeywordTok{log}\NormalTok{(test}\OperatorTok{$}\NormalTok{OCSKGM)), }\DataTypeTok{col=}\StringTok{'blue'}\NormalTok{)}
 \KeywordTok{legend}\NormalTok{(}\StringTok{'topright'}\NormalTok{, }\DataTypeTok{legend=}\KeywordTok{c}\NormalTok{(}\StringTok{"train"}\NormalTok{, }\StringTok{"test"}\NormalTok{),}
       \DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{1}\NormalTok{, }\DataTypeTok{cex=}\FloatTok{1.5}\NormalTok{)}
@@ -6450,7 +6445,7 @@ three different methods (RK, RF, SVM).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-95-1.pdf}
+\includegraphics[width=0.7\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-95-1}
 Here we found that the higher correlation between predicted values was
 between RK and SVM (0.86). We also found that the statistical
 distribution of predicted values is quite similar between the three
@@ -7004,7 +6999,12 @@ centre panel has a zero correlation between the two soil properties
 while it is positive in the right panel.
 
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{images/pairedsoilpropierties} \caption{Scatter plots of 500 paired soil property values drawn from a two-dimensional normal distribution}\label{fig:pairedsoils}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/pairedsoilpropierties} 
+
+}
+
+\caption{Scatter plots of 500 paired soil property values drawn from a two-dimensional normal distribution}\label{fig:pairedsoils}
 \end{figure}
 
 \hypertarget{propagation-of-model-uncertainty}{%

@@ -82,23 +82,23 @@ The purpose of a regression analysis, of course, is to develop a model that can 
 **Requirements**
   The following are required to implement Regression Kriging in R
 
-* [Setting-up the Software Environment](Latest version of R software, network connection and sufficient RAM,  storage capacity)
+* Setting-up the Software Environment
 
-* [Obtaining and Installing R Studio](Latest version of RStudio)
+* Obtaining and Installing R Studio
 
-* [R Packages](R packages)
+* R Packages
 
-* [Preparation of local soil property data](Point Dataset)
+* Preparation of local soil property data
 
-* [Preparation of spatial covariates](Environmental predictors)
+* Preparation of spatial covariates
 
-+ [DEM-derived covariates](Relief (e.g. DEM, Slope, TWI))
+  + DEM-derived covariates
 
-+ [Land cover/Land use](Organism map (e.g. land use, NDVI, land cover))
+  + Land cover/Land use
 
-+ [Climate](Climate Data (e.g. mean precipitation, mean temperature))
+  + Climate
 
-+ [Parent material](Parent material (parent material, geology))
+  + Parent material
 
 
 #### Setting Working Space and Initial Steps
