@@ -142,7 +142,13 @@
 \definecolor{astral}{RGB}{153, 61, 15}
 \allsectionsfont{\sffamily\color{astral}}
 
-
+\hypersetup{
+    colorlinks=true,
+    linkcolor=astral,
+    filecolor=astral,
+    urlcolor=astral,
+    citecolor=astral
+}
 
 \usepackage{fancyhdr}
 \usepackage{pdfpages}
@@ -198,6 +204,9 @@
 \includepdf{cover.pdf}
 
 \frontmatter
+\addtocontents{toc}{\protect\hypersetup{hidelinks}}
+\addtocontents{lot}{\protect\hypersetup{hidelinks}}
+\addtocontents{lof}{\protect\hypersetup{hidelinks}}
 
 \hypertarget{copyright-and-disclaimer}{%
 \chapter*{Copyright and disclaimer}\label{copyright-and-disclaimer}}
@@ -676,8 +685,8 @@ R}\label{technical-steps---loading-data-from-tables-in-r}}
 This chapter includes two examples for data preparation. The first
 example is for using soil profiles data. This example is mixed with the
 text but a copy the code is presented in section
-\ref{PreparationProfiles}. The second example is using topsoil or auger
-data and is presented in section \ref{PreparationAuger}.
+\ref{cd:PreparationProfiles}. The second example is using topsoil or
+auger data and is presented in section \ref{cd:PreparationAuger}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6148,7 +6157,7 @@ points to test those results.
 \end{Shaded}
 
 Now, we will load the predicted layers from chapter
-\ref@(mappingMethods), extract the predicted value for every point and
+\ref{mappingMethods}, extract the predicted value for every point and
 then, estimate the prediction error.
 
 \begin{Shaded}
@@ -6771,8 +6780,8 @@ uncertainty, and in such case, statistical validation may be used to
 derive summary measures of the accuracy of soil maps. We begin this
 chapter with a description of uncertainty sources.
 
-\hypertarget{sources-of-uncertainty}{%
-\section{Sources of Uncertainty}\label{sources-of-uncertainty}}
+\hypertarget{sourcesuncert}{%
+\section{Sources of Uncertainty}\label{sourcesuncert}}
 
 Consider a case in which soil samples were taken from a large number of
 measurement locations in a study area, taken to the laboratory and
@@ -7013,7 +7022,7 @@ a joint normal distribution, then a vector of soil properties (be it
 different soil properties or the same soil property at multiple
 locations, depths or times) \(Z\) is fully characterized by the vector
 of means \(m\) and variance-covariance matrix \(C\). Figure
-\ref{pairedsoils} shows three examples of 500 paired soil property
+\ref{fig:pairedsoils} shows three examples of 500 paired soil property
 values that were simulated from different bivariate normal
 distributions. The left panel shows an uncorrelated case with equal
 standard deviations for both properties. The centre and right panels
@@ -7033,11 +7042,11 @@ Uncertainty}\label{propagation-of-model-uncertainty}}
 Now that we have clarified how uncertainty in soil properties may be
 characterized by probability distributions, let us consider what these
 distributions look like in DSM and how these are influenced by the
-uncertainty sources described in Section 7.1. We begin with uncertainty
-source 4, uncertainty in DSM models. We noted before that uncertainty in
-DSM models may be separated in model parameter and model structural
-uncertainty. A typical example of this is a multiple linear regression
-model:
+uncertainty sources described in Section \ref{sourcesuncert}. We begin
+with uncertainty source 4, uncertainty in DSM models. We noted before
+that uncertainty in DSM models may be separated in model parameter and
+model structural uncertainty. A typical example of this is a multiple
+linear regression model:
 
 \begin{equation}
 \label{eq:DSM model}
@@ -7056,7 +7065,7 @@ standard deviations become smaller as the size of the calibration
 dataset increases. Both the standard deviations and cross-correlations
 are standard output of statistical software packages. Thus, we could
 sample from the joint distribution of the parameter estimation errors in
-a similar way as displayed in Figure \ref{pairedsoils}.
+a similar way as displayed in Figure \ref{fig:pairedsoils}.
 
 The model structural uncertainty associated with the multiple linear
 regression model Eq. \ref{eq:DSM model} is represented by the stochastic
