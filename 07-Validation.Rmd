@@ -343,7 +343,7 @@ In R, the caret package [@kuhn2016short] offers functionality for data-splitting
 
 ### Prediction error
 
-First, we will load the test dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter \@ref(preparation), we used the code in section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test the results.
+First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter \@ref(preparation), we used the code in section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test those results.
 
 ```{r}
 dat <- read.csv("data/dat_test.csv")
@@ -355,7 +355,7 @@ coordinates(dat) <- ~ X + Y
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 ```
 
-Now, we will load the results from chapter \ref@(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
+Now, we will load the predicted layers from chapter \ref@(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
 
 ```{r ,warning=FALSE}
 library(raster)
@@ -440,7 +440,7 @@ validation <- as.data.frame(t(validation))
 names(validation) <- c('RK', 'randomForest', 'svm')
 ```
 
-```{r}
+```{r, echo=FALSE}
 knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rrr", booktabs = TRUE, format="latex") %>%
              kable_styling(latex_options = "striped")
 ```
@@ -520,8 +520,7 @@ train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
 train <- dat[ train.ind,]
 test  <- dat[-train.ind,]
 
-plot(density (log(train$OCSKGM)), col='red',
-    main='Statistical distribution of train and test datasets')
+plot(density (log(train$OCSKGM)), col='red')
 lines(density(log(test$OCSKGM)), col='blue')
 legend('topright', legend=c("train", "test"),
       col=c("red", "blue"), lty=1, cex=1.5)
