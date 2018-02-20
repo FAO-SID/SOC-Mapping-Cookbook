@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Soil Organic Carbon Mapping cookbook</title>
+  <meta name="description" content="The soilll cookbook.">
+  <meta name="generator" content="bookdown 0.5.15 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Soil Organic Carbon Mapping cookbook" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="The soilll cookbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Soil Organic Carbon Mapping cookbook" />
+  
+  <meta name="twitter:description" content="The soilll cookbook." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="">
+
+
+<meta name="date" content="2018-02-20">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="mappingMethods.html">
+<link rel="next" href="model-evaluation-in-digital-soil-mapping.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<link href="libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="libs/leaflet-binding-1.1.0/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
+<script src="libs/SD-1/data_stars_SD2d7081.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Copyright and disclaimer</a></li>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html"><i class="fa fa-check"></i>Foreword</a><ul>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html#editorial-board"><i class="fa fa-check"></i>Editorial Board</a></li>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html#contributing-authors"><i class="fa fa-check"></i>Contributing Authors</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="presentation.html"><a href="presentation.html"><i class="fa fa-check"></i><b>1</b> Presentation</a></li>
+<li class="chapter" data-level="2" data-path="soil-property-maps.html"><a href="soil-property-maps.html"><i class="fa fa-check"></i><b>2</b> Soil Property Maps</a><ul>
+<li class="chapter" data-level="2.1" data-path="soil-property-maps.html"><a href="soil-property-maps.html#definitions-and-objectives"><i class="fa fa-check"></i><b>2.1</b> Definitions and Objectives</a></li>
+<li class="chapter" data-level="2.2" data-path="soil-property-maps.html"><a href="soil-property-maps.html#generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates"><i class="fa fa-check"></i><b>2.2</b> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="preparation.html"><a href="preparation.html"><i class="fa fa-check"></i><b>3</b> Preparation of Local Soil Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="preparation.html"><a href="preparation.html#soil-profiles-and-soil-augers"><i class="fa fa-check"></i><b>3.1</b> Soil Profiles and Soil Augers</a></li>
+<li class="chapter" data-level="3.2" data-path="preparation.html"><a href="preparation.html#soil-database"><i class="fa fa-check"></i><b>3.2</b> Soil Database</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="preparation.html"><a href="preparation.html#technical-steps---loading-data-from-tables-in-r"><i class="fa fa-check"></i><b>3.2.1</b> Technical Steps - Loading Data from Tables in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="preparation.html"><a href="preparation.html#completeness-of-measurements-and-estimates"><i class="fa fa-check"></i><b>3.3</b> Completeness of Measurements and Estimates</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="preparation.html"><a href="preparation.html#stones"><i class="fa fa-check"></i><b>3.3.1</b> Stones</a></li>
+<li class="chapter" data-level="3.3.2" data-path="preparation.html"><a href="preparation.html#bulk-density"><i class="fa fa-check"></i><b>3.3.2</b> Bulk density</a></li>
+<li class="chapter" data-level="3.3.3" data-path="preparation.html"><a href="preparation.html#soil-carbon-analysis"><i class="fa fa-check"></i><b>3.3.3</b> Soil Carbon Analysis</a></li>
+<li class="chapter" data-level="3.3.4" data-path="preparation.html"><a href="preparation.html#carbonates"><i class="fa fa-check"></i><b>3.3.4</b> Carbonates</a></li>
+<li class="chapter" data-level="3.3.5" data-path="preparation.html"><a href="preparation.html#depth"><i class="fa fa-check"></i><b>3.3.5</b> Depth</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="preparation.html"><a href="preparation.html#completeness-of-depth-estimate"><i class="fa fa-check"></i><b>3.4</b> Completeness of Depth Estimate</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="preparation.html"><a href="preparation.html#EqualAreaSplines"><i class="fa fa-check"></i><b>3.4.1</b> Technical Steps - Equal-Area Splines Using R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html"><i class="fa fa-check"></i><b>4</b> Setting-Up the Software Environment</a><ul>
+<li class="chapter" data-level="4.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#use-of-r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>4.1</b> Use of R, RStudio and R Packages</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r"><i class="fa fa-check"></i><b>4.1.1</b> Obtaining and Installing R</a></li>
+<li class="chapter" data-level="4.1.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r-studio"><i class="fa fa-check"></i><b>4.1.2</b> Obtaining and Installing R Studio</a></li>
+<li class="chapter" data-level="4.1.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#getting-started-with-r"><i class="fa fa-check"></i><b>4.1.3</b> Getting Started with R</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-packages"><i class="fa fa-check"></i><b>4.2</b> R Packages</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#finding-r-packages"><i class="fa fa-check"></i><b>4.2.1</b> Finding R Packages</a></li>
+<li class="chapter" data-level="4.2.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#most-used-r-packages-for-digital-soil-mapping"><i class="fa fa-check"></i><b>4.2.2</b> Most Used R Packages for Digital Soil Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-and-spatial-data"><i class="fa fa-check"></i><b>4.3</b> R and Spatial Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading Shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#coordinate-reference-systems-crs-in-r"><i class="fa fa-check"></i><b>4.3.2</b> Coordinate Reference Systems (CRS) in R</a></li>
+<li class="chapter" data-level="4.3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#working-with-rasters"><i class="fa fa-check"></i><b>4.3.3</b> Working with Rasters</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#other-dsm-related-software-and-tools"><i class="fa fa-check"></i><b>4.4</b> Other DSM Related Software and Tools</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="covariates.html"><a href="covariates.html"><i class="fa fa-check"></i><b>5</b> Preparation of Spatial covariates</a><ul>
+<li class="chapter" data-level="5.1" data-path="covariates.html"><a href="covariates.html#dem-derived-covariates"><i class="fa fa-check"></i><b>5.1</b> DEM-Derived Covariates</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="covariates.html"><a href="covariates.html#dem-source-data-sets"><i class="fa fa-check"></i><b>5.1.1</b> DEM Source Data Sets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="covariates.html"><a href="covariates.html#parent-material"><i class="fa fa-check"></i><b>5.2</b> Parent Material</a></li>
+<li class="chapter" data-level="5.3" data-path="covariates.html"><a href="covariates.html#soil-maps"><i class="fa fa-check"></i><b>5.3</b> Soil Maps</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="covariates.html"><a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r"><i class="fa fa-check"></i><b>5.3.1</b> Technical Steps - Rasterizing a Vector Layer in R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="covariates.html"><a href="covariates.html#land-cover-and-land-use"><i class="fa fa-check"></i><b>5.4</b> Land Cover and Land use</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="covariates.html"><a href="covariates.html#globcover-global"><i class="fa fa-check"></i><b>5.4.1</b> GlobCover (Global)</a></li>
+<li class="chapter" data-level="5.4.2" data-path="covariates.html"><a href="covariates.html#landsat-geocover-global"><i class="fa fa-check"></i><b>5.4.2</b> Landsat GeoCover (Global)</a></li>
+<li class="chapter" data-level="5.4.3" data-path="covariates.html"><a href="covariates.html#globeland30-global"><i class="fa fa-check"></i><b>5.4.3</b> Globeland30 (Global)</a></li>
+<li class="chapter" data-level="5.4.4" data-path="covariates.html"><a href="covariates.html#corine-land-cover-europe-only"><i class="fa fa-check"></i><b>5.4.4</b> CORINE Land Cover (Europe Only)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="covariates.html"><a href="covariates.html#climate"><i class="fa fa-check"></i><b>5.5</b> Climate</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="covariates.html"><a href="covariates.html#worldclim-v1.4-and-v2-global"><i class="fa fa-check"></i><b>5.5.1</b> WorldClim V1.4 and V2 (Global)</a></li>
+<li class="chapter" data-level="5.5.2" data-path="covariates.html"><a href="covariates.html#gridded-agro-meteorological-data-in-europe-europe"><i class="fa fa-check"></i><b>5.5.2</b> Gridded Agro-Meteorological Data in Europe (Europe)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="covariates.html"><a href="covariates.html#GSOCDataRepo"><i class="fa fa-check"></i><b>5.6</b> GSOCMap - Data Repository (ISRIC, 2017)</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="covariates.html"><a href="covariates.html#covariates-and-empty-mask"><i class="fa fa-check"></i><b>5.6.1</b> Covariates and Empty Mask</a></li>
+<li class="chapter" data-level="5.6.2" data-path="covariates.html"><a href="covariates.html#data-specifications"><i class="fa fa-check"></i><b>5.6.2</b> Data Specifications</a></li>
+<li class="chapter" data-level="5.6.3" data-path="covariates.html"><a href="covariates.html#data-access"><i class="fa fa-check"></i><b>5.6.3</b> Data Access</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="covariates.html"><a href="covariates.html#extending-the-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.7</b> Extending the Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.8" data-path="covariates.html"><a href="covariates.html#preparation-of-a-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.8</b> Preparation of a Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.9" data-path="covariates.html"><a href="covariates.html#overlay-soil-covariates"><i class="fa fa-check"></i><b>5.9</b> Technical Steps - Overlay Covariates and Soil Points Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="covariates.html"><a href="covariates.html#load-soil-sample-data-and-covariates"><i class="fa fa-check"></i><b>5.9.1</b> Load soil sample data and covariates</a></li>
+<li class="chapter" data-level="5.9.2" data-path="covariates.html"><a href="covariates.html#combine-the-covariates-provided-with-the-raster-version-of-the-soil-map"><i class="fa fa-check"></i><b>5.9.2</b> Combine the covariates provided with the raster version of the soil map</a></li>
+<li class="chapter" data-level="5.9.3" data-path="covariates.html"><a href="covariates.html#overlay-covariates-and-spatial-data"><i class="fa fa-check"></i><b>5.9.3</b> Overlay Covariates and Spatial Data</a></li>
+<li class="chapter" data-level="5.9.4" data-path="covariates.html"><a href="covariates.html#convert-result-to-data.frame-and-save-as-a-csv-table"><i class="fa fa-check"></i><b>5.9.4</b> Convert result to data.frame and save as a csv table</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="mappingMethods.html"><a href="mappingMethods.html"><i class="fa fa-check"></i><b>6</b> Mapping Methods</a><ul>
+<li class="chapter" data-level="6.1" data-path="mappingMethods.html"><a href="mappingMethods.html#conventional-upscaling-using-soil-maps"><i class="fa fa-check"></i><b>6.1</b> Conventional Upscaling Using Soil Maps</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview"><i class="fa fa-check"></i><b>6.1.1</b> Overview</a></li>
+<li class="chapter" data-level="6.1.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-class-matching"><i class="fa fa-check"></i><b>6.1.2</b> Technical Steps: Class-matching</a></li>
+<li class="chapter" data-level="6.1.3" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-geo-matching"><i class="fa fa-check"></i><b>6.1.3</b> Technical Steps: Geo-Matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="mappingMethods.html"><a href="mappingMethods.html#RK"><i class="fa fa-check"></i><b>6.2</b> Regression-Kriging</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-1"><i class="fa fa-check"></i><b>6.2.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2.2" data-path="mappingMethods.html"><a href="mappingMethods.html#assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="mappingMethods.html"><a href="mappingMethods.html#pre-processing-of-covariates"><i class="fa fa-check"></i><b>6.2.3</b> Pre-Processing of Covariates</a></li>
+<li class="chapter" data-level="6.2.4" data-path="mappingMethods.html"><a href="mappingMethods.html#the-terminology"><i class="fa fa-check"></i><b>6.2.4</b> The Terminology</a></li>
+<li class="chapter" data-level="6.2.5" data-path="mappingMethods.html"><a href="mappingMethods.html#interpret-the-key-results-of-multiple-regression"><i class="fa fa-check"></i><b>6.2.5</b> Interpret the Key Results of Multiple Regression</a></li>
+<li class="chapter" data-level="6.2.6" data-path="mappingMethods.html"><a href="mappingMethods.html#using-the-results-of-a-regression-analysis-to-make-predictions"><i class="fa fa-check"></i><b>6.2.6</b> Using the Results of a Regression Analysis to Make Predictions</a></li>
+<li class="chapter" data-level="6.2.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---regression-kriging"><i class="fa fa-check"></i><b>6.2.7</b> Technical Steps - Regression Kriging</a></li>
+<li class="chapter" data-level="6.2.8" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---cross-validation-of-regression-kriging-models"><i class="fa fa-check"></i><b>6.2.8</b> Technical Steps - Cross-validation of Regression Kriging models</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="mappingMethods.html"><a href="mappingMethods.html#rf"><i class="fa fa-check"></i><b>6.3</b> Data mining: Random Forest</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-2"><i class="fa fa-check"></i><b>6.3.1</b> Overview</a></li>
+<li class="chapter" data-level="6.3.2" data-path="mappingMethods.html"><a href="mappingMethods.html#random-forests"><i class="fa fa-check"></i><b>6.3.2</b> Random forests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="mappingMethods.html"><a href="mappingMethods.html#conceptual-model-and-data-preparation"><i class="fa fa-check"></i><b>6.3.3</b> Conceptual model and data preparation</a></li>
+<li class="chapter" data-level="6.3.4" data-path="mappingMethods.html"><a href="mappingMethods.html#software"><i class="fa fa-check"></i><b>6.3.4</b> Software</a></li>
+<li class="chapter" data-level="6.3.5" data-path="mappingMethods.html"><a href="mappingMethods.html#tunning-random-forest-parameters"><i class="fa fa-check"></i><b>6.3.5</b> Tunning Random forest parameters</a></li>
+<li class="chapter" data-level="6.3.6" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---random-forest"><i class="fa fa-check"></i><b>6.3.6</b> Technical steps - Random forest</a></li>
+<li class="chapter" data-level="6.3.7" data-path="mappingMethods.html"><a href="mappingMethods.html#modelling-uncertainty-using-random-forest"><i class="fa fa-check"></i><b>6.3.7</b> Modelling Uncertainty Using Random Forest</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="mappingMethods.html"><a href="mappingMethods.html#svm"><i class="fa fa-check"></i><b>6.4</b> Data mining: Support Vector Machines</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-3"><i class="fa fa-check"></i><b>6.4.1</b> Overview</a></li>
+<li class="chapter" data-level="6.4.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---fitting-an-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>6.4.2</b> Technical Steps - Fitting an SVM Model to Predict the SOC</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chvalidation.html"><a href="chvalidation.html"><i class="fa fa-check"></i><b>7</b> Validation</a><ul>
+<li class="chapter" data-level="7.1" data-path="chvalidation.html"><a href="chvalidation.html#what-is-validation"><i class="fa fa-check"></i><b>7.1</b> What is Validation?</a></li>
+<li class="chapter" data-level="7.2" data-path="chvalidation.html"><a href="chvalidation.html#map-quality-measures"><i class="fa fa-check"></i><b>7.2</b> Map Quality Measures</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="chvalidation.html"><a href="chvalidation.html#quality-measures-for-quantitative-soil-maps"><i class="fa fa-check"></i><b>7.2.1</b> Quality Measures for Quantitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chvalidation.html"><a href="chvalidation.html#quality-measures-for-qualitative-soil-maps"><i class="fa fa-check"></i><b>7.2.2</b> Quality Measures for Qualitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chvalidation.html"><a href="chvalidation.html#estimating-the-map-quality-measures-and-associated-uncertainty"><i class="fa fa-check"></i><b>7.2.3</b> Estimating the Map Quality Measures and Associated Uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chvalidation.html"><a href="chvalidation.html#graphical-map-quality-measures"><i class="fa fa-check"></i><b>7.3</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="7.4" data-path="chvalidation.html"><a href="chvalidation.html#validation-methods-and-statistical-inference"><i class="fa fa-check"></i><b>7.4</b> Validation Methods and Statistical Inference</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="chvalidation.html"><a href="chvalidation.html#additional-probability-sampling"><i class="fa fa-check"></i><b>7.4.1</b> Additional Probability Sampling</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chvalidation.html"><a href="chvalidation.html#data-splitting"><i class="fa fa-check"></i><b>7.4.2</b> Data-Splitting</a></li>
+<li class="chapter" data-level="7.4.3" data-path="chvalidation.html"><a href="chvalidation.html#xval"><i class="fa fa-check"></i><b>7.4.3</b> Cross-Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="chvalidation.html"><a href="chvalidation.html#TS:validation"><i class="fa fa-check"></i><b>7.5</b> Technical steps - Validation</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="chvalidation.html"><a href="chvalidation.html#prediction-error"><i class="fa fa-check"></i><b>7.5.1</b> Prediction error</a></li>
+<li class="chapter" data-level="7.5.2" data-path="chvalidation.html"><a href="chvalidation.html#estimating-the-map-quality-measures"><i class="fa fa-check"></i><b>7.5.2</b> Estimating the Map Quality Measures</a></li>
+<li class="chapter" data-level="7.5.3" data-path="chvalidation.html"><a href="chvalidation.html#graphical-map-quality-measures-1"><i class="fa fa-check"></i><b>7.5.3</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="7.5.4" data-path="chvalidation.html"><a href="chvalidation.html#dataSplit"><i class="fa fa-check"></i><b>7.5.4</b> Data-Splitting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-evaluation-in-digital-soil-mapping.html"><a href="model-evaluation-in-digital-soil-mapping.html"><i class="fa fa-check"></i><b>8</b> Model Evaluation in Digital Soil Mapping</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-evaluation-in-digital-soil-mapping.html"><a href="model-evaluation-in-digital-soil-mapping.html#technical-steps---model-correlations-and-spatial-differences"><i class="fa fa-check"></i><b>8.1</b> Technical steps - Model correlations and spatial differences</a></li>
+<li class="chapter" data-level="8.2" data-path="model-evaluation-in-digital-soil-mapping.html"><a href="model-evaluation-in-digital-soil-mapping.html#technical-steps---model-evaluation"><i class="fa fa-check"></i><b>8.2</b> Technical steps - Model evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="uncertainty.html"><a href="uncertainty.html"><i class="fa fa-check"></i><b>9</b> Uncertainty</a><ul>
+<li class="chapter" data-level="9.1" data-path="uncertainty.html"><a href="uncertainty.html#sources-of-uncertainty"><i class="fa fa-check"></i><b>9.1</b> Sources of Uncertainty</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="uncertainty.html"><a href="uncertainty.html#attribute-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>9.1.1</b> Attribute Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="9.1.2" data-path="uncertainty.html"><a href="uncertainty.html#positional-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>9.1.2</b> Positional Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="9.1.3" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-covariates"><i class="fa fa-check"></i><b>9.1.3</b> Uncertainty in Covariates</a></li>
+<li class="chapter" data-level="9.1.4" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-models-predicting-soil-properties-from-covariates-and-soil-point-data"><i class="fa fa-check"></i><b>9.1.4</b> Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-and-spatial-data-quality"><i class="fa fa-check"></i><b>9.2</b> Uncertainty and Spatial Data Quality</a></li>
+<li class="chapter" data-level="9.3" data-path="uncertainty.html"><a href="uncertainty.html#quantifying-prediction-uncertainty"><i class="fa fa-check"></i><b>9.3</b> Quantifying Prediction Uncertainty</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-characterised-by-probability-distributions"><i class="fa fa-check"></i><b>9.3.1</b> Uncertainty Characterised by Probability Distributions</a></li>
+<li class="chapter" data-level="9.3.2" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-model-uncertainty"><i class="fa fa-check"></i><b>9.3.2</b> Propagation of Model Uncertainty</a></li>
+<li class="chapter" data-level="9.3.3" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-attribute-positional-and-covariate-uncertainty"><i class="fa fa-check"></i><b>9.3.3</b> Propagation of Attribute, Positional and Covariate Uncertainty</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="data-sharing.html"><a href="data-sharing.html"><i class="fa fa-check"></i><b>10</b> Data Sharing</a><ul>
+<li class="chapter" data-level="10.1" data-path="data-sharing.html"><a href="data-sharing.html#export-formats"><i class="fa fa-check"></i><b>10.1</b> Export Formats</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="data-sharing.html"><a href="data-sharing.html#type-of-soil-data-and-their-formatting"><i class="fa fa-check"></i><b>10.1.1</b> Type of Soil Data and Their Formatting</a></li>
+<li class="chapter" data-level="10.1.2" data-path="data-sharing.html"><a href="data-sharing.html#general-gis-data-formats-vector-raster-table"><i class="fa fa-check"></i><b>10.1.2</b> General GIS Data Formats: Vector, Raster, Table</a></li>
+<li class="chapter" data-level="10.1.3" data-path="data-sharing.html"><a href="data-sharing.html#recommended-gis-data-exchange-formats"><i class="fa fa-check"></i><b>10.1.3</b> Recommended GIS Data Exchange Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="data-sharing.html"><a href="data-sharing.html#web-services---serving-soil-data-using-web-technology"><i class="fa fa-check"></i><b>10.2</b> Web Services - Serving Soil Data Using Web Technology</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="data-sharing.html"><a href="data-sharing.html#third-party-services"><i class="fa fa-check"></i><b>10.2.1</b> Third-Party Services</a></li>
+<li class="chapter" data-level="10.2.2" data-path="data-sharing.html"><a href="data-sharing.html#geoserver-web-serving-and-web-processing"><i class="fa fa-check"></i><b>10.2.2</b> GeoServer (Web Serving and Web Processing)</a></li>
+<li class="chapter" data-level="10.2.3" data-path="data-sharing.html"><a href="data-sharing.html#visualizing-data-using-leaflet-andor-google-earth"><i class="fa fa-check"></i><b>10.2.3</b> Visualizing Data Using Leaflet and/or Google Earth</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="data-sharing.html"><a href="data-sharing.html#preparing-soil-data-for-distribution"><i class="fa fa-check"></i><b>10.3</b> Preparing Soil Data for Distribution</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="data-sharing.html"><a href="data-sharing.html#metadata"><i class="fa fa-check"></i><b>10.3.1</b> Metadata</a></li>
+<li class="chapter" data-level="10.3.2" data-path="data-sharing.html"><a href="data-sharing.html#exporting-data-final-tips"><i class="fa fa-check"></i><b>10.3.2</b> Exporting Data — Final Tips</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="data-sharing.html"><a href="data-sharing.html#export-formats-1"><i class="fa fa-check"></i><b>10.4</b> Export Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html"><i class="fa fa-check"></i><b>11</b> Technical Overview and the Checklist</a><ul>
+<li class="chapter" data-level="11.1" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#point-dataset"><i class="fa fa-check"></i><b>11.1</b> Point Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#covariates-1"><i class="fa fa-check"></i><b>11.2</b> Covariates</a></li>
+<li class="chapter" data-level="11.3" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#statistical-inference"><i class="fa fa-check"></i><b>11.3</b> Statistical Inference</a></li>
+<li class="chapter" data-level="11.4" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#spatial-interpolation"><i class="fa fa-check"></i><b>11.4</b> Spatial Interpolation</a></li>
+<li class="chapter" data-level="11.5" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#calculation-of-stocks"><i class="fa fa-check"></i><b>11.5</b> Calculation of Stocks</a></li>
+<li class="chapter" data-level="11.6" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#evaluation-of-output-and-quality-assessment"><i class="fa fa-check"></i><b>11.6</b> Evaluation of Output and Quality Assessment</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="deliverables.html"><a href="deliverables.html"><i class="fa fa-check"></i><b>12</b> Deliverables</a></li>
+<li class="chapter" data-level="13" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html"><i class="fa fa-check"></i><b>13</b> Compendium of the code examples included in the cookbook</a><ul>
+<li class="chapter" data-level="13.1" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#overview-4"><i class="fa fa-check"></i><b>13.1</b> Overview</a></li>
+<li class="chapter" data-level="13.2" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:PreparationProfiles"><i class="fa fa-check"></i><b>13.2</b> Data Preparation for Soil Profiles</a></li>
+<li class="chapter" data-level="13.3" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:PreparationAuger"><i class="fa fa-check"></i><b>13.3</b> Data Preparation for Top Soil or Auger Samples</a></li>
+<li class="chapter" data-level="13.4" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:merging"><i class="fa fa-check"></i><b>13.4</b> Merging Top Soil and Soil Profiles Databases</a></li>
+<li class="chapter" data-level="13.5" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:data-splitting"><i class="fa fa-check"></i><b>13.5</b> Data-Splitting</a></li>
+<li class="chapter" data-level="13.6" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Rasterizing"><i class="fa fa-check"></i><b>13.6</b> Rasterizing a Vector Layer in R</a></li>
+<li class="chapter" data-level="13.7" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Overlay"><i class="fa fa-check"></i><b>13.7</b> Overlay Covariates and Soil Points Data</a></li>
+<li class="chapter" data-level="13.8" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:RK"><i class="fa fa-check"></i><b>13.8</b> Fitting a Regression-Kriging model to predict the OCS</a><ul>
+<li class="chapter" data-level="13.8.1" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:xvalRK"><i class="fa fa-check"></i><b>13.8.1</b> Cross-validation of Regression Kriging models</a></li>
+</ul></li>
+<li class="chapter" data-level="13.9" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:rf"><i class="fa fa-check"></i><b>13.9</b> Fitting a random forest model to predict the SOC</a></li>
+<li class="chapter" data-level="13.10" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:quantreg"><i class="fa fa-check"></i><b>13.10</b> Using Quantile Regression Forest to estimate uncertainty</a></li>
+<li class="chapter" data-level="13.11" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:svm"><i class="fa fa-check"></i><b>13.11</b> Fitting a svm model to predict the SOC</a></li>
+<li class="chapter" data-level="13.12" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Validation"><i class="fa fa-check"></i><b>13.12</b> Validation</a></li>
+<li class="chapter" data-level="13.13" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Graphs"><i class="fa fa-check"></i><b>13.13</b> Graphical Map Quality Measures</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Soil Organic Carbon Mapping cookbook</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chvalidation" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Validation</h1>
+<p><em>B Kempen, DJ Brus &amp; GBM Heuvelink</em></p>
+<div id="what-is-validation" class="section level2">
+<h2><span class="header-section-number">7.1</span> What is Validation?</h2>
+<p>No map is perfect. All maps, including soil maps, are representations of reality that are often based on an underlying model. This means that there will always be a deviation between the phenomenon depicted on the map and the phenomenon observed in the real world, i.e. each map will contain errors. The magnitude of the errors determines the quality of the map. If a map matches reality well (the error is small), the quality or accuracy of the map is high. On the other hand, if a map does not match reality well, map accuracy is low.</p>
+<p>Soil maps are used for many purposes. For example to report on (changes in) soil organic carbon stocks, as input in agro-environmental models, to determine land use suitability or for decision- and policy-making. It is therefore, important that the quality of a map is determined and quantified. This is achieved through (statistical) validation.</p>
+<p>Validation is defined here as an activity in which the soil map predictions are compared with observed values. From this comparison, the map quality can be quantified and summarized using map quality measures. These measures indicate how accurate the map is on average for the mapping area, i.e. what is the expected error at a randomly selected location in the mapping area. This means that map quality measures obtained through validation are global measures: each quality measure gives one value for the entire map. Note that this is different from results obtained through uncertainty assessment. Such assessment provides local, location-specific (i.e. for each individual grid cell) estimates of map quality as we saw in the previous sections. Another important difference between validation and uncertainty assessment is that validation can be done using a model-free approach. Uncertainty assessment takes a model-based approach by defining a geostatistical model of the soil property of interest and deriving an interpolated map and the associated uncertainty from that, or by constructing a geostatistical model of the error in an existing map. The approach yields a complete probabilistic characterization of the map uncertainty, but such characterization is only valid under the assumptions made; for instance, the stationarity assumptions required for kriging. Validation, when done properly as explained hereafter, does not assume a geostatistical model of the error, and hence is model- or assumption-free. This is an important property of validation since we do not want to question the objectivity and validity of the validation results.</p>
+<p>We distinguish internal and external map accuracy. Statistical methods typically produce direct estimates of map quality, for instance, the kriging variance or the coefficient of determination (<span class="math inline">\({R^2}\)</span>) of a linear regression model. These we refer to as internal accuracy measures since these rely on model assumptions and are computed from data that are used for model calibration. Preferably, validation is done with an independent dataset not used in map making. Using such dataset gives the external map accuracy. One will often see that the external accuracy is poorer than the internal accuracy.</p>
+<p>In section 8.3.2 we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section 8.3.3 we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on <span class="citation">Brus, Kempen, and Heuvelink (<a href="#ref-brus2011sampling">2011</a>)</span>. For details, please refer to this paper.</p>
+</div>
+<div id="map-quality-measures" class="section level2">
+<h2><span class="header-section-number">7.2</span> Map Quality Measures</h2>
+<div id="quality-measures-for-quantitative-soil-maps" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Quality Measures for Quantitative Soil Maps</h3>
+<p>All map quality measures considered here are computed from the prediction error. For quantitative soil maps of continuous soil properties (e.g. organic carbon content, pH, clay content) the prediction error is defined as the difference between the predicted value at a location and the true value at that location (which is the value that would be observed or measured by a preferably errorless measurement instrument) <span class="citation">(Brus, Kempen, and Heuvelink <a href="#ref-brus2011sampling">2011</a>)</span>:</p>
+<span class="math display">\[\begin{equation}
+e(s) = \hat{Z}(s) - Z(s)
+\end{equation}\]</span>
+<p>where <span class="math inline">\({\hat{Z}(s)}\)</span> is the predicted soil property at validation location s, and <span class="math inline">\({Z(s)}\)</span> is the true value of the soil property at that location. We consider six map quality measures that are computed from the prediction error here: the mean error, the mean absolute error, the mean squared error and root mean squared error, the model efficiency, and the mean squared deviation ratio.</p>
+<p>Before we introduce the map quality measures and show how to estimate these, it is important to understand the difference between the population and a sample taken from the population. The population is the set of all locations in a mapping area. For digital soil maps, this is the set of all pixels or grid cells of a map. A sample is a subset of locations, selected in some way from the set of all locations in the mapping area. With validation we want to assess the map accuracy for the entire population, i.e. for the map as a whole; we are not interested in the accuracy at the sample of locations only. For instance, we would like to know the prediction error averaged over all locations of a map and not merely the average prediction error at a sample of locations. Map quality measures are, therefore, defined as population means. Because we cannot afford to determine the prediction error at each location (grid cell) of the mapping area to calculate the population means, we have to take a sample of a limited number of locations in the mapping area. This sample is then used to estimate the population means. It is important to realize that we are uncertain about the population means because we estimate it from a sample. Ideally, this uncertainty is quantified and reported together with the estimated map quality measures.</p>
+<p>In this section, we will introduce the definitions of the map quality measures. In the next section, we show how we can estimate these measures from a sample.</p>
+<p><strong>Mean error</strong></p>
+<p>The mean error (<span class="math inline">\({ME}\)</span>) measures bias in the predictions. The <span class="math inline">\({ME}\)</span> is defined as the population mean (spatial mean) of the prediction errors:</p>
+<span class="math display">\[\begin{equation}
+M E = e = \frac{1}{N} \sum_{i=1}^{N} e (s_i)
+\end{equation}\]</span>
+<p>where <span class="math inline">\(i\)</span> indicates the location, <span class="math inline">\({i = 1, 2,\dots N}\)</span>, and <span class="math inline">\(N\)</span> is the total number of locations or grid cells/pixels in the mapping area. The mean error should be (close to) zero, which means that predictions are unbiased meaning that there is no systematic over- or under-prediction of the soil property of interest.</p>
+<p><strong>Mean absolute error and (root) mean squared error</strong></p>
+<p>The mean absolute error (<span class="math inline">\({MAE}\)</span>) and mean squared error (<span class="math inline">\({MSE}\)</span>) are measures of map accuracy and indicate the magnitude of error we make on average. The <span class="math inline">\({MAE}\)</span> is defined by the population mean of the absolute errors:</p>
+<span class="math display">\[\begin{equation}
+M A E = |\underline{e}| = \frac{1}{N} \sum_{i=1}^{N} \underline{e} (s_i)
+\end{equation}\]</span>
+<p>and the <span class="math inline">\({MSE}\)</span> by the population mean of the squared errors:</p>
+<span class="math display">\[\begin{equation}
+M S E = \underline{e}^2 = \frac{1}{N} \sum_{i=1}^{N} \underline{e}^2 (s_i)
+\end{equation}\]</span>
+<p>Many authors report the root mean squared error (<span class="math inline">\({RMSE}\)</span>) instead of the <span class="math inline">\({MSE}\)</span>, which is computed by taking the square root of the <span class="math inline">\({MSE}\)</span>. The <span class="math inline">\({RMSE}\)</span> can be a more appealing quality measure since it has the same unit of measurement as the mapped property and can, therefore, more easily be compared to it. If the squared error distribution is strongly skewed, for instance when several very large errors are present, then this can severely inflate the (R)MSE. In such case, the (root) median squared error is a more robust statistic for the ‘average’ error <span class="citation">(Kempen et al. <a href="#ref-kempen2012efficiency">2012</a>)</span>.</p>
+<p><span class="citation">Brus, Kempen, and Heuvelink (<a href="#ref-brus2011sampling">2011</a>)</span> argue that instead of using a single summary statistic (the mean) to quantify map quality measures, one should preferably express quality measures for quantitative soil maps through cumulative distribution functions (CDFs). Such functions provide a full description of the quality measures from which various parameters can be reported, such as the mean, median or percentiles. Furthermore, they argue that it can be of interest to define CDFs or its parameters for sub-areas, for instance, geomorphic units, soil or land cover classes. <span class="citation">Brus, Kempen, and Heuvelink (<a href="#ref-brus2011sampling">2011</a>)</span> give examples of estimating CDFs for validation of digital soil maps.</p>
+<p><strong>Amount of variance explained</strong></p>
+<p>The model efficiency, or Amount of Variance Explained (<span class="math inline">\({AVE}\)</span>) <span class="citation">(Angelini et al. <a href="#ref-angelini2016mapping">2016</a>, <span class="citation">Samuel-Rosa et al. (<a href="#ref-samuel2015more">2015</a>)</span>)</span>, quantifies the fraction of the variation in the data that is explained by the prediction model. It measures the improvement of the model prediction over using the mean of the data set as predictor and is defined as follows <span class="citation">(Krause, Boyle, and Bäse <a href="#ref-krause2005comparison">2005</a>)</span>:</p>
+<span class="math display">\[\begin{equation}
+A V E = 1 -  \frac{\sum_{i=1}^{N} (\hat{Z}(s_i) - Z(s_i))^2}{\sum_{i=1}^{N}  (Z(s_i) - \underline{Z})^2}
+\end{equation}\]</span>
+<p>where <span class="math inline">\({\underline{Z}}\)</span> is the population mean of soil property <span class="math inline">\(Z\)</span>. The quantity in the numerator is the sum of the squared prediction errors (for each location the prediction error is computed and squared; the squared prediction errors are summed over all locations in the area). In linear regression, this quantity is known as the residual sum of squares (<span class="math inline">\({RSS}\)</span>). The quantity in the denominator is also a sum of squared prediction errors, but here the mean of the area is used as a predictor. In linear regression, this quantity is known as the total sum of squares (<span class="math inline">\({TSS}\)</span>). Note that if we would divide the quantity in the denominator by the number of locations in the mapping area <span class="math inline">\(N\)</span> we would obtain the population variance (spatial variance) of the soil property <span class="math inline">\(Z\)</span>.</p>
+<p>If the numerator and denominator are equal, meaning the <span class="math inline">\({AVE}\)</span> is zero, then the model predictions are no improvement over using the mean of the data set as a predictor for any location in the mapping area. An <span class="math inline">\({AVE}\)</span> value larger than zero (<span class="math inline">\({RSS}\)</span> smaller than <span class="math inline">\({TSS}\)</span>) means that the model predictions are an improvement over using the mean as a predictor (this is what we hope for). In case the <span class="math inline">\({AVE}\)</span> is negative, then the mean of the data set is a better predictor than the prediction model.</p>
+<p><strong>Mean squared deviation ratio</strong></p>
+<p>Finally, we introduce the mean squared deviation ratio (<span class="math inline">\({MSDR}\)</span>) as a map quality measure <span class="citation">(Kempen et al. <a href="#ref-kempen2010pedometric">2010</a>, <span class="citation">Lark (<a href="#ref-lark2000comparison">2000</a>)</span>, <span class="citation">Voltz and Webster (<a href="#ref-voltz1990comparison">1990</a>)</span>, <span class="citation">Webster and Oliver (<a href="#ref-webster_2007">2007</a>)</span>)</span>. Contrary to the quality measures discussed so far, the <span class="math inline">\({MSDR}\)</span> assesses how well the prediction model estimates the prediction uncertainty (expressed as the prediction error variance). The <span class="math inline">\({MSDR}\)</span> is defined as:</p>
+<span class="math display">\[\begin{equation}
+M S D R = \frac{1}{N} \sum_{i=1}^{N} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
+\end{equation}\]</span>
+<p>where <span class="math inline">\({\sigma^2(s_i)}\)</span> is the prediction error variance at location <span class="math inline">\({s_i, i = 1, 2, \dots N}\)</span>. The numerator is the squared error at location <span class="math inline">\({s_i}\)</span>. The fraction represents the squared <span class="math inline">\({Z_{score}}\)</span>. In case of kriging, the prediction error variance is the kriging variance. In case of linear regression, the prediction error variance is the prediction variance of the linear regression predictions that can be obtained by the statistical software R by running the predict function with argument <span class="math inline">\({se.fit = TRUE}\)</span>. This function returns for each prediction location the standard error of the predicted value as well as the residual standard deviation (the residual.scale value). By squaring both values and then summing these, the prediction error variance is obtained. If the prediction model estimates the error variance well, then the <span class="math inline">\({MSDR}\)</span> should be close to one. A value smaller than one suggests that the prediction error variance overestimates the variance; a value larger than one suggests that the prediction error variance underestimates the variance.</p>
+<p><span class="citation">Lark (<a href="#ref-lark2000comparison">2000</a>)</span> notes that outliers in the prediction data will influence the squared <span class="math inline">\({Z_{score}}\)</span> and suggests to use the median squared <span class="math inline">\({Z_{score}}\)</span> instead of the mean since it is a more robust estimator. A median squared <span class="math inline">\({Z_{score}}\)</span> equal to 0.455 suggests that the prediction model estimates the prediction uncertainty well.</p>
+</div>
+<div id="quality-measures-for-qualitative-soil-maps" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Quality Measures for Qualitative Soil Maps</h3>
+<p>Like the quality measures for quantitative soil maps, the quality measures for qualitative or categorical soil maps (e.g. soil classes) are defined for the population, i.e. all locations in the mapping area. The basis for map quality assessment of qualitative maps is the error matrix <span class="citation">(Brus, Kempen, and Heuvelink <a href="#ref-brus2011sampling">2011</a>, <span class="citation">Lark (<a href="#ref-lark1995components">1995</a>)</span>)</span>. This matrix is constructed by tabulating the observed and predicted class for all locations in the mapping area in a two-way contingency table (Figure 8.1). The population error matrix is a square matrix of order <span class="math inline">\(U\)</span>, with <span class="math inline">\(U\)</span> being the number of soil classes observed and mapped. The columns of the matrix correspond to observed soil classes and the rows of predicted soil classes (the map units).<span class="math inline">\(N\)</span> is the total number of locations of the mapping area. Elements <span class="math inline">\(N_{ij}\)</span> are the number of locations mapped as class <span class="math inline">\(i\)</span> with observed class <span class="math inline">\(j\)</span>. The row margins <span class="math inline">\(N_{i+}\)</span> are the locations mapped as class <span class="math inline">\(i\)</span>, and column margins <span class="math inline">\(N_{+j}\)</span> the locations for which the observed soil class is <span class="math inline">\(j\)</span>. Note that the elements of the population error matrix can also be interpreted as surface areas. In that case element <span class="math inline">\(N_{ij}\)</span> is the surface area mapped as class <span class="math inline">\(i\)</span> with observed class <span class="math inline">\(j\)</span>.</p>
+<p>From the population error matrix, several quality measures can be summarized, though it is strongly recommended that the error matrix is included in a validation assessment. <span class="citation">Brus, Kempen, and Heuvelink (<a href="#ref-brus2011sampling">2011</a>)</span> follow the suggestion by <span class="citation">Stehman (<a href="#ref-stehman1997selecting">1997</a>)</span> that quality measures for categorical maps should be directly interpretable in terms of the probability of a misclassification and therefore recommend the use of three map quality measures: the overall purity, the map unit purity, and class representation. We follow this recommendation here. Note that the map unit purity often is referred to as user’s accuracy, and class representation as producer’s accuracy <span class="citation">(Stehman <a href="#ref-stehman1997selecting">1997</a>, <span class="citation">Adhikari et al. (<a href="#ref-adhikari2014constructing">2014</a>)</span>)</span>. <span class="citation">Lark (<a href="#ref-lark1995components">1995</a>)</span> however, questions the appropriateness of these terms since both quality measures can be important for users as well as producers. He proposes to use map unit purity and class representation instead, which is adopted by <span class="citation">Brus, Kempen, and Heuvelink (<a href="#ref-brus2011sampling">2011</a>)</span> and followed here.</p>
+<p>A fourth frequently used group of quality measures are Kappa indices, which adjust the overall purity measure for hypothetical chance agreement <span class="citation">(Stehman <a href="#ref-stehman1997selecting">1997</a>)</span>. How this chance agreement is defined differs between the various indices. Some authors, however, conclude that Kappa indices are difficult to interpret, not informative, misleading and/or flawed and suggest to abandon their use <span class="citation">(Pontius Jr and Millones <a href="#ref-pontius2011death">2011</a>)</span>. These authors argue that Kappa indices attempt to compare accuracy to a baseline of randomness, but randomness is not a reasonable alternative for map construction. We, therefore, do not consider kappa here.</p>
+<p>The overall purity is the fraction of locations for which the mapped soil class equals the observed soil class and is defined as <span class="citation">(Brus, Kempen, and Heuvelink <a href="#ref-brus2011sampling">2011</a>)</span>:</p>
+<span class="math display">\[\begin{equation}
+\rho = \sum_{i=1}^{U} N_{uu} / N
+\end{equation}\]</span>
+<p>which is the sum of the principal diagonal of the error matrix divided by the total number of locations in the mapping area. The overall purity can be interpreted as the areal proportion of the mapping area that is correctly classified.</p>
+<p>Alternatively, an indicator approach can be used to compute the overall purity. A validation site gets a ‘1’ if the observed soil class is correctly predicted and a ‘0’ otherwise. The overall purity is then computed by taking the average of the indicators.</p>
+<p><strong>Map unit purity</strong></p>
+<p>The map unit purity is calculated from the row marginals of the error matrix. It is the fraction of validation locations with mapped class <span class="math inline">\(u\)</span> for which the observed class is also <span class="math inline">\(u\)</span>. The map unit purity for class <span class="math inline">\(u\)</span> is defined as <span class="citation">(Brus, Kempen, and Heuvelink <a href="#ref-brus2011sampling">2011</a>)</span>:</p>
+<span class="math display">\[\begin{equation}
+\rho_u = \frac{ N_{uu}}{N_{u+}}
+\end{equation}\]</span>
+<p>The map unit purity can be interpreted as the proportion of the area of the map unit that is correctly classified. The complement of <span class="math inline">\(\rho_u\)</span>, <span class="math inline">\(1 - \rho_u\)</span>, is referred to as the error of commission for mapped class <span class="math inline">\(u\)</span>.</p>
+<p><strong>Class representation</strong></p>
+<p>The class representation is calculated from the column marginals of the error matrix. It is the fraction of validation locations with observed class <span class="math inline">\(u\)</span> for which the mapped class is <span class="math inline">\(u\)</span>. The class representation for class <span class="math inline">\(u\)</span> is defined as <span class="citation">(Brus, Kempen, and Heuvelink <a href="#ref-brus2011sampling">2011</a>)</span>:</p>
+<span class="math display">\[\begin{equation}
+r_u = \frac{ N_{uu}}{N_{+u}}
+\end{equation}\]</span>
+<p>The class representation can be interpreted as the proportion of the area where in reality class <span class="math inline">\(u\)</span> occurs that is also mapped as class <span class="math inline">\(u\)</span>. The complement of <span class="math inline">\(r_u\)</span>, <span class="math inline">\(1 - r_u\)</span>, is referred to as the error of omission for mapped class <span class="math inline">\(u\)</span>.</p>
+</div>
+<div id="estimating-the-map-quality-measures-and-associated-uncertainty" class="section level3">
+<h3><span class="header-section-number">7.2.3</span> Estimating the Map Quality Measures and Associated Uncertainty</h3>
+<p>In validation, we estimate the population means of the map quality measures from a sample taken from a limited number of locations in the mapping area. After all, we cannot afford to sample all locations, i.e. each grid cell of our soil map. Because the map quality measures are estimates, we are uncertain about these: we infer the quality measures from only a limited number of observations taken from the population. We do not know the true population means. The estimation uncertainty can be quantified with the sampling variance. From the variance, the lower and upper boundary of a confidence interval, typically the <span class="math inline">\(95\%\)</span>, can be computed using basic statistical theory:</p>
+<span class="math display">\[\begin{equation}
+CI = (\underline{\hat{x}} - 1.96x \frac{\sigma}{\sqrt{n} } ; \underline{\hat{x}} + 1.96x \frac{\sigma}{\sqrt{n} })
+\end{equation}\]</span>
+<p>where <span class="math inline">\(x\)</span> is the estimated map quality measure, for instance, the <span class="math inline">\(ME\)</span>, <span class="math inline">\(MSE\)</span> or overall purity, <span class="math inline">\(\sigma\)</span> is the estimated standard deviation of the map quality measure and <span class="math inline">\(n\)</span> is the validation sample size.</p>
+<p>Quantified information about the uncertainty associated to map quality measures is useful and required for statistical testing. For instance, if one wants to test if one mapping method performs better than the other method one needs quantified information about uncertainty. Because we are uncertain about the estimated quality measures, an observed difference in map quality between two methods does not necessarily mean that one method is better than the others, even when there is a substantial difference. The difference might be attributed to chance because we infer the quality measures from a limited sample from the population. With statistical hypothesis testing, we can calculate how large the probability is that observed difference is caused by chance. Based on the outcome we can accept or reject the hypothesis that there is no difference between the performance of two mapping methods (this would be the null hypothesis for statistical testing) for a given significance level, usually 0.05.</p>
+</div>
+</div>
+<div id="graphical-map-quality-measures" class="section level2">
+<h2><span class="header-section-number">7.3</span> Graphical Map Quality Measures</h2>
+<p>In addition to quantifying map accuracy statistically, one can also present validation results obtained from a sample graphically. This can be done by creating scatter plots of predicted against observed values and spatial bubble plots of validation errors. Figure 8.2 shows an example of a scatterplot and bubble plot. Both plots can be easily made with R (R Development Core Team, 2016). Use the function plot(x,y)to generate a scatter plot. The 1:1 line (black line in Figure 8.2) can be added to the plot with the command <code>abline(0,1)</code>. The spatial bubble plot can be generated with the bubble function of the sp package <span class="citation">(Pebesma and Bivand <a href="#ref-pebesma2005classes">2005</a>)</span>.</p>
+<div class="figure">
+<img src="images/Validation_Rwanda.png" alt="Scatterplot of predicted versus observed soil organic matter content for Rwanda (left) and spatial bubble plot of cross-validation error for soil organic matter (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values" />
+<p class="caption">Scatterplot of predicted versus observed soil organic matter content for Rwanda (left) and spatial bubble plot of cross-validation error for soil organic matter (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values</p>
+</div>
+</div>
+<div id="validation-methods-and-statistical-inference" class="section level2">
+<h2><span class="header-section-number">7.4</span> Validation Methods and Statistical Inference</h2>
+<p>Following <span class="citation">Brus, Kempen, and Heuvelink (<a href="#ref-brus2011sampling">2011</a>)</span>, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in the previous section from a sample.</p>
+<p>With additional probability sampling, an independent dataset is collected from the sampling population (all grid cells of a digital soil map) for the purpose of validation. This dataset is used in addition to a dataset that is used to calibrate a prediction model. Such dataset is often a legacy dataset collected with a purposive sampling design.</p>
+<p>Data-splitting and cross-validation are applied in situations where one has only one data set available for prediction model calibration and validation. This can be a dataset collected with probability sampling, but in practice this typically is a legacy dataset collected with some purposive sampling design.</p>
+<p>We warn here that if one uses data-splitting or cross-validation with a dataset collected with purposive sampling, then this has severe implications on the validity and interpretation of the estimated map quality measures as we will explain below</p>
+<div id="additional-probability-sampling" class="section level3">
+<h3><span class="header-section-number">7.4.1</span> Additional Probability Sampling</h3>
+<p>The most appropriate approach for validation is by additional probability sampling. This means that an independent validation dataset is collected in the field on basis of a probability sampling design. Validation based on probability sampling ensures one obtains unbiased and valid estimates of the map quality measures <span class="citation">(Brus, Kempen, and Heuvelink <a href="#ref-brus2011sampling">2011</a>, <span class="citation">Stehman (<a href="#ref-stehman1999basic">1999</a>)</span>)</span>. Additional probability sampling has several advantages compared to data-splitting and cross-validation using non-probability sample data. These are:</p>
+<ul>
+<li><p>no model is needed for estimating map quality estimates. We can apply design-based estimation, meaning that model-free unbiased and valid estimates of the map quality measures can be obtained;</p></li>
+<li><p>discussions on the validity of the estimated map quality are avoided;</p></li>
+<li><p>model-free, valid estimates of the variance of the map quality measures can be obtained that allows for hypothesis testing, e.g. for comparison of model performance.</p></li>
+</ul>
+<p>Disadvantages can be extra costs involved in collecting an additional sample or terrain conditions that make it difficult to access all locations in the mapping area.
+Probability sampling is random sampling such that:</p>
+<ul>
+<li><p>all locations in the mapping area have a probability larger than 0 of being selected</p></li>
+<li><p>the inclusion probabilities are known but need not be equal.</p></li>
+</ul>
+<p>It should be noted that random sampling is often used for arbitrary or haphazard sampling. Such sampling is not probability sampling because the inclusion probabilities are not known. Design-based, model-free estimation of map quality measures is not possible in this case. All probability samples are random samples but not all random samples are probability samples. The term probability sampling should therefore only be used for random sampling with known inclusion probabilities.</p>
+<p>There are many different probability sampling designs: simple, stratified, systematic, two-stage, clustered random sampling. We will not give an exhaustive overview here of all these designs. A good resource is . For reasons of simplicity, we focus here on simple random sampling.</p>
+<p>In simple random sampling, no restrictions are imposed on the random selection of sampling sites except that the sample size is fixed and chosen prior to sampling <span class="citation">(De Gruijter et al. <a href="#ref-de2006sampling">2006</a>)</span>. All sampling locations are selected with equal probability and independently from each other. This can, for instance, be done as follows <span class="citation">(De Gruijter et al. <a href="#ref-de2006sampling">2006</a>)</span>:</p>
+<ol style="list-style-type: decimal">
+<li><p>Determine the minimum and maximum <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> coordinates of the mapping area (the bounding box).</p></li>
+<li><p>Generate two independent random coordinates <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from a uniform probability distribution on the interval (<span class="math inline">\(x_{min}\)</span>, <span class="math inline">\(x_{max}\)</span>) and (<span class="math inline">\(y_{min}\)</span>, <span class="math inline">\(y_{max}\)</span>)</p></li>
+<li><p>Check if the selected sampling site falls within the mapping area. Accept the sampling site if it does; discard the sampling site if it does not.</p></li>
+<li><p>Repeat steps 2 and 3 until the <span class="math inline">\(n\)</span> locations have been selected.</p></li>
+</ol>
+<p>If a sampling location cannot be visited because of inaccessibility for instance, then this location should be discarded and be replaced by a location chosen from a reserve list. Always the location at the top of the list should be selected for this purpose; not an arbitrarily chosen location from the list such as the closest one. It is not allowed to shift an inaccessible sampling location to a location nearby that can be accessed. Irregularity, clustering and open spaces characterize the simple random sampling design <span class="citation">(De Gruijter et al. <a href="#ref-de2006sampling">2006</a>)</span>.</p>
+<p><strong>Estimation of quantitative map quality measures:</strong> For each validation location we compute the error, <span class="math inline">\(e(s_i)\)</span>, the absolute error, <span class="math inline">\(|e|(s_i)\)</span>, or squared error, <span class="math inline">\(e^2(s_i)\)</span>. The spatial mean of the mapping area for map quality measure <span class="math inline">\(x\)</span> is then estimated by:</p>
+<span class="math display">\[\begin{equation}
+e(s_i) = \hat{Z}(s_i) - Z(s_i)
+\end{equation}
+
+\begin{equation}
+|e|(s_i) = |\hat{Z}(s_i) - Z(s_i)|
+\end{equation}
+
+\begin{equation}
+e^2(s_i) =( \hat{Z}(s_i) - Z(s_i))^2
+\end{equation}
+
+\begin{equation}
+\underline{\hat{x}} = \frac{1}{N} \sum_{i=1}^{N} x(s_i)
+\end{equation}\]</span>
+<p>where <span class="math inline">\(i\)</span> indicates the validation location, <span class="math inline">\(i = 1, 2, \dots, n\)</span>, <span class="math inline">\(n\)</span> the validation sample size, and <span class="math inline">\(x_{si}\)</span> the estimated population mean of map quality measure <span class="math inline">\(x\)</span> at location <span class="math inline">\(s_i\)</span>. <span class="math inline">\(x\)</span> is the prediction error in case of the <span class="math inline">\(ME\)</span>, absolute error in case of the <span class="math inline">\(MAE\)</span>, squared prediction error in case of the <span class="math inline">\(MSE\)</span>. Note that the estimator is the unweighted sample mean. This unweighted mean is an unbiased estimator because all sampling locations were selected with equal probability.</p>
+<p>The <span class="math inline">\(MSDR\)</span> is estimated by:</p>
+<span class="math display">\[\begin{equation}
+\widehat{M S D R} = \frac{1}{N} \sum_{i=1}^{n} \frac{(\hat{Z}(s_i) - Z(s_i))^2}{\sigma^2(s_i)}
+\end{equation}\]</span>
+<p>and the <span class="math inline">\(AVE\)</span> by:</p>
+<span class="math display">\[\begin{equation}
+\widehat{A V E} = 1 - \frac{\sum_{i=1}^{n} (\hat{Z}(s_i) - Z(s_i))^2}{ \sum_{i=1}^{n} (Z(s_i) -  \underline{\hat{Z}})^2}
+\end{equation}\]</span>
+<p>where <span class="math inline">\(\underline{\hat{Z}}\)</span> is the mean of the target soil property estimated from the validation sample.</p>
+<p>One should be careful when assessing the proportion of variance explained by computing the <span class="math inline">\(R^2\)</span> from a linear regression of the predicted value on the observed value <span class="citation">(Krause, Boyle, and Bäse <a href="#ref-krause2005comparison">2005</a>)</span>, as is often done in practice. The <span class="math inline">\(R^2\)</span> quantifies the dispersion around the regression line; not around the 1:1 line in which we are interested in validation. So it does not directly compare the predicted with observed value as does the <span class="math inline">\(AVE\)</span>; i.e. it is not based on the prediction error. A high <span class="math inline">\(R^2\)</span>-value, therefore, does not automatically mean a high <span class="math inline">\(AVE\)</span>. For instance, in case of strongly biased predictions the <span class="math inline">\(R^2\)</span> can be high but the <span class="math inline">\(AVE\)</span> will be low. The blue line in Figure 8.2 is the regression line that one obtains when regression the observed value of the predicted value. This line slightly differs from the 1:1 line. In this example, the <span class="math inline">\(R^2\)</span> of the regression is 0.42 while the <span class="math inline">\(AVE\)</span> is 0.40.
+The uncertainty associated to the estimated map quality measures is quantified with the sampling variance, which for the <span class="math inline">\(ME\)</span>, <span class="math inline">\(MAE\)</span> and <span class="math inline">\(MSE\)</span> is estimated by:</p>
+<span class="math display">\[\begin{equation}
+Var(\underline{\hat{x}}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (x(s_i) -  \underline{\hat{x}})
+\end{equation}\]</span>
+<p>and the <span class="math inline">\(95\%\)</span> confidence interval (<span class="math inline">\(CI\)</span>) of <span class="math inline">\(x\)</span> is given by:</p>
+<span class="math display">\[\begin{equation}
+CI_{95} = \underline{\hat{x}} \pm 1.96x\sqrt{Var(\underline{\hat{x}})}
+\end{equation}\]</span>
+<p>We should warn here that the calculation of the <span class="math inline">\(CI\)</span> is based on the assumption that the estimated map quality measure means have a normal distribution (the central limit theorem). For the squared errors this assumption can be unrealistic, especially for small sample sizes.</p>
+<p><strong>Estimation of qualitative map quality measures:</strong> For validation of qualitative soil maps, a sample error matrix is constructed from the validation data (Figure 8.3). <span class="math inline">\(n\)</span> is the total number of validation locations in the sample. Element <span class="math inline">\(n_{ij}\)</span> of the matrix corresponds to the number of validation locations that have been predicted as class <span class="math inline">\(i\)</span>, <span class="math inline">\(i = 1, 2, \dots U\)</span> and belong to class <span class="math inline">\(j\)</span>, <span class="math inline">\(j = 1, 2, \dots U\)</span> <span class="citation">(Lark <a href="#ref-lark1995components">1995</a>)</span>. The matrix summarizes correct predictions and incorrect predictions within the validation data.</p>
+<div class="figure">
+<img src="images/Validation_error_matrix.png" alt="Sample error matrix." />
+<p class="caption">Sample error matrix.</p>
+</div>
+<p>From the sample error matrix the overall purity, map unit purity and class representation are estimated by:</p>
+<span class="math display">\[\begin{equation}
+\hat{\rho} = \sum_{i=1}^{U} n_{uu} / n
+\end{equation}
+
+\begin{equation}
+\hat{\rho}_u = \frac{ n_{uu}}{n_{u+}}
+\end{equation}
+
+\begin{equation}
+\hat{r_u} = \frac{ n_{uu}}{n_{+u}}
+\end{equation}\]</span>
+<p>Alternatively, the overall purity can be estimated by defining a purity indicator variable for each validation location that takes value 1 if the mapped soil class equals the observed soil class at that location, and 0 else. The overall purity is then estimated by:</p>
+<span class="math display">\[\begin{equation}
+\hat{\rho} = \frac{1}{n} \sum_{i=1}^{n} \partial(s_i)
+\end{equation}\]</span>
+<p>where <span class="math inline">\({\delta(s_i)}\)</span> is the indicator variable at validation location <span class="math inline">\(s_i\)</span>. The variance of the estimated overall purity is estimated by:</p>
+<span class="math display">\[\begin{equation}
+Var(\hat{\rho}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (\partial(s_i) - \hat{\rho})^2
+\end{equation}\]</span>
+<p>Alternatively, the variance is estimated by:</p>
+<span class="math display">\[\begin{equation}
+Var(\hat{\rho}) = \frac{\hat{\rho}(1 - \hat{\rho})}{n - 1)}
+\end{equation}\]</span>
+<p>which is the variance of a binomial probability distribution. The <span class="math inline">\(95\%\)</span> confidence interval of <span class="math inline">\(\hat{\rho}\)</span> is given by:</p>
+<span class="math display">\[\begin{equation}
+CI_{95} = \hat{\rho} \pm 1.96x \sqrt{Var(\hat{\rho})}
+\end{equation}\]</span>
+<p>We warn that the <span class="math inline">\(CI\)</span> as calculated here is a rough approximation which only holds when <span class="math inline">\(n \times \hat{\rho}\)</span> and <span class="math inline">\(n \times (1 - \hat{\rho})\)</span> are large (5 as a rule of thumb). Otherwise, the binomial distribution should be used to compute the <span class="math inline">\(CI\)</span>.
+Figure 9.4 shows a hypothetical example of a sample error matrix for soil class map. For this example, the overall purity is estimated by:</p>
+<span class="math display">\[\begin{equation}
+\hat{\rho} = \frac{(19 + 33 + 25 + 42 + 19)}{240} = 0.575
+\end{equation}\]</span>
+<p>meaning that for an estimated <span class="math inline">\(57.5\%\)</span> of the mapping area the mapped soil class is equal to the true soil class.</p>
+<div class="figure">
+<img src="images/Validation_error_matrix2.png" alt="Sample error matrix for a hypothetical soil class map." />
+<p class="caption">Sample error matrix for a hypothetical soil class map.</p>
+</div>
+<p>Table 9.1 gives the map unit purities and class representations for this example. The map unit purity of the Gleysol is 0.581, meaning that at <span class="math inline">\(58.1\%\)</span> of the validation locations for which a Gleysol is predicted, a Gleysol is observed. Assuming the validation data were collected by simple random sampling, we could conclude that for <span class="math inline">\(58.1\%\)</span> of the area mapped as Gleysol we would find a Gleysol in the field. The class representation of the Gleysol is 0.463, meaning that for <span class="math inline">\(46.3\%\)</span> of the validation locations classified as Gleysol, we map a Gleysol. The majority of the Gleysol locations is thus mapped as a different soil class. Again, assuming the validation data were collected by probability sampling, we would estimate that <span class="math inline">\(22.5\%\)</span> (<span class="math inline">\(\frac{54}{240}\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(100\%\)</span>) of our mapping area is covered by Gleysols. We map Gleysols for <span class="math inline">\(17.9\%\)</span> of the area (<span class="math inline">\(\frac{43}{240}\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(100\%\)</span>). It can happen that a soil class has a high map unit purity and a low-class representation. This means that if we map a Gleysol we will likely find a Gleysol there, but that a large extent of the true Gleysol area is not mapped as such.</p>
+<p><strong>Table 9.1.</strong> Map unit purity and class representation statistics for the hypothetical example given in Figure 9.4.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">map unit purity</th>
+<th align="right">class representation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Anthrosol</td>
+<td align="right">0.679</td>
+<td align="right">0.633</td>
+</tr>
+<tr class="even">
+<td align="left">Cambisol</td>
+<td align="right">0.508</td>
+<td align="right">0.516</td>
+</tr>
+<tr class="odd">
+<td align="left">Gleysol</td>
+<td align="right">0.508</td>
+<td align="right">0.463</td>
+</tr>
+<tr class="even">
+<td align="left">Luvisol</td>
+<td align="right">0.592</td>
+<td align="right">0.700</td>
+</tr>
+<tr class="odd">
+<td align="left">Podzol</td>
+<td align="right">0.576</td>
+<td align="right">0.594</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-splitting" class="section level3">
+<h3><span class="header-section-number">7.4.2</span> Data-Splitting</h3>
+<p>In data-splitting, the sample data set is split into two subsets. One subset is used to calibrate the prediction model. The other subset is used for validation. A frequently used splitting criterion is 70-30, where <span class="math inline">\(70\%\)</span> of the sample data are used for calibration and <span class="math inline">\(30\%\)</span> for validation. The choice of a splitting criterion, however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.</p>
+<p>It is important to note here that a random subsample of (legacy) data that are collected with a purposive (non-probability) design, is not a probability sample of the study area. This means that design-based estimation of map quality measures is not possible.</p>
+<p>Thus, we will not obtain model-free, unbiased and valid estimates of the quality measures from non-probability sample validation data. In a case study, <span class="citation">Knotters and Brus (<a href="#ref-knotters2013purposive">2013</a>)</span> showed that model-based predictions of producer’s accuracies from two models differed strongly, indicating that with the model-based approach the validation results strongly depend on model assumptions.</p>
+<p>In most studies, however, spatial correlation is not accounted for when estimating map quality measures using the estimators presented above under ‘Simple random sampling’ from non-probability sample data. In such case, the quality measures cannot be considered unbiased and valid estimates of the population means of the map quality measures. In addition, the estimated variance of the map quality measures is not valid and statistical testing of mapping methods to assess which method gives the most accurate predictions cannot be done.</p>
+<p>In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted. 70-30, where <span class="math inline">\(70\%\)</span> of the sample data are used for calibration and <span class="math inline">\(30\%\)</span> for validation. The choice of a splitting criterion, however, is arbitrary and it is not evident how to split a data set in such a way that unbiased and valid estimates of the map accuracy can be obtained. For sparse data sets, data-splitting can be inefficient since the information in the data set is not fully exploited for both calibration and validation.</p>
+<p>It is important to note here that a random subsample of (legacy) data that are collected with a purposive (non-probability) design, is not a probability sample of the study area. This means that design-based estimation of map quality measures is not possible.</p>
+<p>If a validation (sub)sample is a non-probability sample of the mapping area, then we must account for possible spatial autocorrelation of the prediction errors when estimating the map quality measures. One can imagine that when two validation locations are close together and the prediction errors are correlated that there is less information in these two locations (there is information redundancy because of autocorrelation) than in two isolated locations. This information redundancy has to be accounted for when estimating map quality measures and implies that we have to rely on model-based estimation: a model for the spatially autocorrelated prediction error has to be assumed. Thus, we will not obtain model-free, unbiased and valid estimates of the quality measures from non-probability sample validation data. In a case study, Knotters and Brus (2013) showed that model-based predictions of producer’s accuracies from two models differed strongly, indicating that with the model-based approach the validation results strongly depend on model assumptions.</p>
+<p>In most studies, however, spatial correlation is not accounted for when estimating map quality measures using the estimators presented above under ‘Simple random sampling’ from non-probability sample data. In such case, the quality measures cannot be considered unbiased and valid estimates of the population means of the map quality measures. In addition, the estimated variance of the map quality measures is not valid and statistical testing of mapping methods to assess which method gives the most accurate predictions cannot be done.</p>
+<p>In other words, if the simple random sampling estimators are used to estimate map quality measures then these are only valid for the validation data points. The map quality measures do not give a valid estimate of the quality of the map as a whole (the population). For instance, the overall purity cannot be interpreted as an areal proportion of correctly mapped soil classes, only as the proportion of the validation data points for which the soil class is correctly predicted.</p>
+</div>
+<div id="xval" class="section level3">
+<h3><span class="header-section-number">7.4.3</span> Cross-Validation</h3>
+<p>In <span class="math inline">\(K\)</span>-fold cross-validation (CV), the dataset is split into <span class="math inline">\(K\)</span> roughly equal sets. One of these sets is set aside for validation. The model is then calibrated using the data from the <span class="math inline">\(K\)</span>-1 sets and used to predict the target variable for the data points set aside. From this prediction, the prediction error is calculated. This procedure is repeated <span class="math inline">\(K\)</span> times, each time setting a different set aside for validation. In this way, we obtain <span class="math inline">\(K\)</span> estimates of the prediction error: one for each validation sample site. In this way, all data are used for validation and model calibration. It is thus much more efficient than data-splitting.</p>
+<p><span class="math inline">\(K\)</span> is typically chosen as 5 or 10 or as <span class="math inline">\(N\)</span> the number of data points. The latter is referred to as leave-one-out cross-validation (LOOCV) in which only one validation site is set aside in each iteration. The model is then calibrated with <span class="math inline">\(N\)</span>-1 observations. Some repeat <span class="math inline">\(K\)</span>-fold cross-validation a number of times and average the results to obtain a more robust estimate of the map quality measures.</p>
+<p>Note that the problem of spatially correlated errors remains when data are non-probability sample data. Cross-validation using a non-probability sampling dataset suffers from the same drawbacks with respect to unbiasedness and validity of the estimates of the map quality measures as data-splitting. The estimates cannot be interpreted as being valid for the mapping area, but only for the validation locations.</p>
+<p>In R, the caret package <span class="citation">(Kuhn <a href="#ref-kuhn2016short">2016</a>)</span> offers functionality for data-splitting and cross-validation.</p>
+</div>
+</div>
+<div id="TS:validation" class="section level2">
+<h2><span class="header-section-number">7.5</span> Technical steps - Validation</h2>
+<p><em>GF Olmedo</em></p>
+<div id="prediction-error" class="section level3">
+<h3><span class="header-section-number">7.5.1</span> Prediction error</h3>
+<p>First, we will load the test dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter <a href="preparation.html#preparation">3</a>, we used the code in section <a href="chvalidation.html#dataSplit">7.5.4</a> to split the database: 75% of the points were used in the models from chapter <a href="mappingMethods.html#mappingMethods">6</a> and now we will use the remaining 25% of the points to test the results.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dat_test.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb155-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb155-3" data-line-number="3"><span class="co"># Promote to spatialPointsDataFrame </span></a>
+<a class="sourceLine" id="cb155-4" data-line-number="4"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb155-5" data-line-number="5"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb155-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb155-7" data-line-number="7">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a></code></pre></div>
+<p>Now, we will load the results from chapter (mappingMethods), extract the predicted value for every point and then, estimate the prediction error.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb156-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb156-3" data-line-number="3">OCSKGM_RK &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_RK.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb156-4" data-line-number="4">OCSKGM_rf &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_rf.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb156-5" data-line-number="5">OCSKGM_svm &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_svm.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb156-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb156-7" data-line-number="7">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_RK, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb156-8" data-line-number="8">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_rf, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb156-9" data-line-number="9">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_svm, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb156-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb156-11" data-line-number="11">dat<span class="op">$</span>PE_RK &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_RK <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb156-12" data-line-number="12">dat<span class="op">$</span>PE_rf &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_rf <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb156-13" data-line-number="13">dat<span class="op">$</span>PE_svm &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_svm <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb156-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb156-15" data-line-number="15"><span class="co"># Save the validation results</span></a>
+<a class="sourceLine" id="cb156-16" data-line-number="16"><span class="kw">write.csv</span>(dat, <span class="st">&quot;results/validation.csv&quot;</span>, <span class="dt">row.names =</span> F)</a></code></pre></div>
+
+</div>
+<div id="estimating-the-map-quality-measures" class="section level3">
+<h3><span class="header-section-number">7.5.2</span> Estimating the Map Quality Measures</h3>
+<p>In this section, we present the code needed to estimate the map quality measures for quantitative soil maps.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="co"># Mean Error</span></a>
+<a class="sourceLine" id="cb157-2" data-line-number="2">ME_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_RK, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-3" data-line-number="3">ME_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_rf, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-4" data-line-number="4">ME_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_svm, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb157-6" data-line-number="6"><span class="co"># Mean Absolute Error (MAE)</span></a>
+<a class="sourceLine" id="cb157-7" data-line-number="7">MAE_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_RK), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-8" data-line-number="8">MAE_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_rf), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-9" data-line-number="9">MAE_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_svm), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb157-11" data-line-number="11"><span class="co"># Mean Squared Error (MSE)</span></a>
+<a class="sourceLine" id="cb157-12" data-line-number="12">MSE_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-13" data-line-number="13">MSE_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-14" data-line-number="14">MSE_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb157-16" data-line-number="16"><span class="co"># Root Mean Squared Error (RMSE)</span></a>
+<a class="sourceLine" id="cb157-17" data-line-number="17">RMSE_RK &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_RK))</a>
+<a class="sourceLine" id="cb157-18" data-line-number="18">RMSE_rf &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_rf))</a>
+<a class="sourceLine" id="cb157-19" data-line-number="19">RMSE_svm &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_svm))</a>
+<a class="sourceLine" id="cb157-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb157-21" data-line-number="21"><span class="co"># Amount of Variance Explained (AVE)</span></a>
+<a class="sourceLine" id="cb157-22" data-line-number="22">AVE_RK &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb157-23" data-line-number="23"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_RK <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb157-24" data-line-number="24">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb157-26" data-line-number="26">AVE_rf &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb157-27" data-line-number="27"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_rf <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb157-28" data-line-number="28">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb157-30" data-line-number="30">AVE_svm &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb157-31" data-line-number="31"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_svm <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb157-32" data-line-number="32">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb157-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb157-34" data-line-number="34"><span class="co"># Mean Squared Deviation Ratio (MSDR)</span></a>
+<a class="sourceLine" id="cb157-35" data-line-number="35">MSDR_RK &lt;-<span class="st"> </span><span class="dv">1</span>  <span class="co"># filler</span></a>
+<a class="sourceLine" id="cb157-36" data-line-number="36">MSDR_rf &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb157-37" data-line-number="37">MSDR_svm &lt;-<span class="st"> </span><span class="dv">1</span></a></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">kable</span>(validation, <span class="dt">caption =</span> <span class="st">&quot;Summary of map quality measures for 3 different mapping methods&quot;</span>, <span class="dt">digits =</span> <span class="dv">3</span>, <span class="dt">align =</span> <span class="st">&quot;rrr&quot;</span>, <span class="dt">booktabs =</span> <span class="ot">TRUE</span>, <span class="dt">format=</span><span class="st">&quot;latex&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="st">             </span><span class="kw">kable_styling</span>(<span class="dt">latex_options =</span> <span class="st">&quot;striped&quot;</span>)</a></code></pre></div>
+
+</div>
+<div id="graphical-map-quality-measures-1" class="section level3">
+<h3><span class="header-section-number">7.5.3</span> Graphical Map Quality Measures</h3>
+<p>In this section, we will apply the proposed graphical quality measures to the results of chapter <a href="mappingMethods.html#mappingMethods">6</a>.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>)) <span class="co"># Two plots in one plot</span></a>
+<a class="sourceLine" id="cb159-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb159-3" data-line-number="3"><span class="co"># scatter plot</span></a>
+<a class="sourceLine" id="cb159-4" data-line-number="4"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_RK, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;RK&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb159-5" data-line-number="5">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb159-6" data-line-number="6"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb159-7" data-line-number="7"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb159-8" data-line-number="8"><span class="co"># regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb159-9" data-line-number="9"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_RK), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb159-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb159-11" data-line-number="11"><span class="co"># scatter plot</span></a>
+<a class="sourceLine" id="cb159-12" data-line-number="12"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_rf, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;rf&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb159-13" data-line-number="13">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb159-14" data-line-number="14"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb159-15" data-line-number="15"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb159-16" data-line-number="16"><span class="co"># regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb159-17" data-line-number="17"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_rf), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb159-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb159-19" data-line-number="19"><span class="co"># scatter plot</span></a>
+<a class="sourceLine" id="cb159-20" data-line-number="20"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_svm, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;svm&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb159-21" data-line-number="21">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb159-22" data-line-number="22"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb159-23" data-line-number="23"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb159-24" data-line-number="24"><span class="co"># regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb159-25" data-line-number="25"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_svm), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-89"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-89-1.png" alt="Scatter plots of predicted against observed values" width="672" />
+<p class="caption">
+Figure 7.1: Scatter plots of predicted against observed values
+</p>
+</div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="co"># spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_RK),], <span class="st">&quot;PE_RK&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb161-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-90"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-90-1.png" alt="Spatial bubble of the prediction errors for RK" width="672" />
+<p class="caption">
+Figure 7.2: Spatial bubble of the prediction errors for RK
+</p>
+</div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="co"># spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb162-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_rf),], <span class="st">&quot;PE_rf&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb162-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-91"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-91-1.png" alt="Spatial bubble of the prediction errors for rf" width="672" />
+<p class="caption">
+Figure 7.3: Spatial bubble of the prediction errors for rf
+</p>
+</div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="co"># spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb163-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_svm),], <span class="st">&quot;PE_svm&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb163-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-92"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-92-1.png" alt="Spatial bubble of the prediction errors for svm" width="672" />
+<p class="caption">
+Figure 7.4: Spatial bubble of the prediction errors for svm
+</p>
+</div>
+</div>
+<div id="dataSplit" class="section level3">
+<h3><span class="header-section-number">7.5.4</span> Data-Splitting</h3>
+<p>As explained before, many times for running validation analysis, we split the data before fitting the models. In this section, we present the code needed to achieve this using <strong>caret</strong> package.</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb164-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb164-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dataproc.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb164-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb164-5" data-line-number="5">train.ind &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dat), <span class="dt">p =</span> <span class="fl">.75</span>, <span class="dt">list =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb164-6" data-line-number="6">train &lt;-<span class="st"> </span>dat[ train.ind,]</a>
+<a class="sourceLine" id="cb164-7" data-line-number="7">test  &lt;-<span class="st"> </span>dat[<span class="op">-</span>train.ind,]</a>
+<a class="sourceLine" id="cb164-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb164-9" data-line-number="9"><span class="kw">plot</span>(<span class="kw">density</span> (<span class="kw">log</span>(train<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>,</a>
+<a class="sourceLine" id="cb164-10" data-line-number="10">    <span class="dt">main=</span><span class="st">&#39;Statistical distribution of train and test datasets&#39;</span>)</a>
+<a class="sourceLine" id="cb164-11" data-line-number="11"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">log</span>(test<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;blue&#39;</span>)</a>
+<a class="sourceLine" id="cb164-12" data-line-number="12"><span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;train&quot;</span>, <span class="st">&quot;test&quot;</span>),</a>
+<a class="sourceLine" id="cb164-13" data-line-number="13">      <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">cex=</span><span class="fl">1.5</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-94"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-94-1.png" alt="Statistical distribution of train and test datasets" width="672" />
+<p class="caption">
+Figure 7.5: Statistical distribution of train and test datasets
+</p>
+</div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">write.csv</span>(train, <span class="dt">file=</span><span class="st">&quot;data/dat_train.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb165-2" data-line-number="2"><span class="kw">write.csv</span>(test, <span class="dt">file=</span><span class="st">&quot;data/dat_test.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-brus2011sampling">
+<p>Brus, DJ, B Kempen, and GBM Heuvelink. 2011. “Sampling for Validation of Digital Soil Maps.” <em>European Journal of Soil Science</em> 62 (3). Wiley Online Library:394–407.</p>
+</div>
+<div id="ref-kempen2012efficiency">
+<p>Kempen, Bas, Dick J Brus, Jetse J Stoorvogel, Gerard Heuvelink, and Folkert de Vries. 2012. “Efficiency Comparison of Conventional and Digital Soil Mapping for Updating Soil Maps.” <em>Soil Science Society of America Journal</em> 76 (6). The Soil Science Society of America, Inc.:2097–2115.</p>
+</div>
+<div id="ref-angelini2016mapping">
+<p>Angelini, Marcos E, Gerard BM Heuvelink, Bas Kempen, and Héctor JM Morrás. 2016. “Mapping the Soils of an Argentine Pampas Region Using Structural Equation Modelling.” <em>Geoderma</em> 281. Elsevier:102–18.</p>
+</div>
+<div id="ref-samuel2015more">
+<p>Samuel-Rosa, A, GBM Heuvelink, GM Vasques, and LHC Anjos. 2015. “Do More Detailed Environmental Covariates Deliver More Accurate Soil Maps?” <em>Geoderma</em> 243. Elsevier:214–27.</p>
+</div>
+<div id="ref-krause2005comparison">
+<p>Krause, Peter, DP Boyle, and Frank Bäse. 2005. “Comparison of Different Efficiency Criteria for Hydrological Model Assessment.” <em>Advances in Geosciences</em> 5:89–97.</p>
+</div>
+<div id="ref-kempen2010pedometric">
+<p>Kempen, B, GBM Heuvelink, DJ Brus, and JJ Stoorvogel. 2010. “Pedometric Mapping of Soil Organic Matter Using a Soil Map with Quantified Uncertainty.” <em>European Journal of Soil Science</em> 61 (3). Wiley Online Library:333–47.</p>
+</div>
+<div id="ref-lark2000comparison">
+<p>Lark, RM. 2000. “A Comparison of Some Robust Estimators of the Variogram for Use in Soil Survey.” <em>European Journal of Soil Science</em> 51 (1). Wiley Online Library:137–57.</p>
+</div>
+<div id="ref-voltz1990comparison">
+<p>Voltz, M, and Richard Webster. 1990. “A Comparison of Kriging, Cubic Splines and Classification for Predicting Soil Properties from Sample Information.” <em>European Journal of Soil Science</em> 41 (3). Wiley Online Library:473–90.</p>
+</div>
+<div id="ref-webster_2007">
+<p>Webster, R, and M A Oliver. 2007. <em>Geostatistics for Environmental Scientists. Statistics in Practice. 2nd Edition.</em> John Wiley &amp; Sons,</p>
+</div>
+<div id="ref-lark1995components">
+<p>Lark, RM. 1995. “Components of Accuracy of Maps with Special Reference to Discriminant Analysis on Remote Sensor Data.” <em>International Journal of Remote Sensing</em> 16 (8). Taylor &amp; Francis:1461–80.</p>
+</div>
+<div id="ref-stehman1997selecting">
+<p>Stehman, Stephen V. 1997. “Selecting and Interpreting Measures of Thematic Classification Accuracy.” <em>Remote Sensing of Environment</em> 62 (1). Elsevier:77–89.</p>
+</div>
+<div id="ref-adhikari2014constructing">
+<p>Adhikari, Kabindra, Budiman Minasny, Mette B Greve, and Mogens H Greve. 2014. “Constructing a Soil Class Map of Denmark Based on the Fao Legend Using Digital Techniques.” <em>Geoderma</em> 214. Elsevier:101–13.</p>
+</div>
+<div id="ref-pontius2011death">
+<p>Pontius Jr, Robert Gilmore, and Marco Millones. 2011. “Death to Kappa: Birth of Quantity Disagreement and Allocation Disagreement for Accuracy Assessment.” <em>International Journal of Remote Sensing</em> 32 (15). Taylor &amp; Francis:4407–29.</p>
+</div>
+<div id="ref-pebesma2005classes">
+<p>Pebesma, Edzer J, and Roger S Bivand. 2005. “Classes and Methods for Spatial Data in R.” <em>R News</em> 5 (2):9–13.</p>
+</div>
+<div id="ref-stehman1999basic">
+<p>Stehman, Stephen V. 1999. “Basic Probability Sampling Designs for Thematic Map Accuracy Assessment.” <em>International Journal of Remote Sensing</em> 20 (12). Taylor &amp; Francis:2423–41.</p>
+</div>
+<div id="ref-de2006sampling">
+<p>De Gruijter, Jaap, Dick J Brus, Marc FP Bierkens, and Martin Knotters. 2006. <em>Sampling for Natural Resource Monitoring</em>. Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-knotters2013purposive">
+<p>Knotters, M, and DJ Brus. 2013. “Purposive Versus Random Sampling for Map Validation: A Case Study on Ecotope Maps of Floodplains in the Netherlands.” <em>Ecohydrology</em> 6 (3). Wiley Online Library:425–34.</p>
+</div>
+<div id="ref-kuhn2016short">
+<p>Kuhn, Max. 2016. “A Short Introduction to the Caret Package.” <em>URL: Https://Cran. R-Project. Org/Web/Packages/Caret/Vignettes/Caret. Pdf</em>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mappingMethods.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-evaluation-in-digital-soil-mapping.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-Validation.Rmd",
+"text": "Edit"
+},
+"download": ["SOCMapping.pdf", "SOCMapping.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

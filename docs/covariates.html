@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Soil Organic Carbon Mapping cookbook</title>
+  <meta name="description" content="The soilll cookbook.">
+  <meta name="generator" content="bookdown 0.5.15 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Soil Organic Carbon Mapping cookbook" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="The soilll cookbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Soil Organic Carbon Mapping cookbook" />
+  
+  <meta name="twitter:description" content="The soilll cookbook." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="">
+
+
+<meta name="date" content="2018-02-20">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="setting-up-the-software-environment.html">
+<link rel="next" href="mappingMethods.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<link href="libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="libs/leaflet-binding-1.1.0/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
+<script src="libs/SD-1/data_stars_SD2d7081.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Copyright and disclaimer</a></li>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html"><i class="fa fa-check"></i>Foreword</a><ul>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html#editorial-board"><i class="fa fa-check"></i>Editorial Board</a></li>
+<li class="chapter" data-level="" data-path="foreword.html"><a href="foreword.html#contributing-authors"><i class="fa fa-check"></i>Contributing Authors</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="presentation.html"><a href="presentation.html"><i class="fa fa-check"></i><b>1</b> Presentation</a></li>
+<li class="chapter" data-level="2" data-path="soil-property-maps.html"><a href="soil-property-maps.html"><i class="fa fa-check"></i><b>2</b> Soil Property Maps</a><ul>
+<li class="chapter" data-level="2.1" data-path="soil-property-maps.html"><a href="soil-property-maps.html#definitions-and-objectives"><i class="fa fa-check"></i><b>2.1</b> Definitions and Objectives</a></li>
+<li class="chapter" data-level="2.2" data-path="soil-property-maps.html"><a href="soil-property-maps.html#generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates"><i class="fa fa-check"></i><b>2.2</b> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="preparation.html"><a href="preparation.html"><i class="fa fa-check"></i><b>3</b> Preparation of Local Soil Data</a><ul>
+<li class="chapter" data-level="3.1" data-path="preparation.html"><a href="preparation.html#soil-profiles-and-soil-augers"><i class="fa fa-check"></i><b>3.1</b> Soil Profiles and Soil Augers</a></li>
+<li class="chapter" data-level="3.2" data-path="preparation.html"><a href="preparation.html#soil-database"><i class="fa fa-check"></i><b>3.2</b> Soil Database</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="preparation.html"><a href="preparation.html#technical-steps---loading-data-from-tables-in-r"><i class="fa fa-check"></i><b>3.2.1</b> Technical Steps - Loading Data from Tables in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="preparation.html"><a href="preparation.html#completeness-of-measurements-and-estimates"><i class="fa fa-check"></i><b>3.3</b> Completeness of Measurements and Estimates</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="preparation.html"><a href="preparation.html#stones"><i class="fa fa-check"></i><b>3.3.1</b> Stones</a></li>
+<li class="chapter" data-level="3.3.2" data-path="preparation.html"><a href="preparation.html#bulk-density"><i class="fa fa-check"></i><b>3.3.2</b> Bulk density</a></li>
+<li class="chapter" data-level="3.3.3" data-path="preparation.html"><a href="preparation.html#soil-carbon-analysis"><i class="fa fa-check"></i><b>3.3.3</b> Soil Carbon Analysis</a></li>
+<li class="chapter" data-level="3.3.4" data-path="preparation.html"><a href="preparation.html#carbonates"><i class="fa fa-check"></i><b>3.3.4</b> Carbonates</a></li>
+<li class="chapter" data-level="3.3.5" data-path="preparation.html"><a href="preparation.html#depth"><i class="fa fa-check"></i><b>3.3.5</b> Depth</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="preparation.html"><a href="preparation.html#completeness-of-depth-estimate"><i class="fa fa-check"></i><b>3.4</b> Completeness of Depth Estimate</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="preparation.html"><a href="preparation.html#EqualAreaSplines"><i class="fa fa-check"></i><b>3.4.1</b> Technical Steps - Equal-Area Splines Using R</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html"><i class="fa fa-check"></i><b>4</b> Setting-Up the Software Environment</a><ul>
+<li class="chapter" data-level="4.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#use-of-r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>4.1</b> Use of R, RStudio and R Packages</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r"><i class="fa fa-check"></i><b>4.1.1</b> Obtaining and Installing R</a></li>
+<li class="chapter" data-level="4.1.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r-studio"><i class="fa fa-check"></i><b>4.1.2</b> Obtaining and Installing R Studio</a></li>
+<li class="chapter" data-level="4.1.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#getting-started-with-r"><i class="fa fa-check"></i><b>4.1.3</b> Getting Started with R</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-packages"><i class="fa fa-check"></i><b>4.2</b> R Packages</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#finding-r-packages"><i class="fa fa-check"></i><b>4.2.1</b> Finding R Packages</a></li>
+<li class="chapter" data-level="4.2.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#most-used-r-packages-for-digital-soil-mapping"><i class="fa fa-check"></i><b>4.2.2</b> Most Used R Packages for Digital Soil Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-and-spatial-data"><i class="fa fa-check"></i><b>4.3</b> R and Spatial Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading Shapefiles</a></li>
+<li class="chapter" data-level="4.3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#coordinate-reference-systems-crs-in-r"><i class="fa fa-check"></i><b>4.3.2</b> Coordinate Reference Systems (CRS) in R</a></li>
+<li class="chapter" data-level="4.3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#working-with-rasters"><i class="fa fa-check"></i><b>4.3.3</b> Working with Rasters</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#other-dsm-related-software-and-tools"><i class="fa fa-check"></i><b>4.4</b> Other DSM Related Software and Tools</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="covariates.html"><a href="covariates.html"><i class="fa fa-check"></i><b>5</b> Preparation of Spatial covariates</a><ul>
+<li class="chapter" data-level="5.1" data-path="covariates.html"><a href="covariates.html#dem-derived-covariates"><i class="fa fa-check"></i><b>5.1</b> DEM-Derived Covariates</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="covariates.html"><a href="covariates.html#dem-source-data-sets"><i class="fa fa-check"></i><b>5.1.1</b> DEM Source Data Sets</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="covariates.html"><a href="covariates.html#parent-material"><i class="fa fa-check"></i><b>5.2</b> Parent Material</a></li>
+<li class="chapter" data-level="5.3" data-path="covariates.html"><a href="covariates.html#soil-maps"><i class="fa fa-check"></i><b>5.3</b> Soil Maps</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="covariates.html"><a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r"><i class="fa fa-check"></i><b>5.3.1</b> Technical Steps - Rasterizing a Vector Layer in R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="covariates.html"><a href="covariates.html#land-cover-and-land-use"><i class="fa fa-check"></i><b>5.4</b> Land Cover and Land use</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="covariates.html"><a href="covariates.html#globcover-global"><i class="fa fa-check"></i><b>5.4.1</b> GlobCover (Global)</a></li>
+<li class="chapter" data-level="5.4.2" data-path="covariates.html"><a href="covariates.html#landsat-geocover-global"><i class="fa fa-check"></i><b>5.4.2</b> Landsat GeoCover (Global)</a></li>
+<li class="chapter" data-level="5.4.3" data-path="covariates.html"><a href="covariates.html#globeland30-global"><i class="fa fa-check"></i><b>5.4.3</b> Globeland30 (Global)</a></li>
+<li class="chapter" data-level="5.4.4" data-path="covariates.html"><a href="covariates.html#corine-land-cover-europe-only"><i class="fa fa-check"></i><b>5.4.4</b> CORINE Land Cover (Europe Only)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="covariates.html"><a href="covariates.html#climate"><i class="fa fa-check"></i><b>5.5</b> Climate</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="covariates.html"><a href="covariates.html#worldclim-v1.4-and-v2-global"><i class="fa fa-check"></i><b>5.5.1</b> WorldClim V1.4 and V2 (Global)</a></li>
+<li class="chapter" data-level="5.5.2" data-path="covariates.html"><a href="covariates.html#gridded-agro-meteorological-data-in-europe-europe"><i class="fa fa-check"></i><b>5.5.2</b> Gridded Agro-Meteorological Data in Europe (Europe)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="covariates.html"><a href="covariates.html#GSOCDataRepo"><i class="fa fa-check"></i><b>5.6</b> GSOCMap - Data Repository (ISRIC, 2017)</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="covariates.html"><a href="covariates.html#covariates-and-empty-mask"><i class="fa fa-check"></i><b>5.6.1</b> Covariates and Empty Mask</a></li>
+<li class="chapter" data-level="5.6.2" data-path="covariates.html"><a href="covariates.html#data-specifications"><i class="fa fa-check"></i><b>5.6.2</b> Data Specifications</a></li>
+<li class="chapter" data-level="5.6.3" data-path="covariates.html"><a href="covariates.html#data-access"><i class="fa fa-check"></i><b>5.6.3</b> Data Access</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="covariates.html"><a href="covariates.html#extending-the-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.7</b> Extending the Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.8" data-path="covariates.html"><a href="covariates.html#preparation-of-a-soil-property-table-for-spatial-statistics"><i class="fa fa-check"></i><b>5.8</b> Preparation of a Soil Property Table for Spatial Statistics</a></li>
+<li class="chapter" data-level="5.9" data-path="covariates.html"><a href="covariates.html#overlay-soil-covariates"><i class="fa fa-check"></i><b>5.9</b> Technical Steps - Overlay Covariates and Soil Points Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="covariates.html"><a href="covariates.html#load-soil-sample-data-and-covariates"><i class="fa fa-check"></i><b>5.9.1</b> Load soil sample data and covariates</a></li>
+<li class="chapter" data-level="5.9.2" data-path="covariates.html"><a href="covariates.html#combine-the-covariates-provided-with-the-raster-version-of-the-soil-map"><i class="fa fa-check"></i><b>5.9.2</b> Combine the covariates provided with the raster version of the soil map</a></li>
+<li class="chapter" data-level="5.9.3" data-path="covariates.html"><a href="covariates.html#overlay-covariates-and-spatial-data"><i class="fa fa-check"></i><b>5.9.3</b> Overlay Covariates and Spatial Data</a></li>
+<li class="chapter" data-level="5.9.4" data-path="covariates.html"><a href="covariates.html#convert-result-to-data.frame-and-save-as-a-csv-table"><i class="fa fa-check"></i><b>5.9.4</b> Convert result to data.frame and save as a csv table</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="mappingMethods.html"><a href="mappingMethods.html"><i class="fa fa-check"></i><b>6</b> Mapping Methods</a><ul>
+<li class="chapter" data-level="6.1" data-path="mappingMethods.html"><a href="mappingMethods.html#conventional-upscaling-using-soil-maps"><i class="fa fa-check"></i><b>6.1</b> Conventional Upscaling Using Soil Maps</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview"><i class="fa fa-check"></i><b>6.1.1</b> Overview</a></li>
+<li class="chapter" data-level="6.1.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-class-matching"><i class="fa fa-check"></i><b>6.1.2</b> Technical Steps: Class-matching</a></li>
+<li class="chapter" data-level="6.1.3" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps-geo-matching"><i class="fa fa-check"></i><b>6.1.3</b> Technical Steps: Geo-Matching</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="mappingMethods.html"><a href="mappingMethods.html#RK"><i class="fa fa-check"></i><b>6.2</b> Regression-Kriging</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-1"><i class="fa fa-check"></i><b>6.2.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2.2" data-path="mappingMethods.html"><a href="mappingMethods.html#assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="mappingMethods.html"><a href="mappingMethods.html#pre-processing-of-covariates"><i class="fa fa-check"></i><b>6.2.3</b> Pre-Processing of Covariates</a></li>
+<li class="chapter" data-level="6.2.4" data-path="mappingMethods.html"><a href="mappingMethods.html#the-terminology"><i class="fa fa-check"></i><b>6.2.4</b> The Terminology</a></li>
+<li class="chapter" data-level="6.2.5" data-path="mappingMethods.html"><a href="mappingMethods.html#interpret-the-key-results-of-multiple-regression"><i class="fa fa-check"></i><b>6.2.5</b> Interpret the Key Results of Multiple Regression</a></li>
+<li class="chapter" data-level="6.2.6" data-path="mappingMethods.html"><a href="mappingMethods.html#using-the-results-of-a-regression-analysis-to-make-predictions"><i class="fa fa-check"></i><b>6.2.6</b> Using the Results of a Regression Analysis to Make Predictions</a></li>
+<li class="chapter" data-level="6.2.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---regression-kriging"><i class="fa fa-check"></i><b>6.2.7</b> Technical Steps - Regression Kriging</a></li>
+<li class="chapter" data-level="6.2.8" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---cross-validation-of-regression-kriging-models"><i class="fa fa-check"></i><b>6.2.8</b> Technical Steps - Cross-validation of Regression Kriging models</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="mappingMethods.html"><a href="mappingMethods.html#rf"><i class="fa fa-check"></i><b>6.3</b> Data mining: Random Forest</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-2"><i class="fa fa-check"></i><b>6.3.1</b> Overview</a></li>
+<li class="chapter" data-level="6.3.2" data-path="mappingMethods.html"><a href="mappingMethods.html#random-forests"><i class="fa fa-check"></i><b>6.3.2</b> Random forests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="mappingMethods.html"><a href="mappingMethods.html#conceptual-model-and-data-preparation"><i class="fa fa-check"></i><b>6.3.3</b> Conceptual model and data preparation</a></li>
+<li class="chapter" data-level="6.3.4" data-path="mappingMethods.html"><a href="mappingMethods.html#software"><i class="fa fa-check"></i><b>6.3.4</b> Software</a></li>
+<li class="chapter" data-level="6.3.5" data-path="mappingMethods.html"><a href="mappingMethods.html#tunning-random-forest-parameters"><i class="fa fa-check"></i><b>6.3.5</b> Tunning Random forest parameters</a></li>
+<li class="chapter" data-level="6.3.6" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---random-forest"><i class="fa fa-check"></i><b>6.3.6</b> Technical steps - Random forest</a></li>
+<li class="chapter" data-level="6.3.7" data-path="mappingMethods.html"><a href="mappingMethods.html#modelling-uncertainty-using-random-forest"><i class="fa fa-check"></i><b>6.3.7</b> Modelling Uncertainty Using Random Forest</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="mappingMethods.html"><a href="mappingMethods.html#svm"><i class="fa fa-check"></i><b>6.4</b> Data mining: Support Vector Machines</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-3"><i class="fa fa-check"></i><b>6.4.1</b> Overview</a></li>
+<li class="chapter" data-level="6.4.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---fitting-an-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>6.4.2</b> Technical Steps - Fitting an SVM Model to Predict the SOC</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chvalidation.html"><a href="chvalidation.html"><i class="fa fa-check"></i><b>7</b> Validation</a><ul>
+<li class="chapter" data-level="7.1" data-path="chvalidation.html"><a href="chvalidation.html#what-is-validation"><i class="fa fa-check"></i><b>7.1</b> What is Validation?</a></li>
+<li class="chapter" data-level="7.2" data-path="chvalidation.html"><a href="chvalidation.html#map-quality-measures"><i class="fa fa-check"></i><b>7.2</b> Map Quality Measures</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="chvalidation.html"><a href="chvalidation.html#quality-measures-for-quantitative-soil-maps"><i class="fa fa-check"></i><b>7.2.1</b> Quality Measures for Quantitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chvalidation.html"><a href="chvalidation.html#quality-measures-for-qualitative-soil-maps"><i class="fa fa-check"></i><b>7.2.2</b> Quality Measures for Qualitative Soil Maps</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chvalidation.html"><a href="chvalidation.html#estimating-the-map-quality-measures-and-associated-uncertainty"><i class="fa fa-check"></i><b>7.2.3</b> Estimating the Map Quality Measures and Associated Uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chvalidation.html"><a href="chvalidation.html#graphical-map-quality-measures"><i class="fa fa-check"></i><b>7.3</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="7.4" data-path="chvalidation.html"><a href="chvalidation.html#validation-methods-and-statistical-inference"><i class="fa fa-check"></i><b>7.4</b> Validation Methods and Statistical Inference</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="chvalidation.html"><a href="chvalidation.html#additional-probability-sampling"><i class="fa fa-check"></i><b>7.4.1</b> Additional Probability Sampling</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chvalidation.html"><a href="chvalidation.html#data-splitting"><i class="fa fa-check"></i><b>7.4.2</b> Data-Splitting</a></li>
+<li class="chapter" data-level="7.4.3" data-path="chvalidation.html"><a href="chvalidation.html#xval"><i class="fa fa-check"></i><b>7.4.3</b> Cross-Validation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="chvalidation.html"><a href="chvalidation.html#TS:validation"><i class="fa fa-check"></i><b>7.5</b> Technical steps - Validation</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="chvalidation.html"><a href="chvalidation.html#prediction-error"><i class="fa fa-check"></i><b>7.5.1</b> Prediction error</a></li>
+<li class="chapter" data-level="7.5.2" data-path="chvalidation.html"><a href="chvalidation.html#estimating-the-map-quality-measures"><i class="fa fa-check"></i><b>7.5.2</b> Estimating the Map Quality Measures</a></li>
+<li class="chapter" data-level="7.5.3" data-path="chvalidation.html"><a href="chvalidation.html#graphical-map-quality-measures-1"><i class="fa fa-check"></i><b>7.5.3</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="7.5.4" data-path="chvalidation.html"><a href="chvalidation.html#dataSplit"><i class="fa fa-check"></i><b>7.5.4</b> Data-Splitting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-evaluation-in-digital-soil-mapping.html"><a href="model-evaluation-in-digital-soil-mapping.html"><i class="fa fa-check"></i><b>8</b> Model Evaluation in Digital Soil Mapping</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-evaluation-in-digital-soil-mapping.html"><a href="model-evaluation-in-digital-soil-mapping.html#technical-steps---model-correlations-and-spatial-differences"><i class="fa fa-check"></i><b>8.1</b> Technical steps - Model correlations and spatial differences</a></li>
+<li class="chapter" data-level="8.2" data-path="model-evaluation-in-digital-soil-mapping.html"><a href="model-evaluation-in-digital-soil-mapping.html#technical-steps---model-evaluation"><i class="fa fa-check"></i><b>8.2</b> Technical steps - Model evaluation</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="uncertainty.html"><a href="uncertainty.html"><i class="fa fa-check"></i><b>9</b> Uncertainty</a><ul>
+<li class="chapter" data-level="9.1" data-path="uncertainty.html"><a href="uncertainty.html#sources-of-uncertainty"><i class="fa fa-check"></i><b>9.1</b> Sources of Uncertainty</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="uncertainty.html"><a href="uncertainty.html#attribute-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>9.1.1</b> Attribute Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="9.1.2" data-path="uncertainty.html"><a href="uncertainty.html#positional-uncertainty-of-soil-measurements"><i class="fa fa-check"></i><b>9.1.2</b> Positional Uncertainty of Soil Measurements</a></li>
+<li class="chapter" data-level="9.1.3" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-covariates"><i class="fa fa-check"></i><b>9.1.3</b> Uncertainty in Covariates</a></li>
+<li class="chapter" data-level="9.1.4" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-in-models-predicting-soil-properties-from-covariates-and-soil-point-data"><i class="fa fa-check"></i><b>9.1.4</b> Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-and-spatial-data-quality"><i class="fa fa-check"></i><b>9.2</b> Uncertainty and Spatial Data Quality</a></li>
+<li class="chapter" data-level="9.3" data-path="uncertainty.html"><a href="uncertainty.html#quantifying-prediction-uncertainty"><i class="fa fa-check"></i><b>9.3</b> Quantifying Prediction Uncertainty</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="uncertainty.html"><a href="uncertainty.html#uncertainty-characterised-by-probability-distributions"><i class="fa fa-check"></i><b>9.3.1</b> Uncertainty Characterised by Probability Distributions</a></li>
+<li class="chapter" data-level="9.3.2" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-model-uncertainty"><i class="fa fa-check"></i><b>9.3.2</b> Propagation of Model Uncertainty</a></li>
+<li class="chapter" data-level="9.3.3" data-path="uncertainty.html"><a href="uncertainty.html#propagation-of-attribute-positional-and-covariate-uncertainty"><i class="fa fa-check"></i><b>9.3.3</b> Propagation of Attribute, Positional and Covariate Uncertainty</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="data-sharing.html"><a href="data-sharing.html"><i class="fa fa-check"></i><b>10</b> Data Sharing</a><ul>
+<li class="chapter" data-level="10.1" data-path="data-sharing.html"><a href="data-sharing.html#export-formats"><i class="fa fa-check"></i><b>10.1</b> Export Formats</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="data-sharing.html"><a href="data-sharing.html#type-of-soil-data-and-their-formatting"><i class="fa fa-check"></i><b>10.1.1</b> Type of Soil Data and Their Formatting</a></li>
+<li class="chapter" data-level="10.1.2" data-path="data-sharing.html"><a href="data-sharing.html#general-gis-data-formats-vector-raster-table"><i class="fa fa-check"></i><b>10.1.2</b> General GIS Data Formats: Vector, Raster, Table</a></li>
+<li class="chapter" data-level="10.1.3" data-path="data-sharing.html"><a href="data-sharing.html#recommended-gis-data-exchange-formats"><i class="fa fa-check"></i><b>10.1.3</b> Recommended GIS Data Exchange Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="data-sharing.html"><a href="data-sharing.html#web-services---serving-soil-data-using-web-technology"><i class="fa fa-check"></i><b>10.2</b> Web Services - Serving Soil Data Using Web Technology</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="data-sharing.html"><a href="data-sharing.html#third-party-services"><i class="fa fa-check"></i><b>10.2.1</b> Third-Party Services</a></li>
+<li class="chapter" data-level="10.2.2" data-path="data-sharing.html"><a href="data-sharing.html#geoserver-web-serving-and-web-processing"><i class="fa fa-check"></i><b>10.2.2</b> GeoServer (Web Serving and Web Processing)</a></li>
+<li class="chapter" data-level="10.2.3" data-path="data-sharing.html"><a href="data-sharing.html#visualizing-data-using-leaflet-andor-google-earth"><i class="fa fa-check"></i><b>10.2.3</b> Visualizing Data Using Leaflet and/or Google Earth</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="data-sharing.html"><a href="data-sharing.html#preparing-soil-data-for-distribution"><i class="fa fa-check"></i><b>10.3</b> Preparing Soil Data for Distribution</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="data-sharing.html"><a href="data-sharing.html#metadata"><i class="fa fa-check"></i><b>10.3.1</b> Metadata</a></li>
+<li class="chapter" data-level="10.3.2" data-path="data-sharing.html"><a href="data-sharing.html#exporting-data-final-tips"><i class="fa fa-check"></i><b>10.3.2</b> Exporting Data — Final Tips</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="data-sharing.html"><a href="data-sharing.html#export-formats-1"><i class="fa fa-check"></i><b>10.4</b> Export Formats</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html"><i class="fa fa-check"></i><b>11</b> Technical Overview and the Checklist</a><ul>
+<li class="chapter" data-level="11.1" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#point-dataset"><i class="fa fa-check"></i><b>11.1</b> Point Dataset</a></li>
+<li class="chapter" data-level="11.2" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#covariates-1"><i class="fa fa-check"></i><b>11.2</b> Covariates</a></li>
+<li class="chapter" data-level="11.3" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#statistical-inference"><i class="fa fa-check"></i><b>11.3</b> Statistical Inference</a></li>
+<li class="chapter" data-level="11.4" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#spatial-interpolation"><i class="fa fa-check"></i><b>11.4</b> Spatial Interpolation</a></li>
+<li class="chapter" data-level="11.5" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#calculation-of-stocks"><i class="fa fa-check"></i><b>11.5</b> Calculation of Stocks</a></li>
+<li class="chapter" data-level="11.6" data-path="technical-overview-and-the-checklist.html"><a href="technical-overview-and-the-checklist.html#evaluation-of-output-and-quality-assessment"><i class="fa fa-check"></i><b>11.6</b> Evaluation of Output and Quality Assessment</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="deliverables.html"><a href="deliverables.html"><i class="fa fa-check"></i><b>12</b> Deliverables</a></li>
+<li class="chapter" data-level="13" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html"><i class="fa fa-check"></i><b>13</b> Compendium of the code examples included in the cookbook</a><ul>
+<li class="chapter" data-level="13.1" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#overview-4"><i class="fa fa-check"></i><b>13.1</b> Overview</a></li>
+<li class="chapter" data-level="13.2" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:PreparationProfiles"><i class="fa fa-check"></i><b>13.2</b> Data Preparation for Soil Profiles</a></li>
+<li class="chapter" data-level="13.3" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:PreparationAuger"><i class="fa fa-check"></i><b>13.3</b> Data Preparation for Top Soil or Auger Samples</a></li>
+<li class="chapter" data-level="13.4" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:merging"><i class="fa fa-check"></i><b>13.4</b> Merging Top Soil and Soil Profiles Databases</a></li>
+<li class="chapter" data-level="13.5" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:data-splitting"><i class="fa fa-check"></i><b>13.5</b> Data-Splitting</a></li>
+<li class="chapter" data-level="13.6" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Rasterizing"><i class="fa fa-check"></i><b>13.6</b> Rasterizing a Vector Layer in R</a></li>
+<li class="chapter" data-level="13.7" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Overlay"><i class="fa fa-check"></i><b>13.7</b> Overlay Covariates and Soil Points Data</a></li>
+<li class="chapter" data-level="13.8" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:RK"><i class="fa fa-check"></i><b>13.8</b> Fitting a Regression-Kriging model to predict the OCS</a><ul>
+<li class="chapter" data-level="13.8.1" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:xvalRK"><i class="fa fa-check"></i><b>13.8.1</b> Cross-validation of Regression Kriging models</a></li>
+</ul></li>
+<li class="chapter" data-level="13.9" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:rf"><i class="fa fa-check"></i><b>13.9</b> Fitting a random forest model to predict the SOC</a></li>
+<li class="chapter" data-level="13.10" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:quantreg"><i class="fa fa-check"></i><b>13.10</b> Using Quantile Regression Forest to estimate uncertainty</a></li>
+<li class="chapter" data-level="13.11" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:svm"><i class="fa fa-check"></i><b>13.11</b> Fitting a svm model to predict the SOC</a></li>
+<li class="chapter" data-level="13.12" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Validation"><i class="fa fa-check"></i><b>13.12</b> Validation</a></li>
+<li class="chapter" data-level="13.13" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Graphs"><i class="fa fa-check"></i><b>13.13</b> Graphical Map Quality Measures</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Soil Organic Carbon Mapping cookbook</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="covariates" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Preparation of Spatial covariates</h1>
+<p><em>R Baritz &amp; Y Yigini</em></p>
+<p>The example covariates from this chapter were prepared by <em>ISRIC</em>. The access and use limitations are presented in section <a href="covariates.html#GSOCDataRepo">5.6</a>. A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.</p>
+
+<div id="dem-derived-covariates" class="section level2">
+<h2><span class="header-section-number">5.1</span> DEM-Derived Covariates</h2>
+<div id="dem-source-data-sets" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> DEM Source Data Sets</h3>
+<p>Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by <span class="citation">Wong et al. (<a href="#ref-Wong2014">2014</a>)</span>. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM.</p>
+<blockquote>
+<ul>
+<li>Recommended for national level applications: 30 m GDEM / SRTM.</li>
+<li>Recommended for global level applications: SRTM 90 m, resampled 1 kilometer.</li>
+</ul>
+</blockquote>
+<p>In both cases, noise and artefacts need to be filtered out. ASTER seems to contain more large artifacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co">#For handling raster data, we load raster package</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#load DEM from tif file</span></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">DEM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/DEMENV5.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="kw">plot</span>(DEM)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-15"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-15-1.png" alt="SRTM 90m, resampled to 1km for FYROM" width="672" />
+<p class="caption">
+Figure 5.1: SRTM 90m, resampled to 1km for FYROM
+</p>
+</div>
+<blockquote>
+<p><em>GRASS GIS</em> or GDAL: Use “mdenoise” module/utility to remove noise while preserving sharp features like ridges, lines, and valleys.</p>
+</blockquote>
+<p>SRTM contains many gaps (pixels with no-data). These gaps could be filled using splines. SAGA GIS has a module called ‘Close Gaps with Splines’ and other similar tools for doing this.</p>
+</div>
+</div>
+<div id="parent-material" class="section level2">
+<h2><span class="header-section-number">5.2</span> Parent Material</h2>
+<p>Parent material has a crucial impact on soil formation, soil geochemistry, and soil physics. Parent material, if not specifically mapped by soil mappers and included in soil maps, is usually available from geological maps. These maps focus on rock formation, mineral components, and age, and often lack younger surface sediments (even in quaternary maps). Parent material/rock types classified by soil mappers considers more strongly geochemistry and rock structure. Its geochemistry has an essential impact on the soil chemistry, e.g. cation exchange capacity, base saturation, and nutrient stock. The rock structure determines the ability to disintegrate, which has an impact on soil physical properties, like texture, skeleton content, permeability, and soil thickness.</p>
+<p>National parent material and geological maps may be used. Other available datasets and data portals are given on the <em>ISRIC</em> <a href="http://worldgrids.org/doku.php">WorldGrids</a> website.</p>
+<ul>
+<li><p>OneGeology: The world geological maps are now being integrated via the OneGeology project which aims at producing a consistent geological map of the world in approximate scale 1:1M <span class="citation">(Jackson <a href="#ref-jackson2007onegeology">2007</a>)</span>; Link: <a href="http://www.onegeology.org/" class="uri">http://www.onegeology.org/</a>.</p></li>
+<li><p><em>USGS</em> has several data portals, e.g. that allows browsing of the International Surface Geology (split into South Asia, South America, Iran, Gulf of Mexico, Former Soviet Union, Europe, Caribbean, Bangladesh, Asia Pacific, Arctic, Arabian Peninsula, Africa and Afghanistan); Link: <a href="https://mrdata.usgs.gov/geology/world/" class="uri">https://mrdata.usgs.gov/geology/world/</a>.</p></li>
+<li><p><span class="citation">Hartmann and Moosdorf (<a href="#ref-hartmann2012new">2012</a>)</span> have assembled a global, purely lithological database called GLiM (Global Lithological Map). GLiM consists of over 1.25 million digital polygons that are classified into three levels (a total of 42 rock-type classes); Link: <a href="https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html" class="uri">https://www.geo.uni-hamburg.de/en/geologie/forschung/geochemie/glim.html</a>).</p></li>
+<li><p><em>USGS</em> jointly with <em>ESRI</em> has released in 2014 a Global Ecological Land Units map at 250 m resolution. This also includes world layer of rock types. This data can be downloaded from the USGS site (<a href="http://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/" class="uri">http://rmgsc.cr.usgs.gov/outgoing/ecosystems/Global/</a>).</p></li>
+</ul>
+</div>
+<div id="soil-maps" class="section level2">
+<h2><span class="header-section-number">5.3</span> Soil Maps</h2>
+<p>Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology, and climate do not correlate well with the dependent variable, here SOC stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps.</p>
+<p>FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at <a href="http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km" class="uri">http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km</a> (see section <a href="covariates.html#GSOCDataRepo">5.6</a>).</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># load the soil map from a shapefile file</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="co"># plot the DEM together with the soil types</span></a>
+<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="kw">plot</span>(DEM)</a>
+<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="kw">lines</span>(soilmap)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-16"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-16-1.png" alt="soil map of MK" width="768" />
+<p class="caption">
+Figure 5.2: soil map of MK
+</p>
+</div>
+<blockquote>
+<p>Digitized small-scale national soil maps are the most important spatial layer for soil property mapping. The higher its resolution, the better soil maps contribute to high-quality soil property maps - considering that the map should cover the target area/full country coverage.</p>
+</blockquote>
+<div id="technical-steps---rasterizing-a-vector-layer-in-r" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Technical Steps - Rasterizing a Vector Layer in R</h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co"># the &quot;Symbol&quot; attribute from the vector layer will be used for the</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="co"># rasterization process. It has to be a factor</span></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">soilmap<span class="op">@</span>data<span class="op">$</span>Symbol &lt;-<span class="st"> </span><span class="kw">as.factor</span>(soilmap<span class="op">@</span>data<span class="op">$</span>Symbol)</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="co">#save the levels names in a character vector</span></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6">Symbol.levels &lt;-<span class="st"> </span><span class="kw">levels</span>(soilmap<span class="op">$</span>Symbol)</a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="co"># The rasterization process needs a layer with the target grd </span></a>
+<a class="sourceLine" id="cb42-9" data-line-number="9"><span class="co"># system: spatial extent and cell size.</span></a>
+<a class="sourceLine" id="cb42-10" data-line-number="10">soilmap.r &lt;-<span class="st"> </span><span class="kw">rasterize</span>(<span class="dt">x =</span> soilmap, <span class="dt">y =</span> DEM, <span class="dt">field =</span> <span class="st">&quot;Symbol&quot;</span>)</a>
+<a class="sourceLine" id="cb42-11" data-line-number="11"><span class="co"># The DEM raster layer could be used for this.</span></a>
+<a class="sourceLine" id="cb42-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb42-13" data-line-number="13"><span class="kw">plot</span>(soilmap.r, <span class="dt">col=</span><span class="kw">rainbow</span>(<span class="dv">21</span>))</a>
+<a class="sourceLine" id="cb42-14" data-line-number="14"><span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>,<span class="dt">legend =</span> Symbol.levels, <span class="dt">fill=</span><span class="kw">rainbow</span>(<span class="dv">21</span>), </a>
+<a class="sourceLine" id="cb42-15" data-line-number="15">       <span class="dt">cex=</span><span class="fl">0.5</span>)</a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+</div>
+<div id="land-cover-and-land-use" class="section level2">
+<h2><span class="header-section-number">5.4</span> Land Cover and Land use</h2>
+<p>Besides soil, geology, and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on the land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">landcover &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/LCEE10.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="co"># Land cover is a categorical covariate, this has to be made </span></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co"># explicit using function as.factor()</span></a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">landcover &lt;-<span class="st"> </span><span class="kw">as.factor</span>(landcover)</a></code></pre></div>
+<div id="globcover-global" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> GlobCover (Global)</h3>
+<p>GlobCover is a European Space Agency (ESA) initiative which began in 2005 in partnership with JRC, EEA, FAO, UNEP, GOFC-GOLD, and IGBP. The aim of the project was to develop a service capable of delivering global composites and land cover maps using as input observations from the 300 m MERIS sensor onboard the ENVISAT satellite mission. ESA makes available the land cover maps, which cover 2 periods: December 2004 - June 2006 and January - December 2009. The classification module of the GlobCover processing chain consists in transforming the MERIS-FR multispectral mosaics produced by the pre-processing modules into a meaningful global land cover map. The global land cover map has been produced in an automatic and global way and is associated with a legend defined and documented using the UN LCCS. The GlobCover 2009 land cover map is delivered as one global land cover map covering the entire Earth. Its legend, which counts 22 land cover classes, has been designed to be consistent at the global scale and therefore, it is determined by the level of information that is available and that makes sense at this scale <span class="citation">(Bontemps et al. <a href="#ref-bontemps2011globcover">2011</a>)</span>.
+The GlobCover data can be downloaded at <a href="http://due.esrin.esa.int/page_globcover.php" class="uri">http://due.esrin.esa.int/page_globcover.php</a></p>
+</div>
+<div id="landsat-geocover-global" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> Landsat GeoCover (Global)</h3>
+<p>The Landsat GeoCover collection of global imagery was merged into mosaics by the Earth Satellite Company (now MDA Federal). The result was a series of tiled imagery that is easier to wield than individual scenes, especially since they cover larger areas than the originals. The great detail in these mosaic scenes, however, makes them large in storage size, so the Mr.Sid file format, which includes compression operations, was chosen for output. While GeoCover itself is available in three epochs of 1975, 1990 and 2000, only the latter two epochs were made into mosaics.
+Coverage: The GeoCover Landsat mosaics are delivered in a Universal Transverse Mercator (UTM) / World Geodetic System 1984 (WGS84) projection. The mosaics extend north-south over 5 degrees of latitude and span east-west for the full width of the UTM zone. For mosaics below 60 degrees north latitude, the width of the mosaic is the standard UTM zone width of 6 degrees of longitude. For mosaics above 60 degrees of latitude, the UTM zone is widened to 12 degrees, centered on the standard even-numbered UTM meridians. To insure overlap between adjacent UTM zones, each mosaic extends for at least 50 kilometers to the east and west, and 1 kilometer to the north and south.
+Pixel size: 14.25 meters (V 2000)
+The data is available at <a href="ftp://ftp.glcf.umd.edu/glcf/Mosaic_Landsat/" class="uri">ftp://ftp.glcf.umd.edu/glcf/Mosaic_Landsat/</a> (FTP Access)</p>
+</div>
+<div id="globeland30-global" class="section level3">
+<h3><span class="header-section-number">5.4.3</span> Globeland30 (Global)</h3>
+<p>GlobeLand30, the world’s first global land cover dataset at 30 m resolution for the years 2000 and 2010, was recently released and made publicly available by China. The National Geomatics Center of China under the “Global Land Cover Mapping at Finer Resolution” project has recently generated a global land cover map named GlobeLand30. The dataset covers two timestamps of 2000 and 2010, primarily acquired from Landsat TM and ETM+ sensors, which were then coupled/checked with some local products.
+The data is publicly available for non-commercial purposes at <a href="http://www.globallandcover.com/GLC30Download/index.aspx" class="uri">http://www.globallandcover.com/GLC30Download/index.aspx</a><br />
+Further reading and other global data sources: <a href="http://worldgrids.org/doku.php/wiki:land_cover_and_land_use" class="uri">http://worldgrids.org/doku.php/wiki:land_cover_and_land_use</a></p>
+</div>
+<div id="corine-land-cover-europe-only" class="section level3">
+<h3><span class="header-section-number">5.4.4</span> CORINE Land Cover (Europe Only)</h3>
+<p>The pan-European component is coordinated by the European Environment Agency (EEA) and produces satellite image mosaics, land cover/land use (LC/LU) information in the CORINE Land Cover data, and the High-Resolution Layers.
+The CORINE Land Cover is provided for 1990, 2000, 2006 and 2012. This vector-based dataset includes 44 land cover and land use classes. The time-series also includes a land-change layer, highlighting changes in land cover and land-use. The high-resolution layers (HRL) are raster-based datasets (100 m, 250 m) which provide information about different land cover characteristics and is complementary to land-cover mapping (e.g. CORINE) datasets.
+The CORINE Land Cover Data are available at <a href="http://www.eea.europa.eu/data-and-maps/data" class="uri">http://www.eea.europa.eu/data-and-maps/data</a></p>
+</div>
+</div>
+<div id="climate" class="section level2">
+<h2><span class="header-section-number">5.5</span> Climate</h2>
+<div id="worldclim-v1.4-and-v2-global" class="section level3">
+<h3><span class="header-section-number">5.5.1</span> WorldClim V1.4 and V2 (Global)</h3>
+<p>WorldClim is a set of global climate layers (gridded climate data) with a spatial resolution of about 1 km2 (10 minutes, 5 minutes, 2.5 minutes are also available). These data can be used for mapping and spatial modeling. The current version is Version 1.4. and a preview of Version 2 is available for testing at worldclim.org. The data can be downloaded as generic grids or in ESRI Grid format.</p>
+<p>The WorldClim data layers were generated by interpolation of average monthly climate data from weather stations on a 30 arc-second resolution grid. In V1.4, variables included are monthly total precipitation, and monthly mean, minimum and maximum temperatures, and 19 derived bioclimatic variables. The WorldClim precipitation data were obtained from a network of 1,473 stations, mean temperature from 24,542 stations, and minimum and maximum temperatures from 14,835 stations <span class="citation">(Hijmans et al. <a href="#ref-hijmans2005very">2005</a>)</span>.</p>
+<p>The Bioclimatic parameters are: annual mean temperature, mean diurnal range, iso-thermality, temperature seasonality, max temperature of warmest month, minimum temperature of coldest month, temperature annual range , mean temperature of wettest quarter, mean temperature of driest quarter, mean temperature of warmest quarter, mean temperature of coldest quarter, annual precipitation, precipitation of wettest month, precipitation of driest month, precipitation seasonality (coefficient of variation), precipitation of wettest quarter, precipitation of driest quarter, precipitation of warmest quarter, precipitation of coldest quarter.</p>
+<p>WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; <span class="citation">Hijmans et al. (<a href="#ref-hijmans2005very">2005</a>)</span>. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># load the climate covariates from the raster tif files</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs/&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;CHE3.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="co"># stack all the files in one RasterStack</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">climate &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># plot the first 2 layers</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">plot</span>(climate[[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]])</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-20"></span>
+<img src="SOCMapping_files/figure-html4/unnamed-chunk-20-1.png" alt="Two layers included in the climate covariates" width="672" />
+<p class="caption">
+Figure 5.3: Two layers included in the climate covariates
+</p>
+</div>
+</div>
+<div id="gridded-agro-meteorological-data-in-europe-europe" class="section level3">
+<h3><span class="header-section-number">5.5.2</span> Gridded Agro-Meteorological Data in Europe (Europe)</h3>
+<p>CGMS database contains meteorological parameters from weather stations interpolated on a 25×25 km grid. Meteorological data are available on a daily basis from 1975 to the last calendar year completed, covering the EU Member States, neighboring European countries.</p>
+<p>The following parameters are available at 1-day time resolution:</p>
+<ul>
+<li>maximum air temperature (°C)</li>
+<li>minimum air temperature (°C)</li>
+<li>mean air temperature (°C)</li>
+<li>mean daily wind speed at 10m (m/s)</li>
+<li>mean daily vapor pressure (hPa)</li>
+<li>sum of precipitation (mm/day)</li>
+<li>potential evaporation from a free water surface (mm/day)</li>
+<li>potential evapotranspiration from a crop canopy (mm/day)</li>
+<li>potential evaporation from a moist bare soil surface (mm/day)</li>
+<li>total global radiation (KJ/m2/day)</li>
+<li>Snow Depth</li>
+</ul>
+<p>Data Access: <a href="http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx" class="uri">http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx</a></p>
+</div>
+</div>
+<div id="GSOCDataRepo" class="section level2">
+<h2><span class="header-section-number">5.6</span> GSOCMap - Data Repository (ISRIC, 2017)</h2>
+<p>ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a digital soil mapping exercise.</p>
+<div id="covariates-and-empty-mask" class="section level3">
+<h3><span class="header-section-number">5.6.1</span> Covariates and Empty Mask</h3>
+<p>The territories and their boundaries are obtained from the Global Administrative Unit Layers (GAUL)dataset:
+each folder contains three subfolders;
+covs: GIS layers of various biophysical earth surface properties
+mask: an ‘empty’ grid file of the territory with territory boundary according to GAUL. This grid to be used for the final delivery. .
+soilgrids: all SoilGrids250m soil class and property layers as available through www.soilgrids.org. Layers are aggregated to 1 km.</p>
+</div>
+<div id="data-specifications" class="section level3">
+<h3><span class="header-section-number">5.6.2</span> Data Specifications</h3>
+<p>File format: GeoTiff
+Coordinate system: WGS84, latitude-longitude in decimal degrees
+Spatial resolution: 1km</p>
+</div>
+<div id="data-access" class="section level3">
+<h3><span class="header-section-number">5.6.3</span> Data Access</h3>
+<p><a href="ftp://gsp.isric2.org/" class="uri">ftp://gsp.isric2.org/</a> (username: gsp, password: gspisric) or <a href="ftp://85.214.253.67/" class="uri">ftp://85.214.253.67/</a> (username: gsp, password: gspisric)</p>
+<p>LICENCE and ACKNOWLEDGEMENT
+<em>The GIS layers can be freely used under the condition that proper credit should be given to the original data source in each publication or product derived from these layers. Licences, data sources, data citations are indicated the data description table.</em></p>
+</div>
+</div>
+<div id="extending-the-soil-property-table-for-spatial-statistics" class="section level2">
+<h2><span class="header-section-number">5.7</span> Extending the Soil Property Table for Spatial Statistics</h2>
+<p>The upscaling procedures (see chapter <a href="mappingMethods.html#mappingMethods">6</a>) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.</p>
+</div>
+<div id="preparation-of-a-soil-property-table-for-spatial-statistics" class="section level2">
+<h2><span class="header-section-number">5.8</span> Preparation of a Soil Property Table for Spatial Statistics</h2>
+<p>The upscaling procedures (see chapter <a href="mappingMethods.html#mappingMethods">6</a>) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in section 3. An example is the clay content, which may be derived from a soil type or parent rock map.</p>
+<blockquote>
+<p>In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.</p>
+</blockquote>
+</div>
+<div id="overlay-soil-covariates" class="section level2">
+<h2><span class="header-section-number">5.9</span> Technical Steps - Overlay Covariates and Soil Points Data</h2>
+<div id="load-soil-sample-data-and-covariates" class="section level3">
+<h3><span class="header-section-number">5.9.1</span> Load soil sample data and covariates</h3>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co"># Load the processed data. This table was prepared in the previous </span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="co"># chapter.</span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dat_train.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="co"># read covariates from tif raster files</span></a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;tif$&quot;</span>, </a>
+<a class="sourceLine" id="cb46-7" data-line-number="7">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb46-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb46-9" data-line-number="9">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a></code></pre></div>
+</div>
+<div id="combine-the-covariates-provided-with-the-raster-version-of-the-soil-map" class="section level3">
+<h3><span class="header-section-number">5.9.2</span> Combine the covariates provided with the raster version of the soil map</h3>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># soilmap.r is the rasterization of the soil map and was obtained</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="co"># in a previous step</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(covs, soilmap.r)</a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="co"># correct the name for layer 14</span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="kw">names</span>(covs)[<span class="dv">14</span>] &lt;-<span class="st"> &quot;soilmap&quot;</span></a></code></pre></div>
+<p>Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as 1 file. This will allow us to load this file in the following chapters of this book.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co">#mask the covariates with the country mask from the data repository</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">mask &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/mask.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">covs &lt;-<span class="st"> </span><span class="kw">mask</span>(<span class="dt">x =</span> covs, <span class="dt">mask =</span> mask)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co"># export all the covariates </span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6"><span class="kw">save</span>(covs, <span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb48-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb48-8" data-line-number="8"><span class="kw">plot</span>(covs)</a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="overlay-covariates-and-spatial-data" class="section level3">
+<h3><span class="header-section-number">5.9.3</span> Overlay Covariates and Spatial Data</h3>
+<p>In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, <strong>raster</strong> package resample and <code>projectRaster()</code> functions are for harmonizing all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#upgrade points data frame to SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co"># extract values from covariates to the soil points</span></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> covs, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="co"># LCEE10 and soilmap are categorical variables</span></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">dat<span class="op">@</span>data<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb49-9" data-line-number="9">dat<span class="op">@</span>data<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb49-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb49-11" data-line-number="11"><span class="kw">levels</span>(soilmap) &lt;-<span class="st"> </span>Symbol.levels</a>
+<a class="sourceLine" id="cb49-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb49-13" data-line-number="13"><span class="kw">summary</span>(dat<span class="op">@</span>data)</a></code></pre></div>
+<pre><code>##        id            SOC              BLD         
+##  P0003  :   1   Min.   : 0.080   Min.   :0.05353  
+##  P0007  :   1   1st Qu.: 1.772   1st Qu.:1.27881  
+##  P0008  :   1   Median : 2.620   Median :1.39605  
+##  P0009  :   1   Mean   : 3.579   Mean   :1.37990  
+##  P0010  :   1   3rd Qu.: 4.090   3rd Qu.:1.47619  
+##  P0011  :   1   Max.   :86.510   Max.   :2.89888  
+##  (Other):2910                                     
+##      CRFVOL             OCSKGM           meaERROR    
+##  Min.   : 0.00000   Min.   :0.03524   Min.   :0.172  
+##  1st Qu.: 0.01195   1st Qu.:0.70410   1st Qu.:3.160  
+##  Median : 5.00000   Median :0.99674   Median :3.830  
+##  Mean   :10.91665   Mean   :1.15062   Mean   :3.717  
+##  3rd Qu.:17.19974   3rd Qu.:1.40756   3rd Qu.:4.260  
+##  Max.   :93.95013   Max.   :7.43023   Max.   :8.620  
+##                                                      
+##    OCSKGMlog            B04CHE3         B07CHE3     
+##  Min.   :-3.345652   Min.   :547.2   Min.   :37.60  
+##  1st Qu.:-0.350842   1st Qu.:759.8   1st Qu.:43.74  
+##  Median :-0.003263   Median :763.9   Median :44.06  
+##  Mean   :-0.008980   Mean   :759.3   Mean   :43.88  
+##  3rd Qu.: 0.341860   3rd Qu.:774.8   3rd Qu.:44.54  
+##  Max.   : 2.005557   Max.   :802.9   Max.   :45.39  
+##                                                     
+##     B13CHE3          B14CHE3         DEMENV5        LCEE10    
+##  Min.   : 45.71   Min.   :22.26   Min.   :  45.0   1   :1967  
+##  1st Qu.: 60.01   1st Qu.:27.70   1st Qu.: 395.5   2   : 698  
+##  Median : 71.19   Median :30.11   Median : 594.0   3   :  94  
+##  Mean   : 74.26   Mean   :32.31   Mean   : 655.8   4   : 156  
+##  3rd Qu.: 78.79   3rd Qu.:35.61   3rd Qu.: 814.2   NA&#39;s:   1  
+##  Max.   :167.31   Max.   :60.32   Max.   :2375.0              
+##                                                               
+##     PRSCHE3          SLPMRG5          TMDMOD3     
+##  Min.   : 430.4   Min.   : 0.000   Min.   :280.0  
+##  1st Qu.: 529.9   1st Qu.: 0.000   1st Qu.:291.0  
+##  Median : 565.4   Median : 4.000   Median :293.0  
+##  Mean   : 604.6   Mean   : 8.553   Mean   :292.3  
+##  3rd Qu.: 651.3   3rd Qu.:13.000   3rd Qu.:294.0  
+##  Max.   :1211.9   Max.   :61.000   Max.   :297.0  
+##                                                   
+##     TMNMOD3         TWIMRG5          VBFMRG5     
+##  Min.   :270.0   Min.   : 56.00   Min.   :  0.0  
+##  1st Qu.:279.0   1st Qu.: 79.00   1st Qu.:  0.0  
+##  Median :280.0   Median : 94.00   Median : 70.5  
+##  Mean   :279.7   Mean   : 91.12   Mean   :173.6  
+##  3rd Qu.:281.0   3rd Qu.:102.00   3rd Qu.:390.0  
+##  Max.   :284.0   Max.   :139.00   Max.   :498.0  
+##                                                  
+##     VDPMRG5         soilmap   
+##  Min.   :-5869   9      :857  
+##  1st Qu.: 3571   3      :425  
+##  Median : 5702   12     :217  
+##  Mean   : 5370   10     :211  
+##  3rd Qu.: 7024   14     :205  
+##  Max.   :14104   (Other):982  
+##                  NA&#39;s   : 19</code></pre>
+<p>After the extraction, it’s useful to check if there are missing values (<code>NAs</code>) both in the target variable and covariates. In these cases, these data should be excluded. A quick way to assess if there are missing or NA values in the data is to use the <code>complete.cases()</code> function.</p>
+<p>After removing NAs, now there do not appear to be any missing data as indicated by the <code>integer(0)</code> output above. It means we have zero rows with missing information.</p>
+<p>The last step involves exporting a table our regression matrix including the soil data and the values of the environmental covariates in the position of the point samples.</p>
+<p>The summary of the <code>dat data.frame</code> shows 1 points with NA values for most of the covariates. And 22 points with NA values in the soilmap layer. The regression matrix should not contain NA values. There are two options to proceed:</p>
+<ul>
+<li><p><strong>Option 1</strong>: In some cases, this NA values are from points with bad position data. Therefore, the points area outside the study area. In this case, the solution is to correct the coordinates or eliminate the points. This is the case for the two points with NA values for most of the covariates.</p></li>
+<li><p><strong>Option 2</strong>: Another case is when a covariate is incomplete and does not cover all the area. This could produce many NA values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for the soilmap layer and the 30 points.</p></li>
+</ul>
+</div>
+<div id="convert-result-to-data.frame-and-save-as-a-csv-table" class="section level3">
+<h3><span class="header-section-number">5.9.4</span> Convert result to data.frame and save as a csv table</h3>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat)</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="co"># The points with NA values has to be removed </span></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="co"># export as a csv table</span></a>
+<a class="sourceLine" id="cb51-7" data-line-number="7"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Wong2014">
+<p>Wong, Wilson V. C., Satoshi Tsuyuki, Keiko Ioki, and Mui-How Phua. 2014. “Accuracy Assessment of Global Topographic Data (SRTM &amp; ASTER GDEM) in Comparison With LIDAR for Tropical Montane Forest.” In.</p>
+</div>
+<div id="ref-jackson2007onegeology">
+<p>Jackson, Ian. 2007. “OneGeology: Making Geological Map Data for the Earth Accessible.” <em>Episodes</em> 30 (1). International Union of Geological Sciences:60–61.</p>
+</div>
+<div id="ref-hartmann2012new">
+<p>Hartmann, Jens, and Nils Moosdorf. 2012. “The New Global Lithological Map Database Glim: A Representation of Rock Properties at the Earth Surface.” <em>Geochemistry, Geophysics, Geosystems</em> 13 (12). Wiley Online Library.</p>
+</div>
+<div id="ref-bontemps2011globcover">
+<p>Bontemps, Sophie, Pierre Defourny, Eric V Bogaert, Olivier Arino, Vasileios Kalogirou, and Jose R Perez. 2011. “GLOBCOVER 2009-Products Description and Validation Report.”</p>
+</div>
+<div id="ref-hijmans2005very">
+<p>Hijmans, Robert J, Susan E Cameron, Juan L Parra, Peter G Jones, and Andy Jarvis. 2005. “Very High Resolution Interpolated Climate Surfaces for Global Land Areas.” <em>International Journal of Climatology</em> 25 (15). Wiley Online Library:1965–78.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="setting-up-the-software-environment.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mappingMethods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-spatial-covariates.Rmd",
+"text": "Edit"
+},
+"download": ["SOCMapping.pdf", "SOCMapping.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
