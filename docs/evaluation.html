@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="presentation.html">
-<link rel="next" href="preparation.html">
+<link rel="prev" href="chvalidation.html">
+<link rel="next" href="uncertainty.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -343,57 +343,208 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="soil-property-maps" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Soil Property Maps</h1>
-<p><em>R Baritz</em></p>
-<div id="definitions-and-objectives" class="section level2">
-<h2><span class="header-section-number">2.1</span> Definitions and Objectives</h2>
-<p>Soil property maps represent spatial information about soil properties to a certain depth or for soil horizons. Conventionally, soil property maps are generated as polygon maps, with properties from typical soil profiles representing soil mapping units.
-Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properties, including the spatial quantification of the prediction error. The quality of such predictions improves with increasing number of local observations (e.g. soil profiles) available to build the prediction model. Whenever possible, DSM is recommended.</p>
-<p>The development of soil property maps via DSM is spatially flexible. For different soil properties (e.g. concentration and stocks of nutrients in the soil, carbon, heavy metals, pH, cation exchange capacity, physical soil properties such as particle sizes and bulk density, etc.), various depth classes and spatial resolution can be modeled depending on project and mapping objectives and available input data. For GSOCmap, a 1 km grid is pursued. The same methodology and input data can also be used to produce higher resolution soil grids.</p>
-<p>The mapping of global soil organic carbon (GSOC) stocks will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO, and its regional offices, as well as the Regional Soil Partnerships, are challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping.</p>
+<div id="evaluation" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Model Evaluation in Digital Soil Mapping</h1>
+<p><em>M Guevara &amp; GF Olmedo</em></p>
+<p>There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy (<span class="citation">Ho and Pepyne (<a href="#ref-ho2002simple">2002</a>)</span>; <span class="citation">Qiao, Soberón, and Peterson (<a href="#ref-qiao2015no">2015</a>)</span>; <span class="citation">Guevara et al. (<a href="#ref-soil-2017-40">2018</a>)</span>; <span class="citation">Nussbaum et al. (<a href="#ref-nussbaum2018evaluation">2018</a>)</span>). This section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM. Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled SOC estimates derived from three different statistical methods (multiple linear regression-kriging RK (Sect.<a href="mappingMethods.html#RK">6.2</a>) random forests RF (Sect.<a href="mappingMethods.html#rf">6.3</a>), and support vector machines SVM (Sect.<a href="mappingMethods.html#svm">6.4</a>)). The model evaluation methods presented here were adapted from the original work of Carslaw &amp; Ropkins for air quality assessments and its R package openair <span class="citation">(Carslaw and Ropkins <a href="#ref-openair">2012</a>)</span>.</p>
+<p>We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous chapter. The cross validation strategy and the repeated random split for training and testing the models are other two alrernatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting ‘best method’ could be the one that overfits the most.</p>
+<div id="technical-steps---model-correlations-and-spatial-differences" class="section level2">
+<h2><span class="header-section-number">8.1</span> Technical steps - Model correlations and spatial differences</h2>
+<p>We will import the predicted maps and harmonize them in to the same regular grid (~1x1km of spatial resolution). Then we will plot the statistical distribution and the correlation between the three different methods (RK, RF, SVM).</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb164-2" data-line-number="2">RF&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_rf.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb164-3" data-line-number="3">RK&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_RK.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb164-4" data-line-number="4">SVM&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_svm.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb164-5" data-line-number="5"><span class="co">#Note that RK has a different reference system </span></a>
+<a class="sourceLine" id="cb164-6" data-line-number="6">RK &lt;-<span class="st"> </span><span class="kw">projectRaster</span>(RK, SVM)</a>
+<a class="sourceLine" id="cb164-7" data-line-number="7">models &lt;-<span class="st"> </span><span class="kw">stack</span>(RK, RF, SVM)</a>
+<a class="sourceLine" id="cb164-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb164-9" data-line-number="9"><span class="kw">library</span>(psych)</a>
+<a class="sourceLine" id="cb164-10" data-line-number="10"><span class="kw">pairs.panels</span>(<span class="kw">na.omit</span>(<span class="kw">as.data.frame</span>(models)), </a>
+<a class="sourceLine" id="cb164-11" data-line-number="11">             <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>, <span class="co"># correlation method</span></a>
+<a class="sourceLine" id="cb164-12" data-line-number="12">             <span class="dt">hist.col =</span> <span class="st">&quot;#00AFBB&quot;</span>,</a>
+<a class="sourceLine" id="cb164-13" data-line-number="13">             <span class="dt">density =</span> <span class="ot">TRUE</span>,  <span class="co"># show density plots</span></a>
+<a class="sourceLine" id="cb164-14" data-line-number="14">             <span class="dt">ellipses =</span> <span class="ot">TRUE</span> <span class="co"># show correlation ellipses</span></a>
+<a class="sourceLine" id="cb164-15" data-line-number="15">             )                     </a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-95-1.png" width="70%" />
+Here we found that the higher correlation between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches (0.79, RF and SVM). We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">library</span>(rasterVis)</a>
+<a class="sourceLine" id="cb165-2" data-line-number="2"><span class="kw">densityplot</span>(models)</a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-96-1.png" width="672" />
+Lets now take a look at the spatial differences. This step will allow to identify the geographical areas within the prediction domain where model predictions more agreee and disagree. To spatially compare model predictions we will estimate the standard deviation and the
+differences between the three SOC maps.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">SD &lt;-<span class="st"> </span><span class="kw">calc</span>(models , sd)</a>
+<a class="sourceLine" id="cb166-2" data-line-number="2"><span class="kw">library</span>(mapview)</a>
+<a class="sourceLine" id="cb166-3" data-line-number="3"><span class="kw">mapview</span>(SD)</a></code></pre></div>
+<p>The mapview command will plot the standard deviation map in a <em>.html</em> file. Note roughly how the hotspots (yellow to red colors) of higher variance of predictions tend to be higher towards the west of the country, whereas models tend to agree in their predictions across the east side of the country. Note also that the variability although noisy, it shows a general pattern, (e.g., from east to west), suggesting that model agreement could be associated with specific land surface characteristics. Now we will analyze specific differences between the three models (RK vs RF, RK vs SVM, RF vs SVM).</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1">RKRF  &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]], diff)</a>
+<a class="sourceLine" id="cb167-2" data-line-number="2">RKSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]], diff)</a>
+<a class="sourceLine" id="cb167-3" data-line-number="3">RFSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]], diff)</a>
+<a class="sourceLine" id="cb167-4" data-line-number="4">preds &lt;-<span class="st"> </span><span class="kw">stack</span>(RKRF, RKSVM, RFSVM)</a>
+<a class="sourceLine" id="cb167-5" data-line-number="5"><span class="kw">names</span>(preds) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;RKvsRF&#39;</span>,<span class="st">&#39;RKvsSVM&#39;</span>,<span class="st">&#39;RFvsSVM&#39;</span>)</a>
+<a class="sourceLine" id="cb167-6" data-line-number="6">X &lt;-<span class="st"> </span><span class="kw">cellStats</span>(preds, mean)</a>
+<a class="sourceLine" id="cb167-7" data-line-number="7"><span class="kw">levelplot</span>(preds <span class="op">-</span><span class="st"> </span>X, <span class="dt">at=</span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>, <span class="dt">length.out=</span><span class="dv">10</span>), <span class="dt">par.settings =</span> RdBuTheme)</a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html4/unnamed-chunk-98-1.png" width="672" />
+Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF semms to be less sharp than the differences of SVM with the other two methods. Note that we use the levelplot function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the mapview function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks).</p>
 </div>
-<div id="generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates" class="section level2">
-<h2><span class="header-section-number">2.2</span> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</h2>
-<p>The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular, GSOCmap.</p>
+<div id="technical-steps---model-evaluation" class="section level2">
+<h2><span class="header-section-number">8.2</span> Technical steps - Model evaluation</h2>
+<p>To compare the performance of the three models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the 3 models. The table containing these values was prepared in Section <a href="chvalidation.html#TS:validation">7.5</a>.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;results/validation.csv&quot;</span>)</a></code></pre></div>
+<p>We will prepare a new table from this data that we are going to use for model evaluation purposes. The new table should have the observed value, the predicted value and the model.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="co"># prepare 3 new data.frame with the observed, predicted and the model</span></a>
+<a class="sourceLine" id="cb169-2" data-line-number="2">modRK &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_RK, </a>
+<a class="sourceLine" id="cb169-3" data-line-number="3">                    <span class="dt">model =</span> <span class="st">&quot;RK&quot;</span>)</a>
+<a class="sourceLine" id="cb169-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb169-5" data-line-number="5">modRF &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_rf, </a>
+<a class="sourceLine" id="cb169-6" data-line-number="6">                    <span class="dt">model =</span> <span class="st">&quot;RF&quot;</span>)</a>
+<a class="sourceLine" id="cb169-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb169-8" data-line-number="8">modSVM &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_svm, </a>
+<a class="sourceLine" id="cb169-9" data-line-number="9">                     <span class="dt">model =</span> <span class="st">&quot;SVM&quot;</span>)</a>
+<a class="sourceLine" id="cb169-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb169-11" data-line-number="11"><span class="co"># merge the 3 data.frames into one</span></a>
+<a class="sourceLine" id="cb169-12" data-line-number="12">modData &lt;-<span class="st"> </span><span class="kw">rbind</span>(modRK, modRF, modSVM)</a>
+<a class="sourceLine" id="cb169-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb169-14" data-line-number="14"><span class="kw">summary</span>(modData)</a></code></pre></div>
+<pre><code>##       obs              mod         model    
+##  Min.   :0.0111   Min.   :0.2980   RK :970  
+##  1st Qu.:0.6681   1st Qu.:0.8196   RF :970  
+##  Median :0.9518   Median :0.9589   SVM:970  
+##  Mean   :1.1076   Mean   :1.0422            
+##  3rd Qu.:1.3744   3rd Qu.:1.1507            
+##  Max.   :6.1827   Max.   :3.3768            
+##                   NA&#39;s   :34</code></pre>
+<p>Now we will use the modStats function to calculate common numerical model evaluation statistics which are described and mathematically defined in the openair manual (<span class="citation">Carslaw (<a href="#ref-carslaw2015openair">2015</a>)</span>, Ch. 27, pp 231-233). These include:</p>
+<ul>
+<li><span class="math inline">\(n\)</span>, the number of complete pairs of data.</li>
+<li><span class="math inline">\(FAC2\)</span>, fraction of predictions within a factor of two.</li>
+<li><span class="math inline">\(MB\)</span>, the mean bias.</li>
+<li><span class="math inline">\(MGE\)</span>, the mean gross error.</li>
+<li><span class="math inline">\(NMB\)</span>, the normalized mean bias.</li>
+<li><span class="math inline">\(NMGE\)</span>, the normalized mean gross error.</li>
+<li><span class="math inline">\(RMSE\)</span>, the root mean squared error.</li>
+<li><span class="math inline">\(r\)</span>, the Pearson correlation coefficient.</li>
+<li><span class="math inline">\(COE\)</span>, the Coefficient of Efficiency based on <span class="citation">Legates and McCabe (<a href="#ref-legates1999evaluating">1999</a>)</span>, <span class="citation">Legates and McCabe (<a href="#ref-legates2013refined">2013</a>)</span>. A perfect model has a <span class="math inline">\(COE\)</span> = 1. A value of <span class="math inline">\(COE\)</span> = 0.0 or negative implies no prediction capacity.</li>
+<li><span class="math inline">\(IOA\)</span>, the Index of Agreement based on <span class="citation">Willmott, Robeson, and Matsuura (<a href="#ref-willmott2012refined">2012</a>)</span>, which spans between -1 and 1 with values approaching +1 representing better model performance.</li>
+</ul>
+<p>A perfect model would have a <span class="math inline">\(FAC24\)</span>, <span class="math inline">\(r\)</span>, <span class="math inline">\(COE\)</span> and <span class="math inline">\(IOA\)</span> ~ 1.0, while all the others ~ 0. However, digital soil mappers should have in mind that there is no such thing as a perfect model on digital SOC mapping for large areas, especially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures <span class="citation">(Chang and Hanna <a href="#ref-chang2004air">2004</a>)</span>.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="co">#Load the openair library</span></a>
+<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="kw">library</span>(openair)</a>
+<a class="sourceLine" id="cb171-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb171-4" data-line-number="4">modsts &lt;-<span class="st"> </span><span class="kw">modStats</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
 <table>
-<colgroup>
-<col width="22%" />
-<col width="29%" />
-<col width="48%" />
-</colgroup>
+<caption><span id="tab:modsts">Table 8.1: </span>Summary of Different Model Evaluation Statistics for the 3 Models Compared</caption>
+<thead>
+<tr class="header">
+<th align="left">model</th>
+<th align="right">FAC2</th>
+<th align="right">MB</th>
+<th align="right">MGE</th>
+<th align="right">NMB</th>
+<th align="right">NMGE</th>
+<th align="right">RMSE</th>
+<th align="right">r</th>
+<th align="right">COE</th>
+<th align="right">IOA</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td>Conventional upscaling <span class="citation">(Lettens et al. <a href="#ref-lettens2004soil">2004</a>)</span></td>
-<td>Class-matching</td>
-<td>Derive average SOC stocks per class: soil type for which a national map exists, or combination with other spatial covariates (e.g. land use category, climate type, biome, etc.). This approach is used in the absence of spatial coordinates of the source data.</td>
+<td align="left">RK</td>
+<td align="right">0.89</td>
+<td align="right">-0.08</td>
+<td align="right">0.36</td>
+<td align="right">-0.07</td>
+<td align="right">0.32</td>
+<td align="right">0.54</td>
+<td align="right">0.63</td>
+<td align="right">0.25</td>
+<td align="right">0.63</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>Geomatching</td>
-<td>Point locations with spatial referencing are overlaid with GIS layers of important covariates (e.g. a soil map). Upscaling is based on averaged SOC values per mapping unit.</td>
+<td align="left">RF</td>
+<td align="right">0.88</td>
+<td align="right">-0.08</td>
+<td align="right">0.37</td>
+<td align="right">-0.07</td>
+<td align="right">0.33</td>
+<td align="right">0.56</td>
+<td align="right">0.59</td>
+<td align="right">0.23</td>
+<td align="right">0.62</td>
 </tr>
 <tr class="odd">
-<td>Digital soil mapping <span class="citation">(Dobos <a href="#ref-dobos2006digital">2006</a>)</span></td>
-<td>Data mining and geostatistics</td>
-<td>Multiple regression, classification tree, random forests, regression kriging, kriging with external drift.</td>
+<td align="left">SVM</td>
+<td align="right">0.86</td>
+<td align="right">-0.03</td>
+<td align="right">0.39</td>
+<td align="right">-0.02</td>
+<td align="right">0.36</td>
+<td align="right">0.58</td>
+<td align="right">0.53</td>
+<td align="right">0.18</td>
+<td align="right">0.59</td>
 </tr>
 </tbody>
 </table>
-<p>Digital soil mapping is based on the development of functions for upscaling point data (with soil measurements) to a full spatial extent using correlated environmental covariates, for which spatial data are available.</p>
-<blockquote>
-<p>DSM: Concept of environmental correlation that explores the quantitative relationship between environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.</p>
-</blockquote>
+<p>From our SOC mapping example across FYROM, the three models generate similar results. The FAC2 is over to 0.8 in all cases, being RK the one closer to 1. MB and NMB suggest that all the model’s tent to underestimate SOC because they are negative. SVM tend to underestimate less than RK and RF. The MGE, NMGE, and RMSE suggest however that SVM is generating the larger error rate and by the values of r COE and IOA, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM.</p>
+<p>The aforementioned conclusion can be verified by plotting a Taylor Diagram (Fig. <a href="evaluation.html#fig:taylor">8.1</a>), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values <span class="citation">(Taylor <a href="#ref-taylor2001summarizing">2001</a>)</span>. Recent reports show that the integration of simple validation metrics (e.g., the rmse correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias (<span class="citation">Guevara et al. (<a href="#ref-soil-2017-40">2018</a>)</span>; <span class="citation">Nussbaum et al. (<a href="#ref-nussbaum2018evaluation">2018</a>)</span>). Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">TaylorDiagram</span>(modData, <span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">group =</span> <span class="st">&quot;model&quot;</span>,</a>
+<a class="sourceLine" id="cb172-2" data-line-number="2"><span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>), <span class="dt">cor.col=</span><span class="st">&#39;brown&#39;</span>,<span class="dt">rms.col=</span><span class="st">&#39;black&#39;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:taylor"></span>
+<img src="SOCMapping_files/figure-html4/taylor-1.png" alt="Taylor diagram used in the evaluation of the 3 digital soil mapping models" width="672" />
+<p class="caption">
+Figure 8.1: Taylor diagram used in the evaluation of the 3 digital soil mapping models
+</p>
+</div>
+<p>However, we need also to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (Fig. <a href="evaluation.html#fig:condquant">8.2</a>).</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">conditionalQuantile</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:condquant"></span>
+<img src="SOCMapping_files/figure-html4/condquant-1.png" alt="Effectiveness of the different digital soil mapping models across the full distribution of SOC observed values" width="672" />
+<p class="caption">
+Figure 8.2: Effectiveness of the different digital soil mapping models across the full distribution of SOC observed values
+</p>
+</div>
+<p>The blue line shows the results for a perfect model. In this case, the observations cover a range from 0 to 6 kg.m-2. Interestingly, the maximum predicted value is in all cases less than 3 kg.m-2, which is consistent with the MB and NMB previous results. The red line shows the median value of the predictions. Note that the median of predictions across the larger SOC values seems to have more variability across SVM and RK compared with RF, which tends to be conservative across the third quantile of data distribution. The shading shows the predicted quantile intervals (i.e. the 25/75th and the10/90th). A perfect model (blue line) would have a very narrow spread <span class="citation">(Carslaw and Ropkins <a href="#ref-openair">2012</a>)</span>. The histograms show the counts of observed (gray) and predicted values (blue). While RF shows more conservative results across the higher SOC values (e.g., over the 4th), SVM had the lowest model performance based these metrics. SVM was also the method showing higher spatail differences compared with RF and RK.</p>
+<p>We conclude, for this specific example, that RK showed the best performance based on the implemented evaluation metrics. Therefore RK is a suitable method predicting SOC values across Macedonia, although other methods generate similar results, we propose that, given available data, RK could be also easier to interpret, because it provides the means to identify the main effects and coefficients of the relationships across the covariate space and the response variable. Beyond model evaluation, the spatial combination of different modeling approaches (e.g., by the means of the ensemble learning theory) should also be considered in order to maximize the accuracy of results.</p>
+<p>Finally, we want to highlight that Integrating different statistical methods and visualization tools, such as those provided by the openair package of R <span class="citation">(Carslaw and Ropkins <a href="#ref-openair">2012</a>)</span> will enhance our capacity to identify the best modeling approaches and a combination of SOC prediction factors given a specific dataset. Model evaluation benefits our understanding of the circumstances why each modeling approach will generate different results, which is a first step towards reducing uncertainty while increasing the spatial resolution and accuracy of predictions, the eternal digital soil mapping problem.</p>
 
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-lettens2004soil">
-<p>Lettens, Suzanna, J van Orshoven, B Wesemael, and Bart and Muys. 2004. “Soil Organic and Inorganic Carbon Contents of Landscape Units in Belgium Derived Using Data from 1950 to 1970.” <em>Soil Use and Management</em> 20 (1). Wiley Online Library:40–47.</p>
+<div id="ref-ho2002simple">
+<p>Ho, Yu-Chi, and David L Pepyne. 2002. “Simple Explanation of the No-Free-Lunch Theorem and Its Implications.” <em>Journal of Optimization Theory and Applications</em> 115 (3). Springer:549–70.</p>
 </div>
-<div id="ref-dobos2006digital">
-<p>Dobos, E. 2006. <em>Digital Soil Mapping: As a Support to Production of Functional Maps</em>. Office for Official Publication of the European Communities.</p>
+<div id="ref-qiao2015no">
+<p>Qiao, Huijie, Jorge Soberón, and Andrew Townsend Peterson. 2015. “No Silver Bullets in Correlative Ecological Niche Modelling: Insights from Testing Among Many Potential Algorithms for Niche Estimation.” <em>Methods in Ecology and Evolution</em> 6 (10). Wiley Online Library:1126–36.</p>
+</div>
+<div id="ref-soil-2017-40">
+<p>Guevara, M., G. F. Olmedo, E. Stell, Y. Yigini, Y. Aguilar Duarte, C. Arellano Hernández, G. E. Arévalo, et al. 2018. “No Silver Bullet for Digital Soil Mapping: Country-Specific Soil Organic Carbon Estimates Across Latin America.” <em>SOIL Discussions</em> 2018:1–20. <a href="https://doi.org/10.5194/soil-2017-40" class="uri">https://doi.org/10.5194/soil-2017-40</a>.</p>
+</div>
+<div id="ref-nussbaum2018evaluation">
+<p>Nussbaum, Madlene, Kay Spiess, Andri Baltensweiler, Urs Grob, Armin Keller, Lucie Greiner, Michael E Schaepman, and Andreas Papritz. 2018. “Evaluation of Digital Soil Mapping Approaches with Large Sets of Environmental Covariates.” <em>Soil</em> 4 (1). Copernicus GmbH:1.</p>
+</div>
+<div id="ref-openair">
+<p>Carslaw, David C., and Karl Ropkins. 2012. “Openair — an R Package for Air Quality Data Analysis.” <em>Environmental Modelling &amp; Software</em> 27–28 (0):52–61. <a href="https://doi.org/10.1016/j.envsoft.2011.09.008" class="uri">https://doi.org/10.1016/j.envsoft.2011.09.008</a>.</p>
+</div>
+<div id="ref-carslaw2015openair">
+<p>Carslaw, DC. 2015. “The Openair Manual–Open-Source Tools for Analysing Air Pollution Data. Manual for Version 1.1–4, King’s College London.”</p>
+</div>
+<div id="ref-legates1999evaluating">
+<p>Legates, David R, and Gregory J McCabe. 1999. “Evaluating the Use of ‘Goodness-of-Fit’ Measures in Hydrologic and Hydroclimatic Model Validation.” <em>Water Resources Research</em> 35 (1). Wiley Online Library:233–41.</p>
+</div>
+<div id="ref-legates2013refined">
+<p>Legates, David R, and Gregory J McCabe. 2013. “A Refined Index of Model Performance: A Rejoinder.” <em>International Journal of Climatology</em> 33 (4). Wiley Online Library:1053–6.</p>
+</div>
+<div id="ref-willmott2012refined">
+<p>Willmott, Cort J, Scott M Robeson, and Kenji Matsuura. 2012. “A Refined Index of Model Performance.” <em>International Journal of Climatology</em> 32 (13). Wiley Online Library:2088–94.</p>
+</div>
+<div id="ref-chang2004air">
+<p>Chang, JC, and SR Hanna. 2004. “Air Quality Model Performance Evaluation.” <em>Meteorology and Atmospheric Physics</em> 87 (1-3). Springer:167–96.</p>
+</div>
+<div id="ref-taylor2001summarizing">
+<p>Taylor, Karl E. 2001. “Summarizing Multiple Aspects of Model Performance in a Single Diagram.” <em>Journal of Geophysical Research: Atmospheres</em> 106 (D7). Wiley Online Library:7183–92.</p>
 </div>
 </div>
             </section>
@@ -401,8 +552,8 @@ Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properti
           </div>
         </div>
       </div>
-<a href="presentation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="preparation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="chvalidation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="uncertainty.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -431,7 +582,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/02-Soil-property-maps.Rmd",
+"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/08-model-evaluation.Rmd",
 "text": "Edit"
 },
 "download": ["SOCMapping.pdf", "SOCMapping.epub"],

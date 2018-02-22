@@ -244,11 +244,8 @@ legend("bottomright",legend = Symbol.levels, fill=rainbow(21),
 ## Overlay Covariates and Soil Points Data{#cd:Overlay}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
-## Overlay Covariates and Soil Points Data{#cd:Overlay}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
-
-```{r "join covariates and soil samples", eval=FALSE}
+```{r, eval=FALSE}
 # Load the processed data. This table was prepared in the previous 
 # chapter.
 dat <- read.csv("data/dataproc.csv")
@@ -281,6 +278,7 @@ dat <- extract(x = covs, y = dat, sp = TRUE)
 
 # LCEE10 and soilmap are categorical variables
 dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
+
 dat@data$soilmap <- as.factor(dat@data$soilmap)
 
 #levels(soilmap) <- Symbol.levels
@@ -301,7 +299,7 @@ write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
 
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
-```{r "RK full example", eval=FALSE}
+```{r, eval=FALSE}
 # load data
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
@@ -1343,7 +1341,8 @@ RFSVM <- calc(models[[c(2,3)]], diff)
 preds <- stack(RKRF, RKSVM, RFSVM)
 names(preds) <- c('RKvsRF','RKvsSVM','RFvsSVM')
 X <- cellStats(preds, mean)
-levelplot(preds - X, at=seq(-0.5,0.5, length.out=10), par.settings = RdBuTheme)
+levelplot(preds - X, at=seq(-0.5,0.5, length.out=10), 
+          par.settings = RdBuTheme)
 
 dat <- read.csv("results/validation.csv")
 
@@ -1367,10 +1366,9 @@ library(openair)
 
 modsts <- modStats(modData,obs = "obs", mod = "mod", type = "model")
 
-#modsts <- cbind(modsts[1], round(modsts[-1], 2))
-## print a table
-knitr::kable(modsts[,c(1,3:11)], caption = "Summary of Different Model Evaluation Statistics for the 3 Models Compared", digits = 2,
-             row.names = F, booktabs = TRUE)
+modsts
+
+
 
 TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
 cols = c("orange", "red","blue"), cor.col='brown',rms.col='black')

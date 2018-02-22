@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="presentation.html">
-<link rel="next" href="preparation.html">
+<link rel="prev" href="foreword-to-the-first-edition.html">
+<link rel="next" href="presentation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -343,57 +343,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="soil-property-maps" class="section level1">
-<h1><span class="header-section-number">Chapter 2</span> Soil Property Maps</h1>
-<p><em>R Baritz</em></p>
-<div id="definitions-and-objectives" class="section level2">
-<h2><span class="header-section-number">2.1</span> Definitions and Objectives</h2>
-<p>Soil property maps represent spatial information about soil properties to a certain depth or for soil horizons. Conventionally, soil property maps are generated as polygon maps, with properties from typical soil profiles representing soil mapping units.
-Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properties, including the spatial quantification of the prediction error. The quality of such predictions improves with increasing number of local observations (e.g. soil profiles) available to build the prediction model. Whenever possible, DSM is recommended.</p>
-<p>The development of soil property maps via DSM is spatially flexible. For different soil properties (e.g. concentration and stocks of nutrients in the soil, carbon, heavy metals, pH, cation exchange capacity, physical soil properties such as particle sizes and bulk density, etc.), various depth classes and spatial resolution can be modeled depending on project and mapping objectives and available input data. For GSOCmap, a 1 km grid is pursued. The same methodology and input data can also be used to produce higher resolution soil grids.</p>
-<p>The mapping of global soil organic carbon (GSOC) stocks will be the first implementation of a series of other soil property grids to be developed for GLOSIS, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO, and its regional offices, as well as the Regional Soil Partnerships, are challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping.</p>
+<div id="foreword-to-the-second-edition" class="section level1 unnumbered">
+<h1>Foreword to the Second Edition</h1>
+<p>This edition has been updated with knowledge and practical experiences gained during the implementation process of GSOCmap V1.0 throughout 2017. The cookbook includes step-by-step guidance for developing 1 km grids for SOC stocks, as well as for the preparation of local soil data, the compilation and preprocessing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessment methods. Guidance is mainly specific to SOC data, but as this cookbook contains generic sections on soil grid development it can be applicable to map various soil properties.</p>
+
+<div id="editorial-board" class="section level2 unnumbered">
+<h2>Editorial Board</h2>
+<ul>
+<li>Yusuf Yigini, Guillermo Federico Olmedo, Kostiantyn Viatkin, Rainer Baritz, Ronald R. Vargas
+Global Soil Partnership, Food and Agriculture Organization of the United Nations</li>
+</ul>
 </div>
-<div id="generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates" class="section level2">
-<h2><span class="header-section-number">2.2</span> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</h2>
-<p>The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular, GSOCmap.</p>
+<div id="contributing-authors" class="section level2 unnumbered">
+<h2>Contributing Authors</h2>
 <table>
 <colgroup>
-<col width="22%" />
-<col width="29%" />
-<col width="48%" />
+<col width="13%" />
+<col width="86%" />
 </colgroup>
 <tbody>
 <tr class="odd">
-<td>Conventional upscaling <span class="citation">(Lettens et al. <a href="#ref-lettens2004soil">2004</a>)</span></td>
-<td>Class-matching</td>
-<td>Derive average SOC stocks per class: soil type for which a national map exists, or combination with other spatial covariates (e.g. land use category, climate type, biome, etc.). This approach is used in the absence of spatial coordinates of the source data.</td>
+<td><img src="contrAuthors/Baritz.jpg" /></td>
+<td>Rainer Bartiz - Food and Agriculture Organization of the United Nations</td>
 </tr>
 <tr class="even">
-<td></td>
-<td>Geomatching</td>
-<td>Point locations with spatial referencing are overlaid with GIS layers of important covariates (e.g. a soil map). Upscaling is based on averaged SOC values per mapping unit.</td>
+<td><img src="contrAuthors/Brus.jpg" /></td>
+<td>Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands</td>
 </tr>
 <tr class="odd">
-<td>Digital soil mapping <span class="citation">(Dobos <a href="#ref-dobos2006digital">2006</a>)</span></td>
-<td>Data mining and geostatistics</td>
-<td>Multiple regression, classification tree, random forests, regression kriging, kriging with external drift.</td>
+<td><img src="contrAuthors/Guevara.jpg" /></td>
+<td>Mario Guevara - University of Delaware, USA</td>
+</tr>
+<tr class="even">
+<td><img src="contrAuthors/Hengl.jpg" /></td>
+<td>Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands</td>
+</tr>
+<tr class="odd">
+<td><img src="contrAuthors/Heuvelink.jpg" /></td>
+<td>Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands</td>
+</tr>
+<tr class="even">
+<td><img src="contrAuthors/Kempen.jpg" /></td>
+<td>Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands</td>
+</tr>
+<tr class="odd">
+<td><img src="contrAuthors/Mulder.jpeg" /></td>
+<td>Titia VL Mulder - Wageningen University, Department of Environmental Sciences, the Netherlands</td>
+</tr>
+<tr class="even">
+<td><img src="contrAuthors/Olmedo.png" /></td>
+<td>Guillermo Federico Olmedo - Instituto Nacional de Tecnología Agropecuaria, Mendoza, Argentina</td>
+</tr>
+<tr class="odd">
+<td><img src="contrAuthors/Poggio.jpg" /></td>
+<td>Laura Poggio - The James Hutton Institute, Craigiebuckler Aberdeen, Scotland UK</td>
+</tr>
+<tr class="even">
+<td><img src="contrAuthors/Ribeiro.jpg" /></td>
+<td>Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands</td>
+</tr>
+<tr class="odd">
+<td><img src="contrAuthors/Omuto.jpg" /></td>
+<td>Christian Thine Omuto - Department of Environmental and Biosystems Engineering, University of Nairobi, Kenya</td>
+</tr>
+<tr class="even">
+<td><img src="contrAuthors/Yigini.jpg" /></td>
+<td>Yusuf Yigini - Food and Agriculture Organization of the United Nations</td>
+</tr>
+<tr class="odd">
+<td><img src="contrAuthors/Vargas.jpg" /></td>
+<td>Ronald R Vargas - Food and Agriculture Organization of the United Nations</td>
 </tr>
 </tbody>
 </table>
-<p>Digital soil mapping is based on the development of functions for upscaling point data (with soil measurements) to a full spatial extent using correlated environmental covariates, for which spatial data are available.</p>
-<blockquote>
-<p>DSM: Concept of environmental correlation that explores the quantitative relationship between environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.</p>
-</blockquote>
 
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-lettens2004soil">
-<p>Lettens, Suzanna, J van Orshoven, B Wesemael, and Bart and Muys. 2004. “Soil Organic and Inorganic Carbon Contents of Landscape Units in Belgium Derived Using Data from 1950 to 1970.” <em>Soil Use and Management</em> 20 (1). Wiley Online Library:40–47.</p>
-</div>
-<div id="ref-dobos2006digital">
-<p>Dobos, E. 2006. <em>Digital Soil Mapping: As a Support to Production of Functional Maps</em>. Office for Official Publication of the European Communities.</p>
+
 </div>
 </div>
             </section>
@@ -401,8 +425,8 @@ Digital Soil Mapping (DSM) allows more accurate spatial mapping of soil properti
           </div>
         </div>
       </div>
-<a href="presentation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="preparation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="foreword-to-the-first-edition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="presentation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -431,7 +455,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/02-Soil-property-maps.Rmd",
+"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/index.Rmd",
 "text": "Edit"
 },
 "download": ["SOCMapping.pdf", "SOCMapping.epub"],
