@@ -17,6 +17,9 @@ mask <- raster("data/mask.tif")
 
 covs <- mask(x = covs, mask = mask)
 
+# export all the covariates
+save(covs, file = "covariates.RData")
+
 plot(covs)
 
 #upgrade points data frame to SpatialPointsDataFrame

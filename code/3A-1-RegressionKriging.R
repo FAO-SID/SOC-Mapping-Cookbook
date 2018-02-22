@@ -1,8 +1,5 @@
 # load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
-
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
+dat <- read.csv("data/KHM_RegMatrix.csv")
 
 # explore the data structure
 str(dat)
@@ -20,25 +17,9 @@ dat@proj4string
 
 library(raster)
 
-# list all the itf files in the folder covs/
-files <- list.files(path = "covs", pattern = "tif$",
-                    full.names = TRUE)
+load(file = "covariates.RData")
 
-# load all the tif files in one rasterStack object
-covs <- stack(files)
-
-# load the vectorial version of the soil map
-soilmap <- shapefile("MK_soilmap_simple.shp")
-
-# rasterize using the Symbol layer
-soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
-soilmap.r <- rasterize(x = soilmap, y = covs[[1]], field = "Symbol")
-
-# stack the soil map and the other covariates
-covs <- stack(covs, soilmap.r)
-
-# correct the name for layer 14
-names(covs)[14] <- "soilmap"
+names(covs)
 
 # print the names of the 14 layers:
 names(covs)
@@ -72,7 +53,7 @@ vif(model.MLR.step)
 sqrt(vif(model.MLR.step))
 
 # Removing B07CHE3 from the stepwise model:
-model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
+model.MLR.step <- update(model.MLR.step, . ~ . - DEMSRE3a - PX3WCL3a)
 
 # Test the vif again:
 sqrt(vif(model.MLR.step))
@@ -84,20 +65,16 @@ summary(model.MLR.step)
 outlierTest(model.MLR.step)
 
 # Project point data.
-dat <- spTransform(dat, CRS("+init=epsg:6204"))
+dat <- spTransform(dat, CRS("+init=epsg:32648"))
 
 # project covariates to VN-2000 UTM 48N
-covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"),
+covs <- projectRaster(covs, crs = CRS("+init=epsg:32648"),
                       method='ngb')
 
-covs$LCEE10 <- as.factor(covs$LCEE10)
-covs$soilmap <- as.factor(covs$soilmap)
 
 # Promote covariates to spatial grid dataframe. Takes some time and
 # a lot of memory!
 covs.sp <- as(covs, "SpatialGridDataFrame")
-covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
-covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 
 # RK model
 library(automap)

@@ -33,6 +33,7 @@ dat <- dat[complete.cases(dat),]
 ## Take a look to the results
 head(dat)
 
+library(GSIF)
 # Estimate Organic Carbon Stock
 # SOC must be in g/kg
 # BLD in kg/m3
