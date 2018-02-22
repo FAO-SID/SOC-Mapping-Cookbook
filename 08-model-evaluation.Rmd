@@ -1,4 +1,4 @@
-# Model Evaluation in Digital Soil Mapping
+# Model Evaluation in Digital Soil Mapping {#evaluation}
 *M Guevara & GF Olmedo*
 
 There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @soil-2017-40; @nussbaum2018evaluation). This section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM. Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled  SOC estimates derived from three different statistical methods (multiple linear regression-kriging RK (Sect.\@ref(RK)) random forests RF (Sect.\@ref(rf)), and support vector machines SVM (Sect.\@ref(svm))). The model evaluation methods presented here were adapted from the original work of Carslaw \& Ropkins for air quality assessments and its R package openair [@openair]. 
