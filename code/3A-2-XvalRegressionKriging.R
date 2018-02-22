@@ -1,3 +1,7 @@
+# autoKrige.cv() does not removes the duplicated points
+# we have to do it manually before running the cross-validation
+dat = dat[which(!duplicated(dat@coords)), ]
+
 OCS.krige.cv <- autoKrige.cv(formula =
                                as.formula(model.MLR.step$call$formula),
                              input_data = dat, nfold = 10)
