@@ -28,7 +28,7 @@ pairs.panels(na.omit(as.data.frame(models)),
 ```
 Here we found that the higher correlation between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches (0.79, RF and SVM). We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values. 
 
-```{r}
+```{r, fig.cap='Density plot of the prediction for three DSM models'}
 library(rasterVis)
 densityplot(models)
 ```
@@ -42,13 +42,16 @@ mapview(SD)
 ```
 The mapview command will plot the standard deviation map in a *.html* file. Note roughly how the hotspots (yellow to red colors) of higher variance of predictions tend to be higher towards the west of the country, whereas models tend to agree in their predictions across the east side of the country. Note also that the variability although noisy, it shows a general pattern, (e.g., from east to west), suggesting that model agreement could be associated with specific land surface characteristics. Now we will analyze specific differences between the three models (RK vs RF, RK vs SVM, RF vs SVM). 
 
-```{r}
+```{r, fig.cap='1 to 1 comparison between the three selected DSM models', eval=FALSE}
+library(raster)
 RKRF  <- calc(models[[c(1,2)]], diff)
 RKSVM <- calc(models[[c(1,3)]], diff)
 RFSVM <- calc(models[[c(2,3)]], diff)
+
 preds <- stack(RKRF, RKSVM, RFSVM)
 names(preds) <- c('RKvsRF','RKvsSVM','RFvsSVM')
-X <- cellStats(preds, mean)
+
+X <- raster::cellStats(preds, mean)
 levelplot(preds - X, at=seq(-0.5,0.5, length.out=10), par.settings = RdBuTheme)
 ```
 Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF semms to be less sharp than the differences of SVM with the other two methods. Note that we use the levelplot function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the mapview function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks). 
