@@ -172,9 +172,11 @@ Ideally, a digital soil map should include a spatial explicit metric of uncertai
 
 #### Technical steps - Using Quantile Regression Forest to estimate uncertainty
 
-To analyze the sensitivity of the model to available data we need to randomly split the data several times (e.g., 10 or more, is possible until the variance stabilizes) in training and testing subsets. A model generation and prediction are made on each split, in a way that the dispersion of the predicted values at the pixel level will represent the uncertainty and the sensitivity of the model to variations in available data. This process increases computational demand and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example, we will use only 10 realizations and random splits of 25% of available data. The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realizations, each with a different random combination of data for training and validating the models. The rmse and the explained variance of the models is stored in the object validation (type `summary(validation)`). The standard deviation of all the ten predictions allows generating a map of model sensitivity to available data.
+To analyze the sensitivity of the model to available data we need to randomly split the data several times (e.g., 10 or more, is possible until the variance stabilizes) in training and testing subsets. A model generation and prediction are made on each split, in a way that the dispersion of the predicted values at the pixel level will represent the uncertainty and the sensitivity of the model to variations in available data. This process increases computational demand and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example, we will use only 10 realizations and random splits of 25% of available data. 
 
-```{r, eval=FALSE}
+
+```{r, eval=TRUE}
+library(Metrics)
 #Generate an empty dataframe
 validation <- data.frame(rmse=numeric(), r2=numeric())
 #Sensitivity to the dataset
@@ -185,16 +187,18 @@ for (i in 1:10){
   train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
   train <- dat[train_ind, ]
   test <- dat[-train_ind, ]
-  modn <- train(fm, data=train, method = "rf", trControl = ctrl)
-  pred <- stack(pred, predict(covariates, modn))
-  test$pred <- predict(modn[11][[1]], test)
+  modn <- train(fm, data=train@data, method = "rf", trControl = ctrl)
+  pred <- stack(pred, predict(covs, modn))
+  test$pred <- extract(pred[[i+1]], test)
   # Store the results in a dataframe
   validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
   validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
 }
 ```
 
-```{r, eval=FALSE, fig.cap='Sensitivity based on 10 realizations using 25% samples'}
+The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realizations, each with a different random combination of data for training and validating the models. 
+
+```{r, eval=TRUE, fig.cap='Sensitivity based on 10 realizations using 25% samples'}
 #The sensitivity map is the dispersion of all individual models
 sensitivity <- calc(pred[[-1]], sd)
 
@@ -202,12 +206,14 @@ plot(sensitivity, col=rev(topo.colors(10)),
      main='Sensitivity based on 10 realizations using 25% samples')
 ```
 
-```{r, eval=FALSE}
+The rmse and the explained variance of the models is stored in the object validation (type `summary(validation)`). The standard deviation of all the ten predictions allows generating a map of model sensitivity to available data.
+
+```{r, eval=TRUE}
 #Sensitivity of validation metrics
 summary(validation)
 ```
 
-```{r, eval=FALSE, fig.cap='OCSKGM prediction based on 75% of data'}
+```{r, eval=FALSE, fig.cap='OCSKGM prediction based on 75% of data', echo=FALSE}
 # Plot of the map based on 75% of data and the sensitivity to data 
 # variations
 prediction75 <- exp(pred[[1]])
@@ -218,7 +224,7 @@ plot(prediction75, main='OCSKGM prediction based on 75% of data',
 
 Finally, we will estimate the model uncertainty, represented by the full conditional distribution of the response variable (OCSKGMlog) as a function of the selected prediction factors using the quantile regression forest package of R. This approach has proven to be efficient for digital soil mapping across large areas [@vaysse2017using]. 
 
-```{r, eval=FALSE}
+```{r fit quantreg, eval=TRUE}
 # Use quantile regression forest to estimate the full conditional 
 # distribution of OCSKGMlog, note that we are using the mtry 
 # parameter that was selected by the train function of the caret 
@@ -226,23 +232,23 @@ Finally, we will estimate the model uncertainty, represented by the full conditi
 # resembles the statistical distribution of the entire data 
 # population. Otherwise, repeat the train function with all available 
 # data (using the object dat that instead of train) to select mtry.
+library(quantregForest)
 
-
-model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500, 
-                   keep.inbag=TRUE, mtry = as.numeric(mod$bestTune))                        
+model <- quantregForest(y=dat@data$OCSKGMlog, x=dat@data[,8:20], ntree=500, 
+                   keep.inbag=TRUE, mtry = as.numeric(rfmodel$bestTune))                        
 ```
 
-This method will calculate a probability distribution function for each pixel and therefore can be time-consuming. Therefore we will run it using parallel computing. Note that the code to run in parallel this analysis can also be passed to the previous predictions (predict function). The result will be a map of the standard deviation of the distribution calculated for each pixel, which represents the extreme values that a prediction can take for a specific site (e.g., pixel) given available data and predictors. Note that this analysis is performed using all available data and a second map of OCSKGM is created. Our final prediction uses all available data, while the total uncertainty (in percent) is represented by the sum of the quantile regression forest standard deviation and the sensitivity map from the previous section. The total uncertainty is then divided by the prediction to obtain a percent map, which is easier to interpret.  
+This method will calculate a probability distribution function for each pixel and therefore can be time-consuming. Therefore we will run it using parallel computing. Note that the code to run in parallel this analysis can also be passed to the previous predictions (predict function). The result will be a map of the standard deviation of the distribution calculated for each pixel, which represents the extreme values that a prediction can take for a specific site (e.g., pixel) given available data and predictors. Note that this analysis is performed using all available data and a second map of OCSKGM is created. 
 
-```{r, eval=FALSE}
+```{r run quantregForest, eval=TRUE}
 library(snow)
 # Estimate model uncertainty at the pixel level using parallel 
 # computing
 beginCluster() #define number of cores to use
 # Estimate model uncertainty
-unc <- clusterR(covariates, predict, args=list(model=model,what=sd))
+unc <- clusterR(covs, predict, args=list(model=model,what=sd))
 # OCSKGMlog prediction based in all available data
-mean <- clusterR(covariates, predict, 
+mean <- clusterR(covs, predict, 
                  args=list(model=model, what=mean))
 # The total uncertainty is the sum of sensitivity and model 
 # uncertainty
@@ -251,25 +257,27 @@ unc <- unc + sensitivity
 Total_unc_Percent <- exp(unc)/exp(mean)
 endCluster()
 ```
-```{r, eval=FALSE, fig.cap='OCSKGM quantregForest prediction'}
+
+Our final prediction uses all available data, while the total uncertainty (in percent) is represented by the sum of the quantile regression forest standard deviation and the sensitivity map from the previous section. The total uncertainty is then divided by the prediction to obtain a percent map, which is easier to interpret.  
+
+
+```{r, eval=TRUE, fig.cap='OCSKGM quantregForest prediction'}
 # Plot both maps (the predicted OCSKGM + its associated uncertainty)
-plot(exp(mean), main='OCSKGM based in all data', 
-     col=rev(topo.colors(10)))
+plot(exp(mean), main='OCSKGM based in all data')
 ```
 
 
-```{r, eval=FALSE, fig.cap='Total uncertainty'}
-plot(Total_unc_Percent, col=rev(heat.colors(100)), zlim=c(0, 5), 
-     main='Total uncertainty')
+```{r, eval=TRUE, fig.cap='Total uncertainty'}
+plot(Total_unc_Percent, zlim=c(0, 5), main='Total uncertainty')
 ```
 
 Finally, the predicted OCSKGM and the total uncertainty can be saved in the working directory in a generic (*.tif) raster format.
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 #Save the resulting maps in separated *.tif files
-writeRaster(exp(mean), file='rfOCSKGMprediction.tif', 
+writeRaster(exp(mean), file='results/MKD_OCSKGM_quantrf.tif', 
             overwrite=TRUE)
-writeRaster(Total_unc_Percent, file='rfOCSKGMtotalUncertPercent.tif',
+writeRaster(Total_unc_Percent, file='results/MKD_OCSKGM_rf_uncert.tif',
             overwrite=TRUE)
 ```
 
