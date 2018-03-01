@@ -192,6 +192,23 @@ write.csv(dat, "data/dataproc.csv")
 \clearpage
 ## Merging Top Soil and Soil Profiles Databases{#cd:merging}
 
+```{r, eval=FALSE}
+profiles <- read.csv("data/dataproc_profiles.csv")
+topsoils <- read.csv("data/dataproc.csv")
+
+topsoils <- topsoils[, c("ID", "X", "Y", "OC_percent", "BLD", 
+                         "OCSKGM", "meaERROR")]
+
+profiles <- profiles[, c("ID", "X", "Y", "SOC", "BLD", 
+                         "OCSKGM", "meaERROR")]
+
+names(profiles) <- names(topsoils)
+dat <- rbind(topsoils, profiles)
+
+write.csv(dat, "data/dataproc_all.csv", row.names = F)
+```
+
+
 \clearpage
 ## Data-Splitting{#cd:data-splitting}
 
