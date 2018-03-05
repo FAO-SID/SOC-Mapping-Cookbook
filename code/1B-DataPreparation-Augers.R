@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 1B-DataPreparation-Augers
+
 dat <- read.csv(file = "data/auger.csv")
 
 # Explore the data

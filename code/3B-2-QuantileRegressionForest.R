@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 3B-2-QuantileRegressionForest
+
 #Generate an empty dataframe
 validation <- data.frame(rmse=numeric(), r2=numeric())
 #Sensitivity to the dataset

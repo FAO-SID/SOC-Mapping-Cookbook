@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 3A-1-RegressionKriging
+
 # load data
 dat <- read.csv("data/KHM_RegMatrix.csv")
 

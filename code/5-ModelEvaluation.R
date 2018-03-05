@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 5-ModelEvaluation
+
 library(raster)
 RF<-raster('results/MKD_OCSKGM_rf.tif')
 RK<-raster('results/MKD_OCSKGM_RK.tif')
@@ -28,7 +32,8 @@ RFSVM <- calc(models[[c(2,3)]], diff)
 preds <- stack(RKRF, RKSVM, RFSVM)
 names(preds) <- c('RKvsRF','RKvsSVM','RFvsSVM')
 X <- cellStats(preds, mean)
-levelplot(preds - X, at=seq(-0.5,0.5, length.out=10), par.settings = RdBuTheme)
+levelplot(preds - X, at=seq(-0.5,0.5, length.out=10),
+          par.settings = RdBuTheme)
 
 dat <- read.csv("results/validation.csv")
 
@@ -52,12 +57,10 @@ library(openair)
 
 modsts <- modStats(modData,obs = "obs", mod = "mod", type = "model")
 
-#modsts <- cbind(modsts[1], round(modsts[-1], 2))
-## print a table
-knitr::kable(modsts[,c(1,3:11)], caption = "Summary of Different Model Evaluation Statistics for the 3 Models Compared", digits = 2,
-             row.names = F, booktabs = TRUE)
+modsts
 
 TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
-              cols = c("orange", "red","blue"), cor.col='brown',rms.col='black')
+              cols = c("orange", "red","blue"), cor.col='brown',
+              rms.col='black')
 
 conditionalQuantile(modData,obs = "obs", mod = "mod", type = "model")
