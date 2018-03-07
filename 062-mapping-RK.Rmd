@@ -4,8 +4,8 @@
 
 ### Overview
 
-Regression-kriging is a spatial interpolation technique that combines a regression of the dependent variable (target variable) on predictors (i.e. the environmental covariates) with kriging of the prediction residuals. In other words, Regression-Kriging is a hybrid method that combines either a simple or a multiple-linear regression model with ordinary kriging of the prediction residuals.   The Multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modeled relationship between predictors and target are summarized in the regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.
-In this section, we review the regression kriging method. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a regression-kriging technique, there is a continuous random variable called the dependent variable (target) Y (in our case SOC) and a number of independent variables which are selected covariates, x1, x2,...,xp. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is:
+Regression-kriging is a spatial interpolation technique that combines a regression of the dependent variable (target variable) on predictors (i.e. the environmental covariates) with kriging of the prediction residuals. In other words, Regression-kriging is a hybrid method that combines either a simple or a multiple-linear regression model with ordinary kriging of the prediction residuals.   The Multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modeled relationship between predictors and target are summarized in the regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.
+In this section, we review the regression-kriging method. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a regression-kriging technique, there is a continuous random variable called the dependent variable (target) Y (in our case SOC) and a number of independent variables which are selected covariates, x1, x2,...,xp. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is:
 
 ###  Assumptions
 
@@ -45,7 +45,7 @@ Before we proceed with the regression analysis, it is advisable to inspect the h
 
 The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
 
-```{r workflowRK, fig.cap="Workflow for Regression Kriging" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r workflowRK, fig.cap="Workflow for Regression-kriging" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/RKworkflow.png")
 ```
 
@@ -81,10 +81,10 @@ The purpose of a regression analysis, of course, is to develop a model that can 
 
 > Raster calculation can be easily performed using “raster” Package in R or ArcGIS using the ”Raster Calculator” tool (It’s called Map Algebra in the prior versions).
 
-### Technical Steps - Regression Kriging
+### Technical Steps - Regression-kriging
 
 **Requirements**
-  The following are required to implement Regression Kriging in R
+  The following are required to implement regression-kriging in R
 
 * Setting-up the Software Environment
 
@@ -304,7 +304,7 @@ if(RUN.ALL == FALSE){
 library(automap)
 
 
-## Run regression kriging prediction. This step can take hours...!
+## Run regression-kriging prediction. This step can take hours...!
 OCS.krige <- autoKrige(formula =
                          as.formula(model.MLR.step$call$formula),
                        input_data = dat,
@@ -345,7 +345,7 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif",
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
 
-### Technical Steps - Cross-validation of Regression Kriging models
+### Technical Steps - Cross-validation of Regression-kriging models
 
 Cross-validation is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package. In this example, we will apply 10 fold cross-validation to our RK model.
 

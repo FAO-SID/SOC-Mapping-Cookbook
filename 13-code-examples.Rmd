@@ -12,13 +12,13 @@ In this chapter, we present a compendium of the technical steps presented in the
   - *[optional]* Rasterizing a Vector Layer in R (Code \@ref(cd:Rasterizing))
   - Overlay Covariates and Soil Points Data (Code \@ref(cd:Overlay))
 3. Spatial interpolation model
-  - **Option A**: Fitting a Regression-Kriging model to predict the OCS (Code \@ref(cd:RK))
+  - **Option A**: Fitting a Regression-kriging model to predict the OCS (Code \@ref(cd:RK))
   - **Option B**: Fitting a Random Forest model to predict the SOC (Code \@ref(cd:rf))
   - **Option C**: Fitting a Support Vector Machines model to predict the SOC (Code \@ref(cd:svm))
 4. Validation
   - Quality measures for quantitative data (Code \@ref(cd:Validation))
   - *[optional]* Graphical quality measures for quantitative data (Code \@ref(cd:Graphs))
-  - *[optional]* Cross-validation for Regression-Kriging Models (Code \@ref(cd:xvalRK))
+  - *[optional]* Cross-validation for Regression-kriging models (Code \@ref(cd:xvalRK))
   - *[optional]* Validation of Random Forest using Quantile Regression Trees (Code \@ref(cd:quantreg))
 5. Model Evaluation
   - Model Evaluation (Code \@ref(cd:Evaluation))

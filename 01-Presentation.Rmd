@@ -23,7 +23,7 @@ The guidance is focusing on the upscaling of national SOC stocks in order to pro
 
 In terms of statistical upscaling methods, the use of conventional upscaling methods using soil maps and soil profiles is still very common, although this approach is mostly considered empirical by soil mappers. Even though evaluations are based on polygon soil maps, the resulting SOC maps can be rasterized to any target grid. However, a spatially-explicit assessment of uncertainties is impossible. The use of digital soil mapping to upscale local soil information is increasingly applied and recommended.
 
-This cookbook presents two approaches in detail, namely spatial modelling using either regression or data mining analysis, combined with geostatistics such as regression kriging. The second edition includes updates in the section on uncertainty assessment.
+This cookbook presents two approaches in detail, namely spatial modelling using either regression or data mining analysis, combined with geostatistics such as regression-kriging. The second edition includes updates in the section on uncertainty assessment.
 
 It is our hope that this cookbook will fulfill its mandate of easily enabling any user to produce a digital SOC or other soil property map using soil legacy data and modern methods of digital soil mapping with the overall aim for improved decision making on soil management.
 
@@ -33,5 +33,5 @@ It is our hope that this cookbook will fulfill its mandate of easily enabling an
 
 ## The FYROM Soil Database
 
-The sample dataset used for the spline function and the regression kriging has been extracted from the Macedonian Soil Information System Database (MASIS). The database contains around 4000 soil profiles with 11000 horizons. 
+The sample dataset used for the spline function and the regression-kriging has been extracted from the Macedonian Soil Information System Database (MASIS). The database contains around 4000 soil profiles with 11000 horizons. 
 
