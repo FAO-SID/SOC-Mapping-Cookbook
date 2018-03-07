@@ -105,7 +105,7 @@ The purpose of a regression analysis, of course, is to develop a model that can 
   + Parent material
 
 
-#### Setting Working Space and Initial Steps
+**Step 1 - Setting working space and initial steps**
 
 One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our folder which contains data for the study area (point data, covariates).
 
@@ -115,13 +115,13 @@ Note that we must use the forward slash / or double backslash \\\\ in R! Single 
 getwd()
 ```
 
-#### Data Preparation
+**Step 2 - Data preparation**
 
-**Point Dataset**
+**Point dataset**
 
 We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), the estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
-**Environmental Predictors (Covariates)**
+**Environmental predictors (covariates)**
 
 In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section \@ref(GSOCDataRepo).
 
@@ -173,9 +173,8 @@ load(file = "covariates.RData")
 names(covs)
 ```
 
-#### Fitting the MLR Model
 
-**Fitting the MLR Model**
+**Step 3 - Fitting the MLR model**
 
 It would be better to progress with a data frame of just the data and covariates required for the modeling. In this case, we will subset the columns SOC, the covariates and the spatial coordinates (X and Y).
 
@@ -252,7 +251,7 @@ summary(model.MLR.step)
 outlierTest(model.MLR.step)
 ```
 
-#### Prediction and Residual Kriging
+**Step 4 - Prediction and residual kriging**
 
 Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or `covs` object for making our prediction. Using stack avoids the step of arranging all covariates into a table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created in the Step 3.
 
@@ -345,7 +344,7 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif",
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
 
-### Technical Steps - Cross-validation of Regression-kriging models
+### Technical Steps - Cross-Validation of Regression-Kriging Models
 
 Cross-validation is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package. In this example, we will apply 10 fold cross-validation to our RK model.
 

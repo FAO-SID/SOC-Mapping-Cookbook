@@ -23,9 +23,9 @@ in order to develop a representative and large national soil database, very ofte
 
 From all data sources, SOC stocks for peat soils were calculated separately.
 
-### Technical Steps: Class-matching
+### Technical Steps - Class-Matching
 
-#### Data Preparation
+**Step 1 - Data preparation**
 
 * Separate the database for forests, peat, and other land uses
 If only horizons are provided: derive or estimate average depth of horizons per soil type; add upper and lower depth.
@@ -37,14 +37,14 @@ If only horizons are provided: derive or estimate average depth of horizons per 
 * if possible, derive the standard average stone content for different soils/horizons/depths, or used published soil profiles, as a simple correction factor.
 * Calculate SOC stocks for all mineral and peat soils over 0-30 cm, and optionally for forest organic layers and, peat >30 <100 cm.
 
-#### Preparatory GIS Operations
+**Step 2 - Preparatory GIS operations**
 
 * Prepare Covariates
 * Identify properties of covariates for each point observation using geo-matching 
 * Mapping using geo-matching of all points: Extract the covariate information to all georeferenced sample sites. The SOC values from all points within the unit are then averaged. It is assumed that the points represent the real variability of soil types within the units 
 
 
-#### Mapping
+**Step 3 - Mapping**
 
 * Mapping using class-matching of points in agreement with classes
 
@@ -59,7 +59,7 @@ Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.
 
 Because of its importance, geo-matching is described in more detail.
 
-### Technical Steps: Geo-Matching
+### Technical Steps - Geo-Matching
 
 It is important to first prepare the working environment pre-processed all input data. The following Section presents different Geo-matching procedures; 
 
@@ -74,7 +74,7 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 *    http://www.qgis.org/
 *    http://www.qgisforum.org/
 
-#### Setting Up a QGIS Project
+**Step 1 - Setting up a QGIS project**
 
 1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, Mac or Linux, 32 or 64 bit).
 2. Create a work folder, e.g. D:\\GSOC\\practical_matching. Copy the folder with the FYROM demonstration data into this folder.
@@ -103,9 +103,9 @@ knitr::include_graphics("images/Conv_upscaling3.png")
 7.  Save the project in the created folder
 Load and display the pre-processed SOC point data. If a shapefile already exists, this is done the same way as described in Step 4. If you have the data as a text file, you need to create a vector layer out of that file. Go to Layer -> Add Layer -> Add Delimited Text layer. Select the correct file and proper CRS projection. The layer should be added to your Layers Panel and displayed on top of the Soil Map.
 
-#### Geo-Matching SOC with WRB Soil Map
+**Step 2 - Geo-Matching SOC with WRB soil map**
 
-In this Section you will make a SOC map, based on the FYROM Soil Map and the SOC values at the sampled points, following 3 steps: 1) Extract the soil map information for the point data, 2)  obtain the mean and standard deviation of the SOC stocks per soil class, based on the point data and 3) assign these values to the corresponding soil map units. The steps are detailed below:
+In **Step 2** you will make a SOC map, based on the FYROM Soil Map and the SOC values at the sampled points, following 3 steps: 1) Extract the soil map information for the point data, 2)  obtain the mean and standard deviation of the SOC stocks per soil class, based on the point data and 3) assign these values to the corresponding soil map units. The steps are detailed below:
 
 1. Extract the soil map information to the soil profile data by ‘Join Attributes by location’. Vector -> Data Management Tools -> Join Attributes by location. Here, the target vector layers are the soil point data, and the join vector layer is the FYROM Soil Map. The geometric predicate is ‘intersects’. Specify at the ‘joined table’ to keep only matching records and save the ‘joined layer’ as a new file (Fig. 8.4).
 
@@ -156,7 +156,7 @@ knitr::include_graphics("images/Conv_upscaling8.png")
 10.  Repeat step 2-8 but now for the standard deviation of the SOC stocks.
 11. Save the file as a new shapefile: Go to ‘Layer Panels -> Save as -> ESRI ShapeFile and make sure that you define the symbology export: Feature Symbology. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
 
-#### Geo-Matching SOC with Other Environmental Variables: Land Use
+**Step 3 - Geo-Matching SOC with other environmental variables: land  use**
 
 1.    Start a new project and add the soil point data and FYROM Soil Map layers from the Browser panel
 2.    Add the Land Use raster file to the Layers Panels. This is a raster file with 1-kilometer resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3
@@ -175,7 +175,7 @@ Now, the steps from the previous Section need to be repeated, using the land use
 9. Join the files with the LU polygon map, generated at step 3-4.
 10. Change the classes in the legend and inspect the histogram with the median SOC values. Try to find a proper definition of the class boundaries (Step 2-8).
 
-#### Joining Landscape Units and Soil Mapping Units to Support Class- and Geo-Matching (Optional)
+**Step 4 - Joining landscape units and soil mapping units to support class- and geo-gatching (optional)**
 
 In this Section, it is outlined how SOC stocks can be mapped following the method outlined by \cite{lettens2004soil}. The general idea is that the landscape is stratified into more or less homogenous units and subsequently, the SOC stocks are obtained following the procedure outlined earlier in this practical. \cite{lettens2004soil} outlines a method to stratify the landscape into homogeneous strata with respect to Land Use and Soil Type, as was explained earlier. In order to obtain such strata, the Soil Map and the Land Use map need to be combined. This can be done using various types of software, e.g. ArcMap, GRASS, QGIS or R. 
 When using the GIS software, the only thing that needs to be done is intersecting the vector files and dissolving the newly created polygon features. Depending on the software and the quality of your shapefile you may experience problems with the geometry of your shapefile. Generally, ArcMap and GRASS correct the geometry when the shapefile is loaded, while QGIS does not do this automatically. There are various ways to correct the geometry, however, correcting the geometry falls outside the scope of this training. Therefore, we give some hints on how to correct your geometry prior to using the functions ‘Intersect’ and ‘Dissolve’.
