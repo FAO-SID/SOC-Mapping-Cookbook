@@ -29,9 +29,22 @@ It is our hope that this cookbook will fulfill its mandate of easily enabling an
 
 ## 	How to Use This Book
 
+In this chapter, we want to introduce 5 different approaches for obtaining the SOC map for FYROM. The first two methods presented are classified as conventional upscaling. The first one is class-matching. In this approach, we derive average SOC stocks per class: soil type for which a national map exists, or combination with other spatial covariates (e.g. land use category, climate type, biome, etc.). This approach is used in the absence of spatial coordinates of the source data. The second one is geo-matching, were upscaling is based on averaged SOC values per mapping unit. Then, we present 3 methods from digital soil mapping. Regression-Kriging is a hybrid model with both, a deterministic and a stochastic component [@hengl2007regression]. Next method is called random forest. This one is an ensemble of regression trees based on bagging. This machine learning algorithm uses a different combination of prediction factors to train multiple regression trees [@Breiman1996]. The last method is called Support Vector Machines (SVM). This method applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space [@Karatzoglou2006]. We present this diversity of methods because there is no best mapping method for digital soil mapping, and testing and selection has to be done for every data scenario [@soil-2017-40].
 
+```{r, fig.cap="How to" , out.width='80%', echo=FALSE, fig.align='center'}
+knitr::include_graphics("images/howto.jpeg")
+```
 
 ## The FYROM Soil Database
 
 The sample dataset used for the spline function and the regression-kriging has been extracted from the Macedonian Soil Information System Database (MASIS). The database contains around 4000 soil profiles with 11000 horizons. 
 
+Decades of archived soil research have now been transformed into an accurate, up-to-date, and fully functioning information system – based on state-of-the-art digital soil mapping techniques. The new Macedonian Soil Information System or “MASIS” was developed with support from the Food and Agriculture Organization of the United Nations (FAO) and its Global Soil Partnership.
+
+Soils are a precious resource in this landlocked country, but climate change and other threats – including heavy human activities – are degrading it at an alarming rate. Without a proper evidence base such as a soil information system, the Former Yugoslav Republic of Macedonia had no systematic way of making decisions to promote sustainable soil management, or of monitoring soil conditions and functions over time. Since soil information is needed to guide sustainable soil and land management, this has contributed to stagnating agricultural development.
+
+Bringing MASIS to life took just over two years and was completed in four phases. The first phase involved compiling, evaluating and systemizing more than 100 existing hardcopy soil maps that contained information on over 80 percent of the country, and soil legacy data from about 15,000 soil profiles. The missing 20 percent was complemented with an advanced soil survey.
+
+The data were then used to develop a spatial geo- database within MASIS which led to production of a national soil map compliant with both European and global standards – phase two of the project. 
+
+The MASIS is available at \url{http://www.maksoil.ukim.mk/}
