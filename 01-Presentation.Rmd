@@ -27,11 +27,11 @@ This cookbook presents two approaches in detail, namely spatial modelling using 
 
 It is our hope that this cookbook will fulfill its mandate of easily enabling any user to produce a digital SOC or other soil property map using soil legacy data and modern methods of digital soil mapping with the overall aim for improved decision making on soil management.
 
-## How to use this book
+## 	How to Use This Book
 
 
 
-## The FYROM soil database
+## The FYROM Soil Database
 
 The sample dataset used for the spline function and the regression kriging has been extracted from the Macedonian Soil Information System Database (MASIS). The database contains around 4000 soil profiles with 11000 horizons. 
 
