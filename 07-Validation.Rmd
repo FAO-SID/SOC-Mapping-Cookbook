@@ -6,13 +6,13 @@ No map is perfect. All maps, including soil maps, are representations of reality
 
 Soil maps are used for many purposes. For example to report on (changes in) soil organic carbon stocks, as input in agro-environmental models, to determine land use suitability or for decision- and policy-making. It is therefore, important that the quality of a map is determined and quantified. This is achieved through (statistical) validation.
 
-Validation is defined here as an activity in which the soil map predictions are compared with observed values. From this comparison, the map quality can be quantified and summarized using map quality measures.  These measures indicate how accurate the map is on average for the mapping area, i.e. what is the expected error at a randomly selected location in the mapping area. This means that map quality measures obtained through validation are global measures: each quality measure gives one value for the entire map. Note that this is different from results obtained through uncertainty assessment. Such assessment provides local, location-specific (i.e. for each individual grid cell) estimates of map quality as we saw in the previous sections. Another important difference between validation and uncertainty assessment is that validation can be done using a model-free approach. Uncertainty assessment takes a model-based approach by defining a geostatistical model of the soil property of interest and deriving an interpolated map and the associated uncertainty from that, or by constructing a geostatistical model of the error in an existing map. The approach yields a complete probabilistic characterization of the map uncertainty, but such characterization is only valid under the assumptions made; for instance, the stationarity assumptions required for kriging. Validation, when done properly as explained hereafter, does not assume a geostatistical model of the error, and hence is model- or assumption-free. This is an important property of validation since we do not want to question the objectivity and validity of the validation results.
+Validation is defined here as an activity in which the soil map predictions are compared with observed values. From this comparison, the map quality can be quantified and summarized using map quality measures.  These measures indicate how accurate the map is on average for the mapping area, i.e. what is the expected error at a randomly selected location in the mapping area. This means that map quality measures obtained through validation are global measures: each quality measure gives one value for the entire map. Note that this is different from results obtained through uncertainty assessment. Such assessment provides local, location-specific (i.e. for each individual grid cell) estimates of map quality as we saw in the previous Sections. Another important difference between validation and uncertainty assessment is that validation can be done using a model-free approach. Uncertainty assessment takes a model-based approach by defining a geostatistical model of the soil property of interest and deriving an interpolated map and the associated uncertainty from that, or by constructing a geostatistical model of the error in an existing map. The approach yields a complete probabilistic characterization of the map uncertainty, but such characterization is only valid under the assumptions made; for instance, the stationarity assumptions required for kriging. Validation, when done properly as explained hereafter, does not assume a geostatistical model of the error, and hence is model- or assumption-free. This is an important property of validation since we do not want to question the objectivity and validity of the validation results.
 
 We distinguish internal and external map accuracy. Statistical methods typically produce direct estimates of map quality, for instance, the kriging variance or the coefficient of determination (${R^2}$) of a linear regression model. These we refer to as internal accuracy measures since these rely on model assumptions and are computed from data that are used for model calibration. Preferably, validation is done with an independent dataset not used in map making. Using such dataset gives the external map accuracy. One will often see that the external accuracy is poorer than the internal accuracy.
 
-In section 8.3.2 we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section 8.3.3 we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on @brus2011sampling. For details, please refer to this paper.
+In Section \@ref(QualMeasures) we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In Section \@ref(validationMeth) we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This Chapter is largely based on @brus2011sampling. For details, please refer to this paper.
 
-## Map Quality Measures
+## Map Quality Measures {#QualMeasures}
 
 ### Quality Measures for Quantitative Soil Maps
 
@@ -26,7 +26,7 @@ where ${\hat{Z}(s)}$ is the predicted soil property at validation location s, an
 
 Before we introduce the map quality measures and show how to estimate these, it is important to understand the difference between the population and a sample taken from the population. The population is the set of all locations in a mapping area. For digital soil maps, this is the set of all pixels or grid cells of a map. A sample is a subset of locations, selected in some way from the set of all locations in the mapping area. With validation we want to assess the map accuracy for the entire population, i.e. for the map as a whole; we are not interested in the accuracy at the sample of locations only. For instance, we would like to know the prediction error averaged over all locations of a map and not merely the average prediction error at a sample of locations. Map quality measures are, therefore, defined as population means. Because we cannot afford to determine the prediction error at each location (grid cell) of the mapping area to calculate the population means, we have to take a sample of a limited number of locations in the mapping area. This sample is then used to estimate the population means. It is important to realize that we are uncertain about the population means because we estimate it from a sample. Ideally, this uncertainty is quantified and reported together with the estimated map quality measures.
 
-In this section, we will introduce the definitions of the map quality measures. In the next section, we show how we can estimate these measures from a sample.
+In this Section, we will introduce the definitions of the map quality measures. In the next Section, we show how we can estimate these measures from a sample.
 
 **Mean error**
 
@@ -141,9 +141,9 @@ knitr::include_graphics("images/Validation_Rwanda.png")
 
 
 
-## Validation Methods and Statistical Inference
+## Validation Methods and Statistical Inference {#validationMeth}
 
-Following @brus2011sampling, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in the previous section from a sample.
+Following @brus2011sampling, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in the previous Section from a sample.
 
 With additional probability sampling, an independent dataset is collected from the sampling population (all grid cells of a digital soil map) for the purpose of validation. This dataset is used in addition to a dataset that is used to calibrate a prediction model. Such dataset is often a legacy dataset collected with a purposive sampling design.
 
@@ -342,7 +342,7 @@ In R, the caret package [@kuhn2016short] offers functionality for data-splitting
 
 ### Prediction error
 
-First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter \@ref(preparation), we used the code in section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test those results.
+First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in Chapter \@ref(preparation), we used the code in Section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from Chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test those results.
 
 ```{r}
 dat <- read.csv("data/dat_test.csv")
@@ -354,7 +354,7 @@ coordinates(dat) <- ~ X + Y
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 ```
 
-Now, we will load the predicted layers from chapter \@ref(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
+Now, we will load the predicted layers from Chapter \@ref(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
 
 ```{r ,warning=FALSE}
 library(raster)
@@ -384,7 +384,7 @@ knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different
 
 ### Estimating the Map Quality Measures
 
-In this section, we present the code needed to estimate the map quality measures for quantitative soil maps.
+In this Section, we present the code needed to estimate the map quality measures for quantitative soil maps.
 
 ```{r}
 # Mean Error
@@ -445,7 +445,7 @@ knitr::kable(validation, caption = "Summary of map quality measures for 3 differ
 
 ### Graphical Map Quality Measures 
 
-In this section, we will apply the proposed graphical quality measures to the results of chapter \@ref(mappingMethods).
+In this Section, we will apply the proposed graphical quality measures to the results of Chapter \@ref(mappingMethods).
 
 ```{r, fig.asp=3, fig.cap='Scatter plots of predicted against observed values'}
 par(mfrow=c(3,1)) # Two plots in one plot
@@ -499,7 +499,7 @@ bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21,
 
 ### Data-Splitting {#dataSplit}
 
-As explained before, many times for running validation analysis, we split the data before fitting the models. In this section, we present the code needed to achieve this using **caret** package.
+As explained before, many times for running validation analysis, we split the data before fitting the models. In this Section, we present the code needed to achieve this using **caret** package.
 
 ```{r, echo=F}
 # fix randomness for data splitting to produce a complete train 

@@ -1,7 +1,7 @@
 # Setting-Up the Software Environment
 *Y Yigini*
 
-This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
+This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this Section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
 
 ## Use of R, RStudio and R Packages
 
@@ -12,7 +12,7 @@ This cookbook focuses on SOC modeling using open source digital mapping tools. T
 * Go to https://cloud.r-project.org/index.html to download and install **R**.
 * Pick an installation file for your platform. 
 
-### Obtaining and Installing R Studio
+### Obtaining and Installing RStudio
 
 Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. You can follow very similar steps to install **RStudio**.
 
@@ -20,7 +20,7 @@ Beginners will find it very hard to start using **R** because it has no Graphica
 * On the download page, *RStudio Desktop, Open Source License* option should be selected.
 * Pick an installation file for your platform. 
 
-### Getting Started with R
+### Getting Started With R	
 * **R** Manuals:                  http://cran.r-project.org/manuals.html
 * Contributed Documentation:  http://cran.r-project.org/other-docs.html
 * Quick-**R**:                    http://www.statmethods.net/index.html
@@ -36,7 +36,7 @@ The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org
 
 ### Most Used R Packages for Digital Soil Mapping 
 
-As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following subsections, we are going to present the most used packages related to digital soil property mapping.
+As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following Subsections, we are going to present the most used packages related to digital soil property mapping.
 
 #### Soil Science and Pedometrics{#SoilPedometrics}
 
@@ -160,7 +160,7 @@ We may want to export this raster to a suitable format to work in a standard GIS
 
 We may also want to export our mac.dem to KML file using the `KML()` function. `KML()` is a handy function from the **raster** package for exporting grids to kml format. Note that we need to re-project the data to WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for this.
 
-## Other DSM Related Software and Tools
+## Other DSM-Related Software and Tools
 
 * *QGIS*:      Available at http://www.qgis.org/en/site/forusers/download.html 
 * *SAGA GIS*:  Available at https://sourceforge.net/projects/saga-gis/files/
