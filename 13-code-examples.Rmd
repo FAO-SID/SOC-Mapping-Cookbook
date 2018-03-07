@@ -1,4 +1,4 @@
-# Compendium of the code examples included in the cookbook
+# Compendium of the Code Examples Included in the Cookbook
 *GF Olmedo*
 
 In this chapter, we present a compendium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
@@ -119,7 +119,7 @@ knitr::read_chunk(path = "code/2-OverlayCovariates.R")
 
 
 \clearpage
-## Fitting a Regression-Kriging model to predict the OCS{#cd:RK}
+##	Fitting a Regression-Kriging Model to Predict the OCS	{#cd:RK}
 
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
@@ -134,7 +134,7 @@ knitr::read_chunk(path = "code/3A-1-RegressionKriging.R")
 ```
 
 
-## Cross-validation of Regression Kriging models {#cd:xvalRK}
+## 	Cross-Validation of Regression-Kriging Models	 {#cd:xvalRK}
 
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
@@ -150,7 +150,7 @@ knitr::read_chunk(path = "code/3A-2-XvalRegressionKriging.R")
 
 
 \clearpage
-## Fitting a random forest model to predict the SOC{#cd:rf}
+## Fitting a Random Forest Model to Predict the SOC	{#cd:rf}
 
 The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
 
@@ -166,7 +166,7 @@ knitr::read_chunk(path = "code/3B-1-randomForest.R")
 
 
 \clearpage
-## Using Quantile Regression Forest to estimate uncertainty {#cd:quantreg}
+## Using Quantile Regression Forest to Estimate Uncertainty {#cd:quantreg}
 
 The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
 
@@ -182,7 +182,7 @@ knitr::read_chunk(path = "code/3B-2-QuantileRegressionForest.R")
 
 
 \clearpage
-## Fitting a svm model to predict the SOC{#cd:svm}
+## Fitting a SVM Model to Predict the SOC	{#cd:svm}
 
 The extended and discussed version of the following code is presented in Section \@ref(svm), by GF Olmedo & M Guevara.
 

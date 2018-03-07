@@ -143,7 +143,7 @@ Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], ar
 
 As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTiffs because floating point formats can lead to up to 4+ times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g. multiply pH values by 10 before exporting your raster as a GeoTiff).
 
-## Web Services - Serving Soil Data Using Web Technology {webService}
+## Web Services: Serving Soil Data Using Web Technology {webService}
 
 ### Third-Party Services
 
@@ -227,7 +227,7 @@ system('gdalinfo eberg_DEM.tif')
 
 Similarly, all necessary metadata can be added into GeoTiff so that future users have all information at one place i.e. inside the data file. 
 
-### Exporting Data — Final Tips
+### Exporting Data: Final Tips
 
 As we have shown previously, if you export soil data into either GPKG and/or GeoTiff, these data can be accessed using DB operations. In fact, by exporting the data to GPKG and GeoTiffs, you have created a soil spatial DB or a soil information system. This does not necessarily mean that its targeted users will be able to find all information without problems and/or questions. How usable and how popular a data set is, is a function of many aspects, not only data quality. You could create maps of perfect quality but have no users at all. Some things you should definitively consider, as a way to boost the usability of your data are:
 

@@ -29,7 +29,7 @@ dat <- read.csv("examples/horizons-ex.csv")
 knitr::kable(dat, caption = "Example for profile-description table", booktabs = TRUE)
 ```
 
-### Technical Steps - Loading Data from Tables in R
+### Technical Steps – Loading Data From Tables in R
 
 This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(cd:PreparationProfiles). The second example is using topsoil or auger data and is presented in section \@ref(cd:PreparationAuger).
 
@@ -72,7 +72,7 @@ hist(dat$CRF, col = "light gray")
 ```
 
 
-### Bulk density
+### Bulk Density
 
 The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered ($\text{depth}    \times \text{reference area}$) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
 
@@ -219,7 +219,7 @@ The function `GSIF::mpspline` has several arguments. One of the arguments is the
 
 The following technical steps require **R** and the named packages.
 
-#### Promote table `dat` to `SoilProfileCollection`
+#### 	Promote Table ‘dat’ to ‘SoilProfileCollection’	
 
 ```{r, echo=T}
 # Load aqp package
@@ -231,7 +231,7 @@ library(aqp)
 depths(dat) <- ProfID ~ top + bottom
 ```
 
-#### Add site-level data and coordinates
+#### Add Site-Level Data and Coordinates
 
 ```{r, echo=T}
 # Merge the soil horizons information with the site-level 
@@ -245,7 +245,7 @@ coordinates(dat) <- ~ X + Y
 dat
 ```
 
-#### Run mass preserving splines for all the needed properties
+#### Run Mass Preserving Splines for All the Needed Properties	
 
 ```{r splines, results='hide', message=FALSE, eval=TRUE}
 library(GSIF)
@@ -256,7 +256,7 @@ try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
 try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
 ```
 
-#### Convert back to table
+#### Convert Back to Table	
 
 ```{r, eval=TRUE}
 ## Prepare final data frame
@@ -273,7 +273,7 @@ dat <- dat[complete.cases(dat),]
 head(dat)
 ```
 
-#### Estimate the soil organic carbon stock using the virtual horizons
+#### Estimate the Soil Organic Carbon Stock Using the Virtual Horizons
 
 Finally, the estimation of the soil organic carbon stock (OKS) can be done using the **GSIF** package.
 
