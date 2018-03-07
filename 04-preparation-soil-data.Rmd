@@ -232,7 +232,7 @@ The function `GSIF::mpspline` has several arguments. One of the arguments is the
 
 The following technical steps require **R** and the named packages.
 
-**Step 1 - Promote table ‘dat’ to ‘SoilProfileCollection'**
+**Step 1 - Promote data table to SPC**
 
 ```{r, echo=T}
 # Load aqp package
@@ -258,7 +258,7 @@ coordinates(dat) <- ~ X + Y
 dat
 ```
 
-** Step 3 - Run mass preserving splines for all the needed properties**
+**Step 3 - Run mass preserving splines for all the needed properties**
 
 ```{r splines, results='hide', message=FALSE, eval=TRUE}
 library(GSIF)
