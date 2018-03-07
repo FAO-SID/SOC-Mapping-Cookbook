@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Preparation of Local Soil Data {#preparation}
 *GF Olmedo & R Baritz*
 
@@ -5,12 +10,14 @@
 
 Soil profiles are complex real-world entities. They are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat, etc.). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
 
-Most *commonly*, soils are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizons or by depth class. 
+Most commonly, soils are described as vertical profiles using soil pits (sometimes also augerings, but this is less accurate). Soil profiles are described using macro-morphological properties. These properties can be assessed in the field without analysis by making a field inventory or land evaluation. For additional quantitative analysis, soils are then sampled by genetic horizons or by depth class. 
 
 The sampling of soils is the basis to obtain quantitative information. Depending on the goal of a project, sampling can be quite diverse. Sampling can follow the description of the soil or can be conducted without, for example using a spade or auger to generate a composite sample (for a certain depth independent of the morphological features such as soil horizons). 
 Sampling locations can be representative of a certain location, project, field, or mapped object, such as a soil type. 
 
 ## Soil Database
+
+### Type pf Soil Database
 
 In order to process and evaluate soil information from field assessments, soil profile data and analytical information need to be stored in a database. This can be a set of simple *Excel* spreadsheets, or a relational or object-oriented database management system [@baritz2008environmental]. When working in **R**, `SoilProfileCollections` from the **R** **aqp** package are a useful tool. Tables \@ref(tab:site-level) and \@ref(tab:horizon-level) are examples of how soil information can be stored. The advantage of such organization is the possibility to develop relational databases which can be easily queried. Such a systematic approach will support the organization of national soil information and will reduce errors in future modeling exercises [@baritz2008environmental].
 
@@ -29,9 +36,11 @@ dat <- read.csv("examples/horizons-ex.csv")
 knitr::kable(dat, caption = "Example for profile-description table", booktabs = TRUE)
 ```
 
-### Technical Steps – Loading Data From Tables in R
+### Technical Steps – Loading Soil Data From Tables in R
 
-This Chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in Section \@ref(cd:PreparationProfiles). The second example is using topsoil or auger data and is presented in Section \@ref(cd:PreparationAuger).
+This Section includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy of the code is presented in Section \@ref(cd:PreparationProfiles). The second example is using topsoil or auger data and is presented in Section \@ref(cd:PreparationAuger).
+
+**Option 1 - Soil profiles data**
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
@@ -40,6 +49,8 @@ dat <- read.csv(file = "data/horizons.csv")
 str(dat)
 summary(dat)
 ```
+
+**Option 2 - Topsoil or auger data**
 
 ```{r}
 dat_sites <- read.csv(file = "data/site-level.csv")
@@ -201,7 +212,9 @@ The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depe
 * Peat: >30 , <100 depending on national data
 
 
-## Completeness of Depth Estimate
+## Soil Depth Estimate
+
+### Completeness of Depth Estimate
 
 Soil properties are commonly collected from field inventories (see Table 2.2) or from sampling and analyzing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*, data holders are confronted with the following options: 
 
@@ -209,7 +222,7 @@ Soil properties are commonly collected from field inventories (see Table 2.2) or
 * **Option 2**: Horizons or layers/depth classes are sampled but aggregation is needed over the 0 to 30 cm.
 * **Option 3**: The target depth (0 to 30 cm) was not completely covered by sampling, e.g. only the A horizon or a topsoil layer (e.g. 0 to 20 cm) has been sampled.
 
-For both **Options 2** and **3**, the transformation is needed, using e.g. equal-area splines. In the case of **Option 2**, the use of equal-area splines was first proposed by \cite{ponce1986improved}, and later tested against real data \citep{bishop1999modelling}. This technique is based on fitting continuous depth functions for modeling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, whereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. In case of **Option 3**, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by \cite{bernoux1998modeling}.
+For both **Options 2** and **Option 3**, the transformation is needed, using e.g. equal-area splines. In the case of **Option 2**, the use of equal-area splines was first proposed by \cite{ponce1986improved}, and later tested against real data \citep{bishop1999modelling}. This technique is based on fitting continuous depth functions for modeling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, whereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. In case of **Option 3**, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by \cite{bernoux1998modeling}.
 
 ### Technical Steps - Equal-Area Splines Using R {#EqualAreaSplines}
 
@@ -219,7 +232,7 @@ The function `GSIF::mpspline` has several arguments. One of the arguments is the
 
 The following technical steps require **R** and the named packages.
 
-#### 	Promote Table ‘dat’ to ‘SoilProfileCollection’	
+**Step 1 - Promote table ‘dat’ to ‘SoilProfileCollection'**
 
 ```{r, echo=T}
 # Load aqp package
@@ -231,7 +244,7 @@ library(aqp)
 depths(dat) <- ProfID ~ top + bottom
 ```
 
-#### Add Site-Level Data and Coordinates
+**Step 2 - Add site-level data and coordinates**
 
 ```{r, echo=T}
 # Merge the soil horizons information with the site-level 
@@ -245,7 +258,7 @@ coordinates(dat) <- ~ X + Y
 dat
 ```
 
-#### Run Mass Preserving Splines for All the Needed Properties	
+** Step 3 - Run mass preserving splines for all the needed properties**
 
 ```{r splines, results='hide', message=FALSE, eval=TRUE}
 library(GSIF)
@@ -256,7 +269,7 @@ try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
 try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
 ```
 
-#### Convert Back to Table	
+**Step 4 - Convert back to table**
 
 ```{r, eval=TRUE}
 ## Prepare final data frame
@@ -273,7 +286,7 @@ dat <- dat[complete.cases(dat),]
 head(dat)
 ```
 
-#### Estimate the Soil Organic Carbon Stock Using the Virtual Horizons
+**Step 5 - Estimate the soil organic carbon stock using the virtual horizons**
 
 Finally, the estimation of the soil organic carbon stock (OKS) can be done using the **GSIF** package.
 
