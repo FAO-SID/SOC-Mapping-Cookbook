@@ -11,9 +11,7 @@ knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates pro
 
 ## DEM-Derived Covariates
 
-### DEM Source Data Sets
-
-Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
+This Section gives a short overview on available DEM source data sets. Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
 
 > * Recommended for national level applications: 30 m GDEM / SRTM.
 > * Recommended for global level applications: SRTM 90 m, resampled 1 kilometer.
@@ -207,7 +205,7 @@ The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the ratio
 
 ## Technical Steps - Overlay Covariates and Soil Points Data {#overlay-soil-covariates}
 
-### Load soil sample data and covariates
+**Step 1 - Load soil sample data and covariates**
 
 ```{r}
 # Load the processed data. This table was prepared in the previous 
@@ -221,7 +219,7 @@ files <- list.files(path = "covs", pattern = "tif$",
 covs <- stack(files)
 ```
 
-### Combine the covariates provided with the raster version of the soil map
+**Step 2 - Combine the covariates provided with the raster version of the soil map**
 
 ```{r, fig.cap="FYROM soil covariates"}
 # soilmap.r is the rasterization of the soil map and was obtained
@@ -246,7 +244,7 @@ plot(covs)
 ```
 
 
-### Overlay Covariates and Spatial Data
+**Step 3 - Overlay covariates and spatial data**
 
 In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, **raster** package resample and `projectRaster()` functions are for harmonizing all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
 
@@ -279,7 +277,7 @@ The summary of the `dat data.frame` shows 1 points with NA values for most of th
 
 * **Option 2**: Another case is when a covariate is incomplete and does not cover all the area. This could produce many NA values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for the soilmap layer and the 30 points. 
 
-### Convert result to data.frame and save as a csv table
+**Step 4 - Convert result to data.frame and save as a csv table**
 
 ```{r}
 dat <- as.data.frame(dat)
