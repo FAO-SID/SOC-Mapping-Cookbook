@@ -10,9 +10,9 @@ Validation is defined here as an activity in which the soil map predictions are 
 
 We distinguish internal and external map accuracy. Statistical methods typically produce direct estimates of map quality, for instance, the kriging variance or the coefficient of determination (${R^2}$) of a linear regression model. These we refer to as internal accuracy measures since these rely on model assumptions and are computed from data that are used for model calibration. Preferably, validation is done with an independent dataset not used in map making. Using such dataset gives the external map accuracy. One will often see that the external accuracy is poorer than the internal accuracy.
 
-In section 8.3.2 we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section 8.3.3 we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on @brus2011sampling. For details, please refer to this paper.
+In section \@ref(QualMeasures) we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section \@ref(validationMeth) we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on @brus2011sampling. For details, please refer to this paper.
 
-## Map Quality Measures
+## Map Quality Measures {#QualMeasures}
 
 ### Quality Measures for Quantitative Soil Maps
 
@@ -141,7 +141,7 @@ knitr::include_graphics("images/Validation_Rwanda.png")
 
 
 
-## Validation Methods and Statistical Inference
+## Validation Methods and Statistical Inference {#validationMeth}
 
 Following @brus2011sampling, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in the previous section from a sample.
 

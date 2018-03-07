@@ -139,11 +139,11 @@ system(paste0('gdallocationinfo ', spnad83.file, ' 100 100'))
 
 ```
 
-Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], are extremely fast and efficient. Likewise, **gdalwarp** function can be used subset rasters based on spatial extent or grid index. Rasters imported to GeoServer and shared through Web Coverage Service (see next section) or similar likewise function as a spatial raster DB.
+Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], are extremely fast and efficient. Likewise, **gdalwarp** function can be used subset rasters based on spatial extent or grid index. Rasters can be imported to GeoServer and shared through Web Coverage Service (see Section \@ref(webService)) or similar likewise function as a spatial raster DB.
 
 As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTiffs because floating point formats can lead to up to 4+ times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g. multiply pH values by 10 before exporting your raster as a GeoTiff).
 
-## Web Services - Serving Soil Data Using Web Technology
+## Web Services - Serving Soil Data Using Web Technology {webService}
 
 ### Third-Party Services
 
