@@ -1,7 +1,7 @@
 # Setting-Up the Software Environment
 *Y Yigini*
 
-This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
+This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this Section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
 
 ## Use of R, RStudio and R Packages
 
@@ -36,7 +36,7 @@ The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org
 
 ### Most Used R Packages for Digital Soil Mapping 
 
-As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following subsections, we are going to present the most used packages related to digital soil property mapping.
+As was previously mentioned, **R** is extensible through packages. **R** packages are collections of **R** functions, data, documentation and compiled code easy to share with others. In the following Subsections, we are going to present the most used packages related to digital soil property mapping.
 
 #### Soil Science and Pedometrics{#SoilPedometrics}
 

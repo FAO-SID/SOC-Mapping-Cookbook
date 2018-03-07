@@ -1,7 +1,7 @@
 # Data Sharing
 *T Hengl, L Poggio, E Ribeiro & B Kempen*
 
-This chapter reviews possibilities and “good practices” of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make a correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, R, GeoServer, OpenLayers and Leaflet, and public domain data and metadata standards.
+This Chapter reviews possibilities and “good practices” of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make a correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, R, GeoServer, OpenLayers and Leaflet, and public domain data and metadata standards.
 
 The authors have 15+ years of experience in producing, publishing and sharing soil maps and have been involved in large soil mapping projects where data volumes often exceed standard desktop GIS capacities. For information on specific software please refer to the provided links. Even more information on using GDAL and similar GIS tools through a command line can be found via the Global Soil Information Facilities tutorials of ISRIC at http://gsif.isric.org. The text is illustrated with example scripts of the statistical software R in combination with GDAL.
 
@@ -57,7 +57,7 @@ It is also important to be able to distinguish between sampled or predicted soil
 
 ![Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data.](images/Data_sharing_soil_variables.png)
 
-A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification etc) make a **Soil Information System** (SIS). SIS are often complemented with soil sample data and serve both data formats. A Soil Information System should preferably be a **Database** (DB), so that users can access and query data using some standard DB languages (for example SQL). Steps to export soil data into a DB format are explained in later sections.
+A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification etc) make a **Soil Information System** (SIS). SIS are often complemented with soil sample data and serve both data formats. A Soil Information System should preferably be a **Database** (DB), so that users can access and query data using some standard DB languages (for example SQL). Steps to export soil data into a DB format are explained in later Sections.
 
 ### General GIS Data Formats: Vector, Raster, Table
 

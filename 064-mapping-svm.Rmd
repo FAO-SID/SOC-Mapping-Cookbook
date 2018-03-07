@@ -41,13 +41,13 @@ getwd()
 
 **Point Dataset**
 
-We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
+We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
 **Environmental Predictors (Covariates)**
 
-In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section \@ref(GSOCDataRepo).
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section \@ref(GSOCDataRepo).
 
-In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
+In Section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
 Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
 
@@ -87,7 +87,7 @@ dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 dat@proj4string
 ```
 
-Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of chapter \@ref(covariates).
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of Chapter \@ref(covariates).
 
 ```{r}
 load(file = "covariates.RData")

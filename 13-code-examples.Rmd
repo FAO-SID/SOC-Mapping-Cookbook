@@ -1,7 +1,7 @@
 # Compendium of the Code Examples Included in the Cookbook
 *GF Olmedo*
 
-In this chapter, we present a compendium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
+In this Chapter, we present a compendium of the technical steps presented in the previous Chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
 1. Soil data preparation
   - **Option A**: Data Preparation - Soil Profiles (Code \@ref(cd:PreparationProfiles))

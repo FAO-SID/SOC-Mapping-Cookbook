@@ -31,7 +31,7 @@ knitr::kable(dat, caption = "Example for profile-description table", booktabs = 
 
 ### Technical Steps – Loading Data From Tables in R
 
-This chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in section \@ref(cd:PreparationProfiles). The second example is using topsoil or auger data and is presented in section \@ref(cd:PreparationAuger).
+This Chapter includes two examples for data preparation. The first example is for using soil profiles data. This example is mixed with the text but a copy the code is presented in Section \@ref(cd:PreparationProfiles). The second example is using topsoil or auger data and is presented in Section \@ref(cd:PreparationAuger).
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
@@ -53,7 +53,7 @@ str(dat_sites)
 
 The *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map* specify which soil parameters are needed to produce a GSOCmap. Of course, other soil properties can be evaluated and modeled using this cookbook as well.
 
-SOC stocks for soil horizons or targeted soil depths can be calculated using the equations in section 8.4.3 of the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*. Carbon concentration, bulk density and stone content for a certain depth or genetic horizon are needed to calculate the amount of carbon stored in that depth interval/soil horizon. In many countries, legacy data from former surveys and projects, as well as from various owners and data sources are compiled. Often, measured bulk densities are either missing, only available for few soil profiles, or are estimated. Stones in the soil profile are usually only estimated, and if augers are used for sampling, stone content is not assessed at all. Pedo-transfer functions can be used to fill data gaps (e.g. bulk density), and interpolation approaches can be used to infer from measured depths to target depths. 
+SOC stocks for soil horizons or targeted soil depths can be calculated using the equations in Section 8.4.3 of the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*. Carbon concentration, bulk density and stone content for a certain depth or genetic horizon are needed to calculate the amount of carbon stored in that depth interval/soil horizon. In many countries, legacy data from former surveys and projects, as well as from various owners and data sources are compiled. Often, measured bulk densities are either missing, only available for few soil profiles, or are estimated. Stones in the soil profile are usually only estimated, and if augers are used for sampling, stone content is not assessed at all. Pedo-transfer functions can be used to fill data gaps (e.g. bulk density), and interpolation approaches can be used to infer from measured depths to target depths. 
 
 ### Stones
 
@@ -205,7 +205,7 @@ The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depe
 
 Soil properties are commonly collected from field inventories (see Table 2.2) or from sampling and analyzing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*, data holders are confronted with the following options: 
 
-* **Option 1**: Soil sampling has already considered this depth, data can be directly used for upscaling (see chapter \@ref(mappingMethods)).
+* **Option 1**: Soil sampling has already considered this depth, data can be directly used for upscaling (see Chapter \@ref(mappingMethods)).
 * **Option 2**: Horizons or layers/depth classes are sampled but aggregation is needed over the 0 to 30 cm.
 * **Option 3**: The target depth (0 to 30 cm) was not completely covered by sampling, e.g. only the A horizon or a topsoil layer (e.g. 0 to 20 cm) has been sampled.
 
@@ -213,7 +213,7 @@ For both **Options 2** and **3**, the transformation is needed, using e.g. equal
 
 ### Technical Steps - Equal-Area Splines Using R {#EqualAreaSplines}
 
-In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see section \@ref(SoilPedometrics)). For illustration, a sample dataset has been used (see chapter \@ref(covariates)). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables \@ref(tab:example table for site-level), \@ref(tab:example table for horizon-level)) can be transformed to an SPC.
+In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see Section \@ref(SoilPedometrics)). For illustration, a sample dataset has been used (see Chapter \@ref(covariates)). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables \@ref(tab:example table for site-level), \@ref(tab:example table for horizon-level)) can be transformed to an SPC.
 
 The function `GSIF::mpspline` has several arguments. One of the arguments is the lambda value mentioned before. The proposed default value is 0.1. Another argument for this function is the target standard depths. The function produces spline-estimated values at these depths. However, this function also produces spline-estimated values at 1 cm increments. 
 
