@@ -5,6 +5,16 @@ This Chapter reviews possibilities and “good practices” of exchanging produc
 
 The authors have 15+ years of experience in producing, publishing and sharing soil maps and have been involved in large soil mapping projects where data volumes often exceed standard desktop GIS capacities. For information on specific software please refer to the provided links. Even more information on using GDAL and similar GIS tools through a command line can be found via the Global Soil Information Facilities tutorials of ISRIC at http://gsif.isric.org. The text is illustrated with example scripts of the statistical software R in combination with GDAL.
 
+The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
+
+```{r, eval=FALSE}
+# Installing packages for Chapter 'Data Sharing'
+install.packages(c("soiltexture", "rgdal", "plotKML",
+                   "sf", "RSQLite", "leaflet",
+                   "htmlwidgets", "GSIF", "raster"))
+```
+
+
 ## Export Formats
 
 ### Type of Soil Data and Their Formatting

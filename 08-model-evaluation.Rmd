@@ -3,7 +3,16 @@
 
 There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @soil-2017-40; @nussbaum2018evaluation). This Section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM. Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled  SOC estimates derived from three different statistical methods (multiple linear regression-kriging RK (Sect.\@ref(RK)) random forests RF (Sect.\@ref(rf)), and support vector machines SVM (Sect.\@ref(svm))). The model evaluation methods presented here were adapted from the original work of Carslaw \& Ropkins for air quality assessments and its R package openair [@openair]. 
 
-We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous Chapter. The cross validation strategy and the repeated random split for training and testing the models are other two alrernatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting 'best method' could be the one that overfits the most.  
+We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous Chapter. The cross validation strategy and the repeated random split for training and testing the models are other two alrernatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting 'best method' could be the one that overfits the most.
+
+The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
+
+```{r, eval=FALSE}
+# Installing packages for Chapter 'Model Evaluation in Digital Soil Mapping'
+install.packages(c("raster", "psych", "rasterVis",
+                   "mapview", "openair"))
+```
+
 
 ## Technical Steps - Model Correlations and Spatial Differences
 

@@ -6,14 +6,11 @@ output:
 # Preparation of Local Soil Data {#preparation}
 *GF Olmedo & R Baritz*
 
-The authors of this cookbook used a number of different **R** packages. To run the code provided in this Chaptet, the following packages need to be installed in the **R** user library. Packages can be installed using the 'install.packages()' function. **RStudio** offers the installation of packages via the Tools tab.
+The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
 
 ```{r, eval=FALSE}
 # Installing packages for Chapter 'Preparation of Local Soil Data'
 install.packages(c("aqp", "GSIF"))
-
-# If packages are required, they will be installed
-if (!require("aqp", "GSIF")) install.packages(c("aqp", "GSIF"))
 ```
 
 ## Soil Profiles and Soil Augers
