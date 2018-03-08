@@ -337,10 +337,10 @@ Note that the problem of spatially correlated errors remains when data are non-p
 
 In R, the caret package [@kuhn2016short] offers functionality for data-splitting and cross-validation.
 
-## Technical steps - Validation {#TS:validation}
+## Technical Steps - Validation {#TS:validation}
 *GF Olmedo*
 
-### Prediction error
+**Step 1 - Prediction error**
 
 First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in Chapter \@ref(preparation), we used the code in Section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from Chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test those results.
 
@@ -382,7 +382,7 @@ names(prederrors) <- c('RK', 'randomForest', 'svm')
 knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "rrr", booktabs = TRUE)
 ```
 
-### Estimating the Map Quality Measures
+**Step 2 - Estimating the map quality measures**
 
 In this Section, we present the code needed to estimate the map quality measures for quantitative soil maps.
 
@@ -443,7 +443,7 @@ knitr::kable(validation, caption = "Summary of map quality measures for 3 differ
 ```
 
 
-### Graphical Map Quality Measures 
+**Step 3 - Graphical map quality measures** 
 
 In this Section, we will apply the proposed graphical quality measures to the results of Chapter \@ref(mappingMethods).
 
@@ -497,7 +497,7 @@ bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21,
 
 
 
-### Data-Splitting {#dataSplit}
+**Step 4 - Data-splitting** {#dataSplit}
 
 As explained before, many times for running validation analysis, we split the data before fitting the models. In this Section, we present the code needed to achieve this using **caret** package.
 

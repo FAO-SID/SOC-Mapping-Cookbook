@@ -26,7 +26,7 @@ svm is a broad research area and for a better understanding of the mathematical 
 
 ### Technical Steps - Fitting an SVM Model to Predict the SOC
 
-#### Setting Working Space and Initial Steps
+**Step 1 - Setting working space and initial steps**
 
 One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our folder which contains data for the study area (point data, covariates).
 
@@ -37,13 +37,13 @@ getwd()
 ```
 
 
-#### Data Preparation
+**Step 2 - Data preparation**
 
-**Point Dataset**
+**Point dataset**
 
 We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
-**Environmental Predictors (Covariates)**
+**Environmental predictors (covariates)**
 
 In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section \@ref(GSOCDataRepo).
 
@@ -95,7 +95,7 @@ load(file = "covariates.RData")
 names(covs)
 ```
 
-#### Variable selection using correlation analysis
+**Step 3 - Variable selection using correlation analysis**
 
 ```{r}
 # plot the names of the covariates
@@ -131,7 +131,7 @@ names(COV)
 ```
 
 
-#### Categorical variables in svm models
+**Step 4 - Categorical variables in svm models**
 
 According to @hsu2003practical, svm requires each variable to be represented by a vector of real numbers. This means that factor variables, like `covs$LCEE10` and `covs$soilmap`has to be converted into numeric data. In statistics, this kind of variables are called boolean indicators or dummy variables. Dummy variables take a value of 0 or 1 indicating the presence or absence of a specific value/category in our factor covariate, i.e. if we have 5 categories like in `covs$LCEE10`, we will have 5 dummy variables indicating the presence/absence of every category. For converting our covariates to dummies we will have to create a new function that returns the dummy rasterStack from the factor version of the rasterLayer.
 
@@ -186,7 +186,7 @@ names(dat@data)
 ```
 
 
-#### Fitting a svm model
+**Step 5 - Fitting a svm model**
 
 To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 parameters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon which is the insensitive-loss function (The larger epsilon is, the larger errors in the solution are not penalized). The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost which is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. This is a heavy and time consuming computational step since we will try a extensive number of different models in order to find the best parameters for our svm model. 
 
@@ -226,7 +226,7 @@ plot(tuneResult)
 ```
 
 
-#### Select the model with the best combination of epsilon and cost
+**Step 6 - Select the model with the best combination of epsilon and cost**
 
 The best model is the one with the lowest mean squared error derived by cross-validation. The parameters for the cross-validation can be defined in the `tune.control()` function. By default, it uses cross-validation using 10 folds.
 
@@ -237,7 +237,7 @@ tunedModel <- tuneResult$best.model
 print(tunedModel)
 ```
 
-#### Predict the OCS using the model
+**Step 7 - Predict the OCS using the model**
 
 ```{r, fig.cap="SOC prediction using a support vector machines model"}
 # Use the model to predict the SOC in the covariates space
