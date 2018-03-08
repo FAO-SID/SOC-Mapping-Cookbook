@@ -171,7 +171,7 @@ plot(pred)
 Ideally, a digital soil map should include a spatial explicit metric of uncertainty. The uncertainty can be roughly divided into four main components, uncertainty in soil data, uncertainty in soil covariates, uncertainty in the model and uncertainty in variations of available data. Here, we show an approach to estimate the sensitivity of the model to available data and the uncertainty of the model. The first two are beyond of the aim of this Chapter. For the third and fourth we will generate a reproducible example.
 
 **Step 1 - Split data in into training ans testing subsets**
- 
+
 To analyze the sensitivity of the model to available data we need to randomly split the data several times (e.g., 10 or more, is possible until the variance stabilizes) in training and testing subsets. A model generation and prediction are made on each split, in a way that the dispersion of the predicted values at the pixel level will represent the uncertainty and the sensitivity of the model to variations in available data. This process increases computational demand and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example, we will use only 10 realizations and random splits of 25% of available data. 
 
 
@@ -197,6 +197,8 @@ for (i in 1:10){
 }
 ```
 
+**Step 2 - Building a snsitivity map**
+
 The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realizations, each with a different random combination of data for training and validating the models. 
 
 ```{r, eval=TRUE, fig.cap='Sensitivity based on 10 realizations using 25% samples'}
@@ -214,6 +216,8 @@ The rmse and the explained variance of the models is stored in the object valida
 summary(validation)
 ```
 
+**Step 3 - Analyzing the sensitivity of the map**
+
 ```{r, eval=FALSE, fig.cap='OCSKGM prediction based on 75% of data', echo=FALSE}
 # Plot of the map based on 75% of data and the sensitivity to data 
 # variations
@@ -222,6 +226,8 @@ prediction75 <- exp(pred[[1]])
 plot(prediction75, main='OCSKGM prediction based on 75% of data', 
      col=rev(topo.colors(10)))
 ```
+
+**Step 4 - Estimating the full conditional distribution of OCSKGMlog**
 
 Finally, we will estimate the model uncertainty, represented by the full conditional distribution of the response variable (OCSKGMlog) as a function of the selected prediction factors using the quantile regression forest package of R. This approach has proven to be efficient for digital soil mapping across large areas [@vaysse2017using]. 
 
@@ -240,6 +246,8 @@ model <- quantregForest(y=dat@data$OCSKGMlog, x=dat@data[,8:20],
                         ntree=500, keep.inbag=TRUE, 
                         mtry = as.numeric(rfmodel$bestTune))                        
 ```
+
+**Step 5 - Estimating the probability distribution function for each pixel**
 
 This method will calculate a probability distribution function for each pixel and therefore can be time-consuming. Therefore we will run it using parallel computing. Note that the code to run in parallel this analysis can also be passed to the previous predictions (predict function). The result will be a map of the standard deviation of the distribution calculated for each pixel, which represents the extreme values that a prediction can take for a specific site (e.g., pixel) given available data and predictors. Note that this analysis is performed using all available data and a second map of OCSKGM is created. 
 
@@ -273,6 +281,8 @@ plot(exp(mean), main='OCSKGM based in all data')
 ```{r, eval=TRUE, fig.cap='Total uncertainty'}
 plot(Total_unc_Percent, zlim=c(0, 5), main='Total uncertainty')
 ```
+
+**Step 6 - Saving the results as raster format**
 
 Finally, the predicted OCSKGM and the total uncertainty can be saved in the working directory in a generic (*.tif) raster format.
 
