@@ -5,9 +5,11 @@ There are no best methods for statistical modeling and different evaluation stra
 
 We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous Chapter. The cross validation strategy and the repeated random split for training and testing the models are other two alrernatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting 'best method' could be the one that overfits the most.  
 
-## Technical steps - Model correlations and spatial differences
+## Technical Steps - Model Correlations and Spatial Differences
 
-We will import the predicted maps and harmonize them in to the same regular grid (~1x1km of spatial resolution). Then we will plot the statistical distribution and the correlation between the three different methods (RK, RF, SVM).   
+**Step 1 - Harmonize the predicted maps to the same spatial resolution**
+
+We will import the predicted maps and harmonize them in to the same regular grid (~1x1km of spatial resolution).
 
 ```{r, out.width='70%'}
 library(raster)
@@ -17,21 +19,35 @@ SVM<-raster('results/MKD_OCSKGM_svm.tif')
 #Note that RK has a different reference system 
 RK <- projectRaster(RK, SVM)
 models <- stack(RK, RF, SVM)
+```
 
+**Step 2 - Compare the statistical distribution and correlation between the models**
+
+Then we will plot the statistical distribution and the correlation between the three different methods (RK, RF, SVM).   
+
+```{r, fig.cap='Comparision of DSM model correlations (RK, RF, SVM) und statical distributions'}
 library(psych)
 pairs.panels(na.omit(as.data.frame(models)), 
              method = "pearson", # correlation method
              hist.col = "#00AFBB",
              density = TRUE,  # show density plots
              ellipses = TRUE # show correlation ellipses
-             )                     
+             )
 ```
-Here we found that the higher correlation between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches (0.79, RF and SVM). We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values. 
+
+
+
+Here we found that the higher correlation between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches (0.79, RF and SVM).
+
+We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values. 
 
 ```{r, fig.cap='Density plot of the prediction for three DSM models'}
 library(rasterVis)
 densityplot(models)
 ```
+
+**Step 3 - Identify spatial differences between the models using the standard deviation**
+
 Lets now take a look at the spatial differences. This step will allow to identify the geographical areas within the prediction domain where model predictions more agreee and disagree. To spatially compare model predictions we will estimate the standard deviation and the 
 differences between the three SOC maps.  
 
@@ -52,12 +68,15 @@ preds <- stack(RKRF, RKSVM, RFSVM)
 names(preds) <- c('RKvsRF','RKvsSVM','RFvsSVM')
 
 X <- raster::cellStats(preds, mean)
-levelplot(preds - X, at=seq(-0.5,0.5, length.out=10), par.settings = RdBuTheme)
+levelplot(preds - X, at=seq(-0.5,0.5, length.out=10),
+          par.settings = RdBuTheme)
 ```
 Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF semms to be less sharp than the differences of SVM with the other two methods. Note that we use the levelplot function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the mapview function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks). 
 
 
 ## Technical steps - Model evaluation
+
+**Step 1 - Data preparation**
 
 To compare the performance of the three models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the 3 models. The table containing these values was prepared in Section \@ref(TS:validation). 
 
@@ -83,6 +102,8 @@ modData <- rbind(modRK, modRF, modSVM)
 
 summary(modData)
 ```
+
+**Step 2 - Calucalte statistical evaluation metrics**
 
 Now we will use the modStats function to calculate common numerical model evaluation statistics which are described and mathematically defined in the openair manual (@carslaw2015openair, Ch. 27, pp 231-233). These include:
 

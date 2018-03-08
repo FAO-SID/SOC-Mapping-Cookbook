@@ -38,6 +38,7 @@ Model uncertainty is generally subdivided into model parameter uncertainty and m
 ## Uncertainty and Spatial Data Quality
 
 Research into spatial accuracy in Geographic Information Science has listed five main elements of spatial data quality:
+
 * lineage
 * positional accuracy
 * attribute accuracy

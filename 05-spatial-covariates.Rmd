@@ -1,6 +1,16 @@
 # Preparation of Spatial Covariates {#covariates}
 *R Baritz & Y Yigini*
 
+The authors of this cookbook used a number of different **R** packages. To run the code provided in this Chaptet, the following packages need to be installed in the **R** user library. Packages can be installed using the 'install.packages()' function. **RStudio** offers the installation of packages via the Tools tab.
+
+```{r, eval=FALSE}
+# Installing packages for Chapter 'Preparation of Spatial Covariates'
+install.packages("raster")
+
+# If packages are required, they will be installed
+if (!require("raster") install.packages("raster")
+```
+
 The example covariates from this Chapter were prepared by *ISRIC*. The access and use limitations are presented in Section \@ref(GSOCDataRepo). A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
 
 ```{r covariates, echo=F}

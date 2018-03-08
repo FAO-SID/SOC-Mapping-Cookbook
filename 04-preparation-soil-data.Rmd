@@ -6,6 +6,16 @@ output:
 # Preparation of Local Soil Data {#preparation}
 *GF Olmedo & R Baritz*
 
+The authors of this cookbook used a number of different **R** packages. To run the code provided in this Chaptet, the following packages need to be installed in the **R** user library. Packages can be installed using the 'install.packages()' function. **RStudio** offers the installation of packages via the Tools tab.
+
+```{r, eval=FALSE}
+# Installing packages for Chapter 'Preparation of Local Soil Data'
+install.packages(c("aqp", "GSIF"))
+
+# If packages are required, they will be installed
+if (!require("aqp", "GSIF")) install.packages(c("aqp", "GSIF"))
+```
+
 ## Soil Profiles and Soil Augers
 
 Soil profiles are complex real-world entities. They are composed of soil layers which form soil horizons; the soil layers have different properties and these properties are evaluated with different methods.  As we know, soil and vertical soil properties are landscape elements and part of matter dynamics (water, nutrients, gases, habitat, etc.). Local soil samples or soil profiles add a third dimension into the spatial assessment of soil properties in the landscape. 
