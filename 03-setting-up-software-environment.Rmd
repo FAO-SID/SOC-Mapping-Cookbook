@@ -83,6 +83,21 @@ Both **raster** and **sp** have handy functions for plotting spatial data. Besid
 
 [**leaflet**](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the Leaflet JavaScript library and the [**htmlwidgets**](https://cran.r-project.org/web/packages/htmlwidgets/index.html) package. These maps can be used directly from the **R** console, from **RStudio**, in [**Shiny**](https://shiny.rstudio.com/) apps and **RMarkdown** documents.
 
+
+### Packages Used in This Cookbook
+The authors of this cookbook used a number of different **R** packages. All required packages used in the cookbook can be installed using the following code and the `install.packages()` function when starting a new SOC mapping project. Alternatively, the code for the installation of the needed packages is included at the beginning of each Chapter. 
+
+```{r}
+# Install all required R packages used in the cookbook
+install.packages(c("aqp", "automap", "car", "caret", "e1071",
+                   "GSIF", "htmlwidgets", "leaflet", "mapview",
+                   "Metrics", "openair", "plotKML", "psych", 
+                   "quantregForest", "randomForest", "raster",
+                   "rasterVis", "reshape", "rgdal", "RSQLite",
+                   "snow", "soiltexture", "sf", "sp"))
+```
+
+
 ## R and Spatial Data
 
 **R** has a large and growing number of spatial data packages. We recommend taking a quick browse on **R**’s official website to see the spatial packages available: \url{http://cran.r-project.org/web/views/Spatial.html}
