@@ -80,7 +80,7 @@ The estimation of stoniness is difficult and time-consuming, and therefore not c
 As a proxy, it is recommended to derive national default values from well-described soil profile pits by soil type.
 
 ```{r}
-# summary of column CRF (Coarse Fragments) in the example data base
+# Summary of column CRF (Coarse Fragments) in the example data base
 summary(dat$CRF)
 
 # Convert NA's to 0
@@ -162,7 +162,7 @@ Each method is derived from a specific set of regional soils that is regionally 
 
 ```{r}
 # Creating a function in R to estimate BLD using the SOC
-# SOC is the soil organic carbon content in \%
+# SOC is the soil organic carbon content in percent %
 estimateBD <- function(SOC, method="Saini1996"){
   OM <- SOC * 1.724
   if(method=="Saini1996"){BD <- 1.62 - 0.06 * OM}
@@ -178,19 +178,19 @@ estimateBD <- function(SOC, method="Saini1996"){
 
 
 ```{r, fig.cap="Histogram of bulk density values"}
-# summary of BLD (bulk density) in the example data base
+# Summary of BLD (bulk density) in the example data base
 summary(dat$BLD)
 
 # See the summary of values produced using the pedo-transfer 
-# function with one of the proposed methods.
+# function with one of the proposed methods
 summary(estimateBD(dat$SOC[is.na(dat$BLD)], 
                    method="Honeyset_Ratkowsky1989"))
 
-# Fill NA's using the pedo-transfer function:
+# Fill NA's using the pedo-transfer function
 dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
                                       method="Grigal1989")
 
-# explore the results
+# Explore the results
 hist(dat$BLD, col = 'light gray', breaks = 32)
 ```
 
@@ -271,7 +271,7 @@ dat
 ```{r splines, results='hide', message=FALSE, eval=TRUE}
 library(GSIF)
 
-## Estimate 0-30 standard horizon usin mass preserving splines
+# Estimate 0 cm -30 cm standard horizons using mass preserving splines
 try(SOC <- mpspline(dat, 'SOC', d = t(c(0,30))))
 try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
 try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
@@ -280,7 +280,7 @@ try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
 **Step 4 - Convert back to table**
 
 ```{r, eval=TRUE}
-## Prepare final data frame
+# Prepare final data frame
 dat <- data.frame(id = dat@site$ProfID,
                   Y = dat@sp@coords[,2],
                   X = dat@sp@coords[,1],
@@ -290,7 +290,7 @@ dat <- data.frame(id = dat@site$ProfID,
 
 dat <- dat[complete.cases(dat),]
 
-## Take a look at the results
+# Take a look at the results
 head(dat)
 ```
 
@@ -300,16 +300,17 @@ Finally, the estimation of the soil organic carbon stock (OCS) can be done using
 
 ```{r estimation of OCS, eval=TRUE}
 library(GSIF)
-# Estimate Organic Carbon Stock
+# Estimate organic carbon stock (OCS)
 # SOC must be in g/kg
 # BLD in kg/m3
-# CRF in percentage
+# CRF in percentage %
 OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, 
                  CRFVOL = dat$CRFVOL, HSIZE = 30)
 
 dat$OCSKGM <- OCSKGM
 dat$meaERROR <- attr(OCSKGM,"measurementError")
 dat <- dat[dat$OCSKGM>0,]
+
 summary(dat)
 ```
 
@@ -320,7 +321,7 @@ Soil organic carbon tends to have a log-normal distribution with a right-skew, a
 # logarithm
 dat$OCSKGMlog <- log(dat$OCSKGM)
 
-## plot the next two plots as one
+# Plot the next two plots as one
 par(mfrow=c(1,2))
 plot(density(dat$OCSKGM),
      main='original values')
@@ -329,7 +330,7 @@ plot(density(dat$OCSKGMlog),
      main='log transformed values')
 par(mfrow=c(1,1))
 
-## We can save our processed data as a table
+# We can save our processed data as a table
 write.csv(dat, "data/dataproc.csv", row.names = FALSE)
 ```
 

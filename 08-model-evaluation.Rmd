@@ -22,10 +22,12 @@ We will import the predicted maps and harmonize them in to the same regular grid
 
 ```{r, out.width='70%'}
 library(raster)
+
 RF<-raster('results/MKD_OCSKGM_rf.tif')
 RK<-raster('results/MKD_OCSKGM_RK.tif')
 SVM<-raster('results/MKD_OCSKGM_svm.tif')
-#Note that RK has a different reference system 
+
+# Note that RK has a different reference system 
 RK <- projectRaster(RK, SVM)
 models <- stack(RK, RF, SVM)
 ```
@@ -36,10 +38,13 @@ Then we will plot the statistical distribution and the correlation between the t
 
 ```{r, fig.cap='Comparision of DSM model correlations (RK, RF, SVM) und statical distributions'}
 library(psych)
-pairs.panels(na.omit(as.data.frame(models)), 
-             method = "pearson", # correlation method
+
+pairs.panels(na.omit(as.data.frame(models)),
+             # Correlation method
+             method = "pearson", 
              hist.col = "#00AFBB",
-             density = TRUE,  # show density plots
+            # show density plots
+             density = TRUE, 
              ellipses = TRUE # show correlation ellipses
              )
 ```
@@ -52,6 +57,7 @@ We can in addition overlap the probability distribution functions for the three 
 
 ```{r, fig.cap='Density plot of the prediction for three DSM models'}
 library(rasterVis)
+
 densityplot(models)
 ```
 
@@ -61,14 +67,17 @@ Lets now take a look at the spatial differences. This step will allow to identif
 differences between the three SOC maps.  
 
 ```{r, eval=FALSE}
-SD <- calc(models , sd)
 library(mapview)
+
+SD <- calc(models , sd)
+
 mapview(SD)
 ```
 The mapview command will plot the standard deviation map in a *.html* file. Note roughly how the hotspots (yellow to red colors) of higher variance of predictions tend to be higher towards the west of the country, whereas models tend to agree in their predictions across the east side of the country. Note also that the variability although noisy, it shows a general pattern, (e.g., from east to west), suggesting that model agreement could be associated with specific land surface characteristics. Now we will analyze specific differences between the three models (RK vs RF, RK vs SVM, RF vs SVM). 
 
 ```{r, fig.cap='1 to 1 comparison between the three selected DSM models', eval=FALSE}
 library(raster)
+
 RKRF  <- calc(models[[c(1,2)]], diff)
 RKSVM <- calc(models[[c(1,3)]], diff)
 RFSVM <- calc(models[[c(2,3)]], diff)
@@ -96,7 +105,7 @@ dat <- read.csv("results/validation.csv")
 We will prepare a new table from this data that we are going to use for model evaluation purposes. The new table should have the observed value, the predicted value and the model. 
 
 ```{r}
-# prepare 3 new data.frame with the observed, predicted and the model
+# Prepare 3 new data.frame with the observed, predicted and the model
 modRK <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_RK, 
                     model = "RK")
 
@@ -106,7 +115,7 @@ modRF <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_rf,
 modSVM <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_svm, 
                      model = "SVM")
 
-# merge the 3 data.frames into one
+# Merge the 3 data.frames into one
 modData <- rbind(modRK, modRF, modSVM)
 
 summary(modData)
@@ -130,15 +139,14 @@ Now we will use the modStats function to calculate common numerical model evalua
 A perfect model would have a $FAC24$, $r$, $COE$ and $IOA$ ~ 1.0, while all the others ~ 0. However, digital soil mappers should have in mind that there is no such thing as a perfect model on digital SOC mapping for large areas, especially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures [@chang2004air].  
 
 ```{r}
-#Load the openair library
 library(openair)
 
 modsts <- modStats(modData,obs = "obs", mod = "mod", type = "model")
 ```
 
 ```{r modsts, echo=FALSE}
-#modsts <- cbind(modsts[1], round(modsts[-1], 2))
-## print a table
+# modsts <- cbind(modsts[1], round(modsts[-1], 2))
+# Print a table
 knitr::kable(modsts[,c(1,3:11)], caption = "Summary of Different Model Evaluation Statistics for the 3 Models Compared", digits = 2,
              row.names = F, booktabs = TRUE)
 ```

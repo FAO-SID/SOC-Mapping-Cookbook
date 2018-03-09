@@ -13,7 +13,7 @@ install.packages(c("sp", "car", "automap",
                    "e1071"))
 ```
 
-## Conventional Upscaling Using Soil Maps
+## Conventional Upscaling Using Soil Maps 
 *R Baritz, VL Mulder*
 
 ### Overview

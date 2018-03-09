@@ -52,13 +52,13 @@ In Section \@ref(overlay-soil-covariates), a table with the points values after 
 Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
 
 ```{r}
-# load data
+# Load data
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
 dat$LCEE10 <- as.factor(dat$LCEE10)
 dat$soilmap <- as.factor(dat$soilmap)
 
-# explore the data structure
+# Explore the data structure
 str(dat)
 ```
 
@@ -79,9 +79,8 @@ To clearly tell R this information we define the CRS which describes a reference
 
 Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
 
-Now, we will define our CRS:
-
 ```{r}
+# Now, we will define our CRS
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 
 dat@proj4string
@@ -98,7 +97,7 @@ names(covs)
 **Step 3 - Variable selection using correlation analysis**
 
 ```{r}
-# plot the names of the covariates
+# Plot the names of the covariates
 names(dat@data)
 ```
 
@@ -108,7 +107,7 @@ For the variable selection we will use `cor()` function. `x` must be a table inc
 selectedCovs <- cor(x = as.matrix(dat@data[,5]),
            y = as.matrix(dat@data[,-c(1:7,13,21)]))
 
-# print correlation results
+# Print correlation results
 selectedCovs
 ```
 
@@ -116,6 +115,7 @@ Now we used the correlation results to select the top five covariates.
 
 ```{r var selection in svm continued}
 library(reshape)
+
 x <- subset(melt(selectedCovs), value != 1 | value != NA)
 x <- x[with(x, order(-abs(x$value))),]
 
@@ -151,33 +151,34 @@ dummyRaster <- function(rast){
 We can use the function we just created to convert our categorical covariates to dummies and then stack all the layers together.
 
 ```{r}
-# convert soilmap from factor to dummy
+# Convert soilmap from factor to dummy
 soilmap_dummy <- dummyRaster(covs$soilmap)
 
-# convert LCEE10 from factor to dummy
+# Convert LCEE10 from factor to dummy
 LCEE10_dummy <- dummyRaster(covs$LCEE10)
 
 # Stack the 5 COV layers with the 2 dummies
 COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
 
-# print the final layer names
+# Print the final layer names
 names(COV)
 ```
 
 We have to convert the columns with categorical variables in the soil samples `data.frame` to dummies as well. For doing this we can use function `model.matrix()`. After this, we use `cbind()` to merge the resulting `data.frame`.
 
 ```{r}
-# convert soilmap column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
+# Convert soilmap column to dummy, the result is a matrix
+# To have one column per category we have to add -1 to the formula
 dat_soilmap_dummy <- model.matrix(~soilmap -1, data = dat@data)
-# convert the matrix to a data.frame
+
+# Convert the matrix to a data.frame
 dat_soilmap_dummy <- as.data.frame(dat_soilmap_dummy)
 
-
-# convert LCEE10 column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
+# Convert LCEE10 column to dummy, the result is a matrix
+# To have one column per category we have to add -1 to the formula
 dat_LCEE10_dummy <- model.matrix(~LCEE10 -1, data = dat@data)
-# convert the matrix to a data.frame
+
+# Convert the matrix to a data.frame
 dat_LCEE10_dummy <- as.data.frame(dat_LCEE10_dummy)
 
 dat@data <- cbind(dat@data, dat_LCEE10_dummy, dat_soilmap_dummy)
@@ -193,17 +194,18 @@ To improve the model performance the parameters of the svm can be tuned. In this
 ```{r svm RUN.ALL, echo=FALSE, eval=TRUE, results='hide', warning=FALSE}
 library(e1071)
 library(caret)
+
 if(RUN.ALL == TRUE){
-  # run the model
+  # Run the model
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                                          names(COV))],
                      ranges = list(epsilon = seq(0.1,0.2,0.02),
                                    cost = c(5,7,15,20)))
-  # save the model for later
+  # Save the model for later
   saveRDS(object = tuneResult, file = "results/svm.model.Rds")
 }
 if(RUN.ALL == FALSE){
-  # load pre calculated model
+  # Load pre calculated model
   tuneResult <- readRDS("results/svm.model.Rds")
 }
 ```
@@ -212,7 +214,7 @@ if(RUN.ALL == FALSE){
 library(e1071)
 library(caret)
 
-#  Test different values of epsilon and cost
+# Test different values of epsilon and cost
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                                          names(COV))],
                      ranges = list(epsilon = seq(0.1,0.2,0.02),
@@ -253,13 +255,16 @@ plot(OCSsvm)
 Finally, we can evaluate the contribution of each covariate to the model [@guyon2003introduction]:
 
 ```{r, echo=TRUE, eval=TRUE}
-# Variable importance in svm. Code by:
-# stackoverflow.com/questions/34781495
+# Variable importance in svm
+# Code by: stackoverflow.com/questions/34781495
+# Weight vectors
+w <- t(tunedModel$coefs) %*% tunedModel$SV
 
-w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
-w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
+# Weight
+w <- apply(w, 2, function(v){sqrt(sum(v^2))})  
 
 w <- sort(w, decreasing = T)
+
 print(w)
 ```
 

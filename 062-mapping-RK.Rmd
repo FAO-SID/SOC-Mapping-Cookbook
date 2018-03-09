@@ -130,13 +130,13 @@ In Section \@ref(overlay-soil-covariates), a table with the points values after 
 Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
 
 ```{r}
-# load data
+# Load data
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
 dat$LCEE10 <- as.factor(dat$LCEE10)
 dat$soilmap <- as.factor(dat$soilmap)
 
-# explore the data structure
+# Explore the data structure
 str(dat)
 ```
 
@@ -196,14 +196,14 @@ model.MLR <- lm(log(OCSKGM) ~ ., data = datdf)
 From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the `step()` function. With this function, we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
 
 ```{r, results='hide'}
-## stepwise variable selection
+# stepwise variable selection
 model.MLR.step <- step(model.MLR, direction="both")
 ```
 
 Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about $23\%$ of variation of the target variable. Obviously, the “full” model is more complex as it has more parameters than the “step” model.
 
 ```{r, results='hold'}
-# summary and anova of the new model using stepwise covariates
+# Summary and anova of the new model using stepwise covariates
 # selection
 summary(model.MLR.step)
 anova(model.MLR.step)
@@ -213,7 +213,7 @@ In those two models above, we used all available points. It is important to test
 
 
 ```{r}
-# graphical diagnosis of the regression analysis
+# Graphical diagnosis of the regression analysis
 par(mfrow=c(2,2))
 plot(model.MLR.step)
 par(mfrow=c(1,1))
@@ -221,11 +221,11 @@ par(mfrow=c(1,1))
 
 
 ```{r}
-# collinearity test using variance inflation factors
+# Collinearity test using variance inflation factors
 library(car)
 vif(model.MLR.step)
 
-# problematic covariates should have sqrt(VIF) > 2
+# Problematic covariates should have sqrt(VIF) > 2
 sqrt(vif(model.MLR.step))
 ```
 
@@ -233,21 +233,21 @@ colinear: Temperature seasonality at 1 km (B04CHE3) and Temperature Annual Range
 
 
 ```{r}
-# Removing B07CHE3 from the stepwise model:
+# Removing B07CHE3 from the stepwise model
 model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
 
-# Test the vif again:
+# Test the vif again
 sqrt(vif(model.MLR.step))
 ```
 
 ```{r, results='hold'}
-# summary  of the new model using stepwise covariates selection
+# Summary of the new model using stepwise covariates selection
 summary(model.MLR.step)
 ```
 
 
 ```{r}
-# outlier test using the Bonferroni test
+# Outlier test using the Bonferroni test
 outlierTest(model.MLR.step)
 ```
 
@@ -256,10 +256,10 @@ outlierTest(model.MLR.step)
 Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or `covs` object for making our prediction. Using stack avoids the step of arranging all covariates into a table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created in the Step 3.
 
 ```{r, warning=FALSE}
-# Project point data.
+# Project point data
 dat <- spTransform(dat, CRS("+init=epsg:6204"))
 
-# project covariates to VN-2000 UTM 48N
+# Project covariates to VN-2000 UTM 48N
 covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"),
                       method='ngb')
 
@@ -269,8 +269,8 @@ covs$soilmap <- as.factor(covs$soilmap)
 
 
 ```{r}
-# Promote covariates to spatial grid dataframe. Takes some time and
-# a lot of memory!
+# Promote covariates to spatial grid dataframe.
+# Takes some time and a lot of memory!
 covs.sp <- as(covs, "SpatialGridDataFrame")
 covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
 covs.sp$soilmap <- as.factor(covs.sp$soilmap)
@@ -280,18 +280,19 @@ covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 ```{r RK RUN.ALL, echo=FALSE, eval=TRUE}
 library(automap)
 if(RUN.ALL == TRUE){
-  # run the model
+  # Run the model
   OCS.krige <- autoKrige(formula =
                            as.formula(model.MLR.step$call$formula),
                          input_data = dat,
                          new_data = covs.sp,
                          verbose = TRUE,
                          block = c(1000, 1000))
-  # save the model for later
+  # Save the model for later
   saveRDS(object = OCS.krige, file = "results/OCS.krige.Rds")
 }
+
 if(RUN.ALL == FALSE){
-  # load pre calculated model
+  # Load pre calculated model
   OCS.krige <- readRDS("results/OCS.krige.Rds")
 }
 ```
@@ -299,11 +300,11 @@ if(RUN.ALL == FALSE){
 
 
 ```{r RK-prediction, eval=FALSE}
-### RK model
+# RK model
 library(automap)
 
-
-## Run regression-kriging prediction. This step can take hours...!
+# Run regression-kriging prediction.
+# This step can take hours!
 OCS.krige <- autoKrige(formula =
                          as.formula(model.MLR.step$call$formula),
                        input_data = dat,
@@ -315,8 +316,8 @@ OCS.krige
 ```
 
 ```{r}
-## Convert prediction and standard deviation to rasters
-## And back-tansform the vlaues
+# Convert prediction and standard deviation to rasters
+# and back-tansform the vlaues
 RKprediction <- exp(raster(OCS.krige$krige_output[1]))
 RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 ```
@@ -331,7 +332,7 @@ plot(RKpredsd)
 
 
 ```{r}
-## Save results as tif files
+# Save results as tif files
 writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif",
             overwrite = TRUE)
 
@@ -340,7 +341,7 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif",
 ```
 
 ```{r}
-# save the model
+# Save the model
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
 
@@ -350,7 +351,7 @@ Cross-validation is introduced in Section \@ref(xval). In Regression-Kriging mod
 
 ```{r, warning=FALSE, message=FALSE, results='hide'}
 # autoKrige.cv() does not removes the duplicated points
-# we have to do it manually before running the cross-validation
+# We have to do it manually before running the cross-validation
 dat = dat[which(!duplicated(dat@coords)), ]
 
 OCS.krige.cv <- autoKrige.cv(formula = 
