@@ -8,7 +8,8 @@ We found in this package a very useful set of functions for model evaluation met
 The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
 
 ```{r, eval=FALSE}
-# Installing packages for Chapter 'Model Evaluation in Digital Soil Mapping'
+# Installing packages for Chapter 'Model Evaluation in
+# Digital Soil Mapping'
 install.packages(c("raster", "psych", "rasterVis",
                    "mapview", "openair"))
 ```
@@ -43,9 +44,10 @@ pairs.panels(na.omit(as.data.frame(models)),
              # Correlation method
              method = "pearson", 
              hist.col = "#00AFBB",
-            # show density plots
-             density = TRUE, 
-             ellipses = TRUE # show correlation ellipses
+             # Show density plots
+             density = TRUE,
+             # Show correlation ellipses
+             ellipses = TRUE 
              )
 ```
 

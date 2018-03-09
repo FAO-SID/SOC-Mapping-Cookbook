@@ -1,7 +1,7 @@
 # Setting-Up the Software Environment
 *Y Yigini*
 
-This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this Section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for *Microsoft Windows* desktop platform. Instructions for the other platforms (e.g. *Linux Flavours*, *MacOS*) can be found through free online resources.
+This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this Section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for Microsoft Windows desktop platform. Instructions for the other platforms (e.g. Linux Flavours, MacOS) can be found through free online resources.
 
 ## Use of R, RStudio and R Packages
 
@@ -87,7 +87,7 @@ Both **raster** and **sp** have handy functions for plotting spatial data. Besid
 ### Packages Used in This Cookbook
 The authors of this cookbook used a number of different **R** packages. All required packages used in the cookbook can be installed using the following code and the `install.packages()` function when starting a new SOC mapping project. Alternatively, the code for the installation of the needed packages is included at the beginning of each Chapter. 
 
-```{r}
+```{r, eval=FALSE}
 # Install all required R packages used in the cookbook
 install.packages(c("aqp", "automap", "car", "caret", "e1071",
                    "GSIF", "htmlwidgets", "leaflet", "mapview",

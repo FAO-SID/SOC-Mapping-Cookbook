@@ -45,7 +45,7 @@ Before we proceed with the regression analysis, it is advisable to inspect the h
 
 The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
 
-```{r workflowRK, fig.cap="Workflow for Regression-kriging" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r workflowRK, fig.cap="Workflow for regression-kriging" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/RKworkflow.png")
 ```
 
@@ -188,7 +188,7 @@ datdf <- datdf[, c("OCSKGM", names(covs))]
 Let’s fit a linear model using with all available covariates.
 
 ```{r}
-# Fit a multiple linear regression model between the log transformed
+# Fit a multiple linear regression model between the log-transformed
 # values of OCS and the top 20 covariates
 model.MLR <- lm(log(OCSKGM) ~ ., data = datdf)
 ```
@@ -196,14 +196,14 @@ model.MLR <- lm(log(OCSKGM) ~ ., data = datdf)
 From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the `step()` function. With this function, we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
 
 ```{r, results='hide'}
-# stepwise variable selection
+# Stepwise variable selection
 model.MLR.step <- step(model.MLR, direction="both")
 ```
 
 Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about $23\%$ of variation of the target variable. Obviously, the “full” model is more complex as it has more parameters than the “step” model.
 
 ```{r, results='hold'}
-# Summary and anova of the new model using stepwise covariates
+# Summary and ANOVA of the new model using stepwise covariates
 # selection
 summary(model.MLR.step)
 anova(model.MLR.step)
@@ -225,7 +225,7 @@ par(mfrow=c(1,1))
 library(car)
 vif(model.MLR.step)
 
-# Problematic covariates should have sqrt(VIF) > 2
+# Problematic covariates should have sqrt (VIF) > 2
 sqrt(vif(model.MLR.step))
 ```
 
@@ -279,6 +279,7 @@ covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 
 ```{r RK RUN.ALL, echo=FALSE, eval=TRUE}
 library(automap)
+
 if(RUN.ALL == TRUE){
   # Run the model
   OCS.krige <- autoKrige(formula =
@@ -292,7 +293,7 @@ if(RUN.ALL == TRUE){
 }
 
 if(RUN.ALL == FALSE){
-  # Load pre calculated model
+  # Load pre-calculated model
   OCS.krige <- readRDS("results/OCS.krige.Rds")
 }
 ```
@@ -322,17 +323,17 @@ RKprediction <- exp(raster(OCS.krige$krige_output[1]))
 RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 ```
 
-```{r}
+```{r predRK, fig.cap = "Prediction FYROM map from regression-kriging model"}
 plot(RKprediction)
 ```
 
-```{r}
+```{r predSDRK, fig.cap = "Standard deviation values for FYROM map from regression-kriging model"}
 plot(RKpredsd)
 ```
 
 
 ```{r}
-# Save results as tif files
+# Save results as *.tif files
 writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif",
             overwrite = TRUE)
 
@@ -356,7 +357,7 @@ dat = dat[which(!duplicated(dat@coords)), ]
 
 OCS.krige.cv <- autoKrige.cv(formula = 
                             as.formula(model.MLR.step$call$formula), 
-                             input_data = dat, nfold = 10)
+                            input_data = dat, nfold = 10)
 ```
 
 ```{r}

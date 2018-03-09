@@ -79,8 +79,8 @@ The estimation of stoniness is difficult and time-consuming, and therefore not c
 
 As a proxy, it is recommended to derive national default values from well-described soil profile pits by soil type.
 
-```{r}
-# Summary of column CRF (Coarse Fragments) in the example data base
+```{r, fig.cap="Histogram of coarse fragments values"}
+# Summary of column CRF (coarse fragments) in the example data base
 summary(dat$CRF)
 
 # Convert NA's to 0
@@ -92,7 +92,7 @@ hist(dat$CRF, col = "light gray")
 
 ### Bulk Density
 
-The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered ($\text{depth}    \times \text{reference area}$) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
+The amount of fine earth is one of the basic estimation parameters to estimate SOC stocks in the mineral soil as well as in peat layers. It depends on the volume of soil considered ($\text{depth} \times \text{reference area}$) and the bulk density (BD). BD expresses the soil weight per unit volume. When determining BD, it is important to subtract stones, if any, from the cylinder samples; if this is not done, BD is underestimated, and the resulting SOC stocks are overestimated. Stones in the cylinders are added to the total stone content in order to correct for the total amount of fine earth per volume of soil in a given area.
 
 Most of the soil profiles in national databases come from agricultural land. Very often, BD estimates do not consider fine stones because top soils (e.g. plough layers) seem to be free of visible stones.
 
@@ -195,7 +195,6 @@ hist(dat$BLD, col = 'light gray', breaks = 32)
 ```
 
 
-
 ### Soil Carbon Analysis
 
 \cite{rosell2001soil} have closely reviewed the different SOC and SOM estimation procedures, and have also drawn some conclusions about the sources of errors. Determination of SOC from dry combustion methods is least susceptible to errors. 
@@ -271,7 +270,8 @@ dat
 ```{r splines, results='hide', message=FALSE, eval=TRUE}
 library(GSIF)
 
-# Estimate 0 cm -30 cm standard horizons using mass preserving splines
+# Estimate 0 cm - 30 cm standard horizons
+# using mass preserving splines
 try(SOC <- mpspline(dat, 'SOC', d = t(c(0,30))))
 try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
 try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
@@ -300,6 +300,7 @@ Finally, the estimation of the soil organic carbon stock (OCS) can be done using
 
 ```{r estimation of OCS, eval=TRUE}
 library(GSIF)
+
 # Estimate organic carbon stock (OCS)
 # SOC must be in g/kg
 # BLD in kg/m3
@@ -316,7 +317,7 @@ summary(dat)
 
 Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (SOC) tends to normality and 2) if this transformation increases the simple correlation of SOC and its prediction factors. 
 
-```{r, eval=TRUE, fig.cap='Statistical distribution of original OCS values vs log-transformed values'}
+```{r, eval=TRUE, fig.cap='Statistical distribution of original values vs. log-transformed values for OCS '}
 # Generate a new column with the transformed OCSKGM to its natural 
 # logarithm
 dat$OCSKGMlog <- log(dat$OCSKGM)
@@ -324,13 +325,13 @@ dat$OCSKGMlog <- log(dat$OCSKGM)
 # Plot the next two plots as one
 par(mfrow=c(1,2))
 plot(density(dat$OCSKGM),
-     main='original values')
+     main='Original values')
 
 plot(density(dat$OCSKGMlog),
-     main='log transformed values')
+     main='Log-transformed values')
 par(mfrow=c(1,1))
 
-# We can save our processed data as a table
+# We can save our processed data as a *.csv table
 write.csv(dat, "data/dataproc.csv", row.names = FALSE)
 ```
 

@@ -198,7 +198,7 @@ library(caret)
 if(RUN.ALL == TRUE){
   # Run the model
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
-                                                         names(COV))],
+                                                      names(COV))],
                      ranges = list(epsilon = seq(0.1,0.2,0.02),
                                    cost = c(5,7,15,20)))
   # Save the model for later
@@ -223,7 +223,7 @@ library(caret)
 
 We can plot the performance of the different models. When the region is darker, the RMSE is closer to zero. 
 
-```{r, fig.cap="Performance of the different svm models in the parameter tuning procedure"}
+```{r, fig.cap = "Performance of the different SVM models in the parameter tuning procedure"}
 plot(tuneResult)
 ```
 
@@ -241,7 +241,7 @@ print(tunedModel)
 
 **Step 7 - Predict the OCS using the model**
 
-```{r, fig.cap="SOC prediction using a support vector machines model"}
+```{r, fig.cap="SOC prediction map for FYROM using a support vector machines model"}
 # Use the model to predict the SOC in the covariates space
 OCSsvm <- predict(COV, tunedModel)
 

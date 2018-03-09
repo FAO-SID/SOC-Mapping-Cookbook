@@ -11,7 +11,7 @@ Data mining uses different forms of statistics, such as machine learning, to exp
 Random forest is a Decision-tree-based machine learning method used in digital soil mapping for uncovering the statistical relationship between a dependent variable (e.g., soil property) and its predictors. Decision-tree-based models (also known as classifiers) are literally like trees (e.g., with stem, many branches, and leaves). The leaves are the prediction outcomes (final decisions) that flow from higher levels based on decision rules through the stem and the branches \citep{breiman1984classification}. The decision tree model recursively splits the data into final uniform groups (classes) or unique values based on a set of rules (e.g., based on probability values and hypothesis testing). In random forest, there are many decision trees and each tree recursively splits randomly selected sub-samples from the data (Figure \@ref(fig:rfschema)). The name random forest originates from the fact that the original data is first randomly split into sub-samples, and many decision trees (or forest) are used to model the sub-samples.
 
 
-```{r rfschema, fig.cap="Schematical representation of data splitting data to generate the random subsets used to train regression trees within a Random forest model (ensemble of regression trees)" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r rfschema, fig.cap="Schematical representation of data splitting to generate the random subsets used to train regression trees within a random forest model (ensemble of regression trees)" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/randomForestconcept.png")
 ```
 
@@ -136,13 +136,13 @@ rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl,
 
 The object derived from the train function can be used to generate predictions of OCSKGMlog at the spatial resolution of the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, \%IncMSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that Random forest uses to reduce overfitting. 
 
-```{r, fig.cap='Model Decreasing Error and Node Purity'}
+```{r, fig.cap='Model Decreasing Error and Node Purity for the RF model'}
 # Variable importance plot, compare with the correlation matrix
 # Select the best prediction factors and repeat  
 varImpPlot(rfmodel[11][[1]])
 ```
 
-```{r, fig.cap='select ntree'}
+```{r, fig.cap='Select ntree'}
 # Check if the error stabilizes 
 plot(rfmodel[11][[1]])
 ```
@@ -150,7 +150,7 @@ plot(rfmodel[11][[1]])
 
 Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our Random forest model needs to be validated using the independent dataset to complement the results of the cross-validation (e.g., rmse and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the rmse and the explained variance derived from the independent validations are slightly lower than the values obtained using cross-validation. 
 
-```{r rf-pred, fig.cap='SOC prediction using a randomForest model'}
+```{r rf-pred, fig.cap='SOC prediction map for FYROM using a random forest model'}
 # Make a prediction across all FYROM
 # Note that the units are still in log
 pred <- predict(covs, rfmodel)
@@ -281,7 +281,7 @@ Our final prediction uses all available data, while the total uncertainty (in pe
 
 
 ```{r, eval=TRUE, fig.cap='OCSKGM quantregForest prediction'}
-# Plot both maps (the predicted OCSKGM and its associated uncertainty)
+# Plot both maps (the predicted OCSKGM and associated uncertainty)
 plot(exp(mean), main='OCSKGM based in all data')
 ```
 

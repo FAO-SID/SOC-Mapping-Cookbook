@@ -97,7 +97,7 @@ knitr::include_graphics("images/Conv_upscaling1.png")
 4.  Load the FYROM soil map. Right-click the file in the Browser panel and add the map to your project.
 5.  Display the soil classes. Right-click on the file in the Layers Panel, properties. Go to Style and change from ‘Single symbol’ to ‘Categorized’ (Fig. \@ref(fig:layerprop)). Select the column ‘WRB’ and press the icon ‘Classify’ and change the colors if you want. Next, apply the change and finish by clicking the OK-button.
 
-```{r layerprop, fig.cap="Changing layer properties for the FYROM Soil Map" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r layerprop, fig.cap="Changing layer properties for the FYROM soil map" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling2.png")
 ```
 
