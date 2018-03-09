@@ -41,7 +41,7 @@ tex <- data.frame(
 TT.plot(class.sys = "USDA.TT", tri.data = tex, main = "", 
         cex.axis=.7, cex.lab=.7)
 ```
-![Soil texture triangle plot. An example of soil science specific data.](images/Data_sharing_triangle.png)
+![Soil texture triangle plot as an example of soil science specific data](images/Data_sharing_triangle.png)
 
 The way soil texture data is displayed and texture classes (SaLo, Lo, Sa etc.) used in a texture triangle is specific to soil science. The way this data is formatted and presented can be, likewise, specific to soil science only.
 
@@ -65,7 +65,7 @@ It is also important to be able to distinguish between sampled or predicted soil
 1. Soil samples (usually points or transects) are spatially incomplete. They are used to generate spatial predictions.
 2. Spatial predictions of soil variables (soil maps) are spatially complete. They are used for decision making and further modeling i.e. they are used to construct a Soil Information System.
 
-![Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data.](images/Data_sharing_soil_variables.png)
+![Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data](images/Data_sharing_soil_variables.png)
 
 A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification etc) make a **Soil Information System** (SIS). SIS are often complemented with soil sample data and serve both data formats. A Soil Information System should preferably be a **Database** (DB), so that users can access and query data using some standard DB languages (for example SQL). Steps to export soil data into a DB format are explained in later Sections.
 
@@ -178,7 +178,7 @@ GeoServer (http://geoserver.org/) is Open Source software solution for serving r
 
 The very important functionality of GeoServer are the OGC standard services such as the **Web Coverage Service** (WCS) and the **Web Feature Service** (WFS). WCS means that not only data views are available to users, but WCS can also do data translation, aggregation or resampling, overlay etc. Consider for example the SoilGrids WCS  (which can also be opened in QGIS or similar software supporting WCS). Users can direct this WCS and request only a subset of data for some area, aggregated to some preferred resolution/pixel size by using gdal_translate or similar. This means that, in few steps, users can download a subset of data on GeoServer in a preferred format without a need to download the whole dataset.
 
-![SoilGrids (Hengl et al. 2017) WCS opened in QGIS.](images/Data_sharing_SoilGrids.png)
+![SoilGrids (Hengl et al. 2017) WCS opened in QGIS](images/Data_sharing_SoilGrids.png)
 
 ### Visualizing Data Using Leaflet and/or Google Earth
 
@@ -196,13 +196,16 @@ omm <- autopredict(meuse["om"], meuse.grid[c("dist","soil","ffreq")],
 meuse.ll <- reproject(meuse["om"])
 
 # Reprojecting to +proj=longlat +datum=WGS84
-m = leaflet() %>% addTiles() %>% addRasterImage(raster(omm$predicted["om"]), 
-  colors = SAGA_pal[[1]][4:20]) %>% addCircles(lng = meuse.ll@coords[,1], 
-    lat = meuse.ll@coords[,2], color = c('black'), radius=meuse.ll$om)  
+m = leaflet() %>% addTiles() %>% 
+    addRasterImage(raster(omm$predicted["om"]), 
+    colors = SAGA_pal[[1]][4:20]) %>% 
+    addCircles(lng = meuse.ll@coords[,1], 
+    lat = meuse.ll@coords[,2],
+    color = c('black'), radius=meuse.ll$om)  
 
 saveWidget(m, file="organicmater_predicted.html")
 ```
-![Sampled locations and produced predictions visualized using Leaflet package.](images/Data_sharing_Leaflet.png)
+![Sampled locations and produced predictions visualized using Leaflet package](images/Data_sharing_Leaflet.png)
 
 Note that the whole data set including styling and legends is basically available through a single HTML file (organicmater_predicted.html). Anyone opening that HTML in their browsers will get an interactive web-map that contains both samples and spatial predictions.
 
