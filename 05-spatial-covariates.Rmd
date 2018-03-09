@@ -1,30 +1,34 @@
-# Preparation of Spatial covariates {#covariates}
+# Preparation of Spatial Covariates {#covariates}
 *R Baritz & Y Yigini*
 
-The example covariates from this chapter were prepared by *ISRIC*. The access and use limitations are presented in section \@ref(GSOCDataRepo). A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
+The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following package need to be installed in the **R** user library. If the package is not yet installed, the `install.packages()` function can be used.
+
+```{r, eval=FALSE}
+# Installing package for Chapter 'Preparation of Spatial Covariates'
+install.packages("raster")
+```
+
+The example covariates from this Chapter were prepared by *ISRIC*. The access and use limitations are presented in Section \@ref(GSOCDataRepo). A small subset of these covariates, comprising most of the soil forming factors, will be used for the examples. This subset is presented in the following table.
 
 ```{r covariates, echo=F}
 covs.t <- read.csv("covs/CovsDescription.csv")
-knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates provided with the cookbook.", booktabs = TRUE)
+knitr::kable(covs.t[,c(1,3)], caption = "Code and name of example covariates provided with the cookbook", booktabs = TRUE)
 ```
 
 
 ## DEM-Derived Covariates
 
-### DEM Source Data Sets
-
-Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
+This Section gives a short overview on available DEM source data sets. Currently, two global level 30 m DEMs are freely available: the Shuttle Radar Topographic Mission (SRTM) and the ASTER Global Digital Elevation Model (GDEM). They provide topographic data at the global scale, which are freely available for users. Both DEMs were compared by @Wong2014. Comparison against high-resolution topographic data of Light Detection and Ranging (LiDAR) in a mountainous tropical montane landscape showed that the SRTM (90 m) produced better topographic data in comparison with ASTER GDEM. 
 
 > * Recommended for national level applications: 30 m GDEM / SRTM.
 > * Recommended for global level applications: SRTM 90 m, resampled 1 kilometer.
 
 In both cases, noise and artefacts need to be filtered out. ASTER seems to contain more large artifacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering. 
 
-```{r, fig.cap="SRTM 90m, resampled to 1km for FYROM", warning=FALSE}
-#For handling raster data, we load raster package
+```{r, fig.cap="SRTM 90 m resampled to 1 km for FYROM", warning=FALSE}
 library(raster)
 
-#load DEM from tif file
+# Load DEM from raster *.tif file
 DEM <- raster("covs/DEMENV5.tif")
 plot(DEM)
 ```
@@ -50,15 +54,17 @@ National parent material and geological maps may be used. Other available datase
 
 ## Soil Maps
 
-Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology, and climate do not correlate well with the dependent variable, here SOC stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps. 
+Soil maps play a crucial role for upscaling soil property data from point locations. They can be the spatial layer for conventional upscaling, they can also serve as a covariate in digital soil mapping. Predicted soil property maps have lower quality in areas where the covariates such as relief, geology, and climate do not correlate well with the dependent variable, here SOC stocks. This is especially true for soils under groundwater or stagnic water influence. This information is well-represented in soil maps.
 
-FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see section \@ref(GSOCDataRepo)).
+### Global HWSD Soil Property Maps
 
-```{r, fig.cap="soil map of MK", eval=T, fig.width=8}
-# load the soil map from a shapefile file
+FAO, IIASA, ISRIC, ISS CAS and JRC produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as geotiffs at http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km (see Section \@ref(GSOCDataRepo)).
+
+```{r, fig.cap="Soil map of FYROM", eval=T, fig.width=8}
+# Load the soil map from a shapefile *.shp file
 soilmap <- shapefile("MK_soilmap_simple.shp")
 
-# plot the DEM together with the soil types
+# Plot the DEM together with the soil types
 plot(DEM)
 lines(soilmap)
 ```
@@ -67,29 +73,30 @@ lines(soilmap)
 
 ### Technical Steps - Rasterizing a Vector Layer in R
 
-```{r, eval = T}
-# the "Symbol" attribute from the vector layer will be used for the
+```{r, fig.cap='Rasterized soil map of FYROM from DEM raster layer', eval = T}
+# The Symbol attribute from the vector layer will be used for the
 # rasterization process. It has to be a factor
 soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
 
-#save the levels names in a character vector
+# Save the levels names in a character vector
 Symbol.levels <- levels(soilmap$Symbol)
 
-# The rasterization process needs a layer with the target grd 
-# system: spatial extent and cell size.
+# The rasterization process needs a layer with the target grid 
+# system: spatial extent and cell size
+# The DEM raster layer could be used for this
 soilmap.r <- rasterize(x = soilmap, y = DEM, field = "Symbol")
-# The DEM raster layer could be used for this.
 
 plot(soilmap.r, col=rainbow(21))
 legend("bottomright",legend = Symbol.levels, fill=rainbow(21), 
        cex=0.5)
 ```
 
-## Land Cover and Land use
+## Land Cover and Land Use
 
 Besides soil, geology, and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on the land cover including global and continental products, such as GlobCover, GeoCover, Globeland30, CORINE Land Cover.
 
 ```{r, background=('#F7F7F7'), R.options=(width = 69)}
+# Load the landcover from the raster *.tif file
 landcover <- raster("covs/LCEE10.tif")
 
 # Land cover is a categorical covariate, this has to be made 
@@ -134,16 +141,16 @@ The Bioclimatic parameters are:  annual mean temperature, mean diurnal range, is
 WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; @hijmans2005very. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).
 
 ```{r}
-# load the climate covariates from the raster tif files
+# Load the climate covariates from the raster *.tif files
 files <- list.files(path = "covs/", pattern = "CHE3.tif", 
                     full.names = TRUE)
 
-# stack all the files in one RasterStack
+# Stack all the files in one RasterStack
 climate <- stack(files)
 ```
 
-```{r, fig.cap="Two layers included in the climate covariates"}
-# plot the first 2 layers
+```{r, fig.cap="Two different temperature layers included in the climate covariates"}
+# Plot the first two layers
 plot(climate[[1:2]])
 ```
 
@@ -195,65 +202,65 @@ LICENCE and ACKNOWLEDGEMENT
 
 ## Extending the Soil Property Table for Spatial Statistics
 
-The upscaling procedures (see chapter \@ref(mappingMethods)) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
+The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
 
 ## Preparation of a Soil Property Table for Spatial Statistics
 
-The upscaling procedures (see chapter \@ref(mappingMethods)) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in section 3. An example is the clay content, which may be derived from a soil type or parent rock map. 
+The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in Section \@ref(#overlay-soil-covariates).
 
 > In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
 
 ## Technical Steps - Overlay Covariates and Soil Points Data {#overlay-soil-covariates}
 
-### Load soil sample data and covariates
+**Step 1 - Load soil sample data and covariates**
 
 ```{r}
-# Load the processed data. This table was prepared in the previous 
-# chapter.
+# Load the processed data
+# This table was prepared in the previous Chapter
 dat <- read.csv("data/dat_train.csv")
 
-# read covariates from tif raster files
+# Read covariates from raster *.tif files
 files <- list.files(path = "covs", pattern = "tif$", 
                     full.names = TRUE)
 
 covs <- stack(files)
 ```
 
-### Combine the covariates provided with the raster version of the soil map
+**Step 2 - Combine the covariates provided with the raster version of the soil map**
 
-```{r, fig.cap="FYROM soil covariates"}
+```{r}
 # soilmap.r is the rasterization of the soil map and was obtained
 # in a previous step
 covs <- stack(covs, soilmap.r)
 
-# correct the name for layer 14
+# Correct the name for layer 14
 names(covs)[14] <- "soilmap"
 ```
 
-Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as 1 file. This will allow us to load this file in the following chapters of this book.
+Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as 1 file. This will allow us to load this file in the following Chapters of this book.
 
-```{r}
-#mask the covariates with the country mask from the data repository
+```{r, fig.cap="FYROM soil covariates"}
+# Mask the covariates with the country mask from the data repository
 mask <- raster("data/mask.tif")
 covs <- mask(x = covs, mask = mask)
 
-# export all the covariates 
+# Export all the covariates 
 save(covs, file = "covariates.RData")
 
 plot(covs)
 ```
 
 
-### Overlay Covariates and Spatial Data
+**Step 3 - Overlay covariates and spatial data**
 
 In order to carry out digital soil mapping in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data. Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, **raster** package resample and `projectRaster()` functions are for harmonizing all your different raster layers. With the stacked rasters (Covstack), we can now perform the intersection and extraction.
 
 
 ```{r}
-#upgrade points data frame to SpatialPointsDataFrame
+# Upgrade points data frame to SpatialPointsDataFrame
 coordinates(dat) <- ~ X + Y
 
-# extract values from covariates to the soil points
+# Extract values from covariates to the soil points
 dat <- extract(x = covs, y = dat, sp = TRUE)
 
 # LCEE10 and soilmap are categorical variables
@@ -277,15 +284,15 @@ The summary of the `dat data.frame` shows 1 points with NA values for most of th
 
 * **Option 2**: Another case is when a covariate is incomplete and does not cover all the area. This could produce many NA values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for the soilmap layer and the 30 points. 
 
-### Convert result to data.frame and save as a csv table
+**Step 4 - Convert result to data.frame and save as a csv table**
 
 ```{r}
 dat <- as.data.frame(dat)
 
-# The points with NA values has to be removed 
+# The points with NA values have to be removed 
 dat <- dat[complete.cases(dat),]
 
-# export as a csv table
+# Export as a *.csv table
 write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
 ```
 

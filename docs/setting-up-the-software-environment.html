@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Soil Organic Carbon Mapping cookbook</title>
   <meta name="description" content="The soilll cookbook.">
-  <meta name="generator" content="bookdown 0.5.15 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="Soil Organic Carbon Mapping cookbook" />
   <meta property="og:type" content="book" />
@@ -25,15 +25,15 @@
 <meta name="author" content="">
 
 
-<meta name="date" content="2018-02-22">
+<meta name="date" content="2018-03-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="preparation.html">
-<link rel="next" href="covariates.html">
+<link rel="prev" href="soil-property-maps.html">
+<link rel="next" href="preparation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -129,48 +129,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Copyright and disclaimer</a></li>
-<li class="chapter" data-level="" data-path="foreword-to-the-first-edition.html"><a href="foreword-to-the-first-edition.html"><i class="fa fa-check"></i>Foreword to the First Edition</a></li>
-<li class="chapter" data-level="" data-path="foreword-to-the-second-edition.html"><a href="foreword-to-the-second-edition.html"><i class="fa fa-check"></i>Foreword to the Second Edition</a><ul>
-<li class="chapter" data-level="" data-path="foreword-to-the-second-edition.html"><a href="foreword-to-the-second-edition.html#editorial-board"><i class="fa fa-check"></i>Editorial Board</a></li>
-<li class="chapter" data-level="" data-path="foreword-to-the-second-edition.html"><a href="foreword-to-the-second-edition.html#contributing-authors"><i class="fa fa-check"></i>Contributing Authors</a></li>
+<li class="chapter" data-level="" data-path="foreword-to-the-first-edition.html"><a href="foreword-to-the-first-edition.html"><i class="fa fa-check"></i>Foreword to the First Edition</a><ul>
+<li class="chapter" data-level="" data-path="foreword-to-the-first-edition.html"><a href="foreword-to-the-first-edition.html#foreword-to-the-second-edition"><i class="fa fa-check"></i>Foreword to the Second Edition</a></li>
+<li class="chapter" data-level="" data-path="foreword-to-the-first-edition.html"><a href="foreword-to-the-first-edition.html#editorial-board"><i class="fa fa-check"></i>Editorial Board</a></li>
+<li class="chapter" data-level="" data-path="foreword-to-the-first-edition.html"><a href="foreword-to-the-first-edition.html#contributing-authors"><i class="fa fa-check"></i>Contributing Authors</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="presentation.html"><a href="presentation.html"><i class="fa fa-check"></i><b>1</b> Presentation</a></li>
+<li class="chapter" data-level="1" data-path="presentation.html"><a href="presentation.html"><i class="fa fa-check"></i><b>1</b> Presentation</a><ul>
+<li class="chapter" data-level="1.1" data-path="presentation.html"><a href="presentation.html#how-to-use-this-book"><i class="fa fa-check"></i><b>1.1</b> How to use this book</a></li>
+<li class="chapter" data-level="1.2" data-path="presentation.html"><a href="presentation.html#the-fyrom-soil-database"><i class="fa fa-check"></i><b>1.2</b> The FYROM soil database</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="soil-property-maps.html"><a href="soil-property-maps.html"><i class="fa fa-check"></i><b>2</b> Soil Property Maps</a><ul>
 <li class="chapter" data-level="2.1" data-path="soil-property-maps.html"><a href="soil-property-maps.html#definitions-and-objectives"><i class="fa fa-check"></i><b>2.1</b> Definitions and Objectives</a></li>
 <li class="chapter" data-level="2.2" data-path="soil-property-maps.html"><a href="soil-property-maps.html#generic-mapping-of-soil-grids-upscaling-of-plot-level-measurements-and-estimates"><i class="fa fa-check"></i><b>2.2</b> Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="preparation.html"><a href="preparation.html"><i class="fa fa-check"></i><b>3</b> Preparation of Local Soil Data</a><ul>
-<li class="chapter" data-level="3.1" data-path="preparation.html"><a href="preparation.html#soil-profiles-and-soil-augers"><i class="fa fa-check"></i><b>3.1</b> Soil Profiles and Soil Augers</a></li>
-<li class="chapter" data-level="3.2" data-path="preparation.html"><a href="preparation.html#soil-database"><i class="fa fa-check"></i><b>3.2</b> Soil Database</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="preparation.html"><a href="preparation.html#technical-steps---loading-data-from-tables-in-r"><i class="fa fa-check"></i><b>3.2.1</b> Technical Steps - Loading Data from Tables in R</a></li>
+<li class="chapter" data-level="3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html"><i class="fa fa-check"></i><b>3</b> Setting-Up the Software Environment</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#use-of-r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>3.1</b> Use of R, RStudio and R Packages</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r"><i class="fa fa-check"></i><b>3.1.1</b> Obtaining and Installing R</a></li>
+<li class="chapter" data-level="3.1.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r-studio"><i class="fa fa-check"></i><b>3.1.2</b> Obtaining and Installing R Studio</a></li>
+<li class="chapter" data-level="3.1.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#getting-started-with-r"><i class="fa fa-check"></i><b>3.1.3</b> Getting Started with R</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="preparation.html"><a href="preparation.html#completeness-of-measurements-and-estimates"><i class="fa fa-check"></i><b>3.3</b> Completeness of Measurements and Estimates</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="preparation.html"><a href="preparation.html#stones"><i class="fa fa-check"></i><b>3.3.1</b> Stones</a></li>
-<li class="chapter" data-level="3.3.2" data-path="preparation.html"><a href="preparation.html#bulk-density"><i class="fa fa-check"></i><b>3.3.2</b> Bulk density</a></li>
-<li class="chapter" data-level="3.3.3" data-path="preparation.html"><a href="preparation.html#soil-carbon-analysis"><i class="fa fa-check"></i><b>3.3.3</b> Soil Carbon Analysis</a></li>
-<li class="chapter" data-level="3.3.4" data-path="preparation.html"><a href="preparation.html#carbonates"><i class="fa fa-check"></i><b>3.3.4</b> Carbonates</a></li>
-<li class="chapter" data-level="3.3.5" data-path="preparation.html"><a href="preparation.html#depth"><i class="fa fa-check"></i><b>3.3.5</b> Depth</a></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-packages"><i class="fa fa-check"></i><b>3.2</b> R Packages</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#finding-r-packages"><i class="fa fa-check"></i><b>3.2.1</b> Finding R Packages</a></li>
+<li class="chapter" data-level="3.2.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#most-used-r-packages-for-digital-soil-mapping"><i class="fa fa-check"></i><b>3.2.2</b> Most Used R Packages for Digital Soil Mapping</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="preparation.html"><a href="preparation.html#completeness-of-depth-estimate"><i class="fa fa-check"></i><b>3.4</b> Completeness of Depth Estimate</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="preparation.html"><a href="preparation.html#EqualAreaSplines"><i class="fa fa-check"></i><b>3.4.1</b> Technical Steps - Equal-Area Splines Using R</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-and-spatial-data"><i class="fa fa-check"></i><b>3.3</b> R and Spatial Data</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#reading-shapefiles"><i class="fa fa-check"></i><b>3.3.1</b> Reading Shapefiles</a></li>
+<li class="chapter" data-level="3.3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#coordinate-reference-systems-crs-in-r"><i class="fa fa-check"></i><b>3.3.2</b> Coordinate Reference Systems (CRS) in R</a></li>
+<li class="chapter" data-level="3.3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#working-with-rasters"><i class="fa fa-check"></i><b>3.3.3</b> Working with Rasters</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#other-dsm-related-software-and-tools"><i class="fa fa-check"></i><b>3.4</b> Other DSM Related Software and Tools</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html"><i class="fa fa-check"></i><b>4</b> Setting-Up the Software Environment</a><ul>
-<li class="chapter" data-level="4.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#use-of-r-rstudio-and-r-packages"><i class="fa fa-check"></i><b>4.1</b> Use of R, RStudio and R Packages</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r"><i class="fa fa-check"></i><b>4.1.1</b> Obtaining and Installing R</a></li>
-<li class="chapter" data-level="4.1.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#obtaining-and-installing-r-studio"><i class="fa fa-check"></i><b>4.1.2</b> Obtaining and Installing R Studio</a></li>
-<li class="chapter" data-level="4.1.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#getting-started-with-r"><i class="fa fa-check"></i><b>4.1.3</b> Getting Started with R</a></li>
+<li class="chapter" data-level="4" data-path="preparation.html"><a href="preparation.html"><i class="fa fa-check"></i><b>4</b> Preparation of Local Soil Data</a><ul>
+<li class="chapter" data-level="4.1" data-path="preparation.html"><a href="preparation.html#soil-profiles-and-soil-augers"><i class="fa fa-check"></i><b>4.1</b> Soil Profiles and Soil Augers</a></li>
+<li class="chapter" data-level="4.2" data-path="preparation.html"><a href="preparation.html#soil-database"><i class="fa fa-check"></i><b>4.2</b> Soil Database</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="preparation.html"><a href="preparation.html#technical-steps---loading-data-from-tables-in-r"><i class="fa fa-check"></i><b>4.2.1</b> Technical Steps - Loading Data from Tables in R</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-packages"><i class="fa fa-check"></i><b>4.2</b> R Packages</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#finding-r-packages"><i class="fa fa-check"></i><b>4.2.1</b> Finding R Packages</a></li>
-<li class="chapter" data-level="4.2.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#most-used-r-packages-for-digital-soil-mapping"><i class="fa fa-check"></i><b>4.2.2</b> Most Used R Packages for Digital Soil Mapping</a></li>
+<li class="chapter" data-level="4.3" data-path="preparation.html"><a href="preparation.html#completeness-of-measurements-and-estimates"><i class="fa fa-check"></i><b>4.3</b> Completeness of Measurements and Estimates</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="preparation.html"><a href="preparation.html#stones"><i class="fa fa-check"></i><b>4.3.1</b> Stones</a></li>
+<li class="chapter" data-level="4.3.2" data-path="preparation.html"><a href="preparation.html#bulk-density"><i class="fa fa-check"></i><b>4.3.2</b> Bulk density</a></li>
+<li class="chapter" data-level="4.3.3" data-path="preparation.html"><a href="preparation.html#soil-carbon-analysis"><i class="fa fa-check"></i><b>4.3.3</b> Soil Carbon Analysis</a></li>
+<li class="chapter" data-level="4.3.4" data-path="preparation.html"><a href="preparation.html#carbonates"><i class="fa fa-check"></i><b>4.3.4</b> Carbonates</a></li>
+<li class="chapter" data-level="4.3.5" data-path="preparation.html"><a href="preparation.html#depth"><i class="fa fa-check"></i><b>4.3.5</b> Depth</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#r-and-spatial-data"><i class="fa fa-check"></i><b>4.3</b> R and Spatial Data</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#reading-shapefiles"><i class="fa fa-check"></i><b>4.3.1</b> Reading Shapefiles</a></li>
-<li class="chapter" data-level="4.3.2" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#coordinate-reference-systems-crs-in-r"><i class="fa fa-check"></i><b>4.3.2</b> Coordinate Reference Systems (CRS) in R</a></li>
-<li class="chapter" data-level="4.3.3" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#working-with-rasters"><i class="fa fa-check"></i><b>4.3.3</b> Working with Rasters</a></li>
+<li class="chapter" data-level="4.4" data-path="preparation.html"><a href="preparation.html#completeness-of-depth-estimate"><i class="fa fa-check"></i><b>4.4</b> Completeness of Depth Estimate</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="preparation.html"><a href="preparation.html#EqualAreaSplines"><i class="fa fa-check"></i><b>4.4.1</b> Technical Steps - Equal-Area Splines Using R</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="setting-up-the-software-environment.html"><a href="setting-up-the-software-environment.html#other-dsm-related-software-and-tools"><i class="fa fa-check"></i><b>4.4</b> Other DSM Related Software and Tools</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="covariates.html"><a href="covariates.html"><i class="fa fa-check"></i><b>5</b> Preparation of Spatial covariates</a><ul>
 <li class="chapter" data-level="5.1" data-path="covariates.html"><a href="covariates.html#dem-derived-covariates"><i class="fa fa-check"></i><b>5.1</b> DEM-Derived Covariates</a><ul>
@@ -305,22 +308,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.4" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:data-splitting"><i class="fa fa-check"></i><b>13.4</b> Data-Splitting</a></li>
 <li class="chapter" data-level="13.5" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Rasterizing"><i class="fa fa-check"></i><b>13.5</b> Rasterizing a Vector Layer in R</a></li>
 <li class="chapter" data-level="13.6" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Overlay"><i class="fa fa-check"></i><b>13.6</b> Overlay Covariates and Soil Points Data</a></li>
-<li class="chapter" data-level="13.7" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:RK"><i class="fa fa-check"></i><b>13.7</b> Fitting a Regression-Kriging model to predict the OCS</a><ul>
-<li class="chapter" data-level="13.7.1" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:xvalRK"><i class="fa fa-check"></i><b>13.7.1</b> Cross-validation of Regression Kriging models</a></li>
-</ul></li>
-<li class="chapter" data-level="13.8" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:rf"><i class="fa fa-check"></i><b>13.8</b> Fitting a random forest model to predict the SOC</a></li>
-<li class="chapter" data-level="13.9" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:quantreg"><i class="fa fa-check"></i><b>13.9</b> Using Quantile Regression Forest to estimate uncertainty</a></li>
-<li class="chapter" data-level="13.10" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:svm"><i class="fa fa-check"></i><b>13.10</b> Fitting a svm model to predict the SOC</a></li>
-<li class="chapter" data-level="13.11" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Validation"><i class="fa fa-check"></i><b>13.11</b> Validation</a></li>
-<li class="chapter" data-level="13.12" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:RK"><i class="fa fa-check"></i><b>13.12</b> Fitting a Regression-Kriging model to predict the OCS</a><ul>
-<li class="chapter" data-level="13.12.1" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:xvalRK"><i class="fa fa-check"></i><b>13.12.1</b> Cross-validation of Regression Kriging models</a></li>
-</ul></li>
-<li class="chapter" data-level="13.13" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:rf"><i class="fa fa-check"></i><b>13.13</b> Fitting a random forest model to predict the SOC</a></li>
-<li class="chapter" data-level="13.14" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:quantreg"><i class="fa fa-check"></i><b>13.14</b> Using Quantile Regression Forest to estimate uncertainty</a></li>
-<li class="chapter" data-level="13.15" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:svm"><i class="fa fa-check"></i><b>13.15</b> Fitting a svm model to predict the SOC</a></li>
-<li class="chapter" data-level="13.16" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Validation"><i class="fa fa-check"></i><b>13.16</b> Validation</a></li>
-<li class="chapter" data-level="13.17" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Graphs"><i class="fa fa-check"></i><b>13.17</b> Graphical Map Quality Measures</a></li>
-<li class="chapter" data-level="13.18" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Evaluation"><i class="fa fa-check"></i><b>13.18</b> Model Evaluation</a></li>
+<li class="chapter" data-level="13.7" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:RK"><i class="fa fa-check"></i><b>13.7</b> Fitting a Regression-Kriging model to predict the OCS</a></li>
+<li class="chapter" data-level="13.8" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:xvalRK"><i class="fa fa-check"></i><b>13.8</b> Cross-validation of Regression Kriging models</a></li>
+<li class="chapter" data-level="13.9" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:rf"><i class="fa fa-check"></i><b>13.9</b> Fitting a random forest model to predict the SOC</a></li>
+<li class="chapter" data-level="13.10" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:quantreg"><i class="fa fa-check"></i><b>13.10</b> Using Quantile Regression Forest to estimate uncertainty</a></li>
+<li class="chapter" data-level="13.11" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:svm"><i class="fa fa-check"></i><b>13.11</b> Fitting a svm model to predict the SOC</a></li>
+<li class="chapter" data-level="13.12" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Validation"><i class="fa fa-check"></i><b>13.12</b> Validation</a></li>
+<li class="chapter" data-level="13.13" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Graphs"><i class="fa fa-check"></i><b>13.13</b> Graphical Map Quality Measures</a></li>
+<li class="chapter" data-level="13.14" data-path="compendium-of-the-code-examples-included-in-the-cookbook.html"><a href="compendium-of-the-code-examples-included-in-the-cookbook.html#cd:Evaluation"><i class="fa fa-check"></i><b>13.14</b> Model Evaluation</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -344,21 +339,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="setting-up-the-software-environment" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Setting-Up the Software Environment</h1>
+<h1><span class="header-section-number">Chapter 3</span> Setting-Up the Software Environment</h1>
 <p><em>Y Yigini</em></p>
 <p>This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions and screen-captures in this section will guide you through installing and manually configuring the software to be used for digital soil mapping procedures for <em>Microsoft Windows</em> desktop platform. Instructions for the other platforms (e.g. <em>Linux Flavours</em>, <em>MacOS</em>) can be found through free online resources.</p>
 <div id="use-of-r-rstudio-and-r-packages" class="section level2">
-<h2><span class="header-section-number">4.1</span> Use of R, RStudio and R Packages</h2>
+<h2><span class="header-section-number">3.1</span> Use of R, RStudio and R Packages</h2>
 <p><strong>R</strong> is a language and environment for statistical computing. It provides a wide variety of statistical (e.g. linear modeling, statistical tests, time-series, classification, clustering, etc.) and graphical methods, and is highly extensible.</p>
 <div id="obtaining-and-installing-r" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Obtaining and Installing R</h3>
+<h3><span class="header-section-number">3.1.1</span> Obtaining and Installing R</h3>
 <ul>
 <li>Go to <a href="https://cloud.r-project.org/index.html" class="uri">https://cloud.r-project.org/index.html</a> to download and install <strong>R</strong>.</li>
 <li>Pick an installation file for your platform.</li>
 </ul>
 </div>
 <div id="obtaining-and-installing-r-studio" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Obtaining and Installing R Studio</h3>
+<h3><span class="header-section-number">3.1.2</span> Obtaining and Installing R Studio</h3>
 <p>Beginners will find it very hard to start using <strong>R</strong> because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of <strong>R</strong>. <strong>RStudio</strong> makes <strong>R</strong> easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. You can follow very similar steps to install <strong>RStudio</strong>.</p>
 <ul>
 <li>Go to <a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a> to download and install <strong>RStudio</strong>’s open source edition.</li>
@@ -367,7 +362,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 <div id="getting-started-with-r" class="section level3">
-<h3><span class="header-section-number">4.1.3</span> Getting Started with R</h3>
+<h3><span class="header-section-number">3.1.3</span> Getting Started with R</h3>
 <ul>
 <li><strong>R</strong> Manuals: <a href="http://cran.r-project.org/manuals.html" class="uri">http://cran.r-project.org/manuals.html</a></li>
 <li>Contributed Documentation: <a href="http://cran.r-project.org/other-docs.html" class="uri">http://cran.r-project.org/other-docs.html</a></li>
@@ -377,31 +372,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div id="r-packages" class="section level2">
-<h2><span class="header-section-number">4.2</span> R Packages</h2>
+<h2><span class="header-section-number">3.2</span> R Packages</h2>
 <p>When you download <strong>R</strong>, you get the basic <strong>R</strong> system which implements the <strong>R</strong> language. <strong>R</strong> becomes more useful with the large collection of packages that extend the basic functionality of it. <strong>R</strong> packages are developed by the <strong>R</strong> community.</p>
 <div id="finding-r-packages" class="section level3">
-<h3><span class="header-section-number">4.2.1</span> Finding R Packages</h3>
+<h3><span class="header-section-number">3.2.1</span> Finding R Packages</h3>
 <p>The primary source for <strong>R</strong> packages is <a href="https://cran.r-project.org/"><em>CRAN</em>’s</a> official website, where currently about 12.000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on <em>CRAN</em> with the <code>available.packages()</code> function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the <a href="https://cran.r-project.org/web/views/"><em>Task Views</em></a> link, which groups together packages related to a given topic.</p>
 </div>
 <div id="most-used-r-packages-for-digital-soil-mapping" class="section level3">
-<h3><span class="header-section-number">4.2.2</span> Most Used R Packages for Digital Soil Mapping</h3>
+<h3><span class="header-section-number">3.2.2</span> Most Used R Packages for Digital Soil Mapping</h3>
 <p>As was previously mentioned, <strong>R</strong> is extensible through packages. <strong>R</strong> packages are collections of <strong>R</strong> functions, data, documentation and compiled code easy to share with others. In the following subsections, we are going to present the most used packages related to digital soil property mapping.</p>
 <div id="SoilPedometrics" class="section level4">
-<h4><span class="header-section-number">4.2.2.1</span> Soil Science and Pedometrics</h4>
+<h4><span class="header-section-number">3.2.2.1</span> Soil Science and Pedometrics</h4>
 <p><a href="https://CRAN.R-project.org/package=aqp"><strong>aqp</strong></a>: Algorithms for quantitative pedology. A collection of algorithms related to modeling of soil resources, soil classification, soil profile aggregation, and visualization.</p>
 <p><a href="https://CRAN.R-project.org/package=GSIF"><strong>GSIF</strong></a>: Global Soil Information Facility (GSIF). Tools, functions and sample datasets for digital soil mapping. GSIF tools (standards and functions) and sample datasets for global soil mapping.</p>
 <p><a href="http://ithir.r-forge.r-project.org/"><strong>ithir</strong></a>: A collection of functions and algorithms specific to pedometrics. The package was developed by Brendan Malone at the University of Sydney.</p>
 <p><a href="https://CRAN.R-project.org/package=soiltexture"><strong>soiltexture</strong></a>: The <a href="https://cran.r-project.org/web/packages/soiltexture/vignettes/soiltexture_vignette.pdf"><em>Soil Texture Wizard</em></a> is a set of <strong>R</strong> functions designed to produce texture triangles (also called texture plots, texture diagrams, texture ternary plots), classify and transform soil textures data. These functions virtually allow to plot any soil texture triangle (classification) into any triangle geometry (isosceles, right-angled triangles, etc.). The set of functions is expected to be useful to people using soil textures data from different soil texture classification or different particle size systems. Many (&gt; 15) texture triangles from all around the world are predefined in the package. A simple text-based GUI is provided: <code>soiltexture_gui()</code>.</p>
 </div>
 <div id="spatial-analysis" class="section level4">
-<h4><span class="header-section-number">4.2.2.2</span> Spatial Analysis</h4>
+<h4><span class="header-section-number">3.2.2.2</span> Spatial Analysis</h4>
 <p><a href="https://CRAN.R-project.org/package=sp"><strong>sp</strong></a>: The package provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.</p>
 <p><a href="https://CRAN.R-project.org/package=raster"><strong>raster</strong></a>: Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions, processing of very large files is supported.</p>
 <p><a href="https://CRAN.R-project.org/package=rgdal"><strong>rgdal</strong></a>: Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).</p>
 <p><a href="https://CRAN.R-project.org/package=RSAGA"><strong>RSAGA</strong></a>: The package provides access to geocomputing and terrain analysis functions of <a href="\url%7Bhttp://www.saga-gis.org/en/index.html%7D"><em>SAGA GIS</em></a> from within <strong>R</strong> by running the command line version of <em>SAGA</em>.</p>
 </div>
 <div id="modeling" class="section level4">
-<h4><span class="header-section-number">4.2.2.3</span> Modeling</h4>
+<h4><span class="header-section-number">3.2.2.3</span> Modeling</h4>
 <p><a href="https://CRAN.R-project.org/package=caret"><strong>caret</strong></a>: Extensive range of functions for training and plotting classification and regression models.</p>
 <p><a href="https://CRAN.R-project.org/package=Cubist"><strong>Cubist</strong></a>: Regression modeling using rules with added instance-based corrections. Cubist models were developed by Ross Quinlan.</p>
 <p><a href="https://CRAN.R-project.org/package=C5.0"><strong>C5.0</strong></a>: C5.0 decision trees and rule-based models for pattern recognition. Another model structure developed by Ross Quinlan.</p>
@@ -411,7 +406,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="https://CRAN.R-project.org/package=automap"><strong>automap</strong></a>: This package performs an automatic interpolation by automatically estimating the variogram and then calling <a href="https://CRAN.R-project.org/package=gstat"><strong>gstat</strong></a>.</p>
 </div>
 <div id="mapping-and-plotting" class="section level4">
-<h4><span class="header-section-number">4.2.2.4</span> Mapping and Plotting</h4>
+<h4><span class="header-section-number">3.2.2.4</span> Mapping and Plotting</h4>
 <p>Both <strong>raster</strong> and <strong>sp</strong> have handy functions for plotting spatial data. Besides using the base plotting functionality, another useful plotting package is <a href="https://cran.r-project.org/web/packages/ggplot2/index.html"><strong>ggplot2</strong></a>.</p>
 <p><a href="https://CRAN.R-project.org/package=plotKML"><strong>plotKML</strong></a>: Writes sp-class, spacetime-class, raster-class and similar spatial and spatiotemporal objects to KML following some basic cartographic rules.</p>
 <p><a href="https://CRAN.R-project.org/package=leaflet"><strong>leaflet</strong></a>: Create and customize interactive maps using the Leaflet JavaScript library and the <a href="https://cran.r-project.org/web/packages/htmlwidgets/index.html"><strong>htmlwidgets</strong></a> package. These maps can be used directly from the <strong>R</strong> console, from <strong>RStudio</strong>, in <a href="https://shiny.rstudio.com/"><strong>Shiny</strong></a> apps and <strong>RMarkdown</strong> documents.</p>
@@ -419,72 +414,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div id="r-and-spatial-data" class="section level2">
-<h2><span class="header-section-number">4.3</span> R and Spatial Data</h2>
+<h2><span class="header-section-number">3.3</span> R and Spatial Data</h2>
 <p><strong>R</strong> has a large and growing number of spatial data packages. We recommend taking a quick browse on <strong>R</strong>’s official website to see the spatial packages available: </p>
 <div id="reading-shapefiles" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> Reading Shapefiles</h3>
+<h3><span class="header-section-number">3.3.1</span> Reading Shapefiles</h3>
 <p><em>ESRI</em>’s shapefile format is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of raster package that provides functions for reading and/or writing shapefiles.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">library</span>(raster)</a></code></pre></div>
-<pre><code>## Loading required package: sp</code></pre>
-<pre><code>## 
-## Attaching package: &#39;raster&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:aqp&#39;:
-## 
-##     metadata, metadata&lt;-</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># load the soil map from a shapefile file</span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># load the soil map from a shapefile file</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a></code></pre></div>
 <p>We may want to use these data in other GIS environments such as <em>ArcGIS</em>, <em>QGIS</em>, <em>SAGA GIS</em>, etc. This means we need to export the <code>SpatialPointsDataFrame</code> to an appropriate spatial data format such as a shapefile.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># For example, we can select the soil units classified as </span></a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co"># Fluvisols according to WRB</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3">Fluvisols &lt;-<span class="st"> </span>soilmap[soilmap<span class="op">$</span>WRB <span class="op">==</span><span class="st"> &quot;Fluvisol&quot;</span>,]</a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="co"># and save this as a new shapefile </span></a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="kw">shapefile</span>(Fluvisols, <span class="dt">filename =</span> <span class="st">&#39;results/fluvisols.shp&#39;</span>,</a>
-<a class="sourceLine" id="cb32-7" data-line-number="7">          <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># For example, we can select the soil units classified as </span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># Fluvisols according to WRB</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">Fluvisols &lt;-<span class="st"> </span>soilmap[soilmap<span class="op">$</span>WRB <span class="op">==</span><span class="st"> &quot;Fluvisol&quot;</span>,]</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># and save this as a new shapefile </span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw">shapefile</span>(Fluvisols, <span class="dt">filename =</span> <span class="st">&#39;results/fluvisols.shp&#39;</span>,</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">          <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="coordinate-reference-systems-crs-in-r" class="section level3">
-<h3><span class="header-section-number">4.3.2</span> Coordinate Reference Systems (CRS) in R</h3>
+<h3><span class="header-section-number">3.3.2</span> Coordinate Reference Systems (CRS) in R</h3>
 <p>We need to define the CRS (Coordinate Reference System) to be able to perform any sort of spatial analysis in <strong>R</strong>. To clearly tell <strong>R</strong> this information we define the CRS which describes a reference system in a way understood by the PROJ.4 projection library <a href="http://trac.osgeo.org/proj/" class="uri">http://trac.osgeo.org/proj/</a>.</p>
 <p>An interface to the PROJ.4 library is available in the <strong>rgdal</strong> package. An alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG (European Petroleum Survey Group) code. <strong>rgdal</strong> also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have but know the CRS, you should consult <a href="http://spatialreference.org/" class="uri">http://spatialreference.org/</a> for assistance.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">## print the CRS for the object soilmap</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">soilmap<span class="op">@</span>proj4string</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## print the CRS for the object soilmap</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">soilmap<span class="op">@</span>proj4string</a></code></pre></div>
 <pre><code>## CRS arguments:
 ##  +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84
 ## +towgs84=0,0,0</code></pre>
 <p>The following example shows how you can create a spatial object from a .csv file. We can use the <code>coordinates()</code> function from the <strong>sp</strong> package to define which columns in the data frame refer to actual spatial coordinates—here the coordinates are listed in columns X and Y.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># load the table with the soil observations site information</span></a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">dat_sites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/site-level.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># convert from table to spatial points object</span></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">coordinates</span>(dat_sites) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb35-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="co"># check the coordinate system:</span></a>
-<a class="sourceLine" id="cb35-8" data-line-number="8">dat_sites<span class="op">@</span>proj4string</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># load the table with the soil observations site information</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">dat_sites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/site-level.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># convert from table to spatial points object</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">coordinates</span>(dat_sites) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># check the coordinate system:</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">dat_sites<span class="op">@</span>proj4string</a></code></pre></div>
 <pre><code>## CRS arguments: NA</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="co"># as the CRS is not defined, we can assign the correct CRS is we</span></a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="co"># have information about it. In this case, it should be EPSG:4326</span></a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">dat_sites<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
-<a class="sourceLine" id="cb37-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="co"># check the CRS again:</span></a>
-<a class="sourceLine" id="cb37-6" data-line-number="6">dat_sites<span class="op">@</span>proj4string</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># as the CRS is not defined, we can assign the correct CRS is we</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># have information about it. In this case, it should be EPSG:4326</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">dat_sites<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># check the CRS again:</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">dat_sites<span class="op">@</span>proj4string</a></code></pre></div>
 <pre><code>## CRS arguments:
 ##  +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs
 ## +ellps=WGS84 +towgs84=0,0,0</code></pre>
 </div>
 <div id="working-with-rasters" class="section level3">
-<h3><span class="header-section-number">4.3.3</span> Working with Rasters</h3>
+<h3><span class="header-section-number">3.3.3</span> Working with Rasters</h3>
 <p>Most of the functions for handling raster data are available in the <strong>raster</strong> package. There are functions for reading and writing raster files from and to different formats. In digital soil mapping, we mostly work with data in table format and then rasterize this data so that we can produce a continuous map. For doing this in <strong>R</strong> environment, we will load raster data in a data frame. This data is a digital elevation model (DEM) provided by <a href="http://www.isric.org/"><em>ISRIC</em></a> for Former Yugoslav Republic of Macedonia (FYROM).</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co">#For handling raster data, we load raster package</span></a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="co">#load DEM from tif file</span></a>
-<a class="sourceLine" id="cb39-5" data-line-number="5">DEM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/DEMENV5.tif&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">#For handling raster data, we load raster package</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#load DEM from tif file</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">DEM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/DEMENV5.tif&quot;</span>)</a></code></pre></div>
 <p>We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writing a raster <code>?writeRaster</code> to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to <em>ESRI</em> Ascii, as it is a common and universal raster format.</p>
 <p>We may also want to export our mac.dem to KML file using the <code>KML()</code> function. <code>KML()</code> is a handy function from the <strong>raster</strong> package for exporting grids to kml format. Note that we need to re-project the data to WGS84 geographic. The raster re-projection is performed using the <code>projectRaster()</code> function. Look at the help file <code>?projectRaster</code> for this.</p>
 </div>
 </div>
 <div id="other-dsm-related-software-and-tools" class="section level2">
-<h2><span class="header-section-number">4.4</span> Other DSM Related Software and Tools</h2>
+<h2><span class="header-section-number">3.4</span> Other DSM Related Software and Tools</h2>
 <ul>
 <li><em>QGIS</em>: Available at <a href="http://www.qgis.org/en/site/forusers/download.html" class="uri">http://www.qgis.org/en/site/forusers/download.html</a></li>
 <li><em>SAGA GIS</em>: Available at <a href="https://sourceforge.net/projects/saga-gis/files/" class="uri">https://sourceforge.net/projects/saga-gis/files/</a></li>
@@ -497,8 +486,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="preparation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="covariates.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="soil-property-maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="preparation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -516,10 +505,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -527,7 +517,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/04-software-environment.Rmd",
+"link": "https://github.com/FAO-GSP/SOC-Mapping-Cookbook/edit/master/03-setting-up-software-environment.Rmd",
 "text": "Edit"
 },
 "download": ["SOCMapping.pdf", "SOCMapping.epub"],

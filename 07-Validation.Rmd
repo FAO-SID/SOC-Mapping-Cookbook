@@ -1,18 +1,26 @@
 # Validation {#chvalidation}
 *B Kempen, DJ Brus & GBM Heuvelink*
 
+The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
+
+```{r, eval=FALSE}
+# Installing packages for Chapter 'Validation'
+install.packages(c("sp", "raster", "caret"))
+```
+
+
 ## What is Validation?
 No map is perfect. All maps, including soil maps, are representations of reality that are often based on an underlying model. This means that there will always be a deviation between the phenomenon depicted on the map and the phenomenon observed in the real world, i.e. each map will contain errors. The magnitude of the errors determines the quality of the map. If a map matches reality well (the error is small), the quality or accuracy of the map is high. On the other hand, if a map does not match reality well, map accuracy is low.
 
 Soil maps are used for many purposes. For example to report on (changes in) soil organic carbon stocks, as input in agro-environmental models, to determine land use suitability or for decision- and policy-making. It is therefore, important that the quality of a map is determined and quantified. This is achieved through (statistical) validation.
 
-Validation is defined here as an activity in which the soil map predictions are compared with observed values. From this comparison, the map quality can be quantified and summarized using map quality measures.  These measures indicate how accurate the map is on average for the mapping area, i.e. what is the expected error at a randomly selected location in the mapping area. This means that map quality measures obtained through validation are global measures: each quality measure gives one value for the entire map. Note that this is different from results obtained through uncertainty assessment. Such assessment provides local, location-specific (i.e. for each individual grid cell) estimates of map quality as we saw in the previous sections. Another important difference between validation and uncertainty assessment is that validation can be done using a model-free approach. Uncertainty assessment takes a model-based approach by defining a geostatistical model of the soil property of interest and deriving an interpolated map and the associated uncertainty from that, or by constructing a geostatistical model of the error in an existing map. The approach yields a complete probabilistic characterization of the map uncertainty, but such characterization is only valid under the assumptions made; for instance, the stationarity assumptions required for kriging. Validation, when done properly as explained hereafter, does not assume a geostatistical model of the error, and hence is model- or assumption-free. This is an important property of validation since we do not want to question the objectivity and validity of the validation results.
+Validation is defined here as an activity in which the soil map predictions are compared with observed values. From this comparison, the map quality can be quantified and summarized using map quality measures.  These measures indicate how accurate the map is on average for the mapping area, i.e. what is the expected error at a randomly selected location in the mapping area. This means that map quality measures obtained through validation are global measures: each quality measure gives one value for the entire map. Note that this is different from results obtained through uncertainty assessment. Such assessment provides local, location-specific (i.e. for each individual grid cell) estimates of map quality as we saw in the previous Sections. Another important difference between validation and uncertainty assessment is that validation can be done using a model-free approach. Uncertainty assessment takes a model-based approach by defining a geostatistical model of the soil property of interest and deriving an interpolated map and the associated uncertainty from that, or by constructing a geostatistical model of the error in an existing map. The approach yields a complete probabilistic characterization of the map uncertainty, but such characterization is only valid under the assumptions made; for instance, the stationarity assumptions required for kriging. Validation, when done properly as explained hereafter, does not assume a geostatistical model of the error, and hence is model- or assumption-free. This is an important property of validation since we do not want to question the objectivity and validity of the validation results.
 
 We distinguish internal and external map accuracy. Statistical methods typically produce direct estimates of map quality, for instance, the kriging variance or the coefficient of determination (${R^2}$) of a linear regression model. These we refer to as internal accuracy measures since these rely on model assumptions and are computed from data that are used for model calibration. Preferably, validation is done with an independent dataset not used in map making. Using such dataset gives the external map accuracy. One will often see that the external accuracy is poorer than the internal accuracy.
 
-In section 8.3.2 we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In section 8.3.3 we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This chapter is largely based on @brus2011sampling. For details, please refer to this paper.
+In Section \@ref(QualMeasures) we will present the most common accuracy measures used to quantify map quality of quantitative (continuous) soil maps and qualitative (categorical) soil maps. In Section \@ref(validationMeth) we will introduce three commonly used validation methods and show how to estimate the map quality measures from a sample. This Chapter is largely based on @brus2011sampling. For details, please refer to this paper.
 
-## Map Quality Measures
+## Map Quality Measures {#QualMeasures}
 
 ### Quality Measures for Quantitative Soil Maps
 
@@ -26,7 +34,7 @@ where ${\hat{Z}(s)}$ is the predicted soil property at validation location s, an
 
 Before we introduce the map quality measures and show how to estimate these, it is important to understand the difference between the population and a sample taken from the population. The population is the set of all locations in a mapping area. For digital soil maps, this is the set of all pixels or grid cells of a map. A sample is a subset of locations, selected in some way from the set of all locations in the mapping area. With validation we want to assess the map accuracy for the entire population, i.e. for the map as a whole; we are not interested in the accuracy at the sample of locations only. For instance, we would like to know the prediction error averaged over all locations of a map and not merely the average prediction error at a sample of locations. Map quality measures are, therefore, defined as population means. Because we cannot afford to determine the prediction error at each location (grid cell) of the mapping area to calculate the population means, we have to take a sample of a limited number of locations in the mapping area. This sample is then used to estimate the population means. It is important to realize that we are uncertain about the population means because we estimate it from a sample. Ideally, this uncertainty is quantified and reported together with the estimated map quality measures.
 
-In this section, we will introduce the definitions of the map quality measures. In the next section, we show how we can estimate these measures from a sample.
+In this Section, we will introduce the definitions of the map quality measures. In the next Section, we show how we can estimate these measures from a sample.
 
 **Mean error**
 
@@ -135,15 +143,15 @@ Quantified information about the uncertainty associated to map quality measures 
 In addition to quantifying map accuracy statistically, one can also present validation results obtained from a sample graphically. This can be done by creating scatter plots of predicted against observed values and spatial bubble plots of validation errors. Figure \@ref(fig:rwandaval) shows an example of a scatterplot and bubble plot. Both plots can be easily made with R [@rcore]. Use the function plot(x,y)to generate a scatter plot. The 1:1 line (black line in Figure \@ref(fig:rwandaval)) can be added to the plot with the command `abline(0,1)`. The spatial bubble plot can be generated with the bubble function of the sp package [@pebesma2005classes]. 
 
 
-```{r rwandaval, fig.cap="Scatterplot of predicted versus observed soil organic matter content for Rwanda (left) and spatial bubble plot of cross-validation error for soil organic matter (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values" , out.width='80%', echo=FALSE}
+```{r rwandaval, fig.cap="Scatterplot of predicted versus observed SOM content for Rwanda (left) and spatial bubble plot of cross-validation error for SOM (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values" , out.width='80%', echo=FALSE}
 knitr::include_graphics("images/Validation_Rwanda.png")
 ```
 
 
 
-## Validation Methods and Statistical Inference
+## Validation Methods and Statistical Inference {#validationMeth}
 
-Following @brus2011sampling, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in the previous section from a sample.
+Following @brus2011sampling, we introduce and discuss three common validation methods: additional probability sampling, data-splitting and cross-validation, and show how to estimate the map quality measures introduced in the previous Section from a sample.
 
 With additional probability sampling, an independent dataset is collected from the sampling population (all grid cells of a digital soil map) for the purpose of validation. This dataset is used in addition to a dataset that is used to calibrate a prediction model. Such dataset is often a legacy dataset collected with a purposive sampling design.
 
@@ -303,7 +311,7 @@ classrep <- c(0.633, 0.516, 0.463, 0.700, 0.594)
 
 df <- data.frame(unit = units, "map unit purity" = purity, "class representation" = classrep)
 
-knitr::kable(df, caption = "Map unit purity and class representation statistics for an hypothetical example.", booktabs = TRUE)
+knitr::kable(df, caption = "Map unit purity and class representation statistics for an hypothetical example", booktabs = TRUE)
 ```
 
 
@@ -337,24 +345,25 @@ Note that the problem of spatially correlated errors remains when data are non-p
 
 In R, the caret package [@kuhn2016short] offers functionality for data-splitting and cross-validation.
 
-## Technical steps - Validation {#TS:validation}
+## Technical Steps - Validation {#TS:validation}
 *GF Olmedo*
 
-### Prediction error
+**Step 1 - Prediction error**
 
-First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in chapter \@ref(preparation), we used the code in section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test those results.
+First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in Chapter \@ref(preparation), we used the code in Section \@ref(dataSplit) to split the database: 75\% of the points were used in the models from Chapter \@ref(mappingMethods) and now we will use the remaining 25\% of the points to test those results.
 
 ```{r}
+library(sp)
+
 dat <- read.csv("data/dat_test.csv")
 
 # Promote to spatialPointsDataFrame 
-library(sp)
 coordinates(dat) <- ~ X + Y
 
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 ```
 
-Now, we will load the predicted layers from chapter \@ref(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
+Now, we will load the predicted layers from Chapter \@ref(mappingMethods), extract the predicted value for every point and then, estimate the prediction error.
 
 ```{r ,warning=FALSE}
 library(raster)
@@ -379,12 +388,12 @@ write.csv(dat, "results/validation.csv", row.names = F)
 ```{r prederrors, echo=FALSE}
 prederrors <-  as.data.frame(cbind(summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
 names(prederrors) <- c('RK', 'randomForest', 'svm')
-knitr::kable(prederrors, caption = "Summary of prediction errors for 3 different mapping methods", digits = 2, align = "rrr", booktabs = TRUE)
+knitr::kable(prederrors, caption = "Summary of prediction errors for three different mapping methods", digits = 2, align = "rrr", booktabs = TRUE)
 ```
 
-### Estimating the Map Quality Measures
+**Step 2 - Estimating the map quality measures**
 
-In this section, we present the code needed to estimate the map quality measures for quantitative soil maps.
+In this Section, we present the code needed to estimate the map quality measures for quantitative soil maps.
 
 ```{r}
 # Mean Error
@@ -421,7 +430,7 @@ AVE_svm <- 1 - sum(dat$PE_svm^2, na.rm=TRUE) /
        na.rm = TRUE)
 
 # Mean Squared Deviation Ratio (MSDR)
-MSDR_RK <- 1  # filler
+MSDR_RK <- 1  # Filler
 MSDR_rf <- 1
 MSDR_svm <- 1
 ```
@@ -439,70 +448,77 @@ names(validation) <- c('RK', 'randomForest', 'svm')
 ```
 
 ```{r, echo=FALSE}
-knitr::kable(validation, caption = "Summary of map quality measures for 3 different mapping methods", digits = 3, align = "rrr", booktabs = TRUE)
+knitr::kable(validation, caption = "Summary of map quality measures for three different mapping methods", digits = 3, align = "rrr", booktabs = TRUE)
 ```
 
 
-### Graphical Map Quality Measures 
+**Step 3 - Graphical map quality measures** 
 
-In this section, we will apply the proposed graphical quality measures to the results of chapter \@ref(mappingMethods).
+In this Section, we will apply the proposed graphical quality measures to the results of Chapter \@ref(mappingMethods).
 
 ```{r, fig.asp=3, fig.cap='Scatter plots of predicted against observed values'}
-par(mfrow=c(3,1)) # Two plots in one plot
+# Two plots in one plot
+par(mfrow=c(3,1))
 
-# scatter plot
+# Scatter plot
 plot(dat$MKD_OCSKGM_RK, dat$OCSKGM, main="RK", xlab="predicted", 
      ylab='observed')
+
 # 1:1 line in black
 abline(0,1, lty=2, col='black')
-# regression line between predicted and observed in blue
+
+# Regression line between predicted and observed in blue
 abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_RK), col = 'blue', lty=2)
 
-# scatter plot
+# Scatter plot
 plot(dat$MKD_OCSKGM_rf, dat$OCSKGM, main="rf", xlab="predicted", 
      ylab='observed')
+
 # 1:1 line in black
 abline(0,1, lty=2, col='black')
-# regression line between predicted and observed in blue
+
+# Regression line between predicted and observed in blue
 abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_rf), col = 'blue', lty=2)
 
-# scatter plot
+# Scatter plot
 plot(dat$MKD_OCSKGM_svm, dat$OCSKGM, main="svm", xlab="predicted", 
      ylab='observed')
+
 # 1:1 line in black
 abline(0,1, lty=2, col='black')
-# regression line between predicted and observed in blue
+
+# Regression line between predicted and observed in blue
 abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_svm), col = 'blue', lty=2)
 
 par(mfrow=c(1,1))
 ```
 
 ```{r, fig.cap='Spatial bubble of the prediction errors for RK', out.width='60%'}
-# spatial bubbles for prediction errors
+# Spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_RK),], "PE_RK", pch = 21, 
        col=c('red', 'green'))
 ```
 
-```{r, fig.cap='Spatial bubble of the prediction errors for rf', out.width='60%'}
-# spatial bubbles for prediction errors
+```{r, fig.cap='Spatial bubble of the prediction errors for RF', out.width='60%'}
+# Spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21, 
        col=c('red', 'green'))
 ```
 
-```{r, fig.cap='Spatial bubble of the prediction errors for svm', out.width='60%'}
-# spatial bubbles for prediction errors
+```{r, fig.cap='Spatial bubble of the prediction errors for SVM', out.width='60%'}
+# Spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21, 
        col=c('red', 'green'))
 ```
 
 
 
-### Data-Splitting {#dataSplit}
+**Step 4 - Data-splitting** {#dataSplit}
 
-As explained before, many times for running validation analysis, we split the data before fitting the models. In this section, we present the code needed to achieve this using **caret** package.
+As explained before, many times for running validation analysis, we split the data before fitting the models. In this Section, we present the code needed to achieve this using **caret** package.
 
 ```{r, echo=F}
-# fix randomness for data splitting to produce a complete train 
+# Fix randomness for data splitting to produce a complete train 
 # dataset for soilmap class 1, where we have only 1 sample
 set.seed(1234)
 ```

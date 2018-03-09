@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 4-2-GraphicalQualityMeasures
+
 # scatter plot
 plot(dat$MKD_OCSKGM_rf, dat$OCSKGM, main="rf", xlab="predicted",
      ylab='observed')

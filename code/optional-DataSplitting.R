@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr optional-DataSplitting
+
 library(caret)
 
 dat <- read.csv("data/dataproc.csv")

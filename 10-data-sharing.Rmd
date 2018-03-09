@@ -1,9 +1,19 @@
 # Data Sharing
 *T Hengl, L Poggio, E Ribeiro & B Kempen*
 
-This chapter reviews possibilities and “good practices” of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make a correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, R, GeoServer, OpenLayers and Leaflet, and public domain data and metadata standards.
+This Chapter reviews possibilities and “good practices” of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make a correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, R, GeoServer, OpenLayers and Leaflet, and public domain data and metadata standards.
 
 The authors have 15+ years of experience in producing, publishing and sharing soil maps and have been involved in large soil mapping projects where data volumes often exceed standard desktop GIS capacities. For information on specific software please refer to the provided links. Even more information on using GDAL and similar GIS tools through a command line can be found via the Global Soil Information Facilities tutorials of ISRIC at http://gsif.isric.org. The text is illustrated with example scripts of the statistical software R in combination with GDAL.
+
+The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
+
+```{r, eval=FALSE}
+# Installing packages for Chapter 'Data Sharing'
+install.packages(c("soiltexture", "rgdal", "plotKML",
+                   "sf", "RSQLite", "leaflet",
+                   "htmlwidgets", "GSIF", "raster"))
+```
+
 
 ## Export Formats
 
@@ -21,6 +31,7 @@ Consider for example the following soil texture data:
 
 ```{r, eval=FALSE}
 library(soiltexture)
+
 tex <- data.frame(
   CLAY = c(05,60,15,05,25,05,25,45,65,75,13,47),
   SILT = c(05,08,15,25,55,85,65,45,15,15,17,43),
@@ -29,9 +40,8 @@ tex <- data.frame(
  
 TT.plot(class.sys = "USDA.TT", tri.data = tex, main = "", 
         cex.axis=.7, cex.lab=.7)
-
 ```
-![Soil texture triangle plot. An example of soil science specific data.](images/Data_sharing_triangle.png)
+![Soil texture triangle plot as an example of soil science specific data](images/Data_sharing_triangle.png)
 
 The way soil texture data is displayed and texture classes (SaLo, Lo, Sa etc.) used in a texture triangle is specific to soil science. The way this data is formatted and presented can be, likewise, specific to soil science only.
 
@@ -55,9 +65,9 @@ It is also important to be able to distinguish between sampled or predicted soil
 1. Soil samples (usually points or transects) are spatially incomplete. They are used to generate spatial predictions.
 2. Spatial predictions of soil variables (soil maps) are spatially complete. They are used for decision making and further modeling i.e. they are used to construct a Soil Information System.
 
-![Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data.](images/Data_sharing_soil_variables.png)
+![Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data](images/Data_sharing_soil_variables.png)
 
-A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification etc) make a **Soil Information System** (SIS). SIS are often complemented with soil sample data and serve both data formats. A Soil Information System should preferably be a **Database** (DB), so that users can access and query data using some standard DB languages (for example SQL). Steps to export soil data into a DB format are explained in later sections.
+A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification etc) make a **Soil Information System** (SIS). SIS are often complemented with soil sample data and serve both data formats. A Soil Information System should preferably be a **Database** (DB), so that users can access and query data using some standard DB languages (for example SQL). Steps to export soil data into a DB format are explained in later Sections.
 
 ### General GIS Data Formats: Vector, Raster, Table
 
@@ -74,12 +84,12 @@ Both vector and raster GIS data can also be converted to tabular data format. By
 ```{r, eval=FALSE}
 library(rgdal)
 library(plotKML)
+
 ?readGDAL
 spnad83 <- readGDAL(system.file("pictures/erdas_spnad83.tif", 
                                 package = "rgdal")[1])
 spnad83.tbl <- as.data.frame(spnad83)
 str(spnad83.tbl)
-
 ```
 
 where as.data.frame is a function converting a raster object to a table. Note that the output table now contains coordinates for each cell (center of the grid node), which is in fact memory inefficient as coordinates are provided for each row in the table. 
@@ -87,12 +97,13 @@ where as.data.frame is a function converting a raster object to a table. Note th
 Likewise, to convert a vector layer to tabular formats one can use the Simple Features functionality of the sf package . The SF standard is widely implemented in spatial databases (PostGIS, ESRI ArcGIS) and forms the vector data basis for libraries such as GDAL and web standards such as GeoJSON (http://geojson.org/). To convert for example spatial polygons layer to a tabular format we would use:
 
 ```{r, eval=FALSE}
-library(sf); library(plotKML)
+library(sf)
+library(plotKML)
+
 data(eberg_zones)
 class(eberg_zones)
 eberg_zones.tbl <- as(eberg_zones, "sf")
 str(eberg_zones.tbl)
-
 ```
 Note that using spatial layers in simple tabular formats can be cumbersome because many spatial relationships and properties are likely lost (although these can be assigned reversibly). In addition, the size of tabular objects is much bigger than if we use data in the original GIS data formats, especially if those formats support compression. On the other hand, having data in tabular format can be often the only way to exchange the data from spatial to non-spatial databases or from software without any data communication bridge. Also, tabular data is human-readable which means that it can be opened in text editors, spreadsheet programs or similar.
 
@@ -107,16 +118,19 @@ Both formats can be read easily in R or similar data processing software. Vector
 
 ```{r, eval=FALSE}
 library(RSQLite)
+
 data(eberg)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 writeOGR(eberg, "eberg.gpkg", "eberg", "GPKG")
+
 con <- dbConnect(RSQLite::SQLite(), dbname = "eberg.gpkg")
 df <- dbGetQuery(con, 'select "soiltype" from eberg')
+
 summary(as.factor(df$soiltype))
+
 dbGetQuery(con, 
            'select * from gpkg_spatial_ref_sys')[3,"description"]
-
 ```
 Note that the RSQLite package is a generic package for connecting to SQLite DBs. This means that GPKG files can be accessed and updated in its native storage format without intermediate format translations. Just putting a GPKG file on a server with read and execute access allows users to connect and fetch data.
 
@@ -139,11 +153,11 @@ system(paste0('gdallocationinfo ', spnad83.file, ' 100 100'))
 
 ```
 
-Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], are extremely fast and efficient. Likewise, **gdalwarp** function can be used subset rasters based on spatial extent or grid index. Rasters imported to GeoServer and shared through Web Coverage Service (see next section) or similar likewise function as a spatial raster DB.
+Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], are extremely fast and efficient. Likewise, **gdalwarp** function can be used subset rasters based on spatial extent or grid index. Rasters can be imported to GeoServer and shared through Web Coverage Service (see Section \@ref(webService)) or similar likewise function as a spatial raster DB.
 
 As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTiffs because floating point formats can lead to up to 4+ times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g. multiply pH values by 10 before exporting your raster as a GeoTiff).
 
-## Web Services - Serving Soil Data Using Web Technology
+## Web Services: Serving Soil Data Using Web Technology {webService}
 
 ### Third-Party Services
 
@@ -164,7 +178,7 @@ GeoServer (http://geoserver.org/) is Open Source software solution for serving r
 
 The very important functionality of GeoServer are the OGC standard services such as the **Web Coverage Service** (WCS) and the **Web Feature Service** (WFS). WCS means that not only data views are available to users, but WCS can also do data translation, aggregation or resampling, overlay etc. Consider for example the SoilGrids WCS  (which can also be opened in QGIS or similar software supporting WCS). Users can direct this WCS and request only a subset of data for some area, aggregated to some preferred resolution/pixel size by using gdal_translate or similar. This means that, in few steps, users can download a subset of data on GeoServer in a preferred format without a need to download the whole dataset.
 
-![SoilGrids (Hengl et al. 2017) WCS opened in QGIS.](images/Data_sharing_SoilGrids.png)
+![SoilGrids (Hengl et al. 2017) WCS opened in QGIS](images/Data_sharing_SoilGrids.png)
 
 ### Visualizing Data Using Leaflet and/or Google Earth
 
@@ -175,18 +189,23 @@ library(leaflet)
 library(htmlwidgets)
 library(GSIF)
 library(raster)
+
 demo(meuse, echo=FALSE)
 omm <- autopredict(meuse["om"], meuse.grid[c("dist","soil","ffreq")],
                    method="ranger", auto.plot=FALSE, rvgm=NULL)
 meuse.ll <- reproject(meuse["om"])
-#Reprojecting to +proj=longlat +datum=WGS84 ...
-m = leaflet() %>% addTiles() %>% addRasterImage(raster(omm$predicted["om"]), 
-  colors = SAGA_pal[[1]][4:20]) %>% addCircles(lng = meuse.ll@coords[,1], 
-    lat = meuse.ll@coords[,2], color = c('black'), radius=meuse.ll$om)  
-saveWidget(m, file="organicmater_predicted.html")
 
+# Reprojecting to +proj=longlat +datum=WGS84
+m = leaflet() %>% addTiles() %>% 
+    addRasterImage(raster(omm$predicted["om"]), 
+    colors = SAGA_pal[[1]][4:20]) %>% 
+    addCircles(lng = meuse.ll@coords[,1], 
+    lat = meuse.ll@coords[,2],
+    color = c('black'), radius=meuse.ll$om)  
+
+saveWidget(m, file="organicmater_predicted.html")
 ```
-![Sampled locations and produced predictions visualized using Leaflet package.](images/Data_sharing_Leaflet.png)
+![Sampled locations and produced predictions visualized using Leaflet package](images/Data_sharing_Leaflet.png)
 
 Note that the whole data set including styling and legends is basically available through a single HTML file (organicmater_predicted.html). Anyone opening that HTML in their browsers will get an interactive web-map that contains both samples and spatial predictions.
 
@@ -212,22 +231,23 @@ Metadata (including color legends) can be also directly embedded into the GeoTif
 
 ```{r, eval=FALSE}
 data("eberg_grid")
+
 gridded(eberg_grid) = ~ x+y
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 writeGDAL(eberg_grid["DEMSRT6"], "eberg_DEM.tif", 
             options="COMPRESS=DEFLATE")
 ?eberg
+
 system(paste0('gdal_edit.py 
 -mo \"DESCRIPTION=elevation values from the SRTM DEM\" 
 -mo \"DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen\"
 eberg_DEM.tif'))
 system('gdalinfo eberg_DEM.tif')
-
 ```
 
 Similarly, all necessary metadata can be added into GeoTiff so that future users have all information at one place i.e. inside the data file. 
 
-### Exporting Data — Final Tips
+### Exporting Data: Final Tips
 
 As we have shown previously, if you export soil data into either GPKG and/or GeoTiff, these data can be accessed using DB operations. In fact, by exporting the data to GPKG and GeoTiffs, you have created a soil spatial DB or a soil information system. This does not necessarily mean that its targeted users will be able to find all information without problems and/or questions. How usable and how popular a data set is, is a function of many aspects, not only data quality. You could create maps of perfect quality but have no users at all. Some things you should definitively consider, as a way to boost the usability of your data are:
 

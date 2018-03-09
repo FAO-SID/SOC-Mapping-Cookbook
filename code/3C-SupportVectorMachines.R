@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 3C-SupportVectorMachines
+
 # load data
 dat <- read.csv("data/MKD_RegMatrix.csv")
 

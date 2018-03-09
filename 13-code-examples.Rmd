@@ -1,7 +1,7 @@
-# Compendium of the code examples included in the cookbook
+# Compendium of the Code Examples Included in the Cookbook
 *GF Olmedo*
 
-In this chapter, we present a compendium of the technical steps presented in the previous chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
+In this Chapter, we present a compendium of the technical steps presented in the previous Chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
 1. Soil data preparation
   - **Option A**: Data Preparation - Soil Profiles (Code \@ref(cd:PreparationProfiles))
@@ -12,13 +12,13 @@ In this chapter, we present a compendium of the technical steps presented in the
   - *[optional]* Rasterizing a Vector Layer in R (Code \@ref(cd:Rasterizing))
   - Overlay Covariates and Soil Points Data (Code \@ref(cd:Overlay))
 3. Spatial interpolation model
-  - **Option A**: Fitting a Regression-Kriging model to predict the OCS (Code \@ref(cd:RK))
+  - **Option A**: Fitting a Regression-kriging model to predict the OCS (Code \@ref(cd:RK))
   - **Option B**: Fitting a Random Forest model to predict the SOC (Code \@ref(cd:rf))
   - **Option C**: Fitting a Support Vector Machines model to predict the SOC (Code \@ref(cd:svm))
 4. Validation
   - Quality measures for quantitative data (Code \@ref(cd:Validation))
   - *[optional]* Graphical quality measures for quantitative data (Code \@ref(cd:Graphs))
-  - *[optional]* Cross-validation for Regression-Kriging Models (Code \@ref(cd:xvalRK))
+  - *[optional]* Cross-validation for Regression-kriging models (Code \@ref(cd:xvalRK))
   - *[optional]* Validation of Random Forest using Quantile Regression Trees (Code \@ref(cd:quantreg))
 5. Model Evaluation
   - Model Evaluation (Code \@ref(cd:Evaluation))
@@ -30,182 +30,43 @@ In this chapter, we present a compendium of the technical steps presented in the
 The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by GF Olmedo & R Baritz.
 
 
-```{r data prep for soil profiles, eval=FALSE}
-dat <- read.csv(file = "data/horizons.csv")
-
-# Explore the data
-str(dat)
-summary(dat)
-
-dat_sites <- read.csv(file = "data/site-level.csv")
-
-# Explore the data
-str(dat_sites)
-
-# summary of column CRF (Coarse Fragments) in the example data base
-summary(dat$CRF)
-
-# Convert NA's to 0
-dat$CRF[is.na(dat$CRF)] <- 0
-
-hist(dat$CRF)
-
-# Creating a function in R to estimate BLD using the SOC
-# SOC is the soil organic carbon content in \%
-estimateBD <- function(SOC, method="Saini1996"){
-  OM <- SOC * 1.724
-  if(method=="Saini1996"){BD <- 1.62 - 0.06 * OM}
-  if(method=="Drew1973"){BD <- 1 / (0.6268 + 0.0361 * OM)}
-  if(method=="Jeffrey1979"){BD <- 1.482 - 0.6786 * (log(OM))}
-  if(method=="Grigal1989"){BD <- 0.669 + 0.941 * exp(1)^(-0.06 * OM)}
-  if(method=="Adams1973"){BD <- 100 / (OM /0.244 + (100 - OM)/2.65)}
-  if(method=="Honeyset_Ratkowsky1989"){BD <- 1/(0.564 + 0.0556 * OM)}
-  return(BD)
-}
-
-# summary of BLD (bulk density) in the example data base
-summary(dat$BLD)
-
-# See the summary of values produced using the pedo-transfer 
-# function with one of the proposed methods.
-summary(estimateBD(dat$SOC[is.na(dat$BLD)], m
-                   ethod="Honeyset_Ratkowsky1989"))
-
-# Fill NA's using the pedotransfer function:
-dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
-                                      method="Grigal1989")
-
-# explore the results
-boxplot(dat$BLD)
-
-# Load aqp package
-library(aqp)
-
-# Promote to SoilProfileCollection 
-# The SoilProfileCollection is a object class in R designed to 
-# handle soil profiles
-depths(dat) <- ProfID ~ top + bottom
-
-# Merge the soil horizons information with the site-level 
-# information from dat_sites
-site(dat) <- dat_sites
-
-# Set spatial coordinates
-coordinates(dat) <- ~ X + Y
-
-# A summary of our SoilProfileCollection
-dat
-
-library(GSIF)
-
-## Estimate 0-30 standard horizon usin mass preserving splines
-try(SOC <- mpspline(dat, 'SOC', d = t(c(0,30))))
-try(BLD <- mpspline(dat, 'BLD', d = t(c(0,30))))
-try(CRFVOL <- mpspline(dat, 'CRF', d = t(c(0,30))))
-
-## Prepare final data frame
-dat <- data.frame(id = dat@site$ProfID,
-                  Y = dat@sp@coords[,2],
-                  X = dat@sp@coords[,1],
-                  SOC = SOC$var.std[,1],
-                  BLD = BLD$var.std[,1],
-                  CRFVOL = CRFVOL$var.std[,1])
-
-dat <- dat[complete.cases(dat),]
-
-## Take a look to the results
-head(dat)
-
-# Estimate Organic Carbon Stock
-# SOC must be in g/kg
-# BLD in kg/m3
-# CRF in percentage
-OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, 
-                 CRFVOL = dat$CRFVOL, HSIZE = 30)
-
-dat$OCSKGM <- OCSKGM
-dat$meaERROR <- attr(OCSKGM,"measurementError")
-dat <- dat[dat$OCSKGM>0,]
-summary(dat)
-
-## We can save our processed data as a table
-write.csv(dat, "data/dataproc.csv")
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/1A-DataPreparation-Profiles.R")
 ```
+
+
+```{r 1A-DataPreparation-Profiles, eval=FALSE}
+
+```
+
 
 \clearpage
 ## Data Preparation for Top Soil or Auger Samples {#cd:PreparationAuger}  
 
 The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by GF Olmedo & R Baritz.
 
-```{r data prep for auger data, eval=FALSE}
-dat <- read.csv(file = "data/auger.csv")
 
-# Explore the data
-str(dat)
-summary(dat)
-
-# Creating a function in R to estimate BLD using the SOC
-# SOC is the soil organic carbon content in \%
-estimateBD <- function(SOC, method="Saini1996"){
-  OM <- SOC * 1.724
-  if(method=="Saini1996"){BD <- 1.62 - 0.06 * OM}
-  if(method=="Drew1973"){BD <- 1 / (0.6268 + 0.0361 * OM)}
-  if(method=="Jeffrey1979"){BD <- 1.482 - 0.6786 * (log(OM))}
-  if(method=="Grigal1989"){BD <- 0.669 + 0.941 * exp(1)^(-0.06 * OM)}
-  if(method=="Adams1973"){BD <- 100 / (OM /0.244 + (100 - OM)/2.65)}
-  if(method=="Honeyset_Ratkowsky1989"){BD <- 1/(0.564 + 0.0556 * OM)}
-  return(BD)
-}
-
-# See the summary of values produced using the pedo-transfer 
-# function with one of the proposed methods.
-summary(estimateBD(dat$SOC, method="Honeyset_Ratkowsky1989"))
-
-# Estimate BLD using the pedotransfer function:
-dat$BLD <- estimateBD(dat$SOC, method="Grigal1989")
-
-# explore the results
-boxplot(dat$BLD)
-
-# Remove points with NA's values
-dat <- dat[complete.cases(dat),]
-
-## Take a look to the results
-head(dat)
-
-# Estimate Organic Carbon Stock
-# SOC must be in g/kg
-# BLD in kg/m3
-# CRF in percentage
-OCSKGM <- OCSKGM(ORCDRC = dat$SOC, BLD = dat$BLD*1000, CRFVOL = 0, 
-                 HSIZE = 30)
-
-dat$OCSKGM <- OCSKGM
-dat$meaERROR <- attr(OCSKGM,"measurementError")
-dat <- dat[dat$OCSKGM>0,]
-summary(dat)
-
-## We can save our processed data as a table
-write.csv(dat, "data/dataproc.csv")
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/1B-DataPreparation-Augers.R")
 ```
+
+
+```{r 1B-DataPreparation-Augers, eval=FALSE}
+
+```
+
 
 \clearpage
 ## Merging Top Soil and Soil Profiles Databases{#cd:merging}
 
-```{r, eval=FALSE}
-profiles <- read.csv("data/dataproc_profiles.csv")
-topsoils <- read.csv("data/dataproc.csv")
 
-topsoils <- topsoils[, c("ID", "X", "Y", "OC_percent", "BLD", 
-                         "OCSKGM", "meaERROR")]
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/optional-Merging.R")
+```
 
-profiles <- profiles[, c("ID", "X", "Y", "SOC", "BLD", 
-                         "OCSKGM", "meaERROR")]
 
-names(profiles) <- names(topsoils)
-dat <- rbind(topsoils, profiles)
+```{r optional-Merging, eval=FALSE}
 
-write.csv(dat, "data/dataproc_all.csv", row.names = F)
 ```
 
 
@@ -214,23 +75,14 @@ write.csv(dat, "data/dataproc_all.csv", row.names = F)
 
 The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
 
-```{r, eval=FALSE}
-library(caret)
 
-dat <- read.csv("data/dataproc.csv")
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/optional-DataSplitting.R")
+```
 
-train.ind <- createDataPartition(1:nrow(dat), p = .75, list = FALSE)
-train <- dat[ train.ind,]
-test  <- dat[-train.ind,]
 
-plot(density (log(train$OCSKGM)), col='red',
-    main='Statistical distribution of train and test datasets')
-lines(density(log(test$OCSKGM)), col='blue')
-legend('topright', legend=c("train", "test"),
-      col=c("red", "blue"), lty=1, cex=1.5)
+```{r optional-DataSplitting, eval=FALSE}
 
-write.csv(train, file="data/dat_train.csv", row.names = FALSE)
-write.csv(test, file="data/dat_test.csv", row.names = FALSE)
 ```
 
 
@@ -239,1162 +91,157 @@ write.csv(test, file="data/dat_test.csv", row.names = FALSE)
 
 The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
 
-```{r, eval = FALSE}
-# the "Symbol" attribute from the vector layer will be used for the
-# rasterization process. It has to be a factor
-soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
 
-#save the levels names in a character vector
-Symbol.levels <- levels(soilmap$Symbol)
-
-# The rasterization process needs a layer with the target grd 
-# system: spatial extent and cell size.
-soilmap.r <- rasterize(x = soilmap, y = DEM, field = "Symbol")
-# The DEM raster layer could be used for this.
-
-plot(soilmap.r, col=rainbow(21))
-legend("bottomright",legend = Symbol.levels, fill=rainbow(21), 
-       cex=0.5)
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/optional-Rasterizing.R")
 ```
+
+
+```{r optional-Rasterizing, eval=FALSE}
+
+```
+
 
 \clearpage
 ## Overlay Covariates and Soil Points Data{#cd:Overlay}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
 
-```{r, eval=FALSE}
-# Load the processed data. This table was prepared in the previous 
-# chapter.
-dat <- read.csv("data/dataproc.csv")
 
-files <- list.files(path = "covs", pattern = "tif$", 
-                    full.names = TRUE)
-
-covs <- stack(files)
-
-covs <- stack(covs, soilmap.r)
-
-# correct the name for layer 14
-names(covs)[14] <- "soilmap"
-
-#mask the covariates with the country mask from the data repository
-mask <- raster("data/mask.tif")
-
-covs <- mask(x = covs, mask = mask)
-
-# export all the covariates 
-save(covs, file = "covariates.RData")
-
-plot(covs)
-
-#upgrade points data frame to SpatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-# extract values from covariates to the soil points
-dat <- extract(x = covs, y = dat, sp = TRUE)
-
-# LCEE10 and soilmap are categorical variables
-dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
-
-dat@data$soilmap <- as.factor(dat@data$soilmap)
-
-#levels(soilmap) <- Symbol.levels
-
-summary(dat@data)
-
-dat <- as.data.frame(dat)
-
-# The points with NA values has to be removed 
-dat <- dat[complete.cases(dat),]
-
-# export as a csv table
-write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/2-OverlayCovariates.R")
 ```
 
+
+```{r 2-OverlayCovariates, eval=FALSE}
+
+```
+
+
 \clearpage
-## Fitting a Regression-Kriging model to predict the OCS{#cd:RK}
+##	Fitting a Regression-Kriging Model to Predict the OCS	{#cd:RK}
 
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
-```{r, eval=FALSE}
-# load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
 
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
-
-# explore the data structure
-str(dat)
-
-library(sp)
-
-# Promote to spatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-class(dat)
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-dat@proj4string
-
-library(raster)
-
-load(file = "covariates.RData")
-
-names(covs)
-
-# print the names of the 14 layers:
-names(covs)
-
-datdf <- dat@data
-
-datdf <- datdf[, c("OCSKGM", names(covs))]
-
-# Fit a multiple linear regression model between the log transformed
-# values of OCS and the top 20 covariates
-model.MLR <- lm(log(OCSKGM) ~ ., data = datdf) 
-
-# stepwise variable selection
-model.MLR.step <- step(model.MLR, direction="both")
-
-# summary and anova of the new model using stepwise covariates 
-# selection
-summary(model.MLR.step)
-anova(model.MLR.step)
-
-# graphical diagnosis of the regression analysis
-par(mfrow=c(2,2)) 
-plot(model.MLR.step)
-par(mfrow=c(1,1))
-
-# collinearity test using variance inflation factors
-library(car)
-vif(model.MLR.step)
-
-# problematic covariates should have sqrt(VIF) > 2
-sqrt(vif(model.MLR.step))
-
-# Removing B07CHE3 from the stepwise model:
-model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
-
-# Test the vif again:
-sqrt(vif(model.MLR.step))
-
-## summary  of the new model using stepwise covariates selection
-summary(model.MLR.step)
-
-# outlier test using the Bonferroni test
-outlierTest(model.MLR.step)
-
-# Project point data. 
-dat <- spTransform(dat, CRS("+init=epsg:6204"))
-
-# project covariates to VN-2000 UTM 48N
-covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), 
-                      method='ngb')
-
-covs$LCEE10 <- as.factor(covs$LCEE10)
-covs$soilmap <- as.factor(covs$soilmap)
-
-# Promote covariates to spatial grid dataframe. Takes some time and 
-# a lot of memory!
-covs.sp <- as(covs, "SpatialGridDataFrame")
-covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
-covs.sp$soilmap <- as.factor(covs.sp$soilmap)
-
-# RK model 
-library(automap)
-
-
-# Run regression kriging prediction. This step can take hours...!
-OCS.krige <- autoKrige(formula = 
-                         as.formula(model.MLR.step$call$formula), 
-                       input_data = dat, 
-                       new_data = covs.sp,
-                       verbose = TRUE,
-                       block = c(1000, 1000))
-
-OCS.krige
-
-# Convert prediction and standard deviation to rasters
-# And back-tansform the vlaues
-RKprediction <- exp(raster(OCS.krige$krige_output[1]))
-RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
-
-
-plot(RKprediction)
-
-## Save results as tif files
-writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", 
-            overwrite = TRUE)
-
-writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", 
-            overwrite = TRUE)
-
-# save the model
-saveRDS(model.MLR.step, file="results/RKmodel.Rds")
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/3A-1-RegressionKriging.R")
 ```
 
-### Cross-validation of Regression Kriging models {#cd:xvalRK}
+
+```{r 3A-1-RegressionKriging, eval=FALSE}
+
+```
+
+
+## 	Cross-Validation of Regression-Kriging Models	 {#cd:xvalRK}
 
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
 
-```{r, eval=FALSE}
-# autoKrige.cv() does not removes the duplicated points
-# we have to do it manually before running the cross-validation
-dat = dat[which(!duplicated(dat@coords)), ]
 
-OCS.krige.cv <- autoKrige.cv(formula = 
-                            as.formula(model.MLR.step$call$formula), 
-                            input_data = dat, nfold = 10)
-
-summary(OCS.krige.cv)
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/3A-2-XvalRegressionKriging.R")
 ```
 
-\clearpage
-## Fitting a random forest model to predict the SOC{#cd:rf}
 
-The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
+```{r 3A-2-XvalRegressionKriging, eval=FALSE}
 
-```{r, eval=FALSE}
-# load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
-
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
-
-# explore the data structure
-str(dat)
-
-library(sp)
-
-# Promote to spatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-class(dat)
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-dat@proj4string
-
-load(file = "covariates.RData")
-
-names(covs)
-
-# For its use on R we need to define a model formula
-
-fm = as.formula(paste("log(OCSKGM) ~", paste0(names(covs[[-14]]),
-                                            collapse = "+"))) 
-
-library(randomForest)
-library(caret)
-
-# Default 10-fold cross-validation
-ctrl <- trainControl(method = "cv", savePred=T)
-# Search for the best mtry parameter
-rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl, 
-             importance=TRUE)
-# This is a very useful function to compare and test different 
-# prediction algorithms type names(getModelInfo()) to see all the 
-# possibilitites implemented on this function
-
-
-# Variable importance plot, compare with the correlation matrix
-# Select the best prediction factors and repeat  
-varImpPlot(rfmodel[11][[1]])
-
-# Check if the error stabilizes 
-plot(rfmodel[11][[1]])
-
-#Make a prediction across all Macedonia
-#Note that the units are still in log
-pred <- predict(covs, rfmodel)
-
-# Back transform predictions log transformed
-pred <- exp(pred)
-
-# Save the result as a tiff file
-writeRaster(pred, filename = "results/MKD_OCSKGM_rf.tif",
-            overwrite=TRUE)
-
-
-plot(pred)
 ```
 
+
 \clearpage
-## Using Quantile Regression Forest to estimate uncertainty {#cd:quantreg}
+## Fitting a Random Forest Model to Predict the SOC	{#cd:rf}
 
 The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
 
 
-```{r, eval=TRUE, warning=FALSE}
-library(Metrics)
-#Generate an empty dataframe
-validation <- data.frame(rmse=numeric(), r2=numeric())
-#Sensitivity to the dataset
-#Start a loop with 10 model realizations
-for (i in 1:10){
-  # We will build 10 models using random samples of 25%  
-  smp_size <- floor(0.25 * nrow(dat))
-  train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
-  train <- dat[train_ind, ]
-  test <- dat[-train_ind, ]
-  modn <- train(fm, data=train@data, method = "rf", 
-                trControl = ctrl)
-  pred <- stack(pred, predict(covs, modn))
-  test$pred <- extract(pred[[i+1]], test)
-  # Store the results in a dataframe
-  validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
-  validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
-}
-
-#The sensitivity map is the dispersion of all individual models
-sensitivity <- calc(pred[[-1]], sd)
-
-plot(sensitivity, col=rev(topo.colors(10)), 
-     main='Sensitivity based on 10 realizations using 25% samples')
-
-#Sensitivity of validation metrics
-summary(validation)
-
-# Plot of the map based on 75% of data and the sensitivity to data 
-# variations
-prediction75 <- exp(pred[[1]])
-
-plot(prediction75, main='OCSKGM prediction based on 75% of data', 
-     col=rev(topo.colors(10)))
-
-# Use quantile regression forest to estimate the full conditional 
-# distribution of OCSKGMlog, note that we are using the mtry 
-# parameter that was selected by the train function of the caret 
-# package, assuming that the 75% of data previously used well 
-# resembles the statistical distribution of the entire data 
-# population. Otherwise, repeat the train function with all 
-# available data (using the object dat that instead of train) 
-# to select mtry.
-library(quantregForest)
-
-model <- quantregForest(y=dat@data$OCSKGMlog, x=dat@data[,8:20], 
-                        ntree=500, keep.inbag=TRUE, 
-                        mtry = as.numeric(rfmodel$bestTune))                        
-
-library(snow)
-# Estimate model uncertainty at the pixel level using parallel 
-# computing
-beginCluster() #define number of cores to use
-# Estimate model uncertainty
-unc <- clusterR(covs, predict, args=list(model=model,what=sd))
-# OCSKGMlog prediction based in all available data
-mean <- clusterR(covs, predict, 
-                 args=list(model=model, what=mean))
-# The total uncertainty is the sum of sensitivity and model 
-# uncertainty
-unc <- unc + sensitivity
-# Express the uncertainty in percent (divide by the mean)
-Total_unc_Percent <- exp(unc)/exp(mean)
-endCluster()
-
-
-# Plot both maps (the predicted OCSKGM + its associated uncertainty)
-plot(exp(mean), main='OCSKGM based in all data')
-
-plot(Total_unc_Percent, zlim=c(0, 5), main='Total uncertainty')
-
-#Save the resulting maps in separated *.tif files
-writeRaster(exp(mean), file='results/MKD_OCSKGM_quantrf.tif', 
-            overwrite=TRUE)
-writeRaster(Total_unc_Percent, file='results/MKD_OCSKGM_rf_unc.tif',
-            overwrite=TRUE)
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/3B-1-randomForest.R")
 ```
 
+
+```{r 3B-1-randomForest, eval=FALSE}
+
+```
+
+
 \clearpage
-## Fitting a svm model to predict the SOC{#cd:svm}
+## Using Quantile Regression Forest to Estimate Uncertainty {#cd:quantreg}
+
+The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
+
+
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/3B-2-QuantileRegressionForest.R")
+```
+
+
+```{r 3B-2-QuantileRegressionForest, eval=FALSE}
+
+```
+
+
+\clearpage
+## Fitting a SVM Model to Predict the SOC	{#cd:svm}
 
 The extended and discussed version of the following code is presented in Section \@ref(svm), by GF Olmedo & M Guevara.
 
-```{r, eval=FALSE}
-# load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
 
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
-
-# explore the data structure
-str(dat)
-
-library(sp)
-
-# Promote to spatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-class(dat)
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-dat@proj4string
-
-load(file = "covariates.RData")
-
-names(covs)
-
-# plot the names of the covariates
-names(dat@data)
-
-# variable selection using correlation analysis
-selectedCovs <- cor(x = as.matrix(dat@data[,5]),
-           y = as.matrix(dat@data[,-c(1:7,13,21)]))
-
-# print correlation results
-selectedCovs
-
-library(reshape)
-x <- subset(melt(selectedCovs), value != 1 | value != NA)
-x <- x[with(x, order(-abs(x$value))),]
-
-idx <- as.character(x$X2[1:5])
-
-dat2 <- dat[c('OCSKGM', idx)]
-names(dat2)
-
-COV <- covs[[idx]]
-
-# Selected covariates
-names(COV)
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/3C-SupportVectorMachines.R")
+```
 
 
-# Categorical variables in svm models
-dummyRaster <- function(rast){
-  rast <- as.factor(rast)
-  result <- list()
-  for(i in 1:length(levels(rast)[[1]][[1]])){
-    result[[i]] <- rast == levels(rast)[[1]][[1]][i]
-    names(result[[i]]) <- paste0(names(rast), 
-                                 levels(rast)[[1]][[1]][i])
-  }
-  return(stack(result))
-}
-
-# convert soilmap from factor to dummy
-soilmap_dummy <- dummyRaster(covs$soilmap)
-
-# convert LCEE10 from factor to dummy
-LCEE10_dummy <- dummyRaster(covs$LCEE10)
-
-# Stack the 5 COV layers with the 2 dummies
-COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
-
-# print the final layer names
-names(COV)
-
-# convert soilmap column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
-dat_soilmap_dummy <- model.matrix(~soilmap -1, data = dat@data)
-# convert the matrix to a data.frame
-dat_soilmap_dummy <- as.data.frame(dat_soilmap_dummy)
-
-
-# convert LCEE10 column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
-dat_LCEE10_dummy <- model.matrix(~LCEE10 -1, data = dat@data)
-# convert the matrix to a data.frame
-dat_LCEE10_dummy <- as.data.frame(dat_LCEE10_dummy)
-
-dat@data <- cbind(dat@data, dat_LCEE10_dummy, dat_soilmap_dummy)
-
-names(dat@data)
-
-# Fitting a svm model and parameter tuning
-library(e1071)
-library(caret)
-
-#  Test different values of epsilon and cost
-  tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
-                                                        names(COV))],
-                     ranges = list(epsilon = seq(0.1,0.2,0.02),
-                                   cost = c(5,7,15,20)))
-
-  
-plot(tuneResult)
-
-# Choose the model with the best combination of epsilon and cost
-tunedModel <- tuneResult$best.model
-
-print(tunedModel)
-
-
-# Use the model to predict the SOC in the covariates space
-OCSsvm <- predict(COV, tunedModel)
-
-# Save the result
-writeRaster(OCSsvm, filename = "results/MKD_OCSKGM_svm.tif",
-            overwrite=TRUE)
-
-plot(OCSsvm)
-
-# Variable importance in svm. Code by:
-# stackoverflow.com/questions/34781495
-
-w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
-w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
-
-w <- sort(w, decreasing = T)
-print(w)
+```{r 3C-SupportVectorMachines, eval=FALSE}
 
 ```
+
 
 \clearpage
 ## Validation{#cd:Validation}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
 
-```{r, eval=FALSE}
 
-dat <- read.csv("data/dat_test.csv")
-
-# Promote to spatialPointsDataFrame 
-coordinates(dat) <- ~ X + Y
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-library(raster)
-
-OCSKGM_rf <- raster("results/MKD_OCSKGM_rf.tif")
-
-dat <- extract(x = OCSKGM_rf, y = dat, sp = TRUE)
-
-# prediction error
-dat$PE_rf <- dat$MKD_OCSKGM_rf - dat$OCSKGM
-
-# Mean Error
-ME_rf <- mean(dat$PE_rf, na.rm=TRUE)
-
-# Mean Absolute Error (MAE)
-MAE_rf <- mean(abs(dat$PE_rf), na.rm=TRUE)
-
-# Mean Squared Error (MSE)
-MSE_rf <- mean(dat$PE_rf^2, na.rm=TRUE)
-
-# Root Mean Squared Error (RMSE)
-RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
-
-# Amount of Variance Explained (AVE)
-AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) / 
-```{r "join covariates and soil samples", eval=FALSE}
-# Load the processed data. This table was prepared in the previous 
-# chapter.
-dat <- read.csv("data/dataproc.csv")
-
-files <- list.files(path = "covs", pattern = "tif$", 
-                    full.names = TRUE)
-
-covs <- stack(files)
-
-covs <- stack(covs, soilmap.r)
-
-# correct the name for layer 14
-names(covs)[14] <- "soilmap"
-
-#mask the covariates with the country mask from the data repository
-mask <- raster("data/mask.tif")
-
-covs <- mask(x = covs, mask = mask)
-
-# export all the covariates 
-save(covs, file = "covariates.RData")
-
-plot(covs)
-
-#upgrade points data frame to SpatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-# extract values from covariates to the soil points
-dat <- extract(x = covs, y = dat, sp = TRUE)
-
-# LCEE10 and soilmap are categorical variables
-dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
-dat@data$soilmap <- as.factor(dat@data$soilmap)
-
-#levels(soilmap) <- Symbol.levels
-
-summary(dat@data)
-
-dat <- as.data.frame(dat)
-
-# The points with NA values has to be removed 
-dat <- dat[complete.cases(dat),]
-
-# export as a csv table
-write.csv(dat, "data/MKD_RegMatrix.csv", row.names = FALSE)
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/4-1-Validation.R")
 ```
 
-\clearpage
-## Fitting a Regression-Kriging model to predict the OCS{#cd:RK}
 
-The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
-
-```{r "RK full example", eval=FALSE}
-# load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
-
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
-
-# explore the data structure
-str(dat)
-
-library(sp)
-
-# Promote to spatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-class(dat)
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-dat@proj4string
-
-library(raster)
-
-# list all the itf files in the folder covs/
-files <- list.files(path = "covs", pattern = "tif$", 
-                    full.names = TRUE)
-
-# load all the tif files in one rasterStack object
-covs <- stack(files)
-
-# load the vectorial version of the soil map
-soilmap <- shapefile("MK_soilmap_simple.shp")
-
-# rasterize using the Symbol layer
-soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)
-soilmap.r <- rasterize(x = soilmap, y = covs[[1]], field = "Symbol")
-
-# stack the soil map and the other covariates
-covs <- stack(covs, soilmap.r)
-
-# correct the name for layer 14
-names(covs)[14] <- "soilmap"
-
-# print the names of the 14 layers:
-names(covs)
-
-datdf <- dat@data
-
-datdf <- datdf[, c("OCSKGM", names(covs))]
-
-# Fit a multiple linear regression model between the log transformed
-# values of OCS and the top 20 covariates
-model.MLR <- lm(log(OCSKGM) ~ ., data = datdf) 
-
-# stepwise variable selection
-model.MLR.step <- step(model.MLR, direction="both")
-
-# summary and anova of the new model using stepwise covariates 
-# selection
-summary(model.MLR.step)
-anova(model.MLR.step)
-
-# graphical diagnosis of the regression analysis
-par(mfrow=c(2,2)) 
-plot(model.MLR.step)
-par(mfrow=c(1,1))
-
-# collinearity test using variance inflation factors
-library(car)
-vif(model.MLR.step)
-
-# problematic covariates should have sqrt(VIF) > 2
-sqrt(vif(model.MLR.step))
-
-# Removing B07CHE3 from the stepwise model:
-model.MLR.step <- update(model.MLR.step, . ~ . - B07CHE3)
-
-# Test the vif again:
-sqrt(vif(model.MLR.step))
-
-## summary  of the new model using stepwise covariates selection
-summary(model.MLR.step)
-
-# outlier test using the Bonferroni test
-outlierTest(model.MLR.step)
-
-# Project point data. 
-dat <- spTransform(dat, CRS("+init=epsg:6204"))
-
-# project covariates to VN-2000 UTM 48N
-covs <- projectRaster(covs, crs = CRS("+init=epsg:6204"), 
-                      method='ngb')
-
-covs$LCEE10 <- as.factor(covs$LCEE10)
-covs$soilmap <- as.factor(covs$soilmap)
-
-# Promote covariates to spatial grid dataframe. Takes some time and 
-# a lot of memory!
-covs.sp <- as(covs, "SpatialGridDataFrame")
-covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
-covs.sp$soilmap <- as.factor(covs.sp$soilmap)
-
-# RK model 
-library(automap)
-
-
-# Run regression kriging prediction. This step can take hours...!
-OCS.krige <- autoKrige(formula = 
-                         as.formula(model.MLR.step$call$formula), 
-                       input_data = dat, 
-                       new_data = covs.sp,
-                       verbose = TRUE,
-                       block = c(1000, 1000))
-
-OCS.krige
-
-# Convert prediction and standard deviation to rasters
-# And back-tansform the vlaues
-RKprediction <- exp(raster(OCS.krige$krige_output[1]))
-RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
-
-
-plot(RKprediction)
-
-## Save results as tif files
-writeRaster(RKprediction, filename = "results/MKD_OCSKGM_RK.tif", 
-            overwrite = TRUE)
-
-writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif", 
-            overwrite = TRUE)
-
-# save the model
-saveRDS(model.MLR.step, file="results/RKmodel.Rds")
-```
-
-### Cross-validation of Regression Kriging models {#cd:xvalRK}
-
-The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
-
-```{r, eval=FALSE}
-OCS.krige.cv <- autoKrige.cv(formula = 
-                            as.formula(model.MLR.step$call$formula), 
-                            input_data = dat, nfold = 10)
-
-summary(OCS.krige.cv)
-```
-
-\clearpage
-## Fitting a random forest model to predict the SOC{#cd:rf}
-
-The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
-
-```{r, eval=FALSE}
-# load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
-
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
-
-# explore the data structure
-str(dat)
-
-library(sp)
-
-# Promote to spatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-class(dat)
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-dat@proj4string
-
-load(file = "covariates.RData")
-
-names(covs)
-
-# For its use on R we need to define a model formula
-
-fm = as.formula(paste("log(OCSKGM) ~", paste0(names(covs[[-14]]),
-                                            collapse = "+"))) 
-
-library(randomForest)
-library(caret)
-
-# Default 10-fold cross-validation
-ctrl <- trainControl(method = "cv", savePred=T)
-# Search for the best mtry parameter
-rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl, 
-             importance=TRUE)
-# This is a very useful function to compare and test different 
-# prediction algorithms type names(getModelInfo()) to see all the 
-# possibilitites implemented on this function
-
-
-# Variable importance plot, compare with the correlation matrix
-# Select the best prediction factors and repeat  
-varImpPlot(rfmodel[11][[1]])
-
-# Check if the error stabilizes 
-plot(rfmodel[11][[1]])
-
-#Make a prediction across all Macedonia
-#Note that the units are still in log
-pred <- predict(covs, rfmodel)
-
-# Back transform predictions log transformed
-pred <- exp(pred)
-
-# Save the result as a tiff file
-writeRaster(pred, filename = "results/MKD_OCSKGM_rf.tif",
-            overwrite=TRUE)
-
-
-plot(pred)
-```
-
-\clearpage
-## Using Quantile Regression Forest to estimate uncertainty {#cd:quantreg}
-
-The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
-
-```{r, eval=FALSE}
-#Generate an empty dataframe
-validation <- data.frame(rmse=numeric(), r2=numeric())
-#Sensitivity to the dataset
-#Start a loop with 10 model realizations
-for (i in 1:10){
-  # We will build 10 models using random samples of 25%  
-  smp_size <- floor(0.25 * nrow(dat))
-  train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
-  train <- dat[train_ind, ]
-  test <- dat[-train_ind, ]
-  modn <- train(fm, data=train, method = "rf", trControl = ctrl)
-  pred <- stack(pred, predict(covariates, modn))
-  test$pred <- predict(modn[11][[1]], test)
-  # Store the results in a dataframe
-  validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
-  validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
-}
-
-#The sensitivity map is the dispersion of all individual models
-sensitivity <- calc(pred[[-1]], sd)
-
-plot(sensitivity, col=rev(topo.colors(10)), 
-     main='Sensitivity based on 10 realizations using 25% samples')
-
-#Sensitivity of validation metrics
-summary(validation)
-
-# Plot of the map based on 75% of data and the sensitivity to data 
-# variations
-prediction75 <- exp(pred[[1]])
-
-plot(prediction75, main='OCSKGM prediction based on 75% of data', 
-     col=rev(topo.colors(10)))
-
-# Use quantile regression forest to estimate the full conditional 
-# distribution of OCSKGMlog, note that we are using the mtry 
-# parameter that was selected by the train funtion of the caret 
-# package, assuming that the 75% of data previously used well 
-# resembles the statistical distribution of the entire data 
-# population. Otherwise repeat the train function with all available 
-#data (using the object dat that instead of train) to select mtry.
-
-
-model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500, 
-                    keep.inbag=TRUE, mtry = as.numeric(mod$bestTune))                        
-
-library(snow)
-# Estimate model uncertainty at the pixel level using parallel 
-# computing
-beginCluster() #define number of cores to use
-# Estimate model uncertainty
-unc <- clusterR(covariates, predict, args=list(model=model,what=sd))
-# OCSKGMlog prediction based in all available data
-mean <- clusterR(covariates, predict, 
-                 args=list(model=model, what=mean))
-# The total uncertainty is the sum of sensitivity and model 
-# uncertainty
-unc <- unc + sensitivity
-# Express the uncertainty in percent (divide by the mean)
-Total_unc_Percent <- exp(unc)/exp(mean)
-endCluster()
-
-# Plot both maps (the predicted OCSKGM + its associated uncertainty)
-plot(exp(mean), main='OCSKGM based in all data', 
-     col=rev(topo.colors(10)))
-
-plot(Total_unc_Percent, col=rev(heat.colors(100)), zlim=c(0, 5), 
-     main='Total uncertainty')
-
-#Save the resulting maps in separated *.tif files
-writeRaster(exp(mean), file='rfOCSKGMprediction.tif', 
-            overwrite=TRUE)
-writeRaster(Total_unc_Percent, file='rfOCSKGMtotalUncertPercent.tif',
-            overwrite=TRUE)
-```
-
-\clearpage
-## Fitting a svm model to predict the SOC{#cd:svm}
-
-The extended and discussed version of the following code is presented in Section \@ref(svm), by GF Olmedo & M Guevara.
-
-```{r, eval=FALSE}
-# load data
-dat <- read.csv("data/MKD_RegMatrix.csv")
-
-dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
-
-# explore the data structure
-str(dat)
-
-library(sp)
-
-# Promote to spatialPointsDataFrame
-coordinates(dat) <- ~ X + Y
-
-class(dat)
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-dat@proj4string
-
-load(file = "covariates.RData")
-
-names(covs)
-
-# plot the names of the covariates
-names(dat@data)
-
-# variable selection using correlation analysis
-selectedCovs <- cor(x = as.matrix(dat@data[,5]),
-           y = as.matrix(dat@data[,-c(1:7,13,21)]))
-
-# print correlation results
-selectedCovs
-
-library(reshape)
-x <- subset(melt(selectedCovs), value != 1 | value != NA)
-x <- x[with(x, order(-abs(x$value))),]
-
-idx <- as.character(x$X2[1:5])
-
-dat2 <- dat[c('OCSKGM', idx)]
-names(dat2)
-
-COV <- covs[[idx]]
-
-# Selected covariates
-names(COV)
-
-
-# Categorical variables in svm models
-dummyRaster <- function(rast){
-  rast <- as.factor(rast)
-  result <- list()
-  for(i in 1:length(levels(rast)[[1]][[1]])){
-    result[[i]] <- rast == levels(rast)[[1]][[1]][i]
-    names(result[[i]]) <- paste0(names(rast), 
-                                 levels(rast)[[1]][[1]][i])
-  }
-  return(stack(result))
-}
-
-# convert soilmap from factor to dummy
-soilmap_dummy <- dummyRaster(covs$soilmap)
-
-# convert LCEE10 from factor to dummy
-LCEE10_dummy <- dummyRaster(covs$LCEE10)
-
-# Stack the 5 COV layers with the 2 dummies
-COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
-
-# print the final layer names
-names(COV)
-
-# convert soilmap column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
-dat_soilmap_dummy <- model.matrix(~soilmap -1, data = dat@data)
-# convert the matrix to a data.frame
-dat_soilmap_dummy <- as.data.frame(dat_soilmap_dummy)
-
-
-# convert LCEE10 column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
-dat_LCEE10_dummy <- model.matrix(~LCEE10 -1, data = dat@data)
-# convert the matrix to a data.frame
-dat_LCEE10_dummy <- as.data.frame(dat_LCEE10_dummy)
-
-dat@data <- cbind(dat@data, dat_LCEE10_dummy, dat_soilmap_dummy)
-
-names(dat@data)
-
-# Fitting a svm model and parameter tuning
-library(e1071)
-library(caret)
-
-#  Test different values of epsilon and cost
-  tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
-                                                        names(COV))],
-                     ranges = list(epsilon = seq(0.1,0.2,0.02),
-                                   cost = c(5,7,15,20)))
-
-  
-plot(tuneResult)
-
-# Choose the model with the best combination of epsilon and cost
-tunedModel <- tuneResult$best.model
-
-print(tunedModel)
-
-
-# Use the model to predict the SOC in the covariates space
-OCSsvm <- predict(COV, tunedModel)
-
-# Save the result
-writeRaster(OCSsvm, filename = "results/MKD_OCSKGM_svm.tif",
-            overwrite=TRUE)
-
-plot(OCSsvm)
-
-# Variable importance in svm. Code by:
-# stackoverflow.com/questions/34781495
-
-w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
-w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
-
-w <- sort(w, decreasing = T)
-print(w)
+```{r 4-1-Validation, eval=FALSE}
 
 ```
 
-\clearpage
-## Validation{#cd:Validation}
-
-The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
-
-```{r, eval=FALSE}
-
-dat <- read.csv("data/dat_test.csv")
-
-# Promote to spatialPointsDataFrame 
-coordinates(dat) <- ~ X + Y
-
-dat@proj4string <- CRS(projargs = "+init=epsg:4326")
-
-library(raster)
-
-OCSKGM_rf <- raster("results/MKD_OCSKGM_rf.tif")
-
-dat <- extract(x = OCSKGM_rf, y = dat, sp = TRUE)
-
-# prediction error
-dat$PE_rf <- dat$MKD_OCSKGM_rf - dat$OCSKGM
-
-# Mean Error
-ME_rf <- mean(dat$PE_rf, na.rm=TRUE)
-
-# Mean Absolute Error (MAE)
-MAE_rf <- mean(abs(dat$PE_rf), na.rm=TRUE)
-
-# Mean Squared Error (MSE)
-MSE_rf <- mean(dat$PE_rf^2, na.rm=TRUE)
-
-# Root Mean Squared Error (RMSE)
-RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
-
-# Amount of Variance Explained (AVE)
-AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) / 
-  sum( (dat$MKD_OCSKGM_rf - mean(dat$OCSKGM, na.rm = TRUE))^2, 
-       na.rm = TRUE)
-```
 
 \clearpage
 ## Graphical Map Quality Measures {#cd:Graphs}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
 
-```{r, eval=FALSE}
-# scatter plot
-plot(dat$MKD_OCSKGM_rf, dat$OCSKGM, main="rf", xlab="predicted", 
-     ylab='observed')
-# 1:1 line in black
-abline(0,1, lty=2, col='black')
-# regression line between predicted and observed in blue
-abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_rf), col = 'blue', lty=2)
 
-# spatial bubbles for prediction errors
-bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21, 
-       col=c('red', 'green'))
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/4-2-GraphicalQualityMeasures.R")
 ```
+
+
+```{r 4-2-GraphicalQualityMeasures, eval=FALSE}
+
+```
+
 
 \clearpage
 ## Model Evaluation {#cd:Evaluation}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(evaluation), by M Guevara and GF Olmedo.
 
-```{r, out.width='70%', eval=FALSE}
-library(raster)
-RF<-raster('results/MKD_OCSKGM_rf.tif')
-RK<-raster('results/MKD_OCSKGM_RK.tif')
-SVM<-raster('results/MKD_OCSKGM_svm.tif')
-#Note that RK has a different reference system 
-RK <- projectRaster(RK, SVM)
-models <- stack(RK, RF, SVM)
 
-library(psych)
-pairs.panels(na.omit(as.data.frame(models)), 
-             method = "pearson", # correlation method
-             hist.col = "#00AFBB",
-             density = TRUE,  # show density plots
-             ellipses = TRUE # show correlation ellipses
-             )                     
+```{r, echo=FALSE, cache=FALSE}
+knitr::read_chunk(path = "code/5-ModelEvaluation.R")
+```
 
 
-library(rasterVis)
-densityplot(models)
+```{r 5-ModelEvaluation, eval=FALSE}
 
-SD <- calc(models , sd)
-library(mapview)
-mapview(SD)
-
-RKRF  <- calc(models[[c(1,2)]], diff)
-RKSVM <- calc(models[[c(1,3)]], diff)
-RFSVM <- calc(models[[c(2,3)]], diff)
-preds <- stack(RKRF, RKSVM, RFSVM)
-names(preds) <- c('RKvsRF','RKvsSVM','RFvsSVM')
-X <- cellStats(preds, mean)
-levelplot(preds - X, at=seq(-0.5,0.5, length.out=10), 
-          par.settings = RdBuTheme)
-
-dat <- read.csv("results/validation.csv")
-
-# prepare 3 new data.frame with the observed, predicted and the model
-modRK <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_RK, 
-                    model = "RK")
-
-modRF <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_rf, 
-                    model = "RF")
-
-modSVM <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_svm, 
-                     model = "SVM")
-
-# merge the 3 data.frames into one
-modData <- rbind(modRK, modRF, modSVM)
-
-summary(modData)
-
-#Load the openair library
-library(openair)
-
-modsts <- modStats(modData,obs = "obs", mod = "mod", type = "model")
-
-modsts
-
-
-
-TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
-cols = c("orange", "red","blue"), cor.col='brown',rms.col='black')
-
-conditionalQuantile(modData,obs = "obs", mod = "mod", type = "model")
 ```
 
 

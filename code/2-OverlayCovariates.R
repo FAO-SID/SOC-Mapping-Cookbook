@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 2-OverlayCovariates
+
 # Load the processed data. This table was prepared in the previous
 # chapter.
 dat <- read.csv("data/dataproc.csv")

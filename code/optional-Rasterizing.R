@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr optional-Rasterizing
+
 # the "Symbol" attribute from the vector layer will be used for the
 # rasterization process. It has to be a factor
 soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)

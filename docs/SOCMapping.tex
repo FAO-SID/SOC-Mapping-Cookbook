@@ -122,7 +122,7 @@
   \preauthor{}\postauthor{}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2018-02-22}
+  \date{2018-03-05}
 
 \usepackage{booktabs}
 \usepackage{amsthm}
@@ -268,16 +268,16 @@ soil grid development, as it is relevant for other soil properties.
 
 Therefore, this first edition is the beginning of a series of updates
 and extensions, necessary to cover a larger variety of upscaling
-approaches. Experiences gained throughout 2017 during the GSOC map
+approaches. Experiences gained throughout 2017 during the GSOCmap
 programme, through applications at country scale and various trainings
 scheduled for 2017, shall be considered in the next editions. Also, the
 section on uncertainties will be adjusted to more practical
 implementation steps.
 
 \hypertarget{foreword-to-the-second-edition}{%
-\chapter*{Foreword to the Second
+\section*{Foreword to the Second
 Edition}\label{foreword-to-the-second-edition}}
-\addcontentsline{toc}{chapter}{Foreword to the Second Edition}
+\addcontentsline{toc}{section}{Foreword to the Second Edition}
 
 This edition has been updated with knowledge and practical experiences
 gained during the implementation process of GSOCmap V1.0 throughout
@@ -489,6 +489,39 @@ enabling any user to produce a digital SOC or other soil property map
 using soil legacy data and modern methods of digital soil mapping with
 the overall aim for improved decision making on soil management.
 
+\hypertarget{how-to-use-this-book}{%
+\section{How to use this book}\label{how-to-use-this-book}}
+
+In this chapter, we want to introduce 5 different approaches for
+obtaining the SOC map for FYROM. The first two methods presented are
+classified as conventional upscaling. The first one is class-matching.
+In this approach, we derive average SOC stocks per class: soil type for
+which a national map exists, or combination with other spatial
+covariates (e.g.~land use category, climate type, biome, etc.). This
+approach is used in the absence of spatial coordinates of the source
+data. The second one is geo-matching, were upscaling is based on
+averaged SOC values per mapping unit. Then, we present 3 methods from
+digital soil mapping. Regression-Kriging is a hybrid model with both, a
+deterministic and a stochastic component \citep{hengl2007regression}.
+Next method is called random forest. This one is an ensemble of
+regression trees based on bagging. This machine learning algorithm uses
+a different combination of prediction factors to train multiple
+regression trees \citep{Breiman1996}. The last method is called Support
+Vector Machines (SVM). This method applies a simple linear method to the
+data but in a high-dimensional feature space non-linearly related to the
+input space \citep{Karatzoglou2006}. We present this diversity of
+methods because there is no best mapping method for digital soil
+mapping, and testing and selection has to be done for every data
+scenario \citep{soil-2017-40}.
+
+\hypertarget{the-fyrom-soil-database}{%
+\section{The FYROM soil database}\label{the-fyrom-soil-database}}
+
+The sample dataset used for the spline function and the regression
+kriging has been extracted from the Macedonian Soil Information System
+Database (MASIS). The database contains around 4000 soil profiles with
+11000 horizons.
+
 \hypertarget{soil-property-maps}{%
 \chapter{Soil Property Maps}\label{soil-property-maps}}
 
@@ -580,755 +613,6 @@ relationship between environmental variables and soil properties and
 could be used to predict the latter with multivariate prediction
 techniques.
 \end{quote}
-
-\hypertarget{preparation}{%
-\chapter{Preparation of Local Soil Data}\label{preparation}}
-
-\emph{GF Olmedo \& R Baritz}
-
-\hypertarget{soil-profiles-and-soil-augers}{%
-\section{Soil Profiles and Soil
-Augers}\label{soil-profiles-and-soil-augers}}
-
-Soil profiles are complex real-world entities. They are composed of soil
-layers which form soil horizons; the soil layers have different
-properties and these properties are evaluated with different methods. As
-we know, soil and vertical soil properties are landscape elements and
-part of matter dynamics (water, nutrients, gases, habitat, etc.). Local
-soil samples or soil profiles add a third dimension into the spatial
-assessment of soil properties in the landscape.
-
-Most \emph{commonly}, soils are described as vertical profiles using
-soil pits (sometimes also augerings, but this is less accurate). Soil
-profiles are described using macro-morphological properties. These
-properties can be assessed in the field without analysis by making a
-field inventory or land evaluation. For additional quantitative
-analysis, soils are then sampled by genetic horizons or by depth class.
-
-The sampling of soils is the basis to obtain quantitative information.
-Depending on the goal of a project, sampling can be quite diverse.
-Sampling can follow the description of the soil or can be conducted
-without, for example using a spade or auger to generate a composite
-sample (for a certain depth independent of the morphological features
-such as soil horizons). Sampling locations can be representative of a
-certain location, project, field, or mapped object, such as a soil type.
-
-\hypertarget{soil-database}{%
-\section{Soil Database}\label{soil-database}}
-
-In order to process and evaluate soil information from field
-assessments, soil profile data and analytical information need to be
-stored in a database. This can be a set of simple \emph{Excel}
-spreadsheets, or a relational or object-oriented database management
-system \citep{baritz2008environmental}. When working in \textbf{R},
-\texttt{SoilProfileCollections} from the \textbf{R} \textbf{aqp} package
-are a useful tool. Tables \ref{tab:site-level} and
-\ref{tab:horizon-level} are examples of how soil information can be
-stored. The advantage of such organization is the possibility to develop
-relational databases which can be easily queried. Such a systematic
-approach will support the organization of national soil information and
-will reduce errors in future modeling exercises
-\citep{baritz2008environmental}.
-
-Table \ref{tab:site-level} stores site-level data, which describe the
-location of the soil description and/or sampling site: spatial
-coordinates, landscape attributes such as slope gradient and slope form,
-soil class, land cover type, rock type, etc. In this table, every row
-should hold a single soil profile. One column, usually the first one,
-should be the soil profile's unique identifier. Using the latter, soil
-information can be easily linked from one table to another.
-
-\begin{table}
-
-\caption{\label{tab:site-level}Example for site-level data table}
-\centering
-\begin{tabular}[t]{lrrrl}
-\toprule
-ProfID & X\_coord & Y\_coord & Year & Soil\_Type\\
-\midrule
-P1276 & 7591265 & 4632108 & 2012 & Complex of Chernozem …\\
-P1277 & 7592027 & 4631664 & 2012 & Complex of Chernozem …\\
-P1278 & 7592704 & 4631941 & 2012 & Complex of Chernozem …\\
-P1279 & 7590817 & 4633115 & 2013 & Complex of Chernozem …\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Table \ref{tab:horizon-level} stores information from the soil
-description, such as horizon name, horizon thickness, organic matter
-content, carbonate content, soil color, laboratory soil analysis, etc.
-The first column contains the soil profile's unique identifier. It is
-important to include the upper and lower limits for each soil layer; in
-case the sampling strategy deviates from soil layers/soil horizons, the
-upper and lower depth of the sampling locations should be specified if
-possible. This information is needed for modeling soil properties over
-the soil profile.
-
-\begin{table}
-
-\caption{\label{tab:horizon-level}Example for profile-description table}
-\centering
-\begin{tabular}[t]{llrrrrrrrr}
-\toprule
-ProfID & HorID & top & bottom & SOC & BLD & CRF & Sand & Silt & Clay\\
-\midrule
-P1276 & P1276H01 & 0 & 50 & 2.78 & 1.05 & 11 & 52 & 39 & 9\\
-P1276 & P1276H02 & 50 & 76 & 1.75 & 1.45 & 4 & 56 & 31 & 14\\
-P1276 & P1276H03 & 76 & 100 & 1.19 & 1.22 & 2 & 43 & 35 & 22\\
-P1277 & P1277H01 & 0 & 28 & 1.93 & 1.36 & 8 & 59 & 22 & 18\\
-P1277 & P1277H02 & 28 & 48 & 1.60 & 1.43 & 9 & 69 & 15 & 16\\
-\addlinespace
-P1277 & P1277H03 & 48 & 63 & 1.26 & NA & 25 & 65 & 21 & 13\\
-P1277 & P1277H04 & 63 & 120 & 0.86 & NA & 54 & 63 & 23 & 14\\
-P1278 & P1278H01 & 0 & 40 & 2.32 & 1.27 & 0 & 50 & 39 & 12\\
-P1278 & P1278H02 & 40 & 68 & 1.80 & 1.48 & 1 & 46 & 39 & 16\\
-P1278 & P1278H03 & 68 & 120 & 0.89 & 1.18 & 0 & 47 & 39 & 14\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\hypertarget{technical-steps---loading-data-from-tables-in-r}{%
-\subsection{Technical Steps - Loading Data from Tables in
-R}\label{technical-steps---loading-data-from-tables-in-r}}
-
-This chapter includes two examples for data preparation. The first
-example is for using soil profiles data. This example is mixed with the
-text but a copy the code is presented in section
-\ref{cd:PreparationProfiles}. The second example is using topsoil or
-auger data and is presented in section \ref{cd:PreparationAuger}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{"data/horizons.csv"}\NormalTok{)}
-
-\CommentTok{# Explore the data}
-\KeywordTok{str}\NormalTok{(dat)}
-\KeywordTok{summary}\NormalTok{(dat)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 'data.frame':    10292 obs. of  10 variables:
-##  $ ProfID: Factor w/ 4118 levels "P0000","P0001",..: 1 1 1 2 2 ..
-##  $ HorID : Factor w/ 9914 levels "P0000H01","P0000H02",..: 1 2 ..
-##  $ top   : int  4 23 46 2 11 0 22 63 0 3 ...
-##  $ bottom: int  23 46 59 11 31 22 63 90 19 10 ...
-##  $ SOC   : num  NA NA NA NA NA ...
-##  $ BLD   : num  NA NA NA NA NA NA NA NA NA NA ...
-##  $ CRF   : num  54 62 47 66 70 57 77 87 8 4 ...
-##  $ SAND  : int  52 59 67 45 40 52 48 43 50 48 ...
-##  $ SILT  : num  34 31 24 39 31 33 36 42 16 35 ...
-##  $ CLAY  : num  14 11 8 16 28 15 16 16 34 17 ...
-##      ProfID           HorID            top        
-##  P2881  :   64   P2881H01:   64   Min.   :  0.00  
-##  P1481  :   32   P0434H02:    8   1st Qu.:  0.00  
-##  P2096  :   32   P1286H01:    8   Median : 20.00  
-##  P3623  :   32   P2056H01:    8   Mean   : 27.48  
-##  P2056  :   24   P2056H02:    8   3rd Qu.: 47.00  
-##  P2142  :   24   P2056H03:    8   Max.   :285.00  
-##  (Other):10084   (Other) :10188                   
-##      bottom            SOC              BLD      
-##  Min.   :  1.00   Min.   : 0.000   Min.   :0.00  
-##  1st Qu.: 25.00   1st Qu.: 1.090   1st Qu.:1.40  
-##  Median : 45.00   Median : 1.800   Median :1.54  
-##  Mean   : 55.82   Mean   : 2.603   Mean   :1.55  
-##  3rd Qu.: 80.00   3rd Qu.: 2.940   3rd Qu.:1.66  
-##  Max.   :295.00   Max.   :83.820   Max.   :2.93  
-##                   NA's   :831      NA's   :7845  
-##       CRF             SAND             SILT      
-##  Min.   :  0.0   Min.   :  0.00   Min.   : 0.00  
-##  1st Qu.:  2.0   1st Qu.: 44.00   1st Qu.:16.00  
-##  Median :  8.0   Median : 58.00   Median :24.00  
-##  Mean   : 13.5   Mean   : 57.67   Mean   :25.64  
-##  3rd Qu.: 21.0   3rd Qu.: 72.00   3rd Qu.:33.00  
-##  Max.   :104.0   Max.   :100.00   Max.   :80.00  
-##  NA's   :3360    NA's   :1049     NA's   :920    
-##       CLAY      
-##  Min.   : 0.00  
-##  1st Qu.: 7.00  
-##  Median :14.00  
-##  Mean   :17.08  
-##  3rd Qu.:24.00  
-##  Max.   :83.00  
-##  NA's   :927
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{dat_sites <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{"data/site-level.csv"}\NormalTok{)}
-
-\CommentTok{# Explore the data}
-\KeywordTok{str}\NormalTok{(dat_sites)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 'data.frame':    4118 obs. of  6 variables:
-##  $ X.1       : int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ ProfID    : Factor w/ 4118 levels "P0000","P0001",..: 1 2 3 ..
-##  $ soiltype  : Factor w/ 58 levels "Albic Luvisol",..: 3 3 3 57..
-##  $ Land.Cover: int  25 24 25 26 26 27 27 27 22 23 ...
-##  $ X         : num  20.8 20.8 20.8 20.8 20.8 ...
-##  $ Y         : num  42 42 42 42 42 ...
-\end{verbatim}
-
-\hypertarget{completeness-of-measurements-and-estimates}{%
-\section{Completeness of Measurements and
-Estimates}\label{completeness-of-measurements-and-estimates}}
-
-The \emph{GSP Guidelines for Sharing National Data/Information to
-Compile a Global Soil Organic Carbon (GSOC) Map} specify which soil
-parameters are needed to produce a GSOCmap. Of course, other soil
-properties can be evaluated and modeled using this cookbook as well.
-
-SOC stocks for soil horizons or targeted soil depths can be calculated
-using the equations in section 8.4.3 of the \emph{GSP Guidelines for
-Sharing National Data/Information to Compile a Global Soil Organic
-Carbon (GSOC) Map}. Carbon concentration, bulk density and stone content
-for a certain depth or genetic horizon are needed to calculate the
-amount of carbon stored in that depth interval/soil horizon. In many
-countries, legacy data from former surveys and projects, as well as from
-various owners and data sources are compiled. Often, measured bulk
-densities are either missing, only available for few soil profiles, or
-are estimated. Stones in the soil profile are usually only estimated,
-and if augers are used for sampling, stone content is not assessed at
-all. Pedo-transfer functions can be used to fill data gaps (e.g.~bulk
-density), and interpolation approaches can be used to infer from
-measured depths to target depths.
-
-\hypertarget{stones}{%
-\subsection{Stones}\label{stones}}
-
-The estimation of stoniness is difficult and time-consuming, and
-therefore not carried out in many national soil inventories, or only
-estimated visually in the profile. Unfortunately, if soil inventories
-and sampling are done with simple pits or augers rather than standard
-soil pits, stones are very often not assessed.
-
-As a proxy, it is recommended to derive national default values from
-well-described soil profile pits by soil type.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# summary of column CRF (Coarse Fragments) in the example data base}
-\KeywordTok{summary}\NormalTok{(dat}\OperatorTok{$}\NormalTok{CRF)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##     0.0     2.0     8.0    13.5    21.0   104.0    3360
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Convert NA's to 0}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{CRF[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{CRF)] <-}\StringTok{ }\DecValTok{0}
-
-\KeywordTok{hist}\NormalTok{(dat}\OperatorTok{$}\NormalTok{CRF, }\DataTypeTok{col =} \StringTok{"light gray"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-3-1.pdf}
-
-\hypertarget{bulk-density}{%
-\subsection{Bulk density}\label{bulk-density}}
-
-The amount of fine earth is one of the basic estimation parameters to
-estimate SOC stocks in the mineral soil as well as in peat layers. It
-depends on the volume of soil considered
-(\(\text{depth} \times \text{reference area}\)) and the bulk density
-(BD). BD expresses the soil weight per unit volume. When determining BD,
-it is important to subtract stones, if any, from the cylinder samples;
-if this is not done, BD is underestimated, and the resulting SOC stocks
-are overestimated. Stones in the cylinders are added to the total stone
-content in order to correct for the total amount of fine earth per
-volume of soil in a given area.
-
-Most of the soil profiles in national databases come from agricultural
-land. Very often, BD estimates do not consider fine stones because top
-soils (e.g.~plough layers) seem to be free of visible stones.
-
-\textbf{Mineral soil}: Default values from
-\href{https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/office/ssr10/tr/?cid=nrcs144p2_074844}{\emph{General
-Guide for Estimating Moist Bulk Density}}. If analytical BD is missing,
-BD can be estimated using pedo-transfer functions (see examples listed
-below).
-
-For organic soil material, \(BD_x\) can be estimated as follows,
-considering existing litter layers L (or Oi horizon); organic or duff
-layers, partially decomposed material above the mineral soil and beneath
-the litter layer; F (fermentation) horizons; H (humus) horizons (Oe and
-Oa); and peat (P), as described in the
-\href{https://www.nrcs.usda.gov/Internet/FSE_DOCUMENTS/nrcs142p2_051232.pdf}{\emph{U.S.
-Soil Taxonomy}}.
-
-\textbf{Forest floor}: Default values from \citet{ottmar_litter_2007}.
-
-\begin{itemize}
-\item
-  Pine: \(BD_{L} = 0.018 g \cdot cm^{-3}\);
-  \(BD_{F,H} = 0.057 g \cdot cm^{-3}\)
-\item
-  Hardwood: \(BD_{L} = 0.012 g \cdot cm^{-3}\)
-  \citep{barney_forest_1981}
-\item
-  Birch: \(BD_{F,H} = 0.17 g \cdot cm^{-3}\)
-\item
-  Spruce: \(BD_{L} = 0.051 g \cdot cm^{-3}\);
-  \(BD_{H}= 0.13 g \cdot cm^{-3}\)
-\end{itemize}
-
-\textbf{Peat}: Default value: \(BD_{P} = 0.31 g \cdot cm^{-3}\). The
-range of peat BD is generally from 0.02 to 0.3 \(t \cdot m^{-3}\)
-depending on maturity and compaction, as well as the ash content
-\citep{agus_measuring_2011}.@batjes1996total and
-\citet{agus_measuring_2011} distinguish different peat decomposition
-types (with different C content):
-
-\begin{itemize}
-\item
-  Sapric: \(BD_{P,\text{sapric}} = 0.174 g \cdot cm^{-3}\) (\(48.90\%\)
-  C)
-\item
-  Hemic: \(BD_{P,\text{hemic}} = 0.117 g \cdot cm^{-3}\) (\(52.27\%\) C)
-\item
-  Fibric: \(BD_{P,\text{fibric}} = 0.089 g \cdot cm^{-3}\) (\(53.56\%\)
-  C)
-\end{itemize}
-
-Examples for pedo-transfer functions to estimate \(BD\), based on the
-soil organic matter (\(OM\)) content in percent \((\%)\):
-
-\begin{equation}
-BD = 1.62-0.06 * OM
-\end{equation}
-
-\cite{saini_1966_organic}
-
-\begin{equation}
-BD = 1/(0.6268 + 0.0361 * OM)
-\end{equation}
-
-\cite{Drew1973}
-
-\begin{equation}
-BD = 1.482 - 0.6786 * (log OM)
-\end{equation}
-
-\cite{jeffrey1970note}
-
-\begin{equation}
-BD = 0.669 + 0.941 * e^{(-0,06 * OM)}
-\end{equation}
-
-\cite{Grigal1989}
-
-\begin{equation}
-BD = 100/(OM/0.244 + (100-OM))/MBD
-\end{equation}
-
-\cite{adams1973effect}
-
-\begin{equation}
-BD = 1/(0.564 + 0.0556*OM)
-\end{equation}
-
-\cite{honeysett1989use}
-
-where \(MDB\) is the mineral particle density, assumed to be the
-specific gravity of quartz, \(2.65 Mg \cdot m^{-3}\). And \(OM\) is the
-organic matter content, estimated as \(OM = SOC(\%) × 1.724\)
-
-Each method is derived from a specific set of regional soils that is
-regionally adapted. Selection of the proper method for a given country
-shall be based on existing reviews and comparisons.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Creating a function in R to estimate BLD using the SOC}
-\CommentTok{# SOC is the soil organic carbon content in \textbackslash{}%}
-\NormalTok{estimateBD <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(SOC, }\DataTypeTok{method=}\StringTok{"Saini1996"}\NormalTok{)\{}
-\NormalTok{  OM <-}\StringTok{ }\NormalTok{SOC }\OperatorTok{*}\StringTok{ }\FloatTok{1.724}
-  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Saini1996"}\NormalTok{)\{BD <-}\StringTok{ }\FloatTok{1.62} \OperatorTok{-}\StringTok{ }\FloatTok{0.06} \OperatorTok{*}\StringTok{ }\NormalTok{OM\}}
-  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Drew1973"}\NormalTok{)\{BD <-}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{(}\FloatTok{0.6268} \OperatorTok{+}\StringTok{ }\FloatTok{0.0361} \OperatorTok{*}\StringTok{ }\NormalTok{OM)\}}
-  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Jeffrey1979"}\NormalTok{)\{BD <-}\StringTok{ }\FloatTok{1.482} \OperatorTok{-}\StringTok{ }\FloatTok{0.6786} \OperatorTok{*}\StringTok{ }\NormalTok{(}\KeywordTok{log}\NormalTok{(OM))\}}
-  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Grigal1989"}\NormalTok{)\{BD <-}\StringTok{ }\FloatTok{0.669} \OperatorTok{+}\StringTok{ }\FloatTok{0.941} \OperatorTok{*}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\DecValTok{1}\NormalTok{)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\FloatTok{0.06} \OperatorTok{*}\StringTok{ }\NormalTok{OM)\}}
-  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Adams1973"}\NormalTok{)\{BD <-}\StringTok{ }\DecValTok{100} \OperatorTok{/}\StringTok{ }\NormalTok{(OM }\OperatorTok{/}\FloatTok{0.244} \OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{100} \OperatorTok{-}\StringTok{ }\NormalTok{OM)}\OperatorTok{/}\FloatTok{2.65}\NormalTok{)\}}
-  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Honeyset_Ratkowsky1989"}\NormalTok{)\{BD <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\FloatTok{0.564} \OperatorTok{+}\StringTok{ }\FloatTok{0.0556} \OperatorTok{*}\StringTok{ }\NormalTok{OM)\}}
-  \KeywordTok{return}\NormalTok{(BD)}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# summary of BLD (bulk density) in the example data base}
-\KeywordTok{summary}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00    1.40    1.54    1.55    1.66    2.93    7845
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# See the summary of values produced using the pedo-transfer }
-\CommentTok{# function with one of the proposed methods.}
-\KeywordTok{summary}\NormalTok{(}\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)], }
-                   \DataTypeTok{method=}\StringTok{"Honeyset_Ratkowsky1989"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##  0.2019  1.1599  1.3498  1.2974  1.4981  1.7730     729
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Fill NA's using the pedo-transfer function:}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{BLD[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)] <-}\StringTok{ }\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)], }
-                                      \DataTypeTok{method=}\StringTok{"Grigal1989"}\NormalTok{)}
-
-\CommentTok{# explore the results}
-\KeywordTok{hist}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD, }\DataTypeTok{col =} \StringTok{'light gray'}\NormalTok{, }\DataTypeTok{breaks =} \DecValTok{32}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-5-1.pdf}
-\caption{\label{fig:unnamed-chunk-5}Histogram of bulk density values}
-\end{figure}
-
-\hypertarget{soil-carbon-analysis}{%
-\subsection{Soil Carbon Analysis}\label{soil-carbon-analysis}}
-
-\cite{rosell2001soil} have closely reviewed the different SOC and SOM
-estimation procedures, and have also drawn some conclusions about the
-sources of errors. Determination of SOC from dry combustion methods is
-least susceptible to errors.
-
-\begin{itemize}
-\item
-  \textbf{Dry combustion by Loss on Ignition (LOI)}: SOC is
-  re-calculated applying a conversion factor. It is commonly assumed,
-  that organic matter contains an average of \(58\%\) organic carbon
-  (so-called Van Bemmelen factor \(1.724\); for non-organic horizons:
-  \(SOC = SOM / 1.724\)). For organic horizons, conversion factor ranges
-  from \(1.9\) to \(2.5\) \citep{nelson1982total}. The inorganic carbon
-  is not resolved, since typically, temperatures between 400°C and 550°C
-  are used.
-\item
-  \textbf{Wet oxidation}: Since wet oxidation is applied without
-  additional (external) heating, low temperatures of around 120°C
-  (internal heat) are typical. Thus, the oxidation of carbon is
-  incomplete, and a so-called oxidation factor needs to be applied. With
-  external heating, the C-recovery of the method becomes improved, up to
-  complete recovery. No correction of the mineral carbon is needed. Wet
-  oxidation should typically only be applied to samples with \(<5\%\)
-  organic matter.
-\end{itemize}
-
-Usually, an average of \(76\%\) organic carbon is recovered, leading to
-a standard oxidation factor or \(1.33\) \citep{lettens2005soil}.
-
-\hypertarget{carbonates}{%
-\subsection{Carbonates}\label{carbonates}}
-
-In case the total organic carbon is determined with temperatures higher
-than 600°C to 800°C, the proportion of mineral soil in \(CaCO_3\) has to
-be subtracted in order to derive the amount of organic carbon (inorganic
-carbon is also oxidized). The pH value gives the first indication
-whether the sample has to be analyzed for inorganic carbon or not.
-
-It is crucial to report in the metadata whether national SOC values
-refer to total C or if the inorganic component has been considered.
-
-\hypertarget{depth}{%
-\subsection{Depth}\label{depth}}
-
-The standard depth for GSOCmap is \textbf{0 to 30 cm}. Subdivisions are
-possible depending on the available data, by genetic horizons or depth
-classes. The following depths are additionally considered for GSOCmap
-(optional): * Forest floor: thickness (cm) subdivision in horizons
-depending on national soil inventory method (e.g.~L, F, H) * Peat:
-\textgreater{}30 , \textless{}100 depending on national data
-
-\hypertarget{completeness-of-depth-estimate}{%
-\section{Completeness of Depth
-Estimate}\label{completeness-of-depth-estimate}}
-
-Soil properties are commonly collected from field inventories (see Table
-2.2) or from sampling and analyzing horizons and/or fixed depths. Since
-a fixed target depth of 30 cm is required for GSOC (other depth classes
-will be recommended in the future, following the \emph{GSP Guidelines
-for Sharing National Data/Information to Compile a Global Soil Organic
-Carbon (GSOC) Map}, data holders are confronted with the following
-options:
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Option 1}: Soil sampling has already considered this depth,
-  data can be directly used for upscaling (see chapter
-  \ref{mappingMethods}).
-\item
-  \textbf{Option 2}: Horizons or layers/depth classes are sampled but
-  aggregation is needed over the 0 to 30 cm.
-\item
-  \textbf{Option 3}: The target depth (0 to 30 cm) was not completely
-  covered by sampling, e.g.~only the A horizon or a topsoil layer
-  (e.g.~0 to 20 cm) has been sampled.
-\end{itemize}
-
-For both \textbf{Options 2} and \textbf{3}, the transformation is
-needed, using e.g.~equal-area splines. In the case of \textbf{Option 2},
-the use of equal-area splines was first proposed by
-\cite{ponce1986improved}, and later tested against real data
-\citep{bishop1999modelling}. This technique is based on fitting
-continuous depth functions for modeling the variability of soil
-properties with depth. Thus, it is possible to convert soil profiles to
-standard depths, but also to fill gaps. The equal-area spline function
-consists of a series of local quadratic polynomials that join at
-so-called knots, located at the horizon boundaries, whereby the mean
-value of each horizon is maintained by the spline fit. They are called
-equal-area splines because the area to the left of the fitted spline
-curve is equal to the area to the right of the curve. In case of
-\textbf{Option 3}, additional information on the vertical distribution
-of carbon in the soils is required for accurate recalculation from the
-sampling depth to target depth, e.g.~as was shown by
-\cite{bernoux1998modeling}.
-
-\hypertarget{EqualAreaSplines}{%
-\subsection{Technical Steps - Equal-Area Splines Using
-R}\label{EqualAreaSplines}}
-
-In \textbf{R} environment, the easiest way to apply equal-area splines
-is using the function \texttt{GSIF::mpspline} from the \textbf{R}
-package \textbf{GSIF} (\cite{hengl_2016_gsif}, see section
-\ref{SoilPedometrics}). For illustration, a sample dataset has been used
-(see chapter \ref{covariates}). This function requires data stored as
-\texttt{SoilProfileCollection} (SPC) using package \textbf{aqp}.
-Nevertheless, data in any local soil database or in tables like the ones
-proposed before (Tables @ref(tab:example table for site-level),
-@ref(tab:example table for horizon-level)) can be transformed to an SPC.
-
-The function \texttt{GSIF::mpspline} has several arguments. One of the
-arguments is the lambda value mentioned before. The proposed default
-value is 0.1. Another argument for this function is the target standard
-depths. The function produces spline-estimated values at these depths.
-However, this function also produces spline-estimated values at 1 cm
-increments.
-
-The following technical steps require \textbf{R} and the named packages.
-
-\hypertarget{promote-table-dat-to-soilprofilecollection}{%
-\subsubsection{\texorpdfstring{Promote table \texttt{dat} to
-\texttt{SoilProfileCollection}}{Promote table dat to SoilProfileCollection}}\label{promote-table-dat-to-soilprofilecollection}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Load aqp package}
-\KeywordTok{library}\NormalTok{(aqp)}
-
-\CommentTok{# Promote to SoilProfileCollection }
-\CommentTok{# The SoilProfileCollection is a object class in R designed to }
-\CommentTok{# handle soil profiles}
-\KeywordTok{depths}\NormalTok{(dat) <-}\StringTok{ }\NormalTok{ProfID }\OperatorTok{~}\StringTok{ }\NormalTok{top }\OperatorTok{+}\StringTok{ }\NormalTok{bottom}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning: converting IDs from factor to character
-\end{verbatim}
-
-\hypertarget{add-site-level-data-and-coordinates}{%
-\subsubsection{Add site-level data and
-coordinates}\label{add-site-level-data-and-coordinates}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Merge the soil horizons information with the site-level }
-\CommentTok{# information from dat_sites}
-\KeywordTok{site}\NormalTok{(dat) <-}\StringTok{ }\NormalTok{dat_sites}
-
-\CommentTok{# Set spatial coordinates}
-\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
-
-\CommentTok{# A summary of our SoilProfileCollection}
-\NormalTok{dat}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Object of class SoilProfileCollection
-## Number of profiles: 4118
-## Depth range: 5-295 cm
-## 
-## Horizon attributes:
-##   ProfID    HorID top bottom SOC BLD CRF SAND SILT CLAY
-## 1  P0000 P0000H01   4     23  NA  NA  54   52   34   14
-## 2  P0000 P0000H02  23     46  NA  NA  62   59   31   11
-## 3  P0000 P0000H03  46     59  NA  NA  47   67   24    8
-## 4  P0001 P0001H01   2     11  NA  NA  66   45   39   16
-## 5  P0001 P0001H02  11     31  NA  NA  70   40   31   28
-## 6  P0002 P0002H01   0     22  NA  NA  57   52   33   15
-## 
-## Sampling site attributes:
-##   ProfID X.1                                 soiltype Land.Cover
-## 1  P0000   1                                 Cambisol         25
-## 2  P0001   2                                 Cambisol         24
-## 3  P0002   3                                 Cambisol         25
-## 4  P0003   4                        Rendzic Leptosols         26
-## 5  P0004   5                        Rendzic Leptosols         26
-## 6  P0005   6 Complex of Rendzic Leptosol and Leptosol         27
-## 
-## Spatial Data:
-##        min      max
-## X 20.46434 23.01039
-## Y 40.68543 42.35932
-## [1] NA
-\end{verbatim}
-
-\hypertarget{run-mass-preserving-splines-for-all-the-needed-properties}{%
-\subsubsection{Run mass preserving splines for all the needed
-properties}\label{run-mass-preserving-splines-for-all-the-needed-properties}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(GSIF)}
-
-\NormalTok{## Estimate 0-30 standard horizon usin mass preserving splines}
-\KeywordTok{try}\NormalTok{(SOC <-}\StringTok{ }\KeywordTok{mpspline}\NormalTok{(dat, }\StringTok{'SOC'}\NormalTok{, }\DataTypeTok{d =} \KeywordTok{t}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{30}\NormalTok{))))}
-\KeywordTok{try}\NormalTok{(BLD <-}\StringTok{ }\KeywordTok{mpspline}\NormalTok{(dat, }\StringTok{'BLD'}\NormalTok{, }\DataTypeTok{d =} \KeywordTok{t}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{30}\NormalTok{))))}
-\KeywordTok{try}\NormalTok{(CRFVOL <-}\StringTok{ }\KeywordTok{mpspline}\NormalTok{(dat, }\StringTok{'CRF'}\NormalTok{, }\DataTypeTok{d =} \KeywordTok{t}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{30}\NormalTok{))))}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{convert-back-to-table}{%
-\subsubsection{Convert back to table}\label{convert-back-to-table}}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{## Prepare final data frame}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{id =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{site}\OperatorTok{$}\NormalTok{ProfID,}
-                  \DataTypeTok{Y =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{sp}\OperatorTok{@}\NormalTok{coords[,}\DecValTok{2}\NormalTok{],}
-                  \DataTypeTok{X =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{sp}\OperatorTok{@}\NormalTok{coords[,}\DecValTok{1}\NormalTok{],}
-                  \DataTypeTok{SOC =}\NormalTok{ SOC}\OperatorTok{$}\NormalTok{var.std[,}\DecValTok{1}\NormalTok{],}
-                  \DataTypeTok{BLD =}\NormalTok{ BLD}\OperatorTok{$}\NormalTok{var.std[,}\DecValTok{1}\NormalTok{],}
-                  \DataTypeTok{CRFVOL =}\NormalTok{ CRFVOL}\OperatorTok{$}\NormalTok{var.std[,}\DecValTok{1}\NormalTok{])}
-
-\NormalTok{dat <-}\StringTok{ }\NormalTok{dat[}\KeywordTok{complete.cases}\NormalTok{(dat),]}
-
-\NormalTok{## Take a look at the results}
-\KeywordTok{head}\NormalTok{(dat)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##       id        Y        X       SOC       BLD    CRFVOL
-## 4  P0003 42.02828 20.81819 26.380000 0.7304483  8.000000
-## 5  P0004 42.02747 20.81464 24.561667 0.8955320  6.305316
-## 7  P0006 42.02885 20.82757 19.940000 0.7886235 14.000000
-## 8  P0007 42.02279 20.83165  6.149114 1.1653355 18.633590
-## 9  P0008 42.05014 20.82036  3.940352 1.2962582 31.875748
-## 10 P0009 42.02047 20.93529  3.258545 1.3446297 21.714059
-\end{verbatim}
-
-\hypertarget{estimate-the-soil-organic-carbon-stock-using-the-virtual-horizons}{%
-\subsubsection{Estimate the soil organic carbon stock using the virtual
-horizons}\label{estimate-the-soil-organic-carbon-stock-using-the-virtual-horizons}}
-
-Finally, the estimation of the soil organic carbon stock (OKS) can be
-done using the \textbf{GSIF} package.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{library}\NormalTok{(GSIF)}
-\CommentTok{# Estimate Organic Carbon Stock}
-\CommentTok{# SOC must be in g/kg}
-\CommentTok{# BLD in kg/m3}
-\CommentTok{# CRF in percentage}
-\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{OCSKGM}\NormalTok{(}\DataTypeTok{ORCDRC =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{BLD =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{BLD}\OperatorTok{*}\DecValTok{1000}\NormalTok{, }
-                 \DataTypeTok{CRFVOL =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{CRFVOL, }\DataTypeTok{HSIZE =} \DecValTok{30}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM <-}\StringTok{ }\NormalTok{OCSKGM}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{meaERROR <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(OCSKGM,}\StringTok{"measurementError"}\NormalTok{)}
-\NormalTok{dat <-}\StringTok{ }\NormalTok{dat[dat}\OperatorTok{$}\NormalTok{OCSKGM}\OperatorTok{>}\DecValTok{0}\NormalTok{,]}
-\KeywordTok{summary}\NormalTok{(dat)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##        id             Y               X              SOC        
-##  P0003  :   1   Min.   :40.69   Min.   :20.46   Min.   : 0.080  
-##  P0004  :   1   1st Qu.:41.19   1st Qu.:21.35   1st Qu.: 1.750  
-##  P0006  :   1   Median :41.42   Median :21.49   Median : 2.603  
-##  P0007  :   1   Mean   :41.49   Mean   :21.66   Mean   : 3.539  
-##  P0008  :   1   3rd Qu.:41.83   3rd Qu.:22.14   3rd Qu.: 4.089  
-##  P0009  :   1   Max.   :42.36   Max.   :23.01   Max.   :86.510  
-##  (Other):3880                                                   
-##       BLD              CRFVOL             OCSKGM      
-##  Min.   :0.05353   Min.   : 0.00000   Min.   :0.0111  
-##  1st Qu.:1.28089   1st Qu.: 0.00516   1st Qu.:0.6951  
-##  Median :1.39549   Median : 5.01397   Median :0.9866  
-##  Mean   :1.38073   Mean   :11.02257   Mean   :1.1399  
-##  3rd Qu.:1.47612   3rd Qu.:17.69065   3rd Qu.:1.3997  
-##  Max.   :2.92191   Max.   :93.95013   Max.   :7.4302  
-##                                                       
-##     meaERROR    
-##  Min.   :0.172  
-##  1st Qu.:3.160  
-##  Median :3.840  
-##  Mean   :3.715  
-##  3rd Qu.:4.260  
-##  Max.   :8.770  
-## 
-\end{verbatim}
-
-Soil organic carbon tends to have a log-normal distribution with a
-right-skew, and transforming the original values to its natural
-logarithm would generate a normal distribution of soil organic carbon
-values. Here we will test if the log transformation of the response
-variable (\emph{SOC}) tends to normality and 2) if this transformation
-increases the simple correlation of \emph{SOC} and its prediction
-factors.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Generate a new column with the transformed OCSKGM to its natural }
-\CommentTok{# logarithm}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGMlog <-}\StringTok{ }\KeywordTok{log}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM)}
-
-\NormalTok{## plot the next two plots as one}
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM),}
-     \DataTypeTok{main=}\StringTok{'original values'}\NormalTok{)}
-
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGMlog),}
-     \DataTypeTok{main=}\StringTok{'log transformed values'}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-9-1.pdf}
-\caption{\label{fig:unnamed-chunk-9}Statistical distribution of original OCS
-values vs log-transformed values}
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
-
-\NormalTok{## We can save our processed data as a table}
-\KeywordTok{write.csv}\NormalTok{(dat, }\StringTok{"data/dataproc.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \hypertarget{setting-up-the-software-environment}{%
 \chapter{Setting-Up the Software
@@ -1705,6 +989,755 @@ Tools}\label{other-dsm-related-software-and-tools}}
   \emph{SAGA GIS}: Available at
   \url{https://sourceforge.net/projects/saga-gis/files/}
 \end{itemize}
+
+\hypertarget{preparation}{%
+\chapter{Preparation of Local Soil Data}\label{preparation}}
+
+\emph{GF Olmedo \& R Baritz}
+
+\hypertarget{soil-profiles-and-soil-augers}{%
+\section{Soil Profiles and Soil
+Augers}\label{soil-profiles-and-soil-augers}}
+
+Soil profiles are complex real-world entities. They are composed of soil
+layers which form soil horizons; the soil layers have different
+properties and these properties are evaluated with different methods. As
+we know, soil and vertical soil properties are landscape elements and
+part of matter dynamics (water, nutrients, gases, habitat, etc.). Local
+soil samples or soil profiles add a third dimension into the spatial
+assessment of soil properties in the landscape.
+
+Most \emph{commonly}, soils are described as vertical profiles using
+soil pits (sometimes also augerings, but this is less accurate). Soil
+profiles are described using macro-morphological properties. These
+properties can be assessed in the field without analysis by making a
+field inventory or land evaluation. For additional quantitative
+analysis, soils are then sampled by genetic horizons or by depth class.
+
+The sampling of soils is the basis to obtain quantitative information.
+Depending on the goal of a project, sampling can be quite diverse.
+Sampling can follow the description of the soil or can be conducted
+without, for example using a spade or auger to generate a composite
+sample (for a certain depth independent of the morphological features
+such as soil horizons). Sampling locations can be representative of a
+certain location, project, field, or mapped object, such as a soil type.
+
+\hypertarget{soil-database}{%
+\section{Soil Database}\label{soil-database}}
+
+In order to process and evaluate soil information from field
+assessments, soil profile data and analytical information need to be
+stored in a database. This can be a set of simple \emph{Excel}
+spreadsheets, or a relational or object-oriented database management
+system \citep{baritz2008environmental}. When working in \textbf{R},
+\texttt{SoilProfileCollections} from the \textbf{R} \textbf{aqp} package
+are a useful tool. Tables \ref{tab:site-level} and
+\ref{tab:horizon-level} are examples of how soil information can be
+stored. The advantage of such organization is the possibility to develop
+relational databases which can be easily queried. Such a systematic
+approach will support the organization of national soil information and
+will reduce errors in future modeling exercises
+\citep{baritz2008environmental}.
+
+Table \ref{tab:site-level} stores site-level data, which describe the
+location of the soil description and/or sampling site: spatial
+coordinates, landscape attributes such as slope gradient and slope form,
+soil class, land cover type, rock type, etc. In this table, every row
+should hold a single soil profile. One column, usually the first one,
+should be the soil profile's unique identifier. Using the latter, soil
+information can be easily linked from one table to another.
+
+\begin{table}
+
+\caption{\label{tab:site-level}Example for site-level data table}
+\centering
+\begin{tabular}[t]{lrrrl}
+\toprule
+ProfID & X\_coord & Y\_coord & Year & Soil\_Type\\
+\midrule
+P1276 & 7591265 & 4632108 & 2012 & Complex of Chernozem …\\
+P1277 & 7592027 & 4631664 & 2012 & Complex of Chernozem …\\
+P1278 & 7592704 & 4631941 & 2012 & Complex of Chernozem …\\
+P1279 & 7590817 & 4633115 & 2013 & Complex of Chernozem …\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table \ref{tab:horizon-level} stores information from the soil
+description, such as horizon name, horizon thickness, organic matter
+content, carbonate content, soil color, laboratory soil analysis, etc.
+The first column contains the soil profile's unique identifier. It is
+important to include the upper and lower limits for each soil layer; in
+case the sampling strategy deviates from soil layers/soil horizons, the
+upper and lower depth of the sampling locations should be specified if
+possible. This information is needed for modeling soil properties over
+the soil profile.
+
+\begin{table}
+
+\caption{\label{tab:horizon-level}Example for profile-description table}
+\centering
+\begin{tabular}[t]{llrrrrrrrr}
+\toprule
+ProfID & HorID & top & bottom & SOC & BLD & CRF & Sand & Silt & Clay\\
+\midrule
+P1276 & P1276H01 & 0 & 50 & 2.78 & 1.05 & 11 & 52 & 39 & 9\\
+P1276 & P1276H02 & 50 & 76 & 1.75 & 1.45 & 4 & 56 & 31 & 14\\
+P1276 & P1276H03 & 76 & 100 & 1.19 & 1.22 & 2 & 43 & 35 & 22\\
+P1277 & P1277H01 & 0 & 28 & 1.93 & 1.36 & 8 & 59 & 22 & 18\\
+P1277 & P1277H02 & 28 & 48 & 1.60 & 1.43 & 9 & 69 & 15 & 16\\
+\addlinespace
+P1277 & P1277H03 & 48 & 63 & 1.26 & NA & 25 & 65 & 21 & 13\\
+P1277 & P1277H04 & 63 & 120 & 0.86 & NA & 54 & 63 & 23 & 14\\
+P1278 & P1278H01 & 0 & 40 & 2.32 & 1.27 & 0 & 50 & 39 & 12\\
+P1278 & P1278H02 & 40 & 68 & 1.80 & 1.48 & 1 & 46 & 39 & 16\\
+P1278 & P1278H03 & 68 & 120 & 0.89 & 1.18 & 0 & 47 & 39 & 14\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{technical-steps---loading-data-from-tables-in-r}{%
+\subsection{Technical Steps - Loading Data from Tables in
+R}\label{technical-steps---loading-data-from-tables-in-r}}
+
+This chapter includes two examples for data preparation. The first
+example is for using soil profiles data. This example is mixed with the
+text but a copy the code is presented in section
+\ref{cd:PreparationProfiles}. The second example is using topsoil or
+auger data and is presented in section \ref{cd:PreparationAuger}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{"data/horizons.csv"}\NormalTok{)}
+
+\CommentTok{# Explore the data}
+\KeywordTok{str}\NormalTok{(dat)}
+\KeywordTok{summary}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    10292 obs. of  10 variables:
+##  $ ProfID: Factor w/ 4118 levels "P0000","P0001",..: 1 1 1 2 2 ..
+##  $ HorID : Factor w/ 9914 levels "P0000H01","P0000H02",..: 1 2 ..
+##  $ top   : int  4 23 46 2 11 0 22 63 0 3 ...
+##  $ bottom: int  23 46 59 11 31 22 63 90 19 10 ...
+##  $ SOC   : num  NA NA NA NA NA ...
+##  $ BLD   : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ CRF   : num  54 62 47 66 70 57 77 87 8 4 ...
+##  $ SAND  : int  52 59 67 45 40 52 48 43 50 48 ...
+##  $ SILT  : num  34 31 24 39 31 33 36 42 16 35 ...
+##  $ CLAY  : num  14 11 8 16 28 15 16 16 34 17 ...
+##      ProfID           HorID            top        
+##  P2881  :   64   P2881H01:   64   Min.   :  0.00  
+##  P1481  :   32   P0434H02:    8   1st Qu.:  0.00  
+##  P2096  :   32   P1286H01:    8   Median : 20.00  
+##  P3623  :   32   P2056H01:    8   Mean   : 27.48  
+##  P2056  :   24   P2056H02:    8   3rd Qu.: 47.00  
+##  P2142  :   24   P2056H03:    8   Max.   :285.00  
+##  (Other):10084   (Other) :10188                   
+##      bottom            SOC              BLD      
+##  Min.   :  1.00   Min.   : 0.000   Min.   :0.00  
+##  1st Qu.: 25.00   1st Qu.: 1.090   1st Qu.:1.40  
+##  Median : 45.00   Median : 1.800   Median :1.54  
+##  Mean   : 55.82   Mean   : 2.603   Mean   :1.55  
+##  3rd Qu.: 80.00   3rd Qu.: 2.940   3rd Qu.:1.66  
+##  Max.   :295.00   Max.   :83.820   Max.   :2.93  
+##                   NA's   :831      NA's   :7845  
+##       CRF             SAND             SILT      
+##  Min.   :  0.0   Min.   :  0.00   Min.   : 0.00  
+##  1st Qu.:  2.0   1st Qu.: 44.00   1st Qu.:16.00  
+##  Median :  8.0   Median : 58.00   Median :24.00  
+##  Mean   : 13.5   Mean   : 57.67   Mean   :25.64  
+##  3rd Qu.: 21.0   3rd Qu.: 72.00   3rd Qu.:33.00  
+##  Max.   :104.0   Max.   :100.00   Max.   :80.00  
+##  NA's   :3360    NA's   :1049     NA's   :920    
+##       CLAY      
+##  Min.   : 0.00  
+##  1st Qu.: 7.00  
+##  Median :14.00  
+##  Mean   :17.08  
+##  3rd Qu.:24.00  
+##  Max.   :83.00  
+##  NA's   :927
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat_sites <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\DataTypeTok{file =} \StringTok{"data/site-level.csv"}\NormalTok{)}
+
+\CommentTok{# Explore the data}
+\KeywordTok{str}\NormalTok{(dat_sites)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    4118 obs. of  6 variables:
+##  $ X.1       : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ ProfID    : Factor w/ 4118 levels "P0000","P0001",..: 1 2 3 ..
+##  $ soiltype  : Factor w/ 58 levels "Albic Luvisol",..: 3 3 3 57..
+##  $ Land.Cover: int  25 24 25 26 26 27 27 27 22 23 ...
+##  $ X         : num  20.8 20.8 20.8 20.8 20.8 ...
+##  $ Y         : num  42 42 42 42 42 ...
+\end{verbatim}
+
+\hypertarget{completeness-of-measurements-and-estimates}{%
+\section{Completeness of Measurements and
+Estimates}\label{completeness-of-measurements-and-estimates}}
+
+The \emph{GSP Guidelines for Sharing National Data/Information to
+Compile a Global Soil Organic Carbon (GSOC) Map} specify which soil
+parameters are needed to produce a GSOCmap. Of course, other soil
+properties can be evaluated and modeled using this cookbook as well.
+
+SOC stocks for soil horizons or targeted soil depths can be calculated
+using the equations in section 8.4.3 of the \emph{GSP Guidelines for
+Sharing National Data/Information to Compile a Global Soil Organic
+Carbon (GSOC) Map}. Carbon concentration, bulk density and stone content
+for a certain depth or genetic horizon are needed to calculate the
+amount of carbon stored in that depth interval/soil horizon. In many
+countries, legacy data from former surveys and projects, as well as from
+various owners and data sources are compiled. Often, measured bulk
+densities are either missing, only available for few soil profiles, or
+are estimated. Stones in the soil profile are usually only estimated,
+and if augers are used for sampling, stone content is not assessed at
+all. Pedo-transfer functions can be used to fill data gaps (e.g.~bulk
+density), and interpolation approaches can be used to infer from
+measured depths to target depths.
+
+\hypertarget{stones}{%
+\subsection{Stones}\label{stones}}
+
+The estimation of stoniness is difficult and time-consuming, and
+therefore not carried out in many national soil inventories, or only
+estimated visually in the profile. Unfortunately, if soil inventories
+and sampling are done with simple pits or augers rather than standard
+soil pits, stones are very often not assessed.
+
+As a proxy, it is recommended to derive national default values from
+well-described soil profile pits by soil type.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# summary of column CRF (Coarse Fragments) in the example data base}
+\KeywordTok{summary}\NormalTok{(dat}\OperatorTok{$}\NormalTok{CRF)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##     0.0     2.0     8.0    13.5    21.0   104.0    3360
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Convert NA's to 0}
+\NormalTok{dat}\OperatorTok{$}\NormalTok{CRF[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{CRF)] <-}\StringTok{ }\DecValTok{0}
+
+\KeywordTok{hist}\NormalTok{(dat}\OperatorTok{$}\NormalTok{CRF, }\DataTypeTok{col =} \StringTok{"light gray"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{bulk-density}{%
+\subsection{Bulk density}\label{bulk-density}}
+
+The amount of fine earth is one of the basic estimation parameters to
+estimate SOC stocks in the mineral soil as well as in peat layers. It
+depends on the volume of soil considered
+(\(\text{depth} \times \text{reference area}\)) and the bulk density
+(BD). BD expresses the soil weight per unit volume. When determining BD,
+it is important to subtract stones, if any, from the cylinder samples;
+if this is not done, BD is underestimated, and the resulting SOC stocks
+are overestimated. Stones in the cylinders are added to the total stone
+content in order to correct for the total amount of fine earth per
+volume of soil in a given area.
+
+Most of the soil profiles in national databases come from agricultural
+land. Very often, BD estimates do not consider fine stones because top
+soils (e.g.~plough layers) seem to be free of visible stones.
+
+\textbf{Mineral soil}: Default values from
+\href{https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/office/ssr10/tr/?cid=nrcs144p2_074844}{\emph{General
+Guide for Estimating Moist Bulk Density}}. If analytical BD is missing,
+BD can be estimated using pedo-transfer functions (see examples listed
+below).
+
+For organic soil material, \(BD_x\) can be estimated as follows,
+considering existing litter layers L (or Oi horizon); organic or duff
+layers, partially decomposed material above the mineral soil and beneath
+the litter layer; F (fermentation) horizons; H (humus) horizons (Oe and
+Oa); and peat (P), as described in the
+\href{https://www.nrcs.usda.gov/Internet/FSE_DOCUMENTS/nrcs142p2_051232.pdf}{\emph{U.S.
+Soil Taxonomy}}.
+
+\textbf{Forest floor}: Default values from \citet{ottmar_litter_2007}.
+
+\begin{itemize}
+\item
+  Pine: \(BD_{L} = 0.018 g \cdot cm^{-3}\);
+  \(BD_{F,H} = 0.057 g \cdot cm^{-3}\)
+\item
+  Hardwood: \(BD_{L} = 0.012 g \cdot cm^{-3}\)
+  \citep{barney_forest_1981}
+\item
+  Birch: \(BD_{F,H} = 0.17 g \cdot cm^{-3}\)
+\item
+  Spruce: \(BD_{L} = 0.051 g \cdot cm^{-3}\);
+  \(BD_{H}= 0.13 g \cdot cm^{-3}\)
+\end{itemize}
+
+\textbf{Peat}: Default value: \(BD_{P} = 0.31 g \cdot cm^{-3}\). The
+range of peat BD is generally from 0.02 to 0.3 \(t \cdot m^{-3}\)
+depending on maturity and compaction, as well as the ash content
+\citep{agus_measuring_2011}.@batjes1996total and
+\citet{agus_measuring_2011} distinguish different peat decomposition
+types (with different C content):
+
+\begin{itemize}
+\item
+  Sapric: \(BD_{P,\text{sapric}} = 0.174 g \cdot cm^{-3}\) (\(48.90\%\)
+  C)
+\item
+  Hemic: \(BD_{P,\text{hemic}} = 0.117 g \cdot cm^{-3}\) (\(52.27\%\) C)
+\item
+  Fibric: \(BD_{P,\text{fibric}} = 0.089 g \cdot cm^{-3}\) (\(53.56\%\)
+  C)
+\end{itemize}
+
+Examples for pedo-transfer functions to estimate \(BD\), based on the
+soil organic matter (\(OM\)) content in percent \((\%)\):
+
+\begin{equation}
+BD = 1.62-0.06 * OM
+\end{equation}
+
+\cite{saini_1966_organic}
+
+\begin{equation}
+BD = 1/(0.6268 + 0.0361 * OM)
+\end{equation}
+
+\cite{Drew1973}
+
+\begin{equation}
+BD = 1.482 - 0.6786 * (log OM)
+\end{equation}
+
+\cite{jeffrey1970note}
+
+\begin{equation}
+BD = 0.669 + 0.941 * e^{(-0,06 * OM)}
+\end{equation}
+
+\cite{Grigal1989}
+
+\begin{equation}
+BD = 100/(OM/0.244 + (100-OM))/MBD
+\end{equation}
+
+\cite{adams1973effect}
+
+\begin{equation}
+BD = 1/(0.564 + 0.0556*OM)
+\end{equation}
+
+\cite{honeysett1989use}
+
+where \(MDB\) is the mineral particle density, assumed to be the
+specific gravity of quartz, \(2.65 Mg \cdot m^{-3}\). And \(OM\) is the
+organic matter content, estimated as \(OM = SOC(\%) × 1.724\)
+
+Each method is derived from a specific set of regional soils that is
+regionally adapted. Selection of the proper method for a given country
+shall be based on existing reviews and comparisons.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Creating a function in R to estimate BLD using the SOC}
+\CommentTok{# SOC is the soil organic carbon content in \textbackslash{}%}
+\NormalTok{estimateBD <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(SOC, }\DataTypeTok{method=}\StringTok{"Saini1996"}\NormalTok{)\{}
+\NormalTok{  OM <-}\StringTok{ }\NormalTok{SOC }\OperatorTok{*}\StringTok{ }\FloatTok{1.724}
+  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Saini1996"}\NormalTok{)\{BD <-}\StringTok{ }\FloatTok{1.62} \OperatorTok{-}\StringTok{ }\FloatTok{0.06} \OperatorTok{*}\StringTok{ }\NormalTok{OM\}}
+  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Drew1973"}\NormalTok{)\{BD <-}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{(}\FloatTok{0.6268} \OperatorTok{+}\StringTok{ }\FloatTok{0.0361} \OperatorTok{*}\StringTok{ }\NormalTok{OM)\}}
+  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Jeffrey1979"}\NormalTok{)\{BD <-}\StringTok{ }\FloatTok{1.482} \OperatorTok{-}\StringTok{ }\FloatTok{0.6786} \OperatorTok{*}\StringTok{ }\NormalTok{(}\KeywordTok{log}\NormalTok{(OM))\}}
+  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Grigal1989"}\NormalTok{)\{BD <-}\StringTok{ }\FloatTok{0.669} \OperatorTok{+}\StringTok{ }\FloatTok{0.941} \OperatorTok{*}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\DecValTok{1}\NormalTok{)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\FloatTok{0.06} \OperatorTok{*}\StringTok{ }\NormalTok{OM)\}}
+  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Adams1973"}\NormalTok{)\{BD <-}\StringTok{ }\DecValTok{100} \OperatorTok{/}\StringTok{ }\NormalTok{(OM }\OperatorTok{/}\FloatTok{0.244} \OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{100} \OperatorTok{-}\StringTok{ }\NormalTok{OM)}\OperatorTok{/}\FloatTok{2.65}\NormalTok{)\}}
+  \ControlFlowTok{if}\NormalTok{(method}\OperatorTok{==}\StringTok{"Honeyset_Ratkowsky1989"}\NormalTok{)\{BD <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\FloatTok{0.564} \OperatorTok{+}\StringTok{ }\FloatTok{0.0556} \OperatorTok{*}\StringTok{ }\NormalTok{OM)\}}
+  \KeywordTok{return}\NormalTok{(BD)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# summary of BLD (bulk density) in the example data base}
+\KeywordTok{summary}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    0.00    1.40    1.54    1.55    1.66    2.93    7845
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# See the summary of values produced using the pedo-transfer }
+\CommentTok{# function with one of the proposed methods.}
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)], }
+                   \DataTypeTok{method=}\StringTok{"Honeyset_Ratkowsky1989"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##  0.2019  1.1599  1.3498  1.2974  1.4981  1.7730     729
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Fill NA's using the pedo-transfer function:}
+\NormalTok{dat}\OperatorTok{$}\NormalTok{BLD[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)] <-}\StringTok{ }\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)], }
+                                      \DataTypeTok{method=}\StringTok{"Grigal1989"}\NormalTok{)}
+
+\CommentTok{# explore the results}
+\KeywordTok{hist}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD, }\DataTypeTok{col =} \StringTok{'light gray'}\NormalTok{, }\DataTypeTok{breaks =} \DecValTok{32}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-10-1.pdf}
+\caption{\label{fig:unnamed-chunk-10}Histogram of bulk density values}
+\end{figure}
+
+\hypertarget{soil-carbon-analysis}{%
+\subsection{Soil Carbon Analysis}\label{soil-carbon-analysis}}
+
+\cite{rosell2001soil} have closely reviewed the different SOC and SOM
+estimation procedures, and have also drawn some conclusions about the
+sources of errors. Determination of SOC from dry combustion methods is
+least susceptible to errors.
+
+\begin{itemize}
+\item
+  \textbf{Dry combustion by Loss on Ignition (LOI)}: SOC is
+  re-calculated applying a conversion factor. It is commonly assumed,
+  that organic matter contains an average of \(58\%\) organic carbon
+  (so-called Van Bemmelen factor \(1.724\); for non-organic horizons:
+  \(SOC = SOM / 1.724\)). For organic horizons, conversion factor ranges
+  from \(1.9\) to \(2.5\) \citep{nelson1982total}. The inorganic carbon
+  is not resolved, since typically, temperatures between 400°C and 550°C
+  are used.
+\item
+  \textbf{Wet oxidation}: Since wet oxidation is applied without
+  additional (external) heating, low temperatures of around 120°C
+  (internal heat) are typical. Thus, the oxidation of carbon is
+  incomplete, and a so-called oxidation factor needs to be applied. With
+  external heating, the C-recovery of the method becomes improved, up to
+  complete recovery. No correction of the mineral carbon is needed. Wet
+  oxidation should typically only be applied to samples with \(<5\%\)
+  organic matter.
+\end{itemize}
+
+Usually, an average of \(76\%\) organic carbon is recovered, leading to
+a standard oxidation factor or \(1.33\) \citep{lettens2005soil}.
+
+\hypertarget{carbonates}{%
+\subsection{Carbonates}\label{carbonates}}
+
+In case the total organic carbon is determined with temperatures higher
+than 600°C to 800°C, the proportion of mineral soil in \(CaCO_3\) has to
+be subtracted in order to derive the amount of organic carbon (inorganic
+carbon is also oxidized). The pH value gives the first indication
+whether the sample has to be analyzed for inorganic carbon or not.
+
+It is crucial to report in the metadata whether national SOC values
+refer to total C or if the inorganic component has been considered.
+
+\hypertarget{depth}{%
+\subsection{Depth}\label{depth}}
+
+The standard depth for GSOCmap is \textbf{0 to 30 cm}. Subdivisions are
+possible depending on the available data, by genetic horizons or depth
+classes. The following depths are additionally considered for GSOCmap
+(optional): * Forest floor: thickness (cm) subdivision in horizons
+depending on national soil inventory method (e.g.~L, F, H) * Peat:
+\textgreater{}30 , \textless{}100 depending on national data
+
+\hypertarget{completeness-of-depth-estimate}{%
+\section{Completeness of Depth
+Estimate}\label{completeness-of-depth-estimate}}
+
+Soil properties are commonly collected from field inventories (see Table
+2.2) or from sampling and analyzing horizons and/or fixed depths. Since
+a fixed target depth of 30 cm is required for GSOC (other depth classes
+will be recommended in the future, following the \emph{GSP Guidelines
+for Sharing National Data/Information to Compile a Global Soil Organic
+Carbon (GSOC) Map}, data holders are confronted with the following
+options:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Option 1}: Soil sampling has already considered this depth,
+  data can be directly used for upscaling (see chapter
+  \ref{mappingMethods}).
+\item
+  \textbf{Option 2}: Horizons or layers/depth classes are sampled but
+  aggregation is needed over the 0 to 30 cm.
+\item
+  \textbf{Option 3}: The target depth (0 to 30 cm) was not completely
+  covered by sampling, e.g.~only the A horizon or a topsoil layer
+  (e.g.~0 to 20 cm) has been sampled.
+\end{itemize}
+
+For both \textbf{Options 2} and \textbf{3}, the transformation is
+needed, using e.g.~equal-area splines. In the case of \textbf{Option 2},
+the use of equal-area splines was first proposed by
+\cite{ponce1986improved}, and later tested against real data
+\citep{bishop1999modelling}. This technique is based on fitting
+continuous depth functions for modeling the variability of soil
+properties with depth. Thus, it is possible to convert soil profiles to
+standard depths, but also to fill gaps. The equal-area spline function
+consists of a series of local quadratic polynomials that join at
+so-called knots, located at the horizon boundaries, whereby the mean
+value of each horizon is maintained by the spline fit. They are called
+equal-area splines because the area to the left of the fitted spline
+curve is equal to the area to the right of the curve. In case of
+\textbf{Option 3}, additional information on the vertical distribution
+of carbon in the soils is required for accurate recalculation from the
+sampling depth to target depth, e.g.~as was shown by
+\cite{bernoux1998modeling}.
+
+\hypertarget{EqualAreaSplines}{%
+\subsection{Technical Steps - Equal-Area Splines Using
+R}\label{EqualAreaSplines}}
+
+In \textbf{R} environment, the easiest way to apply equal-area splines
+is using the function \texttt{GSIF::mpspline} from the \textbf{R}
+package \textbf{GSIF} (\cite{hengl_2016_gsif}, see section
+\ref{SoilPedometrics}). For illustration, a sample dataset has been used
+(see chapter \ref{covariates}). This function requires data stored as
+\texttt{SoilProfileCollection} (SPC) using package \textbf{aqp}.
+Nevertheless, data in any local soil database or in tables like the ones
+proposed before (Tables @ref(tab:example table for site-level),
+@ref(tab:example table for horizon-level)) can be transformed to an SPC.
+
+The function \texttt{GSIF::mpspline} has several arguments. One of the
+arguments is the lambda value mentioned before. The proposed default
+value is 0.1. Another argument for this function is the target standard
+depths. The function produces spline-estimated values at these depths.
+However, this function also produces spline-estimated values at 1 cm
+increments.
+
+The following technical steps require \textbf{R} and the named packages.
+
+\hypertarget{promote-table-dat-to-soilprofilecollection}{%
+\subsubsection{\texorpdfstring{Promote table \texttt{dat} to
+\texttt{SoilProfileCollection}}{Promote table dat to SoilProfileCollection}}\label{promote-table-dat-to-soilprofilecollection}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Load aqp package}
+\KeywordTok{library}\NormalTok{(aqp)}
+
+\CommentTok{# Promote to SoilProfileCollection }
+\CommentTok{# The SoilProfileCollection is a object class in R designed to }
+\CommentTok{# handle soil profiles}
+\KeywordTok{depths}\NormalTok{(dat) <-}\StringTok{ }\NormalTok{ProfID }\OperatorTok{~}\StringTok{ }\NormalTok{top }\OperatorTok{+}\StringTok{ }\NormalTok{bottom}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: converting IDs from factor to character
+\end{verbatim}
+
+\hypertarget{add-site-level-data-and-coordinates}{%
+\subsubsection{Add site-level data and
+coordinates}\label{add-site-level-data-and-coordinates}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Merge the soil horizons information with the site-level }
+\CommentTok{# information from dat_sites}
+\KeywordTok{site}\NormalTok{(dat) <-}\StringTok{ }\NormalTok{dat_sites}
+
+\CommentTok{# Set spatial coordinates}
+\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
+
+\CommentTok{# A summary of our SoilProfileCollection}
+\NormalTok{dat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Object of class SoilProfileCollection
+## Number of profiles: 4118
+## Depth range: 5-295 cm
+## 
+## Horizon attributes:
+##   ProfID    HorID top bottom SOC BLD CRF SAND SILT CLAY
+## 1  P0000 P0000H01   4     23  NA  NA  54   52   34   14
+## 2  P0000 P0000H02  23     46  NA  NA  62   59   31   11
+## 3  P0000 P0000H03  46     59  NA  NA  47   67   24    8
+## 4  P0001 P0001H01   2     11  NA  NA  66   45   39   16
+## 5  P0001 P0001H02  11     31  NA  NA  70   40   31   28
+## 6  P0002 P0002H01   0     22  NA  NA  57   52   33   15
+## 
+## Sampling site attributes:
+##   ProfID X.1                                 soiltype Land.Cover
+## 1  P0000   1                                 Cambisol         25
+## 2  P0001   2                                 Cambisol         24
+## 3  P0002   3                                 Cambisol         25
+## 4  P0003   4                        Rendzic Leptosols         26
+## 5  P0004   5                        Rendzic Leptosols         26
+## 6  P0005   6 Complex of Rendzic Leptosol and Leptosol         27
+## 
+## Spatial Data:
+##        min      max
+## X 20.46434 23.01039
+## Y 40.68543 42.35932
+## [1] NA
+\end{verbatim}
+
+\hypertarget{run-mass-preserving-splines-for-all-the-needed-properties}{%
+\subsubsection{Run mass preserving splines for all the needed
+properties}\label{run-mass-preserving-splines-for-all-the-needed-properties}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(GSIF)}
+
+\NormalTok{## Estimate 0-30 standard horizon usin mass preserving splines}
+\KeywordTok{try}\NormalTok{(SOC <-}\StringTok{ }\KeywordTok{mpspline}\NormalTok{(dat, }\StringTok{'SOC'}\NormalTok{, }\DataTypeTok{d =} \KeywordTok{t}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{30}\NormalTok{))))}
+\KeywordTok{try}\NormalTok{(BLD <-}\StringTok{ }\KeywordTok{mpspline}\NormalTok{(dat, }\StringTok{'BLD'}\NormalTok{, }\DataTypeTok{d =} \KeywordTok{t}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{30}\NormalTok{))))}
+\KeywordTok{try}\NormalTok{(CRFVOL <-}\StringTok{ }\KeywordTok{mpspline}\NormalTok{(dat, }\StringTok{'CRF'}\NormalTok{, }\DataTypeTok{d =} \KeywordTok{t}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{30}\NormalTok{))))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{convert-back-to-table}{%
+\subsubsection{Convert back to table}\label{convert-back-to-table}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Prepare final data frame}
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{id =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{site}\OperatorTok{$}\NormalTok{ProfID,}
+                  \DataTypeTok{Y =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{sp}\OperatorTok{@}\NormalTok{coords[,}\DecValTok{2}\NormalTok{],}
+                  \DataTypeTok{X =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{sp}\OperatorTok{@}\NormalTok{coords[,}\DecValTok{1}\NormalTok{],}
+                  \DataTypeTok{SOC =}\NormalTok{ SOC}\OperatorTok{$}\NormalTok{var.std[,}\DecValTok{1}\NormalTok{],}
+                  \DataTypeTok{BLD =}\NormalTok{ BLD}\OperatorTok{$}\NormalTok{var.std[,}\DecValTok{1}\NormalTok{],}
+                  \DataTypeTok{CRFVOL =}\NormalTok{ CRFVOL}\OperatorTok{$}\NormalTok{var.std[,}\DecValTok{1}\NormalTok{])}
+
+\NormalTok{dat <-}\StringTok{ }\NormalTok{dat[}\KeywordTok{complete.cases}\NormalTok{(dat),]}
+
+\NormalTok{## Take a look at the results}
+\KeywordTok{head}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       id        Y        X       SOC       BLD    CRFVOL
+## 4  P0003 42.02828 20.81819 26.380000 0.7304483  8.000000
+## 5  P0004 42.02747 20.81464 24.561667 0.8955320  6.305316
+## 7  P0006 42.02885 20.82757 19.940000 0.7886235 14.000000
+## 8  P0007 42.02279 20.83165  6.149114 1.1653355 18.633590
+## 9  P0008 42.05014 20.82036  3.940352 1.2962582 31.875748
+## 10 P0009 42.02047 20.93529  3.258545 1.3446297 21.714059
+\end{verbatim}
+
+\hypertarget{estimate-the-soil-organic-carbon-stock-using-the-virtual-horizons}{%
+\subsubsection{Estimate the soil organic carbon stock using the virtual
+horizons}\label{estimate-the-soil-organic-carbon-stock-using-the-virtual-horizons}}
+
+Finally, the estimation of the soil organic carbon stock (OKS) can be
+done using the \textbf{GSIF} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(GSIF)}
+\CommentTok{# Estimate Organic Carbon Stock}
+\CommentTok{# SOC must be in g/kg}
+\CommentTok{# BLD in kg/m3}
+\CommentTok{# CRF in percentage}
+\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{OCSKGM}\NormalTok{(}\DataTypeTok{ORCDRC =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{BLD =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{BLD}\OperatorTok{*}\DecValTok{1000}\NormalTok{, }
+                 \DataTypeTok{CRFVOL =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{CRFVOL, }\DataTypeTok{HSIZE =} \DecValTok{30}\NormalTok{)}
+
+\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM <-}\StringTok{ }\NormalTok{OCSKGM}
+\NormalTok{dat}\OperatorTok{$}\NormalTok{meaERROR <-}\StringTok{ }\KeywordTok{attr}\NormalTok{(OCSKGM,}\StringTok{"measurementError"}\NormalTok{)}
+\NormalTok{dat <-}\StringTok{ }\NormalTok{dat[dat}\OperatorTok{$}\NormalTok{OCSKGM}\OperatorTok{>}\DecValTok{0}\NormalTok{,]}
+\KeywordTok{summary}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        id             Y               X              SOC        
+##  P0003  :   1   Min.   :40.69   Min.   :20.46   Min.   : 0.080  
+##  P0004  :   1   1st Qu.:41.19   1st Qu.:21.35   1st Qu.: 1.750  
+##  P0006  :   1   Median :41.42   Median :21.49   Median : 2.603  
+##  P0007  :   1   Mean   :41.49   Mean   :21.66   Mean   : 3.539  
+##  P0008  :   1   3rd Qu.:41.83   3rd Qu.:22.14   3rd Qu.: 4.089  
+##  P0009  :   1   Max.   :42.36   Max.   :23.01   Max.   :86.510  
+##  (Other):3880                                                   
+##       BLD              CRFVOL             OCSKGM      
+##  Min.   :0.05353   Min.   : 0.00000   Min.   :0.0111  
+##  1st Qu.:1.28089   1st Qu.: 0.00516   1st Qu.:0.6951  
+##  Median :1.39549   Median : 5.01397   Median :0.9866  
+##  Mean   :1.38073   Mean   :11.02257   Mean   :1.1399  
+##  3rd Qu.:1.47612   3rd Qu.:17.69065   3rd Qu.:1.3997  
+##  Max.   :2.92191   Max.   :93.95013   Max.   :7.4302  
+##                                                       
+##     meaERROR    
+##  Min.   :0.172  
+##  1st Qu.:3.160  
+##  Median :3.840  
+##  Mean   :3.715  
+##  3rd Qu.:4.260  
+##  Max.   :8.770  
+## 
+\end{verbatim}
+
+Soil organic carbon tends to have a log-normal distribution with a
+right-skew, and transforming the original values to its natural
+logarithm would generate a normal distribution of soil organic carbon
+values. Here we will test if the log transformation of the response
+variable (\emph{SOC}) tends to normality and 2) if this transformation
+increases the simple correlation of \emph{SOC} and its prediction
+factors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Generate a new column with the transformed OCSKGM to its natural }
+\CommentTok{# logarithm}
+\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGMlog <-}\StringTok{ }\KeywordTok{log}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM)}
+
+\NormalTok{## plot the next two plots as one}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM),}
+     \DataTypeTok{main=}\StringTok{'original values'}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGMlog),}
+     \DataTypeTok{main=}\StringTok{'log transformed values'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-14-1.pdf}
+\caption{\label{fig:unnamed-chunk-14}Statistical distribution of original
+OCS values vs log-transformed values}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+
+\NormalTok{## We can save our processed data as a table}
+\KeywordTok{write.csv}\NormalTok{(dat, }\StringTok{"data/dataproc.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{covariates}{%
 \chapter{Preparation of Spatial covariates}\label{covariates}}
@@ -3064,23 +3097,29 @@ virtually never be confirmed; fortunately, multiple regression
 procedures are not greatly affected by minor deviations from this
 assumption. If curvature in the relationships is evident, one may
 consider either transforming the variables or explicitly allowing for
-nonlinear components. \emph{Normality Assumption}: It is assumed in
-multiple regression that the residuals (predicted minus observed values)
-are distributed normally (i.e., follow the normal distribution). Again,
-even though most tests (specifically the F-test) are quite robust with
-regard to violations of this assumption, it is always a good idea,
-before drawing final conclusions, to review the distributions of the
-major variables of interest. You can produce histograms of the residuals
-as well as normal probability plots, in order to inspect the
-distribution of the residual values. \emph{Collinearity}: There is not
-perfect collinearity in any combination of the X's. A higher degree of
-collinearity, or overlap, among independent variables, can cause
-problems in multiple linear regression models. Collinearity (also
-multicollinearity) is a phenomenon in which two or more predictors in a
-multiple regression models are highly correlated. Collinearity causes
-increase in variances and relatedly increases inaccuracy.
+nonlinear components.\textbackslash{}
+
+\emph{Normality Assumption}: It is assumed in multiple regression that
+the residuals (predicted minus observed values) are distributed normally
+(i.e., follow the normal distribution). Again, even though most tests
+(specifically the F-test) are quite robust with regard to violations of
+this assumption, it is always a good idea, before drawing final
+conclusions, to review the distributions of the major variables of
+interest. You can produce histograms of the residuals as well as normal
+probability plots, in order to inspect the distribution of the residual
+values.\textbackslash{}
+
+\emph{Collinearity}: There is not perfect collinearity in any
+combination of the X's. A higher degree of collinearity, or overlap,
+among independent variables, can cause problems in multiple linear
+regression models. Collinearity (also multicollinearity) is a phenomenon
+in which two or more predictors in a multiple regression models are
+highly correlated. Collinearity causes increase in variances and
+relatedly increases inaccuracy.\textbackslash{}
+
 \emph{Distribution of the Errors}: The error term is normally
-distributed with a mean of zero and constant variance.
+distributed with a mean of zero and constant variance.\textbackslash{}
+
 \emph{Homoscedasticity}: The variance of the error term is constant for
 all combinations of X's. The term homoscedasticity means ``same
 scatter.'' Its antonym is heteroscedasticity (``different scatter'').
@@ -3344,11 +3383,11 @@ ready, copy this table into your working directory as a .csv file.
 
 In the Chapter \ref{covariates}, we presented and prepared several
 global and continental datasets. In addition to these datasets, numerous
-covariate layers have been prepared by ISRIC for the GSOC Map project.
+covariate layers have been prepared by ISRIC for the GSOCmap project.
 These are GIS raster layers of various biophysical earth surface
 properties for each country in the world. Some of these layers will be
 used as predictors in this section. Please download the covariates for
-your own study area from GSOCMap Data Repository as explained in section
+your own study area from GSOCmap Data Repository as explained in section
 \ref{GSOCDataRepo}.
 
 In section \ref{overlay-soil-covariates}, a table with the points values
@@ -3470,7 +3509,7 @@ Now, we will define our CRS:
 Now we will import the covariates. When the covariate layers are in
 common resolution and extent, rather than working with individual
 rasters it is better to stack them all into a single R object. In this
-example, we use 13 covariates from the GSOCMap Data Repository and a
+example, we use 13 covariates from the GSOCmap Data Repository and a
 rasterized version of the soil type map. The rasterization of vectorial
 data was covered in
 \protect\hyperlink{technical-steps---rasterizing-a-vector-layer-in-r}{Technical
@@ -4202,11 +4241,11 @@ ready, copy this table into your working directory as a .csv file.
 
 In the Chapter \ref{covariates}, we presented and prepared several
 global and continental data sets. In addition to these datasets,
-numerous covariate layers have been prepared by ISRIC for the GSOC Map
+numerous covariate layers have been prepared by ISRIC for the GSOCmap
 project. These are GIS raster layers of various biophysical earth
 surface properties for each country in the world. Some of these layers
 will be used as predictors in this section. Please download the
-covariates for your own study area from GSOCMap Data Repository as
+covariates for your own study area from GSOCmap Data Repository as
 explained in Section \ref{GSOCDataRepo}.
 
 In section \ref{overlay-soil-covariates}, a table with the points values
@@ -4328,7 +4367,7 @@ Now, we will define our CRS:
 Now we will import the covariates. When the covariate layers are in
 common resolution and extent, rather than working with individual
 rasters it is better to stack them all into a single R object. In this
-example, we use 13 covariates from the GSOCMap Data Repository and a
+example, we use 13 covariates from the GSOCmap Data Repository and a
 rasterized version of the soil type map. The rasterization of vectorial
 data was covered in
 \protect\hyperlink{technical-steps---rasterizing-a-vector-layer-in-r}{Technical
@@ -4556,18 +4595,11 @@ will repeat n times (10 in this example) the model and the prediction
 using each time a different random combination of data for training and
 testing the models. As larger the sample and the number of realizations
 the more robust our validation strategy. For this example, we will use
-only 10 realizations and random splits of 25\% of available data. The
-validation plot shows the regression line between observed and predicted
-of a model that uses 75\% (black line) and the regression lines of 10
-model realizations, each with a different random combination of data for
-training and validating the models. The rmse and the explained variance
-of the models is stored in the object validation (type
-\texttt{summary(validation)}). The standard deviation of all the ten
-predictions allows generating a map of model sensitivity to available
-data.
+only 10 realizations and random splits of 25\% of available data.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Metrics)}
 \CommentTok{#Generate an empty dataframe}
 \NormalTok{validation <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{rmse=}\KeywordTok{numeric}\NormalTok{(), }\DataTypeTok{r2=}\KeywordTok{numeric}\NormalTok{())}
 \CommentTok{#Sensitivity to the dataset}
@@ -4578,15 +4610,21 @@ data.
 \NormalTok{  train_ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{seq_len}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(dat)), }\DataTypeTok{size =}\NormalTok{ smp_size)}
 \NormalTok{  train <-}\StringTok{ }\NormalTok{dat[train_ind, ]}
 \NormalTok{  test <-}\StringTok{ }\NormalTok{dat[}\OperatorTok{-}\NormalTok{train_ind, ]}
-\NormalTok{  modn <-}\StringTok{ }\KeywordTok{train}\NormalTok{(fm, }\DataTypeTok{data=}\NormalTok{train, }\DataTypeTok{method =} \StringTok{"rf"}\NormalTok{, }\DataTypeTok{trControl =}\NormalTok{ ctrl)}
-\NormalTok{  pred <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(pred, }\KeywordTok{predict}\NormalTok{(covariates, modn))}
-\NormalTok{  test}\OperatorTok{$}\NormalTok{pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(modn[}\DecValTok{11}\NormalTok{][[}\DecValTok{1}\NormalTok{]], test)}
+\NormalTok{  modn <-}\StringTok{ }\KeywordTok{train}\NormalTok{(fm, }\DataTypeTok{data=}\NormalTok{train}\OperatorTok{@}\NormalTok{data, }\DataTypeTok{method =} \StringTok{"rf"}\NormalTok{, }
+                \DataTypeTok{trControl =}\NormalTok{ ctrl)}
+\NormalTok{  pred <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(pred, }\KeywordTok{predict}\NormalTok{(covs, modn))}
+\NormalTok{  test}\OperatorTok{$}\NormalTok{pred <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(pred[[i}\OperatorTok{+}\DecValTok{1}\NormalTok{]], test)}
   \CommentTok{# Store the results in a dataframe}
 \NormalTok{  validation[i, }\DecValTok{1}\NormalTok{] <-}\StringTok{ }\KeywordTok{rmse}\NormalTok{(test}\OperatorTok{$}\NormalTok{OCSKGMlog, test}\OperatorTok{$}\NormalTok{pred)}
 \NormalTok{  validation[i, }\DecValTok{2}\NormalTok{] <-}\StringTok{ }\KeywordTok{cor}\NormalTok{(test}\OperatorTok{$}\NormalTok{OCSKGMlog, test}\OperatorTok{$}\NormalTok{pred)}\OperatorTok{^}\DecValTok{2}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
+
+The validation plot shows the regression line between observed and
+predicted of a model that uses 75\% (black line) and the regression
+lines of 10 model realizations, each with a different random combination
+of data for training and validating the models.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4598,6 +4636,18 @@ data.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-63-1.pdf}
+\caption{\label{fig:unnamed-chunk-63}Sensitivity based on 10 realizations
+using 25\% samples}
+\end{figure}
+
+The rmse and the explained variance of the models is stored in the
+object validation (type \texttt{summary(validation)}). The standard
+deviation of all the ten predictions allows generating a map of model
+sensitivity to available data.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{#Sensitivity of validation metrics}
@@ -4605,16 +4655,15 @@ data.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Plot of the map based on 75% of data and the sensitivity to data }
-\CommentTok{# variations}
-\NormalTok{prediction75 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pred[[}\DecValTok{1}\NormalTok{]])}
-
-\KeywordTok{plot}\NormalTok{(prediction75, }\DataTypeTok{main=}\StringTok{'OCSKGM prediction based on 75% of data'}\NormalTok{, }
-     \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
-\end{Highlighting}
-\end{Shaded}
+\begin{verbatim}
+##       rmse              r2        
+##  Min.   :0.4745   Min.   :0.2150  
+##  1st Qu.:0.4771   1st Qu.:0.2296  
+##  Median :0.4796   Median :0.2338  
+##  Mean   :0.4806   Mean   :0.2359  
+##  3rd Qu.:0.4852   3rd Qu.:0.2405  
+##  Max.   :0.4884   Max.   :0.2571
+\end{verbatim}
 
 Finally, we will estimate the model uncertainty, represented by the full
 conditional distribution of the response variable (OCSKGMlog) as a
@@ -4629,12 +4678,14 @@ for digital soil mapping across large areas \citep{vaysse2017using}.
 \CommentTok{# parameter that was selected by the train function of the caret }
 \CommentTok{# package, assuming that the 75% of data previously used well }
 \CommentTok{# resembles the statistical distribution of the entire data }
-\CommentTok{# population. Otherwise, repeat the train function with all available }
-\CommentTok{# data (using the object dat that instead of train) to select mtry.}
+\CommentTok{# population. Otherwise, repeat the train function with all }
+\CommentTok{# available data (using the object dat that instead of train) }
+\CommentTok{# to select mtry.}
+\KeywordTok{library}\NormalTok{(quantregForest)}
 
-
-\NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat[,}\DecValTok{1}\OperatorTok{:}\DecValTok{13}\NormalTok{], }\DataTypeTok{ntree=}\DecValTok{500}\NormalTok{, }
-                   \DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(mod}\OperatorTok{$}\NormalTok{bestTune))                        }
+\NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data[,}\DecValTok{8}\OperatorTok{:}\DecValTok{20}\NormalTok{], }
+                        \DataTypeTok{ntree=}\DecValTok{500}\NormalTok{, }\DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }
+                        \DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(rfmodel}\OperatorTok{$}\NormalTok{bestTune))                        }
 \end{Highlighting}
 \end{Shaded}
 
@@ -4647,11 +4698,7 @@ distribution calculated for each pixel, which represents the extreme
 values that a prediction can take for a specific site (e.g., pixel)
 given available data and predictors. Note that this analysis is
 performed using all available data and a second map of OCSKGM is
-created. Our final prediction uses all available data, while the total
-uncertainty (in percent) is represented by the sum of the quantile
-regression forest standard deviation and the sensitivity map from the
-previous section. The total uncertainty is then divided by the
-prediction to obtain a percent map, which is easier to interpret.
+created.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4659,10 +4706,19 @@ prediction to obtain a percent map, which is easier to interpret.
 \CommentTok{# Estimate model uncertainty at the pixel level using parallel }
 \CommentTok{# computing}
 \KeywordTok{beginCluster}\NormalTok{() }\CommentTok{#define number of cores to use}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 16 cores detected, using 15
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{# Estimate model uncertainty}
-\NormalTok{unc <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict, }\DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model,}\DataTypeTok{what=}\NormalTok{sd))}
+\NormalTok{unc <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covs, predict, }\DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model,}\DataTypeTok{what=}\NormalTok{sd))}
 \CommentTok{# OCSKGMlog prediction based in all available data}
-\NormalTok{mean <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict, }
+\NormalTok{mean <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covs, predict, }
                  \DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model, }\DataTypeTok{what=}\NormalTok{mean))}
 \CommentTok{# The total uncertainty is the sum of sensitivity and model }
 \CommentTok{# uncertainty}
@@ -4673,20 +4729,36 @@ prediction to obtain a percent map, which is easier to interpret.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Plot both maps (the predicted OCSKGM + its associated uncertainty)}
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{main=}\StringTok{'OCSKGM based in all data'}\NormalTok{, }
-     \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
-\end{Highlighting}
-\end{Shaded}
+Our final prediction uses all available data, while the total
+uncertainty (in percent) is represented by the sum of the quantile
+regression forest standard deviation and the sensitivity map from the
+previous section. The total uncertainty is then divided by the
+prediction to obtain a percent map, which is easier to interpret.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{plot}\NormalTok{(Total_unc_Percent, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{heat.colors}\NormalTok{(}\DecValTok{100}\NormalTok{)), }\DataTypeTok{zlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }
-     \DataTypeTok{main=}\StringTok{'Total uncertainty'}\NormalTok{)}
+\CommentTok{# Plot both maps (the predicted OCSKGM + its associated uncertainty)}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{main=}\StringTok{'OCSKGM based in all data'}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-66-1.pdf}
+\caption{\label{fig:unnamed-chunk-66}OCSKGM quantregForest prediction}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Total_unc_Percent, }\DataTypeTok{zlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }\DataTypeTok{main=}\StringTok{'Total uncertainty'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-67-1.pdf}
+\caption{\label{fig:unnamed-chunk-67}Total uncertainty}
+\end{figure}
 
 Finally, the predicted OCSKGM and the total uncertainty can be saved in
 the working directory in a generic (*.tif) raster format.
@@ -4694,9 +4766,9 @@ the working directory in a generic (*.tif) raster format.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{#Save the resulting maps in separated *.tif files}
-\KeywordTok{writeRaster}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{file=}\StringTok{'rfOCSKGMprediction.tif'}\NormalTok{, }
+\KeywordTok{writeRaster}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{file=}\StringTok{'results/MKD_OCSKGM_quantrf.tif'}\NormalTok{, }
             \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
-\KeywordTok{writeRaster}\NormalTok{(Total_unc_Percent, }\DataTypeTok{file=}\StringTok{'rfOCSKGMtotalUncertPercent.tif'}\NormalTok{,}
+\KeywordTok{writeRaster}\NormalTok{(Total_unc_Percent, }\DataTypeTok{file=}\StringTok{'results/MKD_OCSKGM_rf_unc.tif'}\NormalTok{,}
             \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -4835,11 +4907,11 @@ this table into your working directory as a .csv file.
 
 In the Chapter \ref{covariates}, we presented and prepared several
 global and continental datasets. In addition to these datasets, numerous
-covariate layers have been prepared by ISRIC for the GSOC Map project.
+covariate layers have been prepared by ISRIC for the GSOCmap project.
 These are GIS raster layers of various biophysical earth surface
 properties for each country in the world. Some of these layers will be
 used as predictors in this section. Please download the covariates for
-your own study area from GSOCMap Data Repository as explained in Section
+your own study area from GSOCmap Data Repository as explained in Section
 \ref{GSOCDataRepo}.
 
 In section \ref{overlay-soil-covariates}, a table with the points values
@@ -4961,7 +5033,7 @@ Now, we will define our CRS:
 Now we will import the covariates. When the covariate layers are in
 common resolution and extent, rather than working with individual
 rasters it is better to stack them all into a single R object. In this
-example, we use 13 covariates from the GSOCMap Data Repository and a
+example, we use 13 covariates from the GSOCmap Data Repository and a
 rasterized version of the soil type map. The rasterization of vectorial
 data was covered in
 \protect\hyperlink{technical-steps---rasterizing-a-vector-layer-in-r}{Technical
@@ -5200,8 +5272,8 @@ darker, the RMSE is closer to zero.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-80-1.pdf}
-\caption{\label{fig:unnamed-chunk-80}Performance of the different svm models
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-78-1.pdf}
+\caption{\label{fig:unnamed-chunk-78}Performance of the different svm models
 in the parameter tuning procedure}
 \end{figure}
 
@@ -5261,8 +5333,8 @@ model}\label{predict-the-ocs-using-the-model}}
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-82-1.pdf}
-\caption{\label{fig:unnamed-chunk-82}SOC prediction using a support vector
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-80-1.pdf}
+\caption{\label{fig:unnamed-chunk-80}SOC prediction using a support vector
 machines model}
 \end{figure}
 
@@ -6260,7 +6332,7 @@ measures for quantitative soil maps.
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-87}Summary of map quality measures for 3 different mapping methods}
+\caption{\label{tab:unnamed-chunk-85}Summary of map quality measures for 3 different mapping methods}
 \centering
 \begin{tabular}[t]{lrrrrrrrrr}
 \toprule
@@ -6315,8 +6387,8 @@ to the results of chapter \ref{mappingMethods}.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-88-1.pdf}
-\caption{\label{fig:unnamed-chunk-88}Scatter plots of predicted against
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-86-1.pdf}
+\caption{\label{fig:unnamed-chunk-86}Scatter plots of predicted against
 observed values}
 \end{figure}
 
@@ -6335,7 +6407,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-89-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-89}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-87-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-87}
 \end{figure}
 
 \begin{Shaded}
@@ -6347,7 +6419,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-90-1} \caption{Spatial bubble of the prediction errors for rf}\label{fig:unnamed-chunk-90}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-88-1} \caption{Spatial bubble of the prediction errors for rf}\label{fig:unnamed-chunk-88}
 \end{figure}
 
 \begin{Shaded}
@@ -6359,7 +6431,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-91-1} \caption{Spatial bubble of the prediction errors for svm}\label{fig:unnamed-chunk-91}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-89-1} \caption{Spatial bubble of the prediction errors for svm}\label{fig:unnamed-chunk-89}
 \end{figure}
 
 \hypertarget{dataSplit}{%
@@ -6388,8 +6460,8 @@ the code needed to achieve this using \textbf{caret} package.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-93-1.pdf}
-\caption{\label{fig:unnamed-chunk-93}Statistical distribution of train and
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-91-1.pdf}
+\caption{\label{fig:unnamed-chunk-91}Statistical distribution of train and
 test datasets}
 \end{figure}
 
@@ -6464,7 +6536,7 @@ three different methods (RK, RF, SVM).
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics[width=0.7\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-95-1}
+\includegraphics[width=0.7\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-93-1}
 Here we found that the higher correlation between predicted values was
 between RK and SVM (0.86). We also found that the statistical
 distribution of predicted values is quite similar between the three
@@ -6481,7 +6553,7 @@ the full data distribution of values.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-96-1.pdf}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-94-1.pdf}
 Lets now take a look at the spatial differences. This step will allow to
 identify the geographical areas within the prediction domain where model
 predictions more agreee and disagree. To spatially compare model
@@ -6508,17 +6580,19 @@ three models (RK vs RF, RK vs SVM, RF vs SVM).
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(raster)}
 \NormalTok{RKRF  <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]], diff)}
 \NormalTok{RKSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)]], diff)}
 \NormalTok{RFSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]], diff)}
+
 \NormalTok{preds <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(RKRF, RKSVM, RFSVM)}
 \KeywordTok{names}\NormalTok{(preds) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'RKvsRF'}\NormalTok{,}\StringTok{'RKvsSVM'}\NormalTok{,}\StringTok{'RFvsSVM'}\NormalTok{)}
-\NormalTok{X <-}\StringTok{ }\KeywordTok{cellStats}\NormalTok{(preds, mean)}
+
+\NormalTok{X <-}\StringTok{ }\NormalTok{raster}\OperatorTok{::}\KeywordTok{cellStats}\NormalTok{(preds, mean)}
 \KeywordTok{levelplot}\NormalTok{(preds }\OperatorTok{-}\StringTok{ }\NormalTok{X, }\DataTypeTok{at=}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{length.out=}\DecValTok{10}\NormalTok{), }\DataTypeTok{par.settings =}\NormalTok{ RdBuTheme)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-98-1.pdf}
 Note how the spatial differences of the predicted SOC values have
 similar patterns, but the difference between RK and RF semms to be less
 sharp than the differences of SVM with the other two methods. Note that
@@ -8203,13 +8277,13 @@ Chapter \ref{preparation}, by GF Olmedo \& R Baritz.
 \CommentTok{# summary of BLD (bulk density) in the example data base}
 \KeywordTok{summary}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)}
 
-\CommentTok{# See the summary of values produced using the pedo-transfer }
+\CommentTok{# See the summary of values produced using the pedo-transfer}
 \CommentTok{# function with one of the proposed methods.}
 \KeywordTok{summary}\NormalTok{(}\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)], m}
                    \DataTypeTok{ethod=}\StringTok{"Honeyset_Ratkowsky1989"}\NormalTok{))}
 
 \CommentTok{# Fill NA's using the pedotransfer function:}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{BLD[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)] <-}\StringTok{ }\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)], }
+\NormalTok{dat}\OperatorTok{$}\NormalTok{BLD[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)] <-}\StringTok{ }\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC[}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{BLD)],}
                                       \DataTypeTok{method=}\StringTok{"Grigal1989"}\NormalTok{)}
 
 \CommentTok{# explore the results}
@@ -8218,12 +8292,12 @@ Chapter \ref{preparation}, by GF Olmedo \& R Baritz.
 \CommentTok{# Load aqp package}
 \KeywordTok{library}\NormalTok{(aqp)}
 
-\CommentTok{# Promote to SoilProfileCollection }
-\CommentTok{# The SoilProfileCollection is a object class in R designed to }
+\CommentTok{# Promote to SoilProfileCollection}
+\CommentTok{# The SoilProfileCollection is a object class in R designed to}
 \CommentTok{# handle soil profiles}
 \KeywordTok{depths}\NormalTok{(dat) <-}\StringTok{ }\NormalTok{ProfID }\OperatorTok{~}\StringTok{ }\NormalTok{top }\OperatorTok{+}\StringTok{ }\NormalTok{bottom}
 
-\CommentTok{# Merge the soil horizons information with the site-level }
+\CommentTok{# Merge the soil horizons information with the site-level}
 \CommentTok{# information from dat_sites}
 \KeywordTok{site}\NormalTok{(dat) <-}\StringTok{ }\NormalTok{dat_sites}
 
@@ -8257,7 +8331,7 @@ Chapter \ref{preparation}, by GF Olmedo \& R Baritz.
 \CommentTok{# SOC must be in g/kg}
 \CommentTok{# BLD in kg/m3}
 \CommentTok{# CRF in percentage}
-\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{OCSKGM}\NormalTok{(}\DataTypeTok{ORCDRC =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{BLD =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{BLD}\OperatorTok{*}\DecValTok{1000}\NormalTok{, }
+\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{OCSKGM}\NormalTok{(}\DataTypeTok{ORCDRC =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{BLD =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{BLD}\OperatorTok{*}\DecValTok{1000}\NormalTok{,}
                  \DataTypeTok{CRFVOL =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{CRFVOL, }\DataTypeTok{HSIZE =} \DecValTok{30}\NormalTok{)}
 
 \NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM <-}\StringTok{ }\NormalTok{OCSKGM}
@@ -8300,7 +8374,7 @@ Chapter \ref{preparation}, by GF Olmedo \& R Baritz.
   \KeywordTok{return}\NormalTok{(BD)}
 \NormalTok{\}}
 
-\CommentTok{# See the summary of values produced using the pedo-transfer }
+\CommentTok{# See the summary of values produced using the pedo-transfer}
 \CommentTok{# function with one of the proposed methods.}
 \KeywordTok{summary}\NormalTok{(}\KeywordTok{estimateBD}\NormalTok{(dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{method=}\StringTok{"Honeyset_Ratkowsky1989"}\NormalTok{))}
 
@@ -8316,11 +8390,12 @@ Chapter \ref{preparation}, by GF Olmedo \& R Baritz.
 \NormalTok{## Take a look to the results}
 \KeywordTok{head}\NormalTok{(dat)}
 
+\KeywordTok{library}\NormalTok{(GSIF)}
 \CommentTok{# Estimate Organic Carbon Stock}
 \CommentTok{# SOC must be in g/kg}
 \CommentTok{# BLD in kg/m3}
 \CommentTok{# CRF in percentage}
-\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{OCSKGM}\NormalTok{(}\DataTypeTok{ORCDRC =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{BLD =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{BLD}\OperatorTok{*}\DecValTok{1000}\NormalTok{, }\DataTypeTok{CRFVOL =} \DecValTok{0}\NormalTok{, }
+\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{OCSKGM}\NormalTok{(}\DataTypeTok{ORCDRC =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{SOC, }\DataTypeTok{BLD =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{BLD}\OperatorTok{*}\DecValTok{1000}\NormalTok{, }\DataTypeTok{CRFVOL =} \DecValTok{0}\NormalTok{,}
                  \DataTypeTok{HSIZE =} \DecValTok{30}\NormalTok{)}
 
 \NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM <-}\StringTok{ }\NormalTok{OCSKGM}
@@ -8338,6 +8413,24 @@ Chapter \ref{preparation}, by GF Olmedo \& R Baritz.
 \hypertarget{cd:merging}{%
 \section{Merging Top Soil and Soil Profiles
 Databases}\label{cd:merging}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{profiles <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dataproc_profiles.csv"}\NormalTok{)}
+\NormalTok{topsoils <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dataproc.csv"}\NormalTok{)}
+
+\NormalTok{topsoils <-}\StringTok{ }\NormalTok{topsoils[, }\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{, }\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"OC_percent"}\NormalTok{, }\StringTok{"BLD"}\NormalTok{,}
+                         \StringTok{"OCSKGM"}\NormalTok{, }\StringTok{"meaERROR"}\NormalTok{)]}
+
+\NormalTok{profiles <-}\StringTok{ }\NormalTok{profiles[, }\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{, }\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"SOC"}\NormalTok{, }\StringTok{"BLD"}\NormalTok{,}
+                         \StringTok{"OCSKGM"}\NormalTok{, }\StringTok{"meaERROR"}\NormalTok{)]}
+
+\KeywordTok{names}\NormalTok{(profiles) <-}\StringTok{ }\KeywordTok{names}\NormalTok{(topsoils)}
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(topsoils, profiles)}
+
+\KeywordTok{write.csv}\NormalTok{(dat, }\StringTok{"data/dataproc_all.csv"}\NormalTok{, }\DataTypeTok{row.names =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
 
 \clearpage
 
@@ -8359,10 +8452,10 @@ code contributions from GF Olmedo.
 \NormalTok{test  <-}\StringTok{ }\NormalTok{dat[}\OperatorTok{-}\NormalTok{train.ind,]}
 
 \KeywordTok{plot}\NormalTok{(}\KeywordTok{density}\NormalTok{ (}\KeywordTok{log}\NormalTok{(train}\OperatorTok{$}\NormalTok{OCSKGM)), }\DataTypeTok{col=}\StringTok{'red'}\NormalTok{,}
-    \DataTypeTok{main=}\StringTok{'Statistical distribution of train and test datasets'}\NormalTok{)}
+     \DataTypeTok{main=}\StringTok{'Statistical distribution of train and test datasets'}\NormalTok{)}
 \KeywordTok{lines}\NormalTok{(}\KeywordTok{density}\NormalTok{(}\KeywordTok{log}\NormalTok{(test}\OperatorTok{$}\NormalTok{OCSKGM)), }\DataTypeTok{col=}\StringTok{'blue'}\NormalTok{)}
 \KeywordTok{legend}\NormalTok{(}\StringTok{'topright'}\NormalTok{, }\DataTypeTok{legend=}\KeywordTok{c}\NormalTok{(}\StringTok{"train"}\NormalTok{, }\StringTok{"test"}\NormalTok{),}
-      \DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{1}\NormalTok{, }\DataTypeTok{cex=}\FloatTok{1.5}\NormalTok{)}
+       \DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{1}\NormalTok{, }\DataTypeTok{cex=}\FloatTok{1.5}\NormalTok{)}
 
 \KeywordTok{write.csv}\NormalTok{(train, }\DataTypeTok{file=}\StringTok{"data/dat_train.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
 \KeywordTok{write.csv}\NormalTok{(test, }\DataTypeTok{file=}\StringTok{"data/dat_test.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
@@ -8386,13 +8479,13 @@ Chapter \ref{covariates}, by R Baritz \& Y Yigini.
 \CommentTok{#save the levels names in a character vector}
 \NormalTok{Symbol.levels <-}\StringTok{ }\KeywordTok{levels}\NormalTok{(soilmap}\OperatorTok{$}\NormalTok{Symbol)}
 
-\CommentTok{# The rasterization process needs a layer with the target grd }
+\CommentTok{# The rasterization process needs a layer with the target grd}
 \CommentTok{# system: spatial extent and cell size.}
 \NormalTok{soilmap.r <-}\StringTok{ }\KeywordTok{rasterize}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ soilmap, }\DataTypeTok{y =}\NormalTok{ DEM, }\DataTypeTok{field =} \StringTok{"Symbol"}\NormalTok{)}
 \CommentTok{# The DEM raster layer could be used for this.}
 
 \KeywordTok{plot}\NormalTok{(soilmap.r, }\DataTypeTok{col=}\KeywordTok{rainbow}\NormalTok{(}\DecValTok{21}\NormalTok{))}
-\KeywordTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{,}\DataTypeTok{legend =}\NormalTok{ Symbol.levels, }\DataTypeTok{fill=}\KeywordTok{rainbow}\NormalTok{(}\DecValTok{21}\NormalTok{), }
+\KeywordTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{,}\DataTypeTok{legend =}\NormalTok{ Symbol.levels, }\DataTypeTok{fill=}\KeywordTok{rainbow}\NormalTok{(}\DecValTok{21}\NormalTok{),}
        \DataTypeTok{cex=}\FloatTok{0.5}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -8407,11 +8500,11 @@ Chapter \ref{covariates}, by R Baritz \& Y Yigini.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Load the processed data. This table was prepared in the previous }
+\CommentTok{# Load the processed data. This table was prepared in the previous}
 \CommentTok{# chapter.}
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dataproc.csv"}\NormalTok{)}
 
-\NormalTok{files <-}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path =} \StringTok{"covs"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"tif$"}\NormalTok{, }
+\NormalTok{files <-}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path =} \StringTok{"covs"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"tif$"}\NormalTok{,}
                     \DataTypeTok{full.names =} \OtherTok{TRUE}\NormalTok{)}
 
 \NormalTok{covs <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(files)}
@@ -8426,7 +8519,7 @@ Chapter \ref{covariates}, by R Baritz \& Y Yigini.
 
 \NormalTok{covs <-}\StringTok{ }\KeywordTok{mask}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ covs, }\DataTypeTok{mask =}\NormalTok{ mask)}
 
-\CommentTok{# export all the covariates }
+\CommentTok{# export all the covariates}
 \KeywordTok{save}\NormalTok{(covs, }\DataTypeTok{file =} \StringTok{"covariates.RData"}\NormalTok{)}
 
 \KeywordTok{plot}\NormalTok{(covs)}
@@ -8439,7 +8532,6 @@ Chapter \ref{covariates}, by R Baritz \& Y Yigini.
 
 \CommentTok{# LCEE10 and soilmap are categorical variables}
 \NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{LCEE10)}
-
 \NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{soilmap)}
 
 \CommentTok{#levels(soilmap) <- Symbol.levels}
@@ -8448,7 +8540,7 @@ Chapter \ref{covariates}, by R Baritz \& Y Yigini.
 
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(dat)}
 
-\CommentTok{# The points with NA values has to be removed }
+\CommentTok{# The points with NA values has to be removed}
 \NormalTok{dat <-}\StringTok{ }\NormalTok{dat[}\KeywordTok{complete.cases}\NormalTok{(dat),]}
 
 \CommentTok{# export as a csv table}
@@ -8468,10 +8560,7 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# load data}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/MKD_RegMatrix.csv"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{soilmap)}
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/KHM_RegMatrix.csv"}\NormalTok{)}
 
 \CommentTok{# explore the data structure}
 \KeywordTok{str}\NormalTok{(dat)}
@@ -8502,18 +8591,18 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 
 \CommentTok{# Fit a multiple linear regression model between the log transformed}
 \CommentTok{# values of OCS and the top 20 covariates}
-\NormalTok{model.MLR <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{log}\NormalTok{(OCSKGM) }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data =}\NormalTok{ datdf) }
+\NormalTok{model.MLR <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{log}\NormalTok{(OCSKGM) }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data =}\NormalTok{ datdf)}
 
 \CommentTok{# stepwise variable selection}
 \NormalTok{model.MLR.step <-}\StringTok{ }\KeywordTok{step}\NormalTok{(model.MLR, }\DataTypeTok{direction=}\StringTok{"both"}\NormalTok{)}
 
-\CommentTok{# summary and anova of the new model using stepwise covariates }
+\CommentTok{# summary and anova of the new model using stepwise covariates}
 \CommentTok{# selection}
 \KeywordTok{summary}\NormalTok{(model.MLR.step)}
 \KeywordTok{anova}\NormalTok{(model.MLR.step)}
 
 \CommentTok{# graphical diagnosis of the regression analysis}
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{)) }
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
 \KeywordTok{plot}\NormalTok{(model.MLR.step)}
 \KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
 
@@ -8525,7 +8614,7 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 \KeywordTok{sqrt}\NormalTok{(}\KeywordTok{vif}\NormalTok{(model.MLR.step))}
 
 \CommentTok{# Removing B07CHE3 from the stepwise model:}
-\NormalTok{model.MLR.step <-}\StringTok{ }\KeywordTok{update}\NormalTok{(model.MLR.step, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{B07CHE3)}
+\NormalTok{model.MLR.step <-}\StringTok{ }\KeywordTok{update}\NormalTok{(model.MLR.step, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{DEMSRE3a }\OperatorTok{-}\StringTok{ }\NormalTok{PX3WCL3a)}
 
 \CommentTok{# Test the vif again:}
 \KeywordTok{sqrt}\NormalTok{(}\KeywordTok{vif}\NormalTok{(model.MLR.step))}
@@ -8536,30 +8625,26 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 \CommentTok{# outlier test using the Bonferroni test}
 \KeywordTok{outlierTest}\NormalTok{(model.MLR.step)}
 
-\CommentTok{# Project point data. }
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{spTransform}\NormalTok{(dat, }\KeywordTok{CRS}\NormalTok{(}\StringTok{"+init=epsg:6204"}\NormalTok{))}
+\CommentTok{# Project point data.}
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{spTransform}\NormalTok{(dat, }\KeywordTok{CRS}\NormalTok{(}\StringTok{"+init=epsg:32648"}\NormalTok{))}
 
 \CommentTok{# project covariates to VN-2000 UTM 48N}
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{projectRaster}\NormalTok{(covs, }\DataTypeTok{crs =} \KeywordTok{CRS}\NormalTok{(}\StringTok{"+init=epsg:6204"}\NormalTok{), }
+\NormalTok{covs <-}\StringTok{ }\KeywordTok{projectRaster}\NormalTok{(covs, }\DataTypeTok{crs =} \KeywordTok{CRS}\NormalTok{(}\StringTok{"+init=epsg:32648"}\NormalTok{),}
                       \DataTypeTok{method=}\StringTok{'ngb'}\NormalTok{)}
 
-\NormalTok{covs}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{covs}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs}\OperatorTok{$}\NormalTok{soilmap)}
 
-\CommentTok{# Promote covariates to spatial grid dataframe. Takes some time and }
+\CommentTok{# Promote covariates to spatial grid dataframe. Takes some time and}
 \CommentTok{# a lot of memory!}
 \NormalTok{covs.sp <-}\StringTok{ }\KeywordTok{as}\NormalTok{(covs, }\StringTok{"SpatialGridDataFrame"}\NormalTok{)}
-\NormalTok{covs.sp}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs.sp}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{covs.sp}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs.sp}\OperatorTok{$}\NormalTok{soilmap)}
 
-\CommentTok{# RK model }
+\CommentTok{# RK model}
 \KeywordTok{library}\NormalTok{(automap)}
 
 
 \CommentTok{# Run regression kriging prediction. This step can take hours...!}
-\NormalTok{OCS.krige <-}\StringTok{ }\KeywordTok{autoKrige}\NormalTok{(}\DataTypeTok{formula =} 
-                         \KeywordTok{as.formula}\NormalTok{(model.MLR.step}\OperatorTok{$}\NormalTok{call}\OperatorTok{$}\NormalTok{formula), }
-                       \DataTypeTok{input_data =}\NormalTok{ dat, }
+\NormalTok{OCS.krige <-}\StringTok{ }\KeywordTok{autoKrige}\NormalTok{(}\DataTypeTok{formula =}
+                         \KeywordTok{as.formula}\NormalTok{(model.MLR.step}\OperatorTok{$}\NormalTok{call}\OperatorTok{$}\NormalTok{formula),}
+                       \DataTypeTok{input_data =}\NormalTok{ dat,}
                        \DataTypeTok{new_data =}\NormalTok{ covs.sp,}
                        \DataTypeTok{verbose =} \OtherTok{TRUE}\NormalTok{,}
                        \DataTypeTok{block =} \KeywordTok{c}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DecValTok{1000}\NormalTok{))}
@@ -8575,10 +8660,10 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 \KeywordTok{plot}\NormalTok{(RKprediction)}
 
 \NormalTok{## Save results as tif files}
-\KeywordTok{writeRaster}\NormalTok{(RKprediction, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_RK.tif"}\NormalTok{, }
+\KeywordTok{writeRaster}\NormalTok{(RKprediction, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_RK.tif"}\NormalTok{,}
             \DataTypeTok{overwrite =} \OtherTok{TRUE}\NormalTok{)}
 
-\KeywordTok{writeRaster}\NormalTok{(RKpredsd, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_RKpredsd.tif"}\NormalTok{, }
+\KeywordTok{writeRaster}\NormalTok{(RKpredsd, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_RKpredsd.tif"}\NormalTok{,}
             \DataTypeTok{overwrite =} \OtherTok{TRUE}\NormalTok{)}
 
 \CommentTok{# save the model}
@@ -8587,7 +8672,7 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 \end{Shaded}
 
 \hypertarget{cd:xvalRK}{%
-\subsection{Cross-validation of Regression Kriging
+\section{Cross-validation of Regression Kriging
 models}\label{cd:xvalRK}}
 
 The extended and discussed version of the following code is presented in
@@ -8599,9 +8684,9 @@ Section \ref{RK}, by GF Olmedo \& Y Yigini.
 \CommentTok{# we have to do it manually before running the cross-validation}
 \NormalTok{dat =}\StringTok{ }\NormalTok{dat[}\KeywordTok{which}\NormalTok{(}\OperatorTok{!}\KeywordTok{duplicated}\NormalTok{(dat}\OperatorTok{@}\NormalTok{coords)), ]}
 
-\NormalTok{OCS.krige.cv <-}\StringTok{ }\KeywordTok{autoKrige.cv}\NormalTok{(}\DataTypeTok{formula =} 
-                            \KeywordTok{as.formula}\NormalTok{(model.MLR.step}\OperatorTok{$}\NormalTok{call}\OperatorTok{$}\NormalTok{formula), }
-                            \DataTypeTok{input_data =}\NormalTok{ dat, }\DataTypeTok{nfold =} \DecValTok{10}\NormalTok{)}
+\NormalTok{OCS.krige.cv <-}\StringTok{ }\KeywordTok{autoKrige.cv}\NormalTok{(}\DataTypeTok{formula =}
+                               \KeywordTok{as.formula}\NormalTok{(model.MLR.step}\OperatorTok{$}\NormalTok{call}\OperatorTok{$}\NormalTok{formula),}
+                             \DataTypeTok{input_data =}\NormalTok{ dat, }\DataTypeTok{nfold =} \DecValTok{10}\NormalTok{)}
 
 \KeywordTok{summary}\NormalTok{(OCS.krige.cv)}
 \end{Highlighting}
@@ -8617,7 +8702,6 @@ Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# load data}
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/MKD_RegMatrix.csv"}\NormalTok{)}
 
 \NormalTok{dat}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{LCEE10)}
@@ -8644,7 +8728,7 @@ Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
 \CommentTok{# For its use on R we need to define a model formula}
 
 \NormalTok{fm =}\StringTok{ }\KeywordTok{as.formula}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"log(OCSKGM) ~"}\NormalTok{, }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{names}\NormalTok{(covs[[}\OperatorTok{-}\DecValTok{14}\NormalTok{]]),}
-                                            \DataTypeTok{collapse =} \StringTok{"+"}\NormalTok{))) }
+                                              \DataTypeTok{collapse =} \StringTok{"+"}\NormalTok{)))}
 
 \KeywordTok{library}\NormalTok{(randomForest)}
 \KeywordTok{library}\NormalTok{(caret)}
@@ -8652,18 +8736,18 @@ Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
 \CommentTok{# Default 10-fold cross-validation}
 \NormalTok{ctrl <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method =} \StringTok{"cv"}\NormalTok{, }\DataTypeTok{savePred=}\NormalTok{T)}
 \CommentTok{# Search for the best mtry parameter}
-\NormalTok{rfmodel <-}\StringTok{ }\KeywordTok{train}\NormalTok{(fm, }\DataTypeTok{data=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data, }\DataTypeTok{method =} \StringTok{"rf"}\NormalTok{, }\DataTypeTok{trControl =}\NormalTok{ ctrl, }
-             \DataTypeTok{importance=}\OtherTok{TRUE}\NormalTok{)}
-\CommentTok{# This is a very useful function to compare and test different }
-\CommentTok{# prediction algorithms type names(getModelInfo()) to see all the }
+\NormalTok{rfmodel <-}\StringTok{ }\KeywordTok{train}\NormalTok{(fm, }\DataTypeTok{data=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data, }\DataTypeTok{method =} \StringTok{"rf"}\NormalTok{, }\DataTypeTok{trControl =}\NormalTok{ ctrl,}
+                 \DataTypeTok{importance=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{# This is a very useful function to compare and test different}
+\CommentTok{# prediction algorithms type names(getModelInfo()) to see all the}
 \CommentTok{# possibilitites implemented on this function}
 
 
 \CommentTok{# Variable importance plot, compare with the correlation matrix}
-\CommentTok{# Select the best prediction factors and repeat  }
+\CommentTok{# Select the best prediction factors and repeat}
 \KeywordTok{varImpPlot}\NormalTok{(rfmodel[}\DecValTok{11}\NormalTok{][[}\DecValTok{1}\NormalTok{]])}
 
-\CommentTok{# Check if the error stabilizes }
+\CommentTok{# Check if the error stabilizes}
 \KeywordTok{plot}\NormalTok{(rfmodel[}\DecValTok{11}\NormalTok{][[}\DecValTok{1}\NormalTok{]])}
 
 \CommentTok{#Make a prediction across all Macedonia}
@@ -8698,7 +8782,7 @@ Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
 \CommentTok{#Sensitivity to the dataset}
 \CommentTok{#Start a loop with 10 model realizations}
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{)\{}
-  \CommentTok{# We will build 10 models using random samples of 25%  }
+  \CommentTok{# We will build 10 models using random samples of 25%}
 \NormalTok{  smp_size <-}\StringTok{ }\KeywordTok{floor}\NormalTok{(}\FloatTok{0.25} \OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(dat))}
 \NormalTok{  train_ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{seq_len}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(dat)), }\DataTypeTok{size =}\NormalTok{ smp_size)}
 \NormalTok{  train <-}\StringTok{ }\NormalTok{dat[train_ind, ]}
@@ -8714,41 +8798,41 @@ Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
 \CommentTok{#The sensitivity map is the dispersion of all individual models}
 \NormalTok{sensitivity <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(pred[[}\OperatorTok{-}\DecValTok{1}\NormalTok{]], sd)}
 
-\KeywordTok{plot}\NormalTok{(sensitivity, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)), }
+\KeywordTok{plot}\NormalTok{(sensitivity, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)),}
      \DataTypeTok{main=}\StringTok{'Sensitivity based on 10 realizations using 25% samples'}\NormalTok{)}
 
 \CommentTok{#Sensitivity of validation metrics}
 \KeywordTok{summary}\NormalTok{(validation)}
 
-\CommentTok{# Plot of the map based on 75% of data and the sensitivity to data }
+\CommentTok{# Plot of the map based on 75% of data and the sensitivity to data}
 \CommentTok{# variations}
 \NormalTok{prediction75 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pred[[}\DecValTok{1}\NormalTok{]])}
 
-\KeywordTok{plot}\NormalTok{(prediction75, }\DataTypeTok{main=}\StringTok{'OCSKGM prediction based on 75% of data'}\NormalTok{, }
+\KeywordTok{plot}\NormalTok{(prediction75, }\DataTypeTok{main=}\StringTok{'OCSKGM prediction based on 75% of data'}\NormalTok{,}
      \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
 
-\CommentTok{# Use quantile regression forest to estimate the full conditional }
-\CommentTok{# distribution of OCSKGMlog, note that we are using the mtry }
-\CommentTok{# parameter that was selected by the train funtion of the caret }
-\CommentTok{# package, assuming that the 75% of data previously used well }
-\CommentTok{# resembles the statistical distribution of the entire data }
-\CommentTok{# population. Otherwise repeat the train function with all available }
+\CommentTok{# Use quantile regression forest to estimate the full conditional}
+\CommentTok{# distribution of OCSKGMlog, note that we are using the mtry}
+\CommentTok{# parameter that was selected by the train funtion of the caret}
+\CommentTok{# package, assuming that the 75% of data previously used well}
+\CommentTok{# resembles the statistical distribution of the entire data}
+\CommentTok{# population. Otherwise repeat the train function with all available}
 \CommentTok{#data (using the object dat that instead of train) to select mtry.}
 
 
-\NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat[,}\DecValTok{1}\OperatorTok{:}\DecValTok{13}\NormalTok{], }\DataTypeTok{ntree=}\DecValTok{500}\NormalTok{, }
-                    \DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(mod}\OperatorTok{$}\NormalTok{bestTune))                        }
+\NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat[,}\DecValTok{1}\OperatorTok{:}\DecValTok{13}\NormalTok{], }\DataTypeTok{ntree=}\DecValTok{500}\NormalTok{,}
+                        \DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(mod}\OperatorTok{$}\NormalTok{bestTune))}
 
 \KeywordTok{library}\NormalTok{(snow)}
-\CommentTok{# Estimate model uncertainty at the pixel level using parallel }
+\CommentTok{# Estimate model uncertainty at the pixel level using parallel}
 \CommentTok{# computing}
 \KeywordTok{beginCluster}\NormalTok{() }\CommentTok{#define number of cores to use}
 \CommentTok{# Estimate model uncertainty}
 \NormalTok{unc <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict, }\DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model,}\DataTypeTok{what=}\NormalTok{sd))}
 \CommentTok{# OCSKGMlog prediction based in all available data}
-\NormalTok{mean <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict, }
+\NormalTok{mean <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict,}
                  \DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model, }\DataTypeTok{what=}\NormalTok{mean))}
-\CommentTok{# The total uncertainty is the sum of sensitivity and model }
+\CommentTok{# The total uncertainty is the sum of sensitivity and model}
 \CommentTok{# uncertainty}
 \NormalTok{unc <-}\StringTok{ }\NormalTok{unc }\OperatorTok{+}\StringTok{ }\NormalTok{sensitivity}
 \CommentTok{# Express the uncertainty in percent (divide by the mean)}
@@ -8756,14 +8840,14 @@ Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
 \KeywordTok{endCluster}\NormalTok{()}
 
 \CommentTok{# Plot both maps (the predicted OCSKGM + its associated uncertainty)}
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{main=}\StringTok{'OCSKGM based in all data'}\NormalTok{, }
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{main=}\StringTok{'OCSKGM based in all data'}\NormalTok{,}
      \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
 
-\KeywordTok{plot}\NormalTok{(Total_unc_Percent, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{heat.colors}\NormalTok{(}\DecValTok{100}\NormalTok{)), }\DataTypeTok{zlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }
+\KeywordTok{plot}\NormalTok{(Total_unc_Percent, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{heat.colors}\NormalTok{(}\DecValTok{100}\NormalTok{)), }\DataTypeTok{zlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{),}
      \DataTypeTok{main=}\StringTok{'Total uncertainty'}\NormalTok{)}
 
 \CommentTok{#Save the resulting maps in separated *.tif files}
-\KeywordTok{writeRaster}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{file=}\StringTok{'rfOCSKGMprediction.tif'}\NormalTok{, }
+\KeywordTok{writeRaster}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{file=}\StringTok{'rfOCSKGMprediction.tif'}\NormalTok{,}
             \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
 \KeywordTok{writeRaster}\NormalTok{(Total_unc_Percent, }\DataTypeTok{file=}\StringTok{'rfOCSKGMtotalUncertPercent.tif'}\NormalTok{,}
             \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
@@ -8809,7 +8893,7 @@ Section \ref{svm}, by GF Olmedo \& M Guevara.
 
 \CommentTok{# variable selection using correlation analysis}
 \NormalTok{selectedCovs <-}\StringTok{ }\KeywordTok{cor}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.matrix}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data[,}\DecValTok{5}\NormalTok{]),}
-           \DataTypeTok{y =} \KeywordTok{as.matrix}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data[,}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{21}\NormalTok{)]))}
+                    \DataTypeTok{y =} \KeywordTok{as.matrix}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data[,}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{21}\NormalTok{)]))}
 
 \CommentTok{# print correlation results}
 \NormalTok{selectedCovs}
@@ -8835,7 +8919,7 @@ Section \ref{svm}, by GF Olmedo \& M Guevara.
 \NormalTok{  result <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
   \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(}\KeywordTok{levels}\NormalTok{(rast)[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]]))\{}
 \NormalTok{    result[[i]] <-}\StringTok{ }\NormalTok{rast }\OperatorTok{==}\StringTok{ }\KeywordTok{levels}\NormalTok{(rast)[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]][i]}
-    \KeywordTok{names}\NormalTok{(result[[i]]) <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{names}\NormalTok{(rast), }
+    \KeywordTok{names}\NormalTok{(result[[i]]) <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{names}\NormalTok{(rast),}
                                  \KeywordTok{levels}\NormalTok{(rast)[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]][i])}
 \NormalTok{  \}}
   \KeywordTok{return}\NormalTok{(}\KeywordTok{stack}\NormalTok{(result))}
@@ -8875,12 +8959,12 @@ Section \ref{svm}, by GF Olmedo \& M Guevara.
 \KeywordTok{library}\NormalTok{(caret)}
 
 \CommentTok{#  Test different values of epsilon and cost}
-\NormalTok{  tuneResult <-}\StringTok{ }\KeywordTok{tune}\NormalTok{(svm, OCSKGM }\OperatorTok{~}\NormalTok{.,  }\DataTypeTok{data =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"OCSKGM"}\NormalTok{,}
-                                                        \KeywordTok{names}\NormalTok{(COV))],}
-                     \DataTypeTok{ranges =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{epsilon =} \KeywordTok{seq}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.2}\NormalTok{,}\FloatTok{0.02}\NormalTok{),}
-                                   \DataTypeTok{cost =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{20}\NormalTok{)))}
+\NormalTok{tuneResult <-}\StringTok{ }\KeywordTok{tune}\NormalTok{(svm, OCSKGM }\OperatorTok{~}\NormalTok{.,  }\DataTypeTok{data =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"OCSKGM"}\NormalTok{,}
+                                                       \KeywordTok{names}\NormalTok{(COV))],}
+                   \DataTypeTok{ranges =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{epsilon =} \KeywordTok{seq}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.2}\NormalTok{,}\FloatTok{0.02}\NormalTok{),}
+                                 \DataTypeTok{cost =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{20}\NormalTok{)))}
 
-  
+
 \KeywordTok{plot}\NormalTok{(tuneResult)}
 
 \CommentTok{# Choose the model with the best combination of epsilon and cost}
@@ -8922,7 +9006,7 @@ code contributions from GF Olmedo.
 \begin{Highlighting}[]
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dat_test.csv"}\NormalTok{)}
 
-\CommentTok{# Promote to spatialPointsDataFrame }
+\CommentTok{# Promote to spatialPointsDataFrame}
 \KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
 
 \NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\DataTypeTok{projargs =} \StringTok{"+init=epsg:4326"}\NormalTok{)}
@@ -8949,567 +9033,8 @@ code contributions from GF Olmedo.
 \NormalTok{RMSE_rf <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf))}
 
 \CommentTok{# Amount of Variance Explained (AVE)}
-\NormalTok{AVE_rf <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Load the processed data. This table was prepared in the previous }
-\CommentTok{# chapter.}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dataproc.csv"}\NormalTok{)}
-
-\NormalTok{files <-}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path =} \StringTok{"covs"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"tif$"}\NormalTok{, }
-                    \DataTypeTok{full.names =} \OtherTok{TRUE}\NormalTok{)}
-
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(files)}
-
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(covs, soilmap.r)}
-
-\CommentTok{# correct the name for layer 14}
-\KeywordTok{names}\NormalTok{(covs)[}\DecValTok{14}\NormalTok{] <-}\StringTok{ "soilmap"}
-
-\CommentTok{#mask the covariates with the country mask from the data repository}
-\NormalTok{mask <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\StringTok{"data/mask.tif"}\NormalTok{)}
-
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{mask}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ covs, }\DataTypeTok{mask =}\NormalTok{ mask)}
-
-\CommentTok{# export all the covariates }
-\KeywordTok{save}\NormalTok{(covs, }\DataTypeTok{file =} \StringTok{"covariates.RData"}\NormalTok{)}
-
-\KeywordTok{plot}\NormalTok{(covs)}
-
-\CommentTok{#upgrade points data frame to SpatialPointsDataFrame}
-\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
-
-\CommentTok{# extract values from covariates to the soil points}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ covs, }\DataTypeTok{y =}\NormalTok{ dat, }\DataTypeTok{sp =} \OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# LCEE10 and soilmap are categorical variables}
-\NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{#levels(soilmap) <- Symbol.levels}
-
-\KeywordTok{summary}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data)}
-
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(dat)}
-
-\CommentTok{# The points with NA values has to be removed }
-\NormalTok{dat <-}\StringTok{ }\NormalTok{dat[}\KeywordTok{complete.cases}\NormalTok{(dat),]}
-
-\CommentTok{# export as a csv table}
-\KeywordTok{write.csv}\NormalTok{(dat, }\StringTok{"data/MKD_RegMatrix.csv"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\clearpage
-
-\hypertarget{cd:RK}{%
-\section{Fitting a Regression-Kriging model to predict the
-OCS}\label{cd:RK}}
-
-The extended and discussed version of the following code is presented in
-Section \ref{RK}, by GF Olmedo \& Y Yigini.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# load data}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/MKD_RegMatrix.csv"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{# explore the data structure}
-\KeywordTok{str}\NormalTok{(dat)}
-
-\KeywordTok{library}\NormalTok{(sp)}
-
-\CommentTok{# Promote to spatialPointsDataFrame}
-\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
-
-\KeywordTok{class}\NormalTok{(dat)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\DataTypeTok{projargs =} \StringTok{"+init=epsg:4326"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string}
-
-\KeywordTok{library}\NormalTok{(raster)}
-
-\CommentTok{# list all the itf files in the folder covs/}
-\NormalTok{files <-}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path =} \StringTok{"covs"}\NormalTok{, }\DataTypeTok{pattern =} \StringTok{"tif$"}\NormalTok{, }
-                    \DataTypeTok{full.names =} \OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# load all the tif files in one rasterStack object}
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(files)}
-
-\CommentTok{# load the vectorial version of the soil map}
-\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{shapefile}\NormalTok{(}\StringTok{"MK_soilmap_simple.shp"}\NormalTok{)}
-
-\CommentTok{# rasterize using the Symbol layer}
-\NormalTok{soilmap}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{Symbol <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(soilmap}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{Symbol)}
-\NormalTok{soilmap.r <-}\StringTok{ }\KeywordTok{rasterize}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ soilmap, }\DataTypeTok{y =}\NormalTok{ covs[[}\DecValTok{1}\NormalTok{]], }\DataTypeTok{field =} \StringTok{"Symbol"}\NormalTok{)}
-
-\CommentTok{# stack the soil map and the other covariates}
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(covs, soilmap.r)}
-
-\CommentTok{# correct the name for layer 14}
-\KeywordTok{names}\NormalTok{(covs)[}\DecValTok{14}\NormalTok{] <-}\StringTok{ "soilmap"}
-
-\CommentTok{# print the names of the 14 layers:}
-\KeywordTok{names}\NormalTok{(covs)}
-
-\NormalTok{datdf <-}\StringTok{ }\NormalTok{dat}\OperatorTok{@}\NormalTok{data}
-
-\NormalTok{datdf <-}\StringTok{ }\NormalTok{datdf[, }\KeywordTok{c}\NormalTok{(}\StringTok{"OCSKGM"}\NormalTok{, }\KeywordTok{names}\NormalTok{(covs))]}
-
-\CommentTok{# Fit a multiple linear regression model between the log transformed}
-\CommentTok{# values of OCS and the top 20 covariates}
-\NormalTok{model.MLR <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\KeywordTok{log}\NormalTok{(OCSKGM) }\OperatorTok{~}\StringTok{ }\NormalTok{., }\DataTypeTok{data =}\NormalTok{ datdf) }
-
-\CommentTok{# stepwise variable selection}
-\NormalTok{model.MLR.step <-}\StringTok{ }\KeywordTok{step}\NormalTok{(model.MLR, }\DataTypeTok{direction=}\StringTok{"both"}\NormalTok{)}
-
-\CommentTok{# summary and anova of the new model using stepwise covariates }
-\CommentTok{# selection}
-\KeywordTok{summary}\NormalTok{(model.MLR.step)}
-\KeywordTok{anova}\NormalTok{(model.MLR.step)}
-
-\CommentTok{# graphical diagnosis of the regression analysis}
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{)) }
-\KeywordTok{plot}\NormalTok{(model.MLR.step)}
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
-
-\CommentTok{# collinearity test using variance inflation factors}
-\KeywordTok{library}\NormalTok{(car)}
-\KeywordTok{vif}\NormalTok{(model.MLR.step)}
-
-\CommentTok{# problematic covariates should have sqrt(VIF) > 2}
-\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{vif}\NormalTok{(model.MLR.step))}
-
-\CommentTok{# Removing B07CHE3 from the stepwise model:}
-\NormalTok{model.MLR.step <-}\StringTok{ }\KeywordTok{update}\NormalTok{(model.MLR.step, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{B07CHE3)}
-
-\CommentTok{# Test the vif again:}
-\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{vif}\NormalTok{(model.MLR.step))}
-
-\NormalTok{## summary  of the new model using stepwise covariates selection}
-\KeywordTok{summary}\NormalTok{(model.MLR.step)}
-
-\CommentTok{# outlier test using the Bonferroni test}
-\KeywordTok{outlierTest}\NormalTok{(model.MLR.step)}
-
-\CommentTok{# Project point data. }
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{spTransform}\NormalTok{(dat, }\KeywordTok{CRS}\NormalTok{(}\StringTok{"+init=epsg:6204"}\NormalTok{))}
-
-\CommentTok{# project covariates to VN-2000 UTM 48N}
-\NormalTok{covs <-}\StringTok{ }\KeywordTok{projectRaster}\NormalTok{(covs, }\DataTypeTok{crs =} \KeywordTok{CRS}\NormalTok{(}\StringTok{"+init=epsg:6204"}\NormalTok{), }
-                      \DataTypeTok{method=}\StringTok{'ngb'}\NormalTok{)}
-
-\NormalTok{covs}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{covs}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{# Promote covariates to spatial grid dataframe. Takes some time and }
-\CommentTok{# a lot of memory!}
-\NormalTok{covs.sp <-}\StringTok{ }\KeywordTok{as}\NormalTok{(covs, }\StringTok{"SpatialGridDataFrame"}\NormalTok{)}
-\NormalTok{covs.sp}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs.sp}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{covs.sp}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(covs.sp}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{# RK model }
-\KeywordTok{library}\NormalTok{(automap)}
-
-
-\CommentTok{# Run regression kriging prediction. This step can take hours...!}
-\NormalTok{OCS.krige <-}\StringTok{ }\KeywordTok{autoKrige}\NormalTok{(}\DataTypeTok{formula =} 
-                         \KeywordTok{as.formula}\NormalTok{(model.MLR.step}\OperatorTok{$}\NormalTok{call}\OperatorTok{$}\NormalTok{formula), }
-                       \DataTypeTok{input_data =}\NormalTok{ dat, }
-                       \DataTypeTok{new_data =}\NormalTok{ covs.sp,}
-                       \DataTypeTok{verbose =} \OtherTok{TRUE}\NormalTok{,}
-                       \DataTypeTok{block =} \KeywordTok{c}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DecValTok{1000}\NormalTok{))}
-
-\NormalTok{OCS.krige}
-
-\CommentTok{# Convert prediction and standard deviation to rasters}
-\CommentTok{# And back-tansform the vlaues}
-\NormalTok{RKprediction <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{raster}\NormalTok{(OCS.krige}\OperatorTok{$}\NormalTok{krige_output[}\DecValTok{1}\NormalTok{]))}
-\NormalTok{RKpredsd <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{raster}\NormalTok{(OCS.krige}\OperatorTok{$}\NormalTok{krige_output[}\DecValTok{3}\NormalTok{]))}
-
-
-\KeywordTok{plot}\NormalTok{(RKprediction)}
-
-\NormalTok{## Save results as tif files}
-\KeywordTok{writeRaster}\NormalTok{(RKprediction, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_RK.tif"}\NormalTok{, }
-            \DataTypeTok{overwrite =} \OtherTok{TRUE}\NormalTok{)}
-
-\KeywordTok{writeRaster}\NormalTok{(RKpredsd, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_RKpredsd.tif"}\NormalTok{, }
-            \DataTypeTok{overwrite =} \OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# save the model}
-\KeywordTok{saveRDS}\NormalTok{(model.MLR.step, }\DataTypeTok{file=}\StringTok{"results/RKmodel.Rds"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{cd:xvalRK}{%
-\subsection{Cross-validation of Regression Kriging
-models}\label{cd:xvalRK}}
-
-The extended and discussed version of the following code is presented in
-Section \ref{RK}, by GF Olmedo \& Y Yigini.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{OCS.krige.cv <-}\StringTok{ }\KeywordTok{autoKrige.cv}\NormalTok{(}\DataTypeTok{formula =} 
-                            \KeywordTok{as.formula}\NormalTok{(model.MLR.step}\OperatorTok{$}\NormalTok{call}\OperatorTok{$}\NormalTok{formula), }
-                            \DataTypeTok{input_data =}\NormalTok{ dat, }\DataTypeTok{nfold =} \DecValTok{10}\NormalTok{)}
-
-\KeywordTok{summary}\NormalTok{(OCS.krige.cv)}
-\end{Highlighting}
-\end{Shaded}
-
-\clearpage
-
-\hypertarget{cd:rf}{%
-\section{Fitting a random forest model to predict the SOC}\label{cd:rf}}
-
-The extended and discussed version of the following code is presented in
-Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# load data}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/MKD_RegMatrix.csv"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{# explore the data structure}
-\KeywordTok{str}\NormalTok{(dat)}
-
-\KeywordTok{library}\NormalTok{(sp)}
-
-\CommentTok{# Promote to spatialPointsDataFrame}
-\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
-
-\KeywordTok{class}\NormalTok{(dat)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\DataTypeTok{projargs =} \StringTok{"+init=epsg:4326"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string}
-
-\KeywordTok{load}\NormalTok{(}\DataTypeTok{file =} \StringTok{"covariates.RData"}\NormalTok{)}
-
-\KeywordTok{names}\NormalTok{(covs)}
-
-\CommentTok{# For its use on R we need to define a model formula}
-
-\NormalTok{fm =}\StringTok{ }\KeywordTok{as.formula}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"log(OCSKGM) ~"}\NormalTok{, }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{names}\NormalTok{(covs[[}\OperatorTok{-}\DecValTok{14}\NormalTok{]]),}
-                                            \DataTypeTok{collapse =} \StringTok{"+"}\NormalTok{))) }
-
-\KeywordTok{library}\NormalTok{(randomForest)}
-\KeywordTok{library}\NormalTok{(caret)}
-
-\CommentTok{# Default 10-fold cross-validation}
-\NormalTok{ctrl <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method =} \StringTok{"cv"}\NormalTok{, }\DataTypeTok{savePred=}\NormalTok{T)}
-\CommentTok{# Search for the best mtry parameter}
-\NormalTok{rfmodel <-}\StringTok{ }\KeywordTok{train}\NormalTok{(fm, }\DataTypeTok{data=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data, }\DataTypeTok{method =} \StringTok{"rf"}\NormalTok{, }\DataTypeTok{trControl =}\NormalTok{ ctrl, }
-             \DataTypeTok{importance=}\OtherTok{TRUE}\NormalTok{)}
-\CommentTok{# This is a very useful function to compare and test different }
-\CommentTok{# prediction algorithms type names(getModelInfo()) to see all the }
-\CommentTok{# possibilitites implemented on this function}
-
-
-\CommentTok{# Variable importance plot, compare with the correlation matrix}
-\CommentTok{# Select the best prediction factors and repeat  }
-\KeywordTok{varImpPlot}\NormalTok{(rfmodel[}\DecValTok{11}\NormalTok{][[}\DecValTok{1}\NormalTok{]])}
-
-\CommentTok{# Check if the error stabilizes }
-\KeywordTok{plot}\NormalTok{(rfmodel[}\DecValTok{11}\NormalTok{][[}\DecValTok{1}\NormalTok{]])}
-
-\CommentTok{#Make a prediction across all Macedonia}
-\CommentTok{#Note that the units are still in log}
-\NormalTok{pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(covs, rfmodel)}
-
-\CommentTok{# Back transform predictions log transformed}
-\NormalTok{pred <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pred)}
-
-\CommentTok{# Save the result as a tiff file}
-\KeywordTok{writeRaster}\NormalTok{(pred, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_rf.tif"}\NormalTok{,}
-            \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
-
-
-\KeywordTok{plot}\NormalTok{(pred)}
-\end{Highlighting}
-\end{Shaded}
-
-\clearpage
-
-\hypertarget{cd:quantreg}{%
-\section{Using Quantile Regression Forest to estimate
-uncertainty}\label{cd:quantreg}}
-
-The extended and discussed version of the following code is presented in
-Section \ref{rf}, by M Guevara, C Thine, GF Olmedo \& RR Vargas.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#Generate an empty dataframe}
-\NormalTok{validation <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{rmse=}\KeywordTok{numeric}\NormalTok{(), }\DataTypeTok{r2=}\KeywordTok{numeric}\NormalTok{())}
-\CommentTok{#Sensitivity to the dataset}
-\CommentTok{#Start a loop with 10 model realizations}
-\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{)\{}
-  \CommentTok{# We will build 10 models using random samples of 25%  }
-\NormalTok{  smp_size <-}\StringTok{ }\KeywordTok{floor}\NormalTok{(}\FloatTok{0.25} \OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(dat))}
-\NormalTok{  train_ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{seq_len}\NormalTok{(}\KeywordTok{nrow}\NormalTok{(dat)), }\DataTypeTok{size =}\NormalTok{ smp_size)}
-\NormalTok{  train <-}\StringTok{ }\NormalTok{dat[train_ind, ]}
-\NormalTok{  test <-}\StringTok{ }\NormalTok{dat[}\OperatorTok{-}\NormalTok{train_ind, ]}
-\NormalTok{  modn <-}\StringTok{ }\KeywordTok{train}\NormalTok{(fm, }\DataTypeTok{data=}\NormalTok{train, }\DataTypeTok{method =} \StringTok{"rf"}\NormalTok{, }\DataTypeTok{trControl =}\NormalTok{ ctrl)}
-\NormalTok{  pred <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(pred, }\KeywordTok{predict}\NormalTok{(covariates, modn))}
-\NormalTok{  test}\OperatorTok{$}\NormalTok{pred <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(modn[}\DecValTok{11}\NormalTok{][[}\DecValTok{1}\NormalTok{]], test)}
-  \CommentTok{# Store the results in a dataframe}
-\NormalTok{  validation[i, }\DecValTok{1}\NormalTok{] <-}\StringTok{ }\KeywordTok{rmse}\NormalTok{(test}\OperatorTok{$}\NormalTok{OCSKGMlog, test}\OperatorTok{$}\NormalTok{pred)}
-\NormalTok{  validation[i, }\DecValTok{2}\NormalTok{] <-}\StringTok{ }\KeywordTok{cor}\NormalTok{(test}\OperatorTok{$}\NormalTok{OCSKGMlog, test}\OperatorTok{$}\NormalTok{pred)}\OperatorTok{^}\DecValTok{2}
-\NormalTok{\}}
-
-\CommentTok{#The sensitivity map is the dispersion of all individual models}
-\NormalTok{sensitivity <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(pred[[}\OperatorTok{-}\DecValTok{1}\NormalTok{]], sd)}
-
-\KeywordTok{plot}\NormalTok{(sensitivity, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)), }
-     \DataTypeTok{main=}\StringTok{'Sensitivity based on 10 realizations using 25% samples'}\NormalTok{)}
-
-\CommentTok{#Sensitivity of validation metrics}
-\KeywordTok{summary}\NormalTok{(validation)}
-
-\CommentTok{# Plot of the map based on 75% of data and the sensitivity to data }
-\CommentTok{# variations}
-\NormalTok{prediction75 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pred[[}\DecValTok{1}\NormalTok{]])}
-
-\KeywordTok{plot}\NormalTok{(prediction75, }\DataTypeTok{main=}\StringTok{'OCSKGM prediction based on 75% of data'}\NormalTok{, }
-     \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
-
-\CommentTok{# Use quantile regression forest to estimate the full conditional }
-\CommentTok{# distribution of OCSKGMlog, note that we are using the mtry }
-\CommentTok{# parameter that was selected by the train funtion of the caret }
-\CommentTok{# package, assuming that the 75% of data previously used well }
-\CommentTok{# resembles the statistical distribution of the entire data }
-\CommentTok{# population. Otherwise repeat the train function with all available }
-\CommentTok{#data (using the object dat that instead of train) to select mtry.}
-
-
-\NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat[,}\DecValTok{1}\OperatorTok{:}\DecValTok{13}\NormalTok{], }\DataTypeTok{ntree=}\DecValTok{500}\NormalTok{, }
-                    \DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(mod}\OperatorTok{$}\NormalTok{bestTune))                        }
-
-\KeywordTok{library}\NormalTok{(snow)}
-\CommentTok{# Estimate model uncertainty at the pixel level using parallel }
-\CommentTok{# computing}
-\KeywordTok{beginCluster}\NormalTok{() }\CommentTok{#define number of cores to use}
-\CommentTok{# Estimate model uncertainty}
-\NormalTok{unc <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict, }\DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model,}\DataTypeTok{what=}\NormalTok{sd))}
-\CommentTok{# OCSKGMlog prediction based in all available data}
-\NormalTok{mean <-}\StringTok{ }\KeywordTok{clusterR}\NormalTok{(covariates, predict, }
-                 \DataTypeTok{args=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model, }\DataTypeTok{what=}\NormalTok{mean))}
-\CommentTok{# The total uncertainty is the sum of sensitivity and model }
-\CommentTok{# uncertainty}
-\NormalTok{unc <-}\StringTok{ }\NormalTok{unc }\OperatorTok{+}\StringTok{ }\NormalTok{sensitivity}
-\CommentTok{# Express the uncertainty in percent (divide by the mean)}
-\NormalTok{Total_unc_Percent <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(unc)}\OperatorTok{/}\KeywordTok{exp}\NormalTok{(mean)}
-\KeywordTok{endCluster}\NormalTok{()}
-
-\CommentTok{# Plot both maps (the predicted OCSKGM + its associated uncertainty)}
-\KeywordTok{plot}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{main=}\StringTok{'OCSKGM based in all data'}\NormalTok{, }
-     \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
-
-\KeywordTok{plot}\NormalTok{(Total_unc_Percent, }\DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{heat.colors}\NormalTok{(}\DecValTok{100}\NormalTok{)), }\DataTypeTok{zlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }
-     \DataTypeTok{main=}\StringTok{'Total uncertainty'}\NormalTok{)}
-
-\CommentTok{#Save the resulting maps in separated *.tif files}
-\KeywordTok{writeRaster}\NormalTok{(}\KeywordTok{exp}\NormalTok{(mean), }\DataTypeTok{file=}\StringTok{'rfOCSKGMprediction.tif'}\NormalTok{, }
-            \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
-\KeywordTok{writeRaster}\NormalTok{(Total_unc_Percent, }\DataTypeTok{file=}\StringTok{'rfOCSKGMtotalUncertPercent.tif'}\NormalTok{,}
-            \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\clearpage
-
-\hypertarget{cd:svm}{%
-\section{Fitting a svm model to predict the SOC}\label{cd:svm}}
-
-The extended and discussed version of the following code is presented in
-Section \ref{svm}, by GF Olmedo \& M Guevara.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# load data}
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/MKD_RegMatrix.csv"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{$}\NormalTok{LCEE10 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{LCEE10)}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(dat}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{# explore the data structure}
-\KeywordTok{str}\NormalTok{(dat)}
-
-\KeywordTok{library}\NormalTok{(sp)}
-
-\CommentTok{# Promote to spatialPointsDataFrame}
-\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
-
-\KeywordTok{class}\NormalTok{(dat)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\DataTypeTok{projargs =} \StringTok{"+init=epsg:4326"}\NormalTok{)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string}
-
-\KeywordTok{load}\NormalTok{(}\DataTypeTok{file =} \StringTok{"covariates.RData"}\NormalTok{)}
-
-\KeywordTok{names}\NormalTok{(covs)}
-
-\CommentTok{# plot the names of the covariates}
-\KeywordTok{names}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data)}
-
-\CommentTok{# variable selection using correlation analysis}
-\NormalTok{selectedCovs <-}\StringTok{ }\KeywordTok{cor}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{as.matrix}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data[,}\DecValTok{5}\NormalTok{]),}
-           \DataTypeTok{y =} \KeywordTok{as.matrix}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data[,}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{21}\NormalTok{)]))}
-
-\CommentTok{# print correlation results}
-\NormalTok{selectedCovs}
-
-\KeywordTok{library}\NormalTok{(reshape)}
-\NormalTok{x <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(}\KeywordTok{melt}\NormalTok{(selectedCovs), value }\OperatorTok{!=}\StringTok{ }\DecValTok{1} \OperatorTok{|}\StringTok{ }\NormalTok{value }\OperatorTok{!=}\StringTok{ }\OtherTok{NA}\NormalTok{)}
-\NormalTok{x <-}\StringTok{ }\NormalTok{x[}\KeywordTok{with}\NormalTok{(x, }\KeywordTok{order}\NormalTok{(}\OperatorTok{-}\KeywordTok{abs}\NormalTok{(x}\OperatorTok{$}\NormalTok{value))),]}
-
-\NormalTok{idx <-}\StringTok{ }\KeywordTok{as.character}\NormalTok{(x}\OperatorTok{$}\NormalTok{X2[}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{])}
-
-\NormalTok{dat2 <-}\StringTok{ }\NormalTok{dat[}\KeywordTok{c}\NormalTok{(}\StringTok{'OCSKGM'}\NormalTok{, idx)]}
-\KeywordTok{names}\NormalTok{(dat2)}
-
-\NormalTok{COV <-}\StringTok{ }\NormalTok{covs[[idx]]}
-
-\CommentTok{# Selected covariates}
-\KeywordTok{names}\NormalTok{(COV)}
-
-
-\CommentTok{# Categorical variables in svm models}
-\NormalTok{dummyRaster <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(rast)\{}
-\NormalTok{  rast <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(rast)}
-\NormalTok{  result <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
-  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(}\KeywordTok{levels}\NormalTok{(rast)[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]]))\{}
-\NormalTok{    result[[i]] <-}\StringTok{ }\NormalTok{rast }\OperatorTok{==}\StringTok{ }\KeywordTok{levels}\NormalTok{(rast)[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]][i]}
-    \KeywordTok{names}\NormalTok{(result[[i]]) <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\KeywordTok{names}\NormalTok{(rast), }
-                                 \KeywordTok{levels}\NormalTok{(rast)[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]][i])}
-\NormalTok{  \}}
-  \KeywordTok{return}\NormalTok{(}\KeywordTok{stack}\NormalTok{(result))}
-\NormalTok{\}}
-
-\CommentTok{# convert soilmap from factor to dummy}
-\NormalTok{soilmap_dummy <-}\StringTok{ }\KeywordTok{dummyRaster}\NormalTok{(covs}\OperatorTok{$}\NormalTok{soilmap)}
-
-\CommentTok{# convert LCEE10 from factor to dummy}
-\NormalTok{LCEE10_dummy <-}\StringTok{ }\KeywordTok{dummyRaster}\NormalTok{(covs}\OperatorTok{$}\NormalTok{LCEE10)}
-
-\CommentTok{# Stack the 5 COV layers with the 2 dummies}
-\NormalTok{COV <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(COV, soilmap_dummy, LCEE10_dummy)}
-
-\CommentTok{# print the final layer names}
-\KeywordTok{names}\NormalTok{(COV)}
-
-\CommentTok{# convert soilmap column to dummy, the result is a matrix}
-\CommentTok{# to have one column per category we had to add -1 to the formula}
-\NormalTok{dat_soilmap_dummy <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{soilmap }\DecValTok{-1}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{data)}
-\CommentTok{# convert the matrix to a data.frame}
-\NormalTok{dat_soilmap_dummy <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(dat_soilmap_dummy)}
-
-
-\CommentTok{# convert LCEE10 column to dummy, the result is a matrix}
-\CommentTok{# to have one column per category we had to add -1 to the formula}
-\NormalTok{dat_LCEE10_dummy <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\OperatorTok{~}\NormalTok{LCEE10 }\DecValTok{-1}\NormalTok{, }\DataTypeTok{data =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{data)}
-\CommentTok{# convert the matrix to a data.frame}
-\NormalTok{dat_LCEE10_dummy <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(dat_LCEE10_dummy)}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{data <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data, dat_LCEE10_dummy, dat_soilmap_dummy)}
-
-\KeywordTok{names}\NormalTok{(dat}\OperatorTok{@}\NormalTok{data)}
-
-\CommentTok{# Fitting a svm model and parameter tuning}
-\KeywordTok{library}\NormalTok{(e1071)}
-\KeywordTok{library}\NormalTok{(caret)}
-
-\CommentTok{#  Test different values of epsilon and cost}
-\NormalTok{  tuneResult <-}\StringTok{ }\KeywordTok{tune}\NormalTok{(svm, OCSKGM }\OperatorTok{~}\NormalTok{.,  }\DataTypeTok{data =}\NormalTok{ dat}\OperatorTok{@}\NormalTok{data[,}\KeywordTok{c}\NormalTok{(}\StringTok{"OCSKGM"}\NormalTok{,}
-                                                        \KeywordTok{names}\NormalTok{(COV))],}
-                     \DataTypeTok{ranges =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{epsilon =} \KeywordTok{seq}\NormalTok{(}\FloatTok{0.1}\NormalTok{,}\FloatTok{0.2}\NormalTok{,}\FloatTok{0.02}\NormalTok{),}
-                                   \DataTypeTok{cost =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{20}\NormalTok{)))}
-
-  
-\KeywordTok{plot}\NormalTok{(tuneResult)}
-
-\CommentTok{# Choose the model with the best combination of epsilon and cost}
-\NormalTok{tunedModel <-}\StringTok{ }\NormalTok{tuneResult}\OperatorTok{$}\NormalTok{best.model}
-
-\KeywordTok{print}\NormalTok{(tunedModel)}
-
-
-\CommentTok{# Use the model to predict the SOC in the covariates space}
-\NormalTok{OCSsvm <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(COV, tunedModel)}
-
-\CommentTok{# Save the result}
-\KeywordTok{writeRaster}\NormalTok{(OCSsvm, }\DataTypeTok{filename =} \StringTok{"results/MKD_OCSKGM_svm.tif"}\NormalTok{,}
-            \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
-
-\KeywordTok{plot}\NormalTok{(OCSsvm)}
-
-\CommentTok{# Variable importance in svm. Code by:}
-\CommentTok{# stackoverflow.com/questions/34781495}
-
-\NormalTok{w <-}\StringTok{ }\KeywordTok{t}\NormalTok{(tunedModel}\OperatorTok{$}\NormalTok{coefs) }\OperatorTok{%*%}\StringTok{ }\NormalTok{tunedModel}\OperatorTok{$}\NormalTok{SV     }\CommentTok{# weight vectors}
-\NormalTok{w <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(w, }\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(v)\{}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(v}\OperatorTok{^}\DecValTok{2}\NormalTok{))\})  }\CommentTok{# weight}
-
-\NormalTok{w <-}\StringTok{ }\KeywordTok{sort}\NormalTok{(w, }\DataTypeTok{decreasing =}\NormalTok{ T)}
-\KeywordTok{print}\NormalTok{(w)}
-\end{Highlighting}
-\end{Shaded}
-
-\clearpage
-
-\hypertarget{cd:Validation}{%
-\section{Validation}\label{cd:Validation}}
-
-The extended and discussed version of the following code is presented in
-Chapter \ref{chvalidation}, by B Kempen, DJ Brus \& GBM Heuvelink, with
-code contributions from GF Olmedo.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dat_test.csv"}\NormalTok{)}
-
-\CommentTok{# Promote to spatialPointsDataFrame }
-\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
-
-\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\KeywordTok{CRS}\NormalTok{(}\DataTypeTok{projargs =} \StringTok{"+init=epsg:4326"}\NormalTok{)}
-
-\KeywordTok{library}\NormalTok{(raster)}
-
-\NormalTok{OCSKGM_rf <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\StringTok{"results/MKD_OCSKGM_rf.tif"}\NormalTok{)}
-
-\NormalTok{dat <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ OCSKGM_rf, }\DataTypeTok{y =}\NormalTok{ dat, }\DataTypeTok{sp =} \OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# prediction error}
-\NormalTok{dat}\OperatorTok{$}\NormalTok{PE_rf <-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf }\OperatorTok{-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM}
-
-\CommentTok{# Mean Error}
-\NormalTok{ME_rf <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# Mean Absolute Error (MAE)}
-\NormalTok{MAE_rf <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{abs}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf), }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# Mean Squared Error (MSE)}
-\NormalTok{MSE_rf <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# Root Mean Squared Error (RMSE)}
-\NormalTok{RMSE_rf <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf))}
-
-\CommentTok{# Amount of Variance Explained (AVE)}
-\NormalTok{AVE_rf <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }
-\StringTok{  }\KeywordTok{sum}\NormalTok{( (dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}\OperatorTok{^}\DecValTok{2}\NormalTok{, }
+\NormalTok{AVE_rf <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}
+\StringTok{  }\KeywordTok{sum}\NormalTok{( (dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}\OperatorTok{^}\DecValTok{2}\NormalTok{,}
        \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -9526,7 +9051,7 @@ code contributions from GF Olmedo.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# scatter plot}
-\KeywordTok{plot}\NormalTok{(dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf, dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{main=}\StringTok{"rf"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"predicted"}\NormalTok{, }
+\KeywordTok{plot}\NormalTok{(dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf, dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{main=}\StringTok{"rf"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"predicted"}\NormalTok{,}
      \DataTypeTok{ylab=}\StringTok{'observed'}\NormalTok{)}
 \CommentTok{# 1:1 line in black}
 \KeywordTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'black'}\NormalTok{)}
@@ -9534,7 +9059,7 @@ code contributions from GF Olmedo.
 \KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM }\OperatorTok{~}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf), }\DataTypeTok{col =} \StringTok{'blue'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
 
 \CommentTok{# spatial bubbles for prediction errors}
-\KeywordTok{bubble}\NormalTok{(dat[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf),], }\StringTok{"PE_rf"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }
+\KeywordTok{bubble}\NormalTok{(dat[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf),], }\StringTok{"PE_rf"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{,}
        \DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{'red'}\NormalTok{, }\StringTok{'green'}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -9553,17 +9078,17 @@ Chapter \ref{evaluation}, by M Guevara and GF Olmedo.
 \NormalTok{RF<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_rf.tif'}\NormalTok{)}
 \NormalTok{RK<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_RK.tif'}\NormalTok{)}
 \NormalTok{SVM<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_svm.tif'}\NormalTok{)}
-\CommentTok{#Note that RK has a different reference system }
+\CommentTok{#Note that RK has a different reference system}
 \NormalTok{RK <-}\StringTok{ }\KeywordTok{projectRaster}\NormalTok{(RK, SVM)}
 \NormalTok{models <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(RK, RF, SVM)}
 
 \KeywordTok{library}\NormalTok{(psych)}
-\KeywordTok{pairs.panels}\NormalTok{(}\KeywordTok{na.omit}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(models)), }
+\KeywordTok{pairs.panels}\NormalTok{(}\KeywordTok{na.omit}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(models)),}
              \DataTypeTok{method =} \StringTok{"pearson"}\NormalTok{, }\CommentTok{# correlation method}
              \DataTypeTok{hist.col =} \StringTok{"#00AFBB"}\NormalTok{,}
              \DataTypeTok{density =} \OtherTok{TRUE}\NormalTok{,  }\CommentTok{# show density plots}
              \DataTypeTok{ellipses =} \OtherTok{TRUE} \CommentTok{# show correlation ellipses}
-\NormalTok{             )                     }
+\NormalTok{)}
 
 
 \KeywordTok{library}\NormalTok{(rasterVis)}
@@ -9579,18 +9104,19 @@ Chapter \ref{evaluation}, by M Guevara and GF Olmedo.
 \NormalTok{preds <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(RKRF, RKSVM, RFSVM)}
 \KeywordTok{names}\NormalTok{(preds) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'RKvsRF'}\NormalTok{,}\StringTok{'RKvsSVM'}\NormalTok{,}\StringTok{'RFvsSVM'}\NormalTok{)}
 \NormalTok{X <-}\StringTok{ }\KeywordTok{cellStats}\NormalTok{(preds, mean)}
-\KeywordTok{levelplot}\NormalTok{(preds }\OperatorTok{-}\StringTok{ }\NormalTok{X, }\DataTypeTok{at=}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{length.out=}\DecValTok{10}\NormalTok{), }\DataTypeTok{par.settings =}\NormalTok{ RdBuTheme)}
+\KeywordTok{levelplot}\NormalTok{(preds }\OperatorTok{-}\StringTok{ }\NormalTok{X, }\DataTypeTok{at=}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{length.out=}\DecValTok{10}\NormalTok{),}
+          \DataTypeTok{par.settings =}\NormalTok{ RdBuTheme)}
 
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"results/validation.csv"}\NormalTok{)}
 
 \CommentTok{# prepare 3 new data.frame with the observed, predicted and the model}
-\NormalTok{modRK <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_RK, }
+\NormalTok{modRK <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_RK,}
                     \DataTypeTok{model =} \StringTok{"RK"}\NormalTok{)}
 
-\NormalTok{modRF <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf, }
+\NormalTok{modRF <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf,}
                     \DataTypeTok{model =} \StringTok{"RF"}\NormalTok{)}
 
-\NormalTok{modSVM <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_svm, }
+\NormalTok{modSVM <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_svm,}
                      \DataTypeTok{model =} \StringTok{"SVM"}\NormalTok{)}
 
 \CommentTok{# merge the 3 data.frames into one}
@@ -9603,13 +9129,11 @@ Chapter \ref{evaluation}, by M Guevara and GF Olmedo.
 
 \NormalTok{modsts <-}\StringTok{ }\KeywordTok{modStats}\NormalTok{(modData,}\DataTypeTok{obs =} \StringTok{"obs"}\NormalTok{, }\DataTypeTok{mod =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"model"}\NormalTok{)}
 
-\CommentTok{#modsts <- cbind(modsts[1], round(modsts[-1], 2))}
-\NormalTok{## print a table}
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(modsts[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\OperatorTok{:}\DecValTok{11}\NormalTok{)], }\DataTypeTok{caption =} \StringTok{"Summary of Different Model Evaluation Statistics for the 3 Models Compared"}\NormalTok{, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{,}
-             \DataTypeTok{row.names =}\NormalTok{ F, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{modsts}
 
 \KeywordTok{TaylorDiagram}\NormalTok{(modData, }\DataTypeTok{obs =} \StringTok{"obs"}\NormalTok{, }\DataTypeTok{mod =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{group =} \StringTok{"model"}\NormalTok{,}
-\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(}\StringTok{"orange"}\NormalTok{, }\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{), }\DataTypeTok{cor.col=}\StringTok{'brown'}\NormalTok{,}\DataTypeTok{rms.col=}\StringTok{'black'}\NormalTok{)}
+              \DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(}\StringTok{"orange"}\NormalTok{, }\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{), }\DataTypeTok{cor.col=}\StringTok{'brown'}\NormalTok{,}
+              \DataTypeTok{rms.col=}\StringTok{'black'}\NormalTok{)}
 
 \KeywordTok{conditionalQuantile}\NormalTok{(modData,}\DataTypeTok{obs =} \StringTok{"obs"}\NormalTok{, }\DataTypeTok{mod =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"model"}\NormalTok{)}
 \end{Highlighting}

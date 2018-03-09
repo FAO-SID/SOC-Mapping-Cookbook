@@ -1,5 +1,5 @@
 \clearpage
-## Data mining: Support Vector Machines {#svm}
+## Data Mining: Support Vector Machines {#svm}
 *GF Olmedo & M Guevara*
 
 ### Overview 
@@ -26,7 +26,7 @@ svm is a broad research area and for a better understanding of the mathematical 
 
 ### Technical Steps - Fitting an SVM Model to Predict the SOC
 
-#### Setting Working Space and Initial Steps
+**Step 1 - Setting working space and initial steps**
 
 One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our folder which contains data for the study area (point data, covariates).
 
@@ -37,28 +37,28 @@ getwd()
 ```
 
 
-#### Data Preparation
+**Step 2 - Data preparation**
 
-**Point Dataset**
+**Point dataset**
 
-We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
+We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in the Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
-**Environmental Predictors (Covariates)**
+**Environmental predictors (covariates)**
 
-In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section \@ref(GSOCDataRepo).
+In the Chapter \@ref(covariates), we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section \@ref(GSOCDataRepo).
 
-In section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
+In Section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
 Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
 
 ```{r}
-# load data
+# Load data
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
 dat$LCEE10 <- as.factor(dat$LCEE10)
 dat$soilmap <- as.factor(dat$soilmap)
 
-# explore the data structure
+# Explore the data structure
 str(dat)
 ```
 
@@ -79,15 +79,14 @@ To clearly tell R this information we define the CRS which describes a reference
 
 Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
 
-Now, we will define our CRS:
-
 ```{r}
+# Now, we will define our CRS
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 
 dat@proj4string
 ```
 
-Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of chapter \@ref(covariates).
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of Chapter \@ref(covariates).
 
 ```{r}
 load(file = "covariates.RData")
@@ -95,10 +94,10 @@ load(file = "covariates.RData")
 names(covs)
 ```
 
-#### Variable selection using correlation analysis
+**Step 3 - Variable selection using correlation analysis**
 
 ```{r}
-# plot the names of the covariates
+# Plot the names of the covariates
 names(dat@data)
 ```
 
@@ -108,7 +107,7 @@ For the variable selection we will use `cor()` function. `x` must be a table inc
 selectedCovs <- cor(x = as.matrix(dat@data[,5]),
            y = as.matrix(dat@data[,-c(1:7,13,21)]))
 
-# print correlation results
+# Print correlation results
 selectedCovs
 ```
 
@@ -116,6 +115,7 @@ Now we used the correlation results to select the top five covariates.
 
 ```{r var selection in svm continued}
 library(reshape)
+
 x <- subset(melt(selectedCovs), value != 1 | value != NA)
 x <- x[with(x, order(-abs(x$value))),]
 
@@ -131,7 +131,7 @@ names(COV)
 ```
 
 
-#### Categorical variables in svm models
+**Step 4 - Categorical variables in svm models**
 
 According to @hsu2003practical, svm requires each variable to be represented by a vector of real numbers. This means that factor variables, like `covs$LCEE10` and `covs$soilmap`has to be converted into numeric data. In statistics, this kind of variables are called boolean indicators or dummy variables. Dummy variables take a value of 0 or 1 indicating the presence or absence of a specific value/category in our factor covariate, i.e. if we have 5 categories like in `covs$LCEE10`, we will have 5 dummy variables indicating the presence/absence of every category. For converting our covariates to dummies we will have to create a new function that returns the dummy rasterStack from the factor version of the rasterLayer.
 
@@ -151,33 +151,34 @@ dummyRaster <- function(rast){
 We can use the function we just created to convert our categorical covariates to dummies and then stack all the layers together.
 
 ```{r}
-# convert soilmap from factor to dummy
+# Convert soilmap from factor to dummy
 soilmap_dummy <- dummyRaster(covs$soilmap)
 
-# convert LCEE10 from factor to dummy
+# Convert LCEE10 from factor to dummy
 LCEE10_dummy <- dummyRaster(covs$LCEE10)
 
 # Stack the 5 COV layers with the 2 dummies
 COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
 
-# print the final layer names
+# Print the final layer names
 names(COV)
 ```
 
 We have to convert the columns with categorical variables in the soil samples `data.frame` to dummies as well. For doing this we can use function `model.matrix()`. After this, we use `cbind()` to merge the resulting `data.frame`.
 
 ```{r}
-# convert soilmap column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
+# Convert soilmap column to dummy, the result is a matrix
+# To have one column per category we have to add -1 to the formula
 dat_soilmap_dummy <- model.matrix(~soilmap -1, data = dat@data)
-# convert the matrix to a data.frame
+
+# Convert the matrix to a data.frame
 dat_soilmap_dummy <- as.data.frame(dat_soilmap_dummy)
 
-
-# convert LCEE10 column to dummy, the result is a matrix
-# to have one column per category we had to add -1 to the formula
+# Convert LCEE10 column to dummy, the result is a matrix
+# To have one column per category we have to add -1 to the formula
 dat_LCEE10_dummy <- model.matrix(~LCEE10 -1, data = dat@data)
-# convert the matrix to a data.frame
+
+# Convert the matrix to a data.frame
 dat_LCEE10_dummy <- as.data.frame(dat_LCEE10_dummy)
 
 dat@data <- cbind(dat@data, dat_LCEE10_dummy, dat_soilmap_dummy)
@@ -186,24 +187,25 @@ names(dat@data)
 ```
 
 
-#### Fitting a svm model
+**Step 5 - Fitting a svm model**
 
 To improve the model performance the parameters of the svm can be tuned. In this example, we will show how to tune 2 parameters using a grid search for hyperparameter optimization using the function `tune()`. The first parameter is epsilon which is the insensitive-loss function (The larger epsilon is, the larger errors in the solution are not penalized). The default value for epsilon is 0.1, and we will try 11 different value from 0.05 to 0.12 in 0.1 increments. the second parameter is the cost which is the cost of constraints violation -- it is the ‘C’-constant of the regularization term in the Lagrange formulation. The default value for this parameter is 1, and we will try values from 1 to 20 in 5 increments. The value of cost helps us to avoid overfitting. This is a heavy and time consuming computational step since we will try a extensive number of different models in order to find the best parameters for our svm model. 
 
 ```{r svm RUN.ALL, echo=FALSE, eval=TRUE, results='hide', warning=FALSE}
 library(e1071)
 library(caret)
+
 if(RUN.ALL == TRUE){
-  # run the model
+  # Run the model
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
-                                                         names(COV))],
+                                                      names(COV))],
                      ranges = list(epsilon = seq(0.1,0.2,0.02),
                                    cost = c(5,7,15,20)))
-  # save the model for later
+  # Save the model for later
   saveRDS(object = tuneResult, file = "results/svm.model.Rds")
 }
 if(RUN.ALL == FALSE){
-  # load pre calculated model
+  # Load pre calculated model
   tuneResult <- readRDS("results/svm.model.Rds")
 }
 ```
@@ -212,7 +214,7 @@ if(RUN.ALL == FALSE){
 library(e1071)
 library(caret)
 
-#  Test different values of epsilon and cost
+# Test different values of epsilon and cost
   tuneResult <- tune(svm, OCSKGM ~.,  data = dat@data[,c("OCSKGM",
                                                          names(COV))],
                      ranges = list(epsilon = seq(0.1,0.2,0.02),
@@ -221,12 +223,12 @@ library(caret)
 
 We can plot the performance of the different models. When the region is darker, the RMSE is closer to zero. 
 
-```{r, fig.cap="Performance of the different svm models in the parameter tuning procedure"}
+```{r, fig.cap = "Performance of the different SVM models in the parameter tuning procedure"}
 plot(tuneResult)
 ```
 
 
-#### Select the model with the best combination of epsilon and cost
+**Step 6 - Select the model with the best combination of epsilon and cost**
 
 The best model is the one with the lowest mean squared error derived by cross-validation. The parameters for the cross-validation can be defined in the `tune.control()` function. By default, it uses cross-validation using 10 folds.
 
@@ -237,9 +239,9 @@ tunedModel <- tuneResult$best.model
 print(tunedModel)
 ```
 
-#### Predict the OCS using the model
+**Step 7 - Predict the OCS using the model**
 
-```{r, fig.cap="SOC prediction using a support vector machines model"}
+```{r, fig.cap="SOC prediction map for FYROM using a support vector machines model"}
 # Use the model to predict the SOC in the covariates space
 OCSsvm <- predict(COV, tunedModel)
 
@@ -253,13 +255,16 @@ plot(OCSsvm)
 Finally, we can evaluate the contribution of each covariate to the model [@guyon2003introduction]:
 
 ```{r, echo=TRUE, eval=TRUE}
-# Variable importance in svm. Code by:
-# stackoverflow.com/questions/34781495
+# Variable importance in svm
+# Code by: stackoverflow.com/questions/34781495
+# Weight vectors
+w <- t(tunedModel$coefs) %*% tunedModel$SV
 
-w <- t(tunedModel$coefs) %*% tunedModel$SV     # weight vectors
-w <- apply(w, 2, function(v){sqrt(sum(v^2))})  # weight
+# Weight
+w <- apply(w, 2, function(v){sqrt(sum(v^2))})  
 
 w <- sort(w, decreasing = T)
+
 print(w)
 ```
 

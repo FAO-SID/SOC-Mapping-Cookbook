@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 4-1-Validation
+
 dat <- read.csv("data/dat_test.csv")
 
 # Promote to spatialPointsDataFrame

@@ -41,7 +41,7 @@ knitr::opts_chunk$set(cache=T)
 \addtocontents{lot}{\protect\hypersetup{hidelinks}}
 \addtocontents{lof}{\protect\hypersetup{hidelinks}}
 
-# Copyright and disclaimer {-}
+# Copyright and Disclaimer {-}
 
 **Recommended citation:**
 
@@ -65,13 +65,13 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 
 # Foreword to the First Edition {-}
 
-This cookbook provides step-by-step guidance for developing 1 km grids for soil carbon stocks. It includes the preparation of local soil data, the compilation and pre-processing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessments. Guidance is mainly specific to soil carbon data, but also contains many generic sections on soil grid development, as it is relevant for other soil properties.
+The first edition of the cookbook provides step-by-step guidance for developing 1 km grids for the mapping of soil carbon stocks. It includes the preparation of local soil data, the compilation and pre-processing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessments. Guidance is mainly specific to soil carbon data, but also contains many generic sections on soil grid development, as it is relevant for other soil properties.
 
 Therefore, this first edition is the beginning of a series of updates and extensions, necessary to cover a larger variety of upscaling approaches. Experiences gained throughout 2017 during the GSOCmap programme, through applications at country scale and various trainings scheduled for 2017, shall be considered in the next editions. Also, the section on uncertainties will be adjusted to more practical implementation steps.
 
 ## Foreword to the Second Edition {-}
 
-This edition has been updated with knowledge and practical experiences gained during the implementation process of GSOCmap V1.0 throughout 2017. The cookbook includes step-by-step guidance for developing 1 km grids for SOC stocks, as well as for the preparation of local soil data, the compilation and preprocessing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessment methods. Guidance is mainly specific to SOC data, but as this cookbook contains generic sections on soil grid development it can be applicable to map various soil properties. 
+This second edition has been updated with knowledge and practical experiences gained during the implementation process of GSOCmap V1.0 throughout 2017. The cookbook includes step-by-step guidance for developing 1 km grids for SOC stocks, as well as for the preparation of local soil data, the compilation and preprocessing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessment methods. Guidance is mainly specific to soil organic carbon data, but as this cookbook contains generic sections on soil grid development, it can be applicable to map various soil properties. 
 
 \clearpage
 ## Editorial Board {-}

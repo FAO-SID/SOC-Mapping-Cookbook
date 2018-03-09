@@ -1,3 +1,7 @@
+## The following code is part of the example scripts included
+## in the "Soil Organic Carbon Mapping Cookbook"
+## @knitr 1A-DataPreparation-Profiles
+
 dat <- read.csv(file = "data/horizons.csv")
 
 # Explore the data
