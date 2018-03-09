@@ -214,7 +214,8 @@ It is crucial to report in the metadata whether national SOC values refer to tot
 
 ### Depth
 
-The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depending on the available data, by genetic horizons or depth classes. The following depths are additionally considered for GSOCmap (optional):
+The standard depth for GSOCmap is **0 cm to 30 cm**. Subdivisions are possible depending on the available data, by genetic horizons or depth classes. The following depths are additionally considered for GSOCmap (optional):
+
 * Forest floor: thickness (cm) subdivision in horizons depending on national soil inventory method (e.g. L, F, H)
 * Peat: >30 , <100 depending on national data
 
@@ -223,7 +224,7 @@ The standard depth for GSOCmap is **0 to 30 cm**. Subdivisions are possible depe
 
 ### Completeness of Depth Estimate
 
-Soil properties are commonly collected from field inventories (see Table 2.2) or from sampling and analyzing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*, data holders are confronted with the following options: 
+Soil properties are commonly collected from field inventories (see Table \@ref(tab:horizon-level)) or from sampling and analyzing horizons and/or fixed depths. Since a fixed target depth of 30 cm is required for GSOC (other depth classes will be recommended in the future, following the *GSP Guidelines for Sharing National Data/Information to Compile a Global Soil Organic Carbon (GSOC) Map*, data holders are confronted with the following options: 
 
 * **Option 1**: Soil sampling has already considered this depth, data can be directly used for upscaling (see Chapter \@ref(mappingMethods)).
 * **Option 2**: Horizons or layers/depth classes are sampled but aggregation is needed over the 0 to 30 cm.
@@ -233,7 +234,7 @@ For both **Options 2** and **Option 3**, the transformation is needed, using e.g
 
 ### Technical Steps - Equal-Area Splines Using R {#EqualAreaSplines}
 
-In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see Section \@ref(SoilPedometrics)). For illustration, a sample dataset has been used (see Chapter \@ref(covariates)). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (Tables \@ref(tab:example table for site-level), \@ref(tab:example table for horizon-level)) can be transformed to an SPC.
+In **R** environment, the easiest way to apply equal-area splines is using the function `GSIF::mpspline` from the **R** package **GSIF** (\cite{hengl_2016_gsif}, see Section \@ref(SoilPedometrics)). For illustration, a sample dataset has been used (see Chapter \@ref(covariates)). This function requires data stored as `SoilProfileCollection` (SPC) using package **aqp**. Nevertheless, data in any local soil database or in tables like the ones proposed before (see Tables \@ref(tab:site-level), \@ref(tab:horizon-level)) can be transformed to an SPC.
 
 The function `GSIF::mpspline` has several arguments. One of the arguments is the lambda value mentioned before. The proposed default value is 0.1. Another argument for this function is the target standard depths. The function produces spline-estimated values at these depths. However, this function also produces spline-estimated values at 1 cm increments. 
 
@@ -295,7 +296,7 @@ head(dat)
 
 **Step 5 - Estimate the soil organic carbon stock using the virtual horizons**
 
-Finally, the estimation of the soil organic carbon stock (OKS) can be done using the **GSIF** package.
+Finally, the estimation of the soil organic carbon stock (OCS) can be done using the **GSIF** package.
 
 ```{r estimation of OCS, eval=TRUE}
 library(GSIF)
@@ -312,7 +313,7 @@ dat <- dat[dat$OCSKGM>0,]
 summary(dat)
 ```
 
-Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (*SOC*) tends to normality and 2) if this transformation increases the simple correlation of *SOC* and its prediction factors. 
+Soil organic carbon tends to have a log-normal distribution with a right-skew, and transforming the original values to its natural logarithm would generate a normal distribution of soil organic carbon values. Here we will test if the log transformation of the response variable (SOC) tends to normality and 2) if this transformation increases the simple correlation of SOC and its prediction factors. 
 
 ```{r, eval=TRUE, fig.cap='Statistical distribution of original OCS values vs log-transformed values'}
 # Generate a new column with the transformed OCSKGM to its natural 
