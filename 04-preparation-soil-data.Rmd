@@ -118,7 +118,7 @@ For organic soil material, $BD_x$ can be estimated as follows, considering exist
 
 * Fibric: $BD_{P,\text{fibric}} = 0.089 g \cdot cm^{-3}$ ($53.56\%$ C)
 
-Examples for pedo-transfer functions to estimate $BD$, based on the soil organic matter ($OM$) content in percent $(\%)$:
+Examples for pedo-transfer functions to estimate $BD$, based on the soil organic matter ($SOM$) content in percent $(\%)$:
 
 \begin{equation}
 BD = 1.62-0.06 * OM

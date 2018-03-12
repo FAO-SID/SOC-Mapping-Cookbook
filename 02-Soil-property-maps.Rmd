@@ -18,7 +18,7 @@ The following table presents an overview of different geographic upscaling appro
 |   |   |                                                                       | 
 |-------------------|-------------------------|-----------------------------------------|
 | Conventional upscaling [@lettens2004soil]  |  Class-matching | Derive average SOC stocks per class: soil type for which a national map exists, or combination with other spatial covariates (e.g. land use category, climate type, biome, etc.). This approach is used in the absence of spatial coordinates of the source data.  |
-|                         | Geomatching     | Point locations with spatial referencing are overlaid with GIS layers of important covariates (e.g. a soil map). Upscaling is based on averaged SOC values per mapping unit.  | 
+|                         | Geomatching     | Point locations with spatial referencing are overlaid with geographic information system (GIS) layers of important covariates (e.g. a soil map). Upscaling is based on averaged SOC values per mapping unit.  | 
 |  Digital soil mapping [@dobos2006digital]   | Data mining and geostatistics  | Multiple regression, classification tree, random forests, regression-kriging, kriging with external drift.  | 
 
 

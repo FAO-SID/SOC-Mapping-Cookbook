@@ -124,8 +124,8 @@ Further reading and other global data sources: http://worldgrids.org/doku.php/wi
 
 ### CORINE Land Cover (Europe Only)
 
-The pan-European component is coordinated by the European Environment Agency (EEA) and produces satellite image mosaics, land cover/land use (LC/LU) information in the CORINE Land Cover data, and the High-Resolution Layers. 
-The CORINE Land Cover is provided for 1990, 2000, 2006 and 2012. This vector-based dataset includes 44 land cover and land use classes. The time-series also includes a land-change layer, highlighting changes in land cover and land-use. The high-resolution layers (HRL) are raster-based datasets (100 m, 250 m) which provide information about different land cover characteristics and is complementary to land-cover mapping (e.g. CORINE) datasets.
+The pan-European component is coordinated by the European Environment Agency (EEA) and produces satellite image mosaics, land cover/land use information in the CORINE Land Cover data, and the High-Resolution Layers. 
+The CORINE Land Cover is provided for 1990, 2000, 2006 and 2012. This vector-based dataset includes 44 land cover and land use classes. The time-series also includes a land-change layer, highlighting changes in land cover and land-use. The high-resolution layers are raster-based datasets (100 m, 250 m) which provide information about different land cover characteristics and is complementary to land-cover mapping (e.g. CORINE) datasets.
 The CORINE Land Cover Data are available at http://www.eea.europa.eu/data-and-maps/data 
 
 ## Climate

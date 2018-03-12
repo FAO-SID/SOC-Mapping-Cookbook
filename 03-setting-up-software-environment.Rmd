@@ -32,7 +32,7 @@ When you download **R**, you get the basic **R** system which implements the **R
 
 ### Finding R Packages
 
-The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org/) official website, where currently about 12.000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on *CRAN* with the `available.packages()` function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the [*Task Views*](https://cran.r-project.org/web/views/) link, which groups together packages related to a given topic. 
+The primary source for **R** packages is [*CRAN*’s](https://cran.r-project.org/) official website, where currently about 12,000 available packages are listed. For spatial applications, various packages are available. You can obtain information about the available packages directly on *CRAN* with the `available.packages()` function. The function returns a matrix of details corresponding to packages currently available at one or more repositories. An easier way to browse the list of packages is using the [*Task Views*](https://cran.r-project.org/web/views/) link, which groups together packages related to a given topic. 
 
 ### Most Used R Packages for Digital Soil Mapping 
 
