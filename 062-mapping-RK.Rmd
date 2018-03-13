@@ -7,9 +7,9 @@
 Regression-kriging is a spatial interpolation technique that combines a regression of the dependent variable (target variable) on predictors (i.e. the environmental covariates) with kriging of the prediction residuals. In other words, Regression-kriging is a hybrid method that combines either a simple or a multiple-linear regression model with ordinary kriging of the prediction residuals.   The Multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modeled relationship between predictors and target are summarized in the regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.
 In this Section, we review the regression-kriging method. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a regression-kriging technique, there is a continuous random variable called the dependent variable (target) Y (in our case SOC) and a number of independent variables which are selected covariates, x1, x2,...,xp. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is:
 
-###  Assumptions
+###  Assumptions 
 
-Standard linear regression models with standard estimation techniques make a number of assumptions about the predictor variables, the response variables, and their relationship. One must review the assumptions made when using the model.
+Standard linear regression models with standard estimation techniques make a number of assumptions \index{linear regression model assumptions} about the predictor variables, the response variables, and their relationship. One must review the assumptions made when using the model.
 
 *Linearity*: The mean value of Y for each specific combination of the X’s is a linear function of the X’s. In practice this assumption can virtually never be confirmed; fortunately, multiple regression procedures are not greatly affected by minor deviations from this assumption. If curvature in the relationships is evident, one may consider either transforming the variables or explicitly allowing for nonlinear components.\\
 
@@ -23,7 +23,7 @@ Standard linear regression models with standard estimation techniques make a num
 
 ### Pre-Processing of Covariates
 
-Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. The multicollinearity of a number of variables can be assessed using Variance Inflation Factor (VIF). In R, the function vif() from caret package can estimate the VIF. There are several rules of thumb to establish when there is a serious multi-collinearity (e.g. when the VIF square root is over 2). The Principal component analysis can be used to overcome multicollinearity issues.
+Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. The multicollinearity of a number of variables can be assessed using Variance Inflation Factor (VIF). In R, the function vif() from caret package can estimate the VIF \index{variance inflation factor}. There are several rules of thumb to establish when there is a serious multi-collinearity (e.g. when the VIF square root is over 2). The Principal component analysis can be used to overcome multicollinearity issues.
 Principal components analysis can cope with data containing large numbers of covariates that are highly collinear which is the common case in environmental predictors. Often the principal components with higher variances are selected as regressors. However, for the purpose of predicting the outcome, the principal components with low variances may also be important, in some cases even more important.
 The PCA + Linear Regression (PCR) method may be coarsely divided into three main steps:
   1. Run PCA on the data matrix for the predictors to obtain the principal components, and then select a subset of the principal components for further use.
@@ -32,7 +32,7 @@ The PCA + Linear Regression (PCR) method may be coarsely divided into three main
 
 ###  The Terminology
 
-* **Dependent variable (Y)**: What we are trying to predict (e.g. soil organic carbon content).
+* **Dependent variable (Y)**: \index{dependent variable} What we are trying to predict (e.g. soil organic carbon content).
 * **Independent variables (Predictors) (X)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates - DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter \@ref(covariates).
 * **Coefficients (β)**: values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
 * **Residuals (ε)**: the portion of the dependent variable that cannot be explained by the model; the model under/over predictions.
@@ -140,7 +140,7 @@ dat$soilmap <- as.factor(dat$soilmap)
 str(dat)
 ```
 
-Since we will be working with spatial data we need to define the coordinates for the imported data. Using the coordinates()  function from the sp package we can define the columns in the data frame to refer to spatial coordinates—here the coordinates are listed in columns X and Y.
+Since we will be working with spatial data we need to define the coordinates for the imported data. Using the coordinates()  function from the sp \index{R Packages!sp} package we can define the columns in the data frame to refer to spatial coordinates—here the coordinates are listed in columns X and Y.
 
 ```{r}
 library(sp)
@@ -193,7 +193,7 @@ Let’s fit a linear model using with all available covariates.
 model.MLR <- lm(log(OCSKGM) ~ ., data = datdf)
 ```
 
-From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression using the `step()` function. With this function, we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
+From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression \index{stepwise variable selection} using the `step()` function. With this function, we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
 
 ```{r, results='hide'}
 # Stepwise variable selection
@@ -219,6 +219,8 @@ plot(model.MLR.step)
 par(mfrow=c(1,1))
 ```
 
+\index{R Packages!car}
+\index{variance inflation factor}
 
 ```{r}
 # Collinearity test using variance inflation factors
@@ -276,6 +278,8 @@ covs.sp$LCEE10 <- as.factor(covs.sp$LCEE10)
 covs.sp$soilmap <- as.factor(covs.sp$soilmap)
 
 ```
+
+\index{R Packages!gstat} \index{R Packages!automap}
 
 ```{r RK RUN.ALL, echo=FALSE, eval=TRUE}
 library(automap)
@@ -348,7 +352,7 @@ saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 
 ### Technical Steps - Cross-Validation of Regression-Kriging Models
 
-Cross-validation is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package. In this example, we will apply 10 fold cross-validation to our RK model.
+Cross-validation \index{Cross-validation} is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package. In this example, we will apply 10 fold cross-validation to our RK model.
 
 ```{r, warning=FALSE, message=FALSE, results='hide'}
 # autoKrige.cv() does not removes the duplicated points

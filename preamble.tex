@@ -59,6 +59,12 @@
 \usepackage{nomencl}
 \makenomenclature
 \renewcommand{\nomname}{List of Abbreviations and Acronyms}
+%% to update run makeindex on docs folder and move results to / folder
+%% see nomencl manual
+%% e.g. makeindex SOCMapping.nlo -s nomencl.ist -o SOCMapping.nls
 
+%% index
+\usepackage{imakeidx}
+\makeindex
 
 \AtBeginDocument{\let\maketitle\relax}
