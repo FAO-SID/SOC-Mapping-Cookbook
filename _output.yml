@@ -11,7 +11,7 @@ bookdown::gitbook:
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex
-    before_body: frontcover.tex
+    before_body: ["frontcover.tex", "abbrev.tex"]
     after_body: backcover.tex
   latex_engine: xelatex
   toc: false

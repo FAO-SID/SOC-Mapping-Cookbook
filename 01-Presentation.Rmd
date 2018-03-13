@@ -1,12 +1,8 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 \mainmatter
 \tableofcontents
 \listoffigures
 \listoftables
+\printnomenclature
 
 # Presentation
 
