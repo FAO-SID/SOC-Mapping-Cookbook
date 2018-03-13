@@ -1,0 +1,153 @@
+\hypersetup {hidelinks}
+\contentsline {chapter}{Copyright and Disclaimer}{i}{chapter*.1}
+\contentsline {chapter}{Foreword to the First Edition}{iii}{chapter*.2}
+\contentsline {section}{Foreword to the Second Edition}{iii}{section*.3}
+\contentsline {section}{Editorial Board}{iv}{section*.4}
+\contentsline {section}{Contributing Authors}{iv}{section*.5}
+\contentsline {chapter}{\numberline {1}Presentation}{13}{chapter.1}
+\contentsline {section}{\numberline {1.1}How to Use This Book}{15}{section.1.1}
+\contentsline {section}{\numberline {1.2}The FYROM Soil Database}{15}{section.1.2}
+\contentsline {chapter}{\numberline {2}Soil Property Maps}{17}{chapter.2}
+\contentsline {section}{\numberline {2.1}Definitions and Objectives}{17}{section.2.1}
+\contentsline {section}{\numberline {2.2}Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates}{18}{section.2.2}
+\contentsline {chapter}{\numberline {3}Setting-Up the Software Environment}{19}{chapter.3}
+\contentsline {section}{\numberline {3.1}Use of R, RStudio and R Packages}{19}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Obtaining and Installing R}{19}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Obtaining and Installing RStudio}{20}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Getting Started With R}{20}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}R Packages}{20}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Finding R Packages}{20}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Most Used R Packages for Digital Soil Mapping}{20}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}Soil Science and Pedometrics}{21}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2.2}Spatial Analysis}{21}{subsubsection.3.2.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.3}Modeling}{21}{subsubsection.3.2.2.3}
+\contentsline {subsubsection}{\numberline {3.2.2.4}Mapping and Plotting}{22}{subsubsection.3.2.2.4}
+\contentsline {subsection}{\numberline {3.2.3}Packages Used in This Cookbook}{22}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}R and Spatial Data}{22}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Reading Shapefiles}{23}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Coordinate Reference Systems in R}{23}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Working with Rasters}{24}{subsection.3.3.3}
+\contentsline {section}{\numberline {3.4}Other DSM-Related Software and Tools}{25}{section.3.4}
+\contentsline {chapter}{\numberline {4}Preparation of Local Soil Data}{27}{chapter.4}
+\contentsline {section}{\numberline {4.1}Soil Profiles and Soil Augers}{27}{section.4.1}
+\contentsline {section}{\numberline {4.2}Soil Database}{28}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Type pf Soil Database}{28}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Technical Steps -- Loading Soil Data From Tables in R}{28}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Completeness of Measurements and Estimates}{30}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Stones}{31}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Bulk Density}{31}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Soil Carbon Analysis}{34}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.4}Carbonates}{34}{subsection.4.3.4}
+\contentsline {subsection}{\numberline {4.3.5}Depth}{35}{subsection.4.3.5}
+\contentsline {section}{\numberline {4.4}Soil Depth Estimate}{35}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Completeness of Depth Estimate}{35}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Technical Steps - Equal-Area Splines Using R}{36}{subsection.4.4.2}
+\contentsline {chapter}{\numberline {5}Preparation of Spatial Covariates}{41}{chapter.5}
+\contentsline {section}{\numberline {5.1}DEM-Derived Covariates}{41}{section.5.1}
+\contentsline {section}{\numberline {5.2}Parent Material}{43}{section.5.2}
+\contentsline {section}{\numberline {5.3}Soil Maps}{43}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Global HWSD Soil Property Maps}{44}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Technical Steps - Rasterizing a Vector Layer in R}{44}{subsection.5.3.2}
+\contentsline {section}{\numberline {5.4}Land Cover and Land Use}{45}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}GlobCover (Global)}{45}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Landsat GeoCover (Global)}{46}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Globeland30 (Global)}{46}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}CORINE Land Cover (Europe Only)}{46}{subsection.5.4.4}
+\contentsline {section}{\numberline {5.5}Climate}{47}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}WorldClim V1.4 and V2 (Global)}{47}{subsection.5.5.1}
+\contentsline {subsection}{\numberline {5.5.2}Gridded Agro-Meteorological Data in Europe (Europe)}{47}{subsection.5.5.2}
+\contentsline {section}{\numberline {5.6}GSOCMap - Data Repository (ISRIC, 2017)}{48}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Covariates and Empty Mask}{48}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Data Specifications}{48}{subsection.5.6.2}
+\contentsline {subsection}{\numberline {5.6.3}Data Access}{49}{subsection.5.6.3}
+\contentsline {section}{\numberline {5.7}Extending the Soil Property Table for Spatial Statistics}{49}{section.5.7}
+\contentsline {section}{\numberline {5.8}Preparation of a Soil Property Table for Spatial Statistics}{49}{section.5.8}
+\contentsline {section}{\numberline {5.9}Technical Steps - Overlay Covariates and Soil Points Data}{49}{section.5.9}
+\contentsline {chapter}{\numberline {6}Mapping Methods}{55}{chapter.6}
+\contentsline {section}{\numberline {6.1}Conventional Upscaling Using Soil Maps}{56}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Overview}{56}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Technical Steps - Class-Matching}{56}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Technical Steps - Geo-Matching}{58}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}Regression-Kriging}{67}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Overview}{67}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Assumptions}{67}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Pre-Processing of Covariates}{68}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}The Terminology}{68}{subsection.6.2.4}
+\contentsline {subsection}{\numberline {6.2.5}Interpret the Key Results of Multiple Regression}{70}{subsection.6.2.5}
+\contentsline {subsection}{\numberline {6.2.6}Using the Results of a Regression Analysis to Make Predictions}{71}{subsection.6.2.6}
+\contentsline {subsection}{\numberline {6.2.7}Technical Steps - Regression-kriging}{71}{subsection.6.2.7}
+\contentsline {subsection}{\numberline {6.2.8}Technical Steps - Cross-Validation of Regression-Kriging Models}{82}{subsection.6.2.8}
+\contentsline {section}{\numberline {6.3}Data Mining: Random Forest}{84}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Overview}{84}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Random Forests}{84}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}Conceptual Model and Data Preparation}{86}{subsection.6.3.3}
+\contentsline {subsection}{\numberline {6.3.4}Software}{86}{subsection.6.3.4}
+\contentsline {subsection}{\numberline {6.3.5}Tunning Random Forest Parameters}{87}{subsection.6.3.5}
+\contentsline {subsection}{\numberline {6.3.6}Technical steps - Random Forest}{87}{subsection.6.3.6}
+\contentsline {subsection}{\numberline {6.3.7}Technical steps - Using Quantile Regression Forest to Estimate Uncertainty}{93}{subsection.6.3.7}
+\contentsline {section}{\numberline {6.4}Data Mining: Support Vector Machines}{98}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Overview}{98}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}Technical Steps - Fitting an SVM Model to Predict the SOC}{99}{subsection.6.4.2}
+\contentsline {chapter}{\numberline {7}Validation}{109}{chapter.7}
+\contentsline {section}{\numberline {7.1}What is Validation?}{109}{section.7.1}
+\contentsline {section}{\numberline {7.2}Map Quality Measures}{110}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Quality Measures for Quantitative Soil Maps}{110}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Quality Measures for Qualitative Soil Maps}{113}{subsection.7.2.2}
+\contentsline {subsection}{\numberline {7.2.3}Estimating the Map Quality Measures and Associated Uncertainty}{115}{subsection.7.2.3}
+\contentsline {section}{\numberline {7.3}Graphical Map Quality Measures}{116}{section.7.3}
+\contentsline {section}{\numberline {7.4}Validation Methods and Statistical Inference}{116}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Additional Probability Sampling}{117}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Data-Splitting}{121}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}Cross-Validation}{123}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Technical Steps - Validation}{124}{section.7.5}
+\contentsline {chapter}{\numberline {8}Model Evaluation in Digital Soil Mapping}{129}{chapter.8}
+\contentsline {section}{\numberline {8.1}Technical Steps - Model Correlations and Spatial Differences}{130}{section.8.1}
+\contentsline {section}{\numberline {8.2}Technical steps - Model evaluation}{132}{section.8.2}
+\contentsline {chapter}{\numberline {9}Uncertainty}{137}{chapter.9}
+\contentsline {section}{\numberline {9.1}Sources of Uncertainty}{137}{section.9.1}
+\contentsline {subsection}{\numberline {9.1.1}Attribute Uncertainty of Soil Measurements}{138}{subsection.9.1.1}
+\contentsline {subsection}{\numberline {9.1.2}Positional Uncertainty of Soil Measurements}{138}{subsection.9.1.2}
+\contentsline {subsection}{\numberline {9.1.3}Uncertainty in Covariates}{139}{subsection.9.1.3}
+\contentsline {subsection}{\numberline {9.1.4}Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data}{139}{subsection.9.1.4}
+\contentsline {section}{\numberline {9.2}Uncertainty and Spatial Data Quality}{140}{section.9.2}
+\contentsline {section}{\numberline {9.3}Quantifying Prediction Uncertainty}{141}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}Uncertainty Characterised by Probability Distributions}{141}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}Propagation of Model Uncertainty}{142}{subsection.9.3.2}
+\contentsline {subsection}{\numberline {9.3.3}Propagation of Attribute, Positional and Covariate Uncertainty \{propUncertainty\}}{144}{subsection.9.3.3}
+\contentsline {chapter}{\numberline {10}Data Sharing}{147}{chapter.10}
+\contentsline {section}{\numberline {10.1}Export Formats}{147}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Type of Soil Data and Their Formatting}{148}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}General GIS Data Formats: Vector, Raster, Table}{151}{subsection.10.1.2}
+\contentsline {subsection}{\numberline {10.1.3}Recommended GIS Data Exchange Formats}{152}{subsection.10.1.3}
+\contentsline {section}{\numberline {10.2}Web Services: Serving Soil Data Using Web Technology \{webService\}}{155}{section.10.2}
+\contentsline {subsection}{\numberline {10.2.1}Third-Party Services}{155}{subsection.10.2.1}
+\contentsline {subsection}{\numberline {10.2.2}GeoServer (Web Serving and Web Processing)}{155}{subsection.10.2.2}
+\contentsline {subsection}{\numberline {10.2.3}Visualizing Data Using Leaflet and/or Google Earth}{156}{subsection.10.2.3}
+\contentsline {section}{\numberline {10.3}Preparing Soil Data for Distribution}{158}{section.10.3}
+\contentsline {subsection}{\numberline {10.3.1}Metadata}{158}{subsection.10.3.1}
+\contentsline {subsection}{\numberline {10.3.2}Exporting Data: Final Tips}{159}{subsection.10.3.2}
+\contentsline {section}{\numberline {10.4}Export Formats}{159}{section.10.4}
+\contentsline {chapter}{\numberline {11}Technical Overview and the Checklist}{161}{chapter.11}
+\contentsline {section}{\numberline {11.1}Point Dataset}{161}{section.11.1}
+\contentsline {section}{\numberline {11.2}Covariates}{161}{section.11.2}
+\contentsline {section}{\numberline {11.3}Statistical Inference}{162}{section.11.3}
+\contentsline {section}{\numberline {11.4}Spatial Interpolation}{162}{section.11.4}
+\contentsline {section}{\numberline {11.5}Calculation of Stocks}{162}{section.11.5}
+\contentsline {section}{\numberline {11.6}Evaluation of Output and Quality Assessment}{162}{section.11.6}
+\contentsline {chapter}{\numberline {12}Deliverables}{163}{chapter.12}
+\contentsline {chapter}{\numberline {13}Compendium of the Code Examples Included in the Cookbook}{165}{chapter.13}
+\contentsline {section}{\numberline {13.1}Data Preparation for Soil Profiles}{167}{section.13.1}
+\contentsline {section}{\numberline {13.2}Data Preparation for Top Soil or Auger Samples}{170}{section.13.2}
+\contentsline {section}{\numberline {13.3}Merging Top Soil and Soil Profiles Databases}{172}{section.13.3}
+\contentsline {section}{\numberline {13.4}Data-Splitting}{173}{section.13.4}
+\contentsline {section}{\numberline {13.5}Rasterizing a Vector Layer in R}{174}{section.13.5}
+\contentsline {section}{\numberline {13.6}Overlay Covariates and Soil Points Data}{175}{section.13.6}
+\contentsline {section}{\numberline {13.7}Fitting a Regression-Kriging Model to Predict the OCS}{177}{section.13.7}
+\contentsline {section}{\numberline {13.8}Cross-Validation of Regression-Kriging Models}{179}{section.13.8}
+\contentsline {section}{\numberline {13.9}Fitting a Random Forest Model to Predict the SOC}{180}{section.13.9}
+\contentsline {section}{\numberline {13.10}Using Quantile Regression Forest to Estimate Uncertainty}{182}{section.13.10}
+\contentsline {section}{\numberline {13.11}Fitting a SVM Model to Predict the SOC}{184}{section.13.11}
+\contentsline {section}{\numberline {13.12}Validation}{187}{section.13.12}
+\contentsline {section}{\numberline {13.13}Graphical Map Quality Measures}{188}{section.13.13}
+\contentsline {section}{\numberline {13.14}Model Evaluation}{189}{section.13.14}
+\contentsline {chapter}{Bibliography}{191}{section.13.14}
