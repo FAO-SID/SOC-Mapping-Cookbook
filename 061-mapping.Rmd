@@ -27,7 +27,7 @@ install.packages(c("sp", "car", "automap",
 
 ### Overview
 
-The two conventional upscaling methods, in the context of SOC mapping, are described by @lettens2004soil. Details about weighted averaging can be found in @hiederer2013mapping. Different conventional upscaling approaches were applied in many countries e.g. by @krasilnikov2013soils (Mexico), @greve2007generating (Denmark), @kolli2009stocks (Estonia), @arrouays2001carbon (France), and @bhatti2002estimates (Canada). Because the structure of soil map databases differs between countries (e.g. definition of the soil mapping unit, stratification, soil associations, dominating and co-dominating soils, typical and estimate soil properties for different depths), it is difficult to define a generic methodology for the use of these maps for mapping soil property information. 
+The two conventional upscaling methods in the context of SOC mapping, are described by @lettens2004soil. Details about weighted averaging can be found in @hiederer2013mapping. Different conventional upscaling approaches were applied in many countries e.g. by @krasilnikov2013soils (Mexico), @greve2007generating (Denmark), @kolli2009stocks (Estonia), @arrouays2001carbon (France), and @bhatti2002estimates (Canada). Because the structure of soil map databases differs between countries (e.g. definition of the soil mapping unit, stratification, soil associations, dominating and co-dominating soils, typical and estimate soil properties for different depths), it is difficult to define a generic methodology for the use of these maps for mapping soil property information. 
 
 However, the essential principle which is commonly used, is to combine soil property data from local observations with soil maps via class-matching and geo-matching. 
 
@@ -48,27 +48,18 @@ From all data sources, SOC stocks for peat soils were calculated separately.
 **Step 1 - Data preparation**
 
 1. Separate the database for forests, peat, and other land uses. If only horizons are provided, derive or estimate average depth of horizons per soil type, and add upper and lower depth.
-
 2. Check the completeness of parameters per depth using the solum depth to code empty cells. 
-
 3. Correct the organic carbon in case total carbon was determined (total carbon minus inorganic carbon concentration).
-
 4. Correct the Walkley and Black method for incomplete oxidation (using the correction factor of 1.32 for the quantification of the organic carbon content in the soil samples) [@walkley1934examination].
-
 5. If BD measured is lacking, select proper PTFs and estimate BD. Publications about the choice of the best suited PTF for specific physio-geographic conditions are available.
-
 6. If the stone content is missing, investigate using other data sources or literature, to which a correction for stones should be applied.
-
 7. If possible, derive the standard average stone content for different soils/horizons/depths, or used published soil profiles, as a simple correction factor.
-
 8. Calculate SOC stocks for all mineral and peat soils over 0 cm - 30 cm, and optionally for forest organic layers, and peat between >30 cm and <100 cm.
 
 **Step 2 - Preparatory GIS operations**
 
 1. Prepare the covariates.
-
 2. Identify the properties of covariates for each point observation using geo-matching.
-
 3. For mapping using **geo-matching of all points**: Extract the covariate information to all georeferenced sample sites. The SOC values from all points within the unit are then averaged. It is assumed that the points represent the real variability of soil types within the units. 
 
 
@@ -77,9 +68,7 @@ From all data sources, SOC stocks for peat soils were calculated separately.
 Through class-matching, only those points or profiles are attributed to a soil or landscape unit if both the soil and the land use class are the same. Class-matching thus can be performed regardless of the profile location. Before averaging, a weighing factor can be introduced according to the area proportions of dominant, co-dominant and associated soils. Each profile needs to be matched to its soil type/landscape type, and the SOC value averaged.
 
 1. Determine a soil or landscape unit (e.g. national soil legend stratified by climate area and mainland cover type such as forest, grassland, cropland).
-
 2. Calculate average SOC stocks from all soils which match the soil/landscape unit.
-
 3. Present the soil/landscape map with SOC stocks, do not classify SOC stocks (tons/hectare) into groups (e.g. < 50, 50 - 100, > 100). 
 
 > Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.  
@@ -90,11 +79,8 @@ Through class-matching, only those points or profiles are attributed to a soil o
 Because of its importance, geo-matching as a mapping method is described in more detail. It is neccessary to first prepare the working environment with the pre-processed input data. The following Section presents different geo-matching procedures. 
 
 1. Setting up software and working environment.
-
 2. Geo-matching SOC with WRB soil map (step-by-step, using the soil Map of FYROM and the demonstration data presented above).
-
 3. Geo-matching SOC with other environmental variables: land use.
-
 4. Finally, the development of landscape Units [@lettens2004soil] is outlined. 
 
 This example was developed for QGIS and focusses on SOC mapping using vector data. QGIS 2.18 with GRASS 7.05 will be used. For more information, see also the following links: 
@@ -106,26 +92,22 @@ This example was developed for QGIS and focusses on SOC mapping using vector dat
 **Step 1 - Setting up a QGIS project**
 
 1. Install QGIS and supporting software; download the software at http://www.qgis.org/en/site/forusers/download.html (select correct version for Windows, MacOS or Linux, 32 or 64 bit).
-
 2. Create a work folder, e.g. D:\\GSOC\\practical_matching. Copy the folder with the FYROM demonstration data into this folder.
-
-3. Start QGIS Desktop with GRASS. Fig. \@ref(fig:qgis) shows the start screen of QGIS Desktop. In the upper left panel, there is the **Browser Panel**, which lists the geodata used for this example. In the bottom left, the layer information is given in the **Layers Panel** for the layers displayed on the right.
+3. Start QGIS Desktop with GRASS. Figure \@ref(fig:qgis) shows the start screen of QGIS Desktop. In the upper left panel, there is the **Browser Panel**, which lists the geodata used for this example. In the bottom left, the layer information is given in the **Layers Panel** for the layers displayed on the right.
 
 ```{r qgis, fig.cap="QGIS Desktop with the Browser Panel, the Layers Panel and the display of layers" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling1.png")
 ```
 
 4.  Load the FYROM soil map. Right-click the file in the **Browser panel** and add the map to your project.
-
-5.  Display the soil classes. Right-click on the file in the **Layers Panel** and select *Properties*. Go to the *Style* and change from *Single symbo* to *Categorized* (Fig. \@ref(fig:layerprop)). Select the column WRB and press the icon *Classify* and change the colors if you want. Next, apply the change and finish by clicking the **OK-button**.
+5.  Display the soil classes. Right-click on the file in the **Layers Panel** and select *Properties*. Go to the *Style* and change from *Single Symbol* to *Categorized*  as shown in Figure \@ref(fig:layerprop). Select the column WRB and press the icon *Classify* and change the colors if you want. Next, apply the change and finish by clicking the **OK-Button**.
 
 ```{r layerprop, fig.cap="Changing layer properties for the FYROM soil map" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling2.png")
 ```
 
 6.  Ensure the correct projection for this project. Go to select *Project*, *Project Properties*, *CRS*.
-In this case, you automatically use the local projection for FYROM. The EPSG code is 3909 which corresponds to MGI 1901/Balkans Zone 7 (Fig. \@ref(fig:qgisepsg)).
-
+In this case, you automatically use the local projection for FYROM. The EPSG code is 3909 which corresponds to MGI 1901/Balkans Zone 7 as shown in Figure \@ref(fig:qgisepsg)).
 
 ```{r qgisepsg, fig.cap="Project properties and projection settings" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling3.png")
@@ -138,18 +120,15 @@ knitr::include_graphics("images/Conv_upscaling3.png")
 
 In **Step 2** you will make a SOC map, based on the FYROM soil map and the SOC values at the sampled points, following three steps. First you extract the soil map information for the point data, then you obtain the mean and standard deviation of the SOC stocks per soil class, based on the point data, and last you assign these values to the corresponding soil map units. The steps are described in detail below.
 
-1. Extract the soil map information to the soil profile data by *Join Attributes by Location*. Select *Vector*, *Data Management Tools*, and *Join Attributes by Location*. Here, the target vector layers are the soil point data, and the join vector layer is the FYROM soil map. The geometric predicate is *intersects*. Specify at the joined table to keep only matching records and save the joined layer as a new file (Fig. 8.4).
+1. Extract the soil map information to the soil profile data by *Join Attributes by Location*. Select *Vector*, *Data Management Tools*, and *Join Attributes by Location*. Here, the target vector layers are the soil point data, and the join vector layer is the FYROM soil map. The geometric predicate is *intersects*. Figure \@ref(fig:joinloc) shows how to specify within the joined table to keep only matching records. Save the joined layer as a new file.
 
-```{r, fig.cap="Join attributes by location" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r joinloc, fig.cap="Join attributes by location" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling4.png")
 ```
 
-
 2. Check the newly generated file, open the attribute table. The new file is added to the **Layers Panel**. Right-click on the file and open the attribute table. The information from the FYROM soil map is now added to the soil point data.
-
 3. Most likely, the SOC values in the table are not numeric and thus statistics cannot be calculated. Check the data format, right-click on the file in the **Layers Panel** and check the type name of the SOC field under the tab *Fields*. If they are not integer then change the format.
-
-4. Change of the data format: Open the attribute table and start editing (the pencil symbol in the upper left corner of your table). Open the field calculator and follow these instructions (see Figure \@ref(fig:fieldcalc)):
+4. Change of the data format: Open the attribute table and start editing (the pencil symbol in the upper left corner of your table). Open the field calculator and follow these instructions as shown in Figure \@ref(fig:fieldcalc)):
 
   a. Checkbox: Create a new field
   b. Output field name: Specify the name of your field
@@ -161,61 +140,51 @@ knitr::include_graphics("images/Conv_upscaling4.png")
 knitr::include_graphics("images/Conv_upscaling5.png")
 ```
 
-5.  After calculating the field, save edits and leave the editing mode prior to closing the table. If changes are not saved, the added field will be lost.
+5.  After calculating the field, save the edits and leave the editing mode prior to closing the table. If changes are not saved, the added field will be lost.
+6. Calculate the median SOC stock per soil type. Go to the tab *Vector* and select *Group Stats*. Select the layer from the spatial join you made in Step 2. Add the field SOC and median to the box with *Values* and the field WRB to the *Rows*. Make sure the box with *Use only selected features* is **not** checked. Now calculate the statistics. A table will be given in the left pane (see Figure \@ref(fig:groupstats)). Save this file as CSV and repeat the same for the standard deviation.
 
-6. Calculate the median SOC stock per soil type. Go to the tab ‘Vector’-> group stats. Select the layer from the spatial join you made in Step 2. Add the field ‘SOC’ and median to the box with ‘Values’ and the field ‘WRB’ to the ‘Rows’. Make sure the box with ‘use only selected features’ is not checked. Now calculate the statistics. A table will be given in the left pane (Figure 8.6). Save this file as .csv and repeat the same for the standard deviation.
-
-```{r, fig.cap="Calculate group statistics" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r groupstats, fig.cap="Calculate group statistics" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling6.png")
 ```
 
 
-7.  Join the mean and standard deviation of SOC to the Soil Map. First, add the files generated during step 6 to the Layers Panels. In the Layers Panel, right-click on the FYROM Soil Map. Go to Properties -> Joins and add a new join for both the median and standard deviation of SOC. The Join and Target Field are both ‘WRB’.
+7.  Join the mean and standard deviation of SOC to the soil map. First, add the files generated during Step 6 to the **Layers Panel**. In the **Layers Panel**, right-click on the FYROM soil map. Go to *Properties*, select *Joins* and add a new join for both the median and standard deviation of SOC. The Join and Target Field are both WRB.
+8.  Display the SOC maps. Go to the layer properties of the FYROM soil map. Go to *Style* and change the legend to a graduated legend. In the column, you indicate the assigned SOC values. Probably this is not a integer number and so you have to convert this number again to a numeric values. You can do this with the box next to the box as depicted in Figure \@ref(fig:legendstyle). Change the number of classes to e.g. 10 classes, change the mode of the legend and change the color scheme if you want and apply the settings. Now you have a map with the median SOC stocks per WRB soil class.
 
-8.  Display the SOC maps. Go to the layer properties of the FYROM Soil Map. Go to Style and change the legend to a graduated legend. In the column, you indicate the assigned SOC values. Probably this is not a integer number and so you have to convert this number again to a numeric values. You can do this with the box next to the box (Fig. 8.7). Change the number of classes to e.g. 10 classes, change the mode of the legend and change the color scheme if you want and apply the settings. Now you have a map with the median SOC stocks per WRB soil class.
-
-```{r, fig.cap="Change the legend style to display the SOC values" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r legendstyle, fig.cap="Change the legend style to display the SOC values" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling7.png")
 ```
 
 
-9.  In order to generate a proper layout, go to Project -> New Print Composer
-  a. Add map using Layout -> Add Map. Define a square on the canvas and the selected map will be displayed.
-  b. Similarly, title, scale bar, legend and a north arrow can be added. Specific properties can be changed in the box ‘Item properties’.
-  c. When the map is finished, it can be exported as an image or pdf.
+9.  In order to generate a proper layout, go to *Project* and select *New Print Composer* (see Figure \@ref(fig:mapcomp)):
+  a. Add map using *Layout* and *Add Map*. Define a square on the canvas and the selected map will be displayed.
+  b. Similarly, title, scale bar, legend and a north arrow can be added. Specific properties can be changed in the box *Item properties*.
+  c. When the map is finished, it can be exported as an image or PDF file.
 
-```{r, fig.cap="Example of the Map composer" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r mapcomp, fig.cap="Example of the Map composer" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling8.png")
 ```
 
 
-10.  Repeat step 2-8 but now for the standard deviation of the SOC stocks.
-11. Save the file as a new shapefile: Go to ‘Layer Panels -> Save as -> ESRI ShapeFile and make sure that you define the symbology export: Feature Symbology. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
+10.  Repeat the Steps 2 to 8 but now for the standard deviation of the SOC stocks.
+11. Save the file as a new shapefile. Go to **Layers Panel**, *Save As* and select ESRI SHP format and make sure that you define the symbology export *Feature Symbology*. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
 
 **Step 3 - Geo-Matching SOC with other environmental variables: Land use**
 
 1.    Start a new project and add the soil point data and FYROM soil map layers from the **Browser Panel**.
+2.    Add the land use raster file to the **Layers Panel**. This is a raster file with 1 km resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3.
+3.    Change the projection to the MGI 1901/Balkans Zone 7. Go to *Raster*, *Projections*, *Warp* and select the proper projection and a suitable file name, e.g. LU_projected_1km. Tick the checkbox for the resampling method and choose *Near*. This is the nearest neighbor and most suitable for a transformation of categorical data, such as land use (see Figure \@ref(fig:changeproj)).
 
-2.    Add the land use raster file to the **Layers Panels**. This is a raster file with 1 km resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3.
-
-3.    Change the projection to the MGI 1901/Balkans Zone 7. Go to Raster -> Projections -> Warp and select the proper projection and a suitable file name, e.g. LU_projected_1km. Tick the checkbox for the resampling method and choose Near. This is the nearest neighbor and most suitable for a transformation of categorical data, such as land use (Fig. 8.9).
-
-```{r, fig.cap="Change the projection of a raster file" , out.width='80%', echo=FALSE, fig.align='center'}
+```{r changeproj, fig.cap="Change the projection of a raster file" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling9.png")
 ```
 
 4. In order to geo-match the soil point data with land use data, the raster file needs to be converted into a vector file. Go to *Raster*, *Conversions*, and select *Polygonize*. Set a proper output filename, e.g. LU_polygon_1km, and check the tickbox for *Fieldname*.
-
 5.  Change the legend style into categories (Step 1-5). Now, the steps from the previous Section need to be repeated, using the land use polygon map instead of using the FYROM soil map.
-
 6. Join attributes by location using the soil point data and the polygon land use map.
-
-7. Calculate the median and standard deviation of SOC by using the Group Statistics for SOC and the Land Use classes and save the files as CSV file.
-
+7. Calculate the median and standard deviation of SOC by using the Group Statistics for SOC and the land use classes and save the files as CSV file.
 8. Add the generated CSV files to the **Layers Panel**.
-
 9. Join the files with the land use polygon map, generated in Steps 3 and 4.
-
 10. Change the classes in the legend and inspect the histogram with the median SOC values. Try to find a proper definition of the class boundaries (Steps 2 to 8).
 
 **Step 4 - Joining landscape units and soil mapping units to support class- and geo-matching (optional)**
@@ -225,16 +194,11 @@ In this Section, it is outlined how SOC stocks can be mapped following the metho
 When using the GIS software, the only thing that needs to be done, is intersecting the vector files and dissolving the newly created polygon features. Depending on the software and the quality of your shapefile, you may experience problems with the geometry of your shapefile. Generally, ArcMap and GRASS correct the geometry when the shapefile is loaded, while QGIS does not do this automatically. There are various ways to correct the geometry, however, correcting the geometry falls outside the scope of this training. Therefore, we give some hints on how to correct your geometry prior to using the functions *Intersect* and *Dissolve*.
 
 1. Change the land use raster map to 5 km resolution: Right-click the Lu_project_1km file, select *Save as*. Change the resolution to 5000 meters. Scroll down, check the *Pyramids* box, and change the resampling method to *Nearest Neighbour*.
-
 2. Convert the raster map to a polygon map and add the file to the **Layers Panel**.
-
 3. Check the validity of the soil map and land use map. Go to *Vector*, *Geometry Tools*, and select *Check Validity*.
 Below you find the instructions in case you have no problems with your geometry.
-
 4. Intersect the soil map and the land use map. In ArcGIS and QGIS you can use *Intersection* function following *Vector*, *Geoprocessing Tools* (in GRASS you have to use the function *Overlay* from the *Vector* menu).
-
 5. Dissolve the newly generated polygons vie *Vector*, *Geoprocessing Tools*, select *Dissolve*.
-
 6. Next, this layer can be used to continue with the class-matching or geo-matching procedures.
 
 **How to correct your geometry When encountering problems?**
