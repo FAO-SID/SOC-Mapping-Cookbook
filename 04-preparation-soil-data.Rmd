@@ -209,7 +209,7 @@ It is crucial to report in the metadata whether national SOC values refer to tot
 
 ### Depth
 
-The standard depth for GSOCmap is **0cm to 30cm** [@gsp_guidelines_2017]. Subdivisions are possible depending on the available data, by genetic horizons or depth classes. The following depths are additionally considered for GSOCmap (optional):
+The standard depth for GSOCmap is **0 cm to 30 cm** [@gsp_guidelines_2017]. Subdivisions are possible depending on the available data, by genetic horizons or depth classes. The following depths are additionally considered for GSOCmap (optional):
 
 * **Forest floor**: Thickness (cm) subdivision in horizons depending on national soil inventory method (e.g. for forest floors organic layers L, F, H).
 

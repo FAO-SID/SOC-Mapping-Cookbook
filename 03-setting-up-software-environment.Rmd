@@ -18,7 +18,7 @@ Installation files and instructions can be downloaded from the Comprehensive R A
 
 Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. Similar steps need to be followed to install **RStudio**.
 
-1. Go to https://www.rstudio.com/products/rstudio/download/ to download and install **RStudio's** open source edition.
+1. Go to https://www.rstudio.com/products/rstudio/download/ to download and install **RStudio**'s open source edition.
 2. On the download page, *RStudio Desktop, Open Source License* option should be selected.
 3. Pick an installation file for your platform. 
 
