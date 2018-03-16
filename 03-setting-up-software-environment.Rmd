@@ -53,15 +53,17 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 #### Spatial Analysis
 
-[**sp**](https://CRAN.R-project.org/package=sp): The package provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
-
 [**raster**](https://CRAN.R-project.org/package=raster): Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions, processing of very large files is supported.
 
 [**rgdal**](https://CRAN.R-project.org/package=rgdal): Provides bindings to Frank Warmerdam’s Geospatial Data Abstraction Library (GDAL).
 
-[**RSAGA**](https://CRAN.R-project.org/package=RSAGA): The package provides access to geocomputing and terrain analysis functions of [SAGA GIS](\url{http://www.saga-gis.org/en/index.html} ) from within **R** by running the command line version of SAGA.
+[**RSAGA**](https://CRAN.R-project.org/package=RSAGA): The package provides access to geocomputing and terrain analysis functions of [SAGA GIS](\url{http://www.saga-gis.org/en/index.html} ) from within **R** by running the command line version of System for Automated Geoscientific Analyses (SAGA).
+
+[**sp**](https://CRAN.R-project.org/package=sp): The package provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
 
 #### Modeling
+
+[**automap**](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling [**gstat**](https://CRAN.R-project.org/package=gstat).
 
 [**caret**](https://CRAN.R-project.org/package=caret): Extensive range of functions for training and plotting classification and regression models.
 
@@ -71,12 +73,9 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 [**gam**](https://CRAN.R-project.org/package=gam): Functions for fitting and working with generalized additive models.
 
-[**nnet**](https://CRAN.R-project.org/package=nnet): Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
-
 [**gstat**](https://CRAN.R-project.org/package=gstat): Variogram modeling with simple, ordinary and universal point or block (co)kriging, sequential Gaussian or indicator (co)simulation. The package includes variogram and variogram map plotting utility functions.
 
-[**automap**](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling [**gstat**](https://CRAN.R-project.org/package=gstat).
-
+[**nnet**](https://CRAN.R-project.org/package=nnet): Software for feed-forward neural networks with a single hidden layer, and for multinomial log-linear models.
 
 #### Mapping and Plotting
 
@@ -84,10 +83,9 @@ Both **raster** and **sp** have handy functions for plotting spatial data. The f
 
 [**ggplot2**](https://cran.r-project.org/web/packages/ggplot2/index.html): Besides using the base plotting functionality, this is another useful plotting package. 
 
-[**plotKML**](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatiotemporal objects to KML following some basic cartographic rules.
-
 [**leaflet**](https://CRAN.R-project.org/package=leaflet): Create and customize interactive maps using the Leaflet JavaScript library and the [**htmlwidgets**](https://cran.r-project.org/web/packages/htmlwidgets/index.html) package. These maps can be used directly from the **R** console, from **RStudio**, in [**Shiny**](https://shiny.rstudio.com/) apps and **RMarkdown** documents.
 
+[**plotKML**](https://CRAN.R-project.org/package=plotKML): Writes sp-class, spacetime-class, raster-class and similar spatial and spatiotemporal objects to KML following some basic cartographic rules.
 
 ### Packages Used in This Cookbook
 
@@ -110,7 +108,7 @@ install.packages(c("aqp", "automap", "car", "caret", "e1071",
  
 ### Reading Shapefiles 
 
-ESRI's shapefile format SHP is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of **raster** package that provides functions for reading and/or writing shapefiles.
+The Environmental Systems Research Institute (ESRI) provides a shapefile format SHP which is widely used for storing vector-based spatial data (i.e., points, lines, polygons). This example demonstrates use of **raster** package that provides functions for reading and/or writing shapefiles.
 
 ```{r}
 library(raster)
@@ -183,6 +181,6 @@ We may also want to export our DEM to KML (Keyhole Markup Language) file using t
 
 ## Other DSM-Related Software and Tools
 
-> **QGIS**:      Available at http://www.qgis.org/en/site/forusers/download.html
-
-> **SAGA GIS**:  Available at https://sourceforge.net/projects/saga-gis/files/
+* **GRASS GIS**: Available at https://grass.osgeo.org/ (free and open source).
+* **SAGA GIS**:  Available at https://sourceforge.net/projects/saga-gis/files/ (free and open source).
+* **QGIS**:      Available at http://www.qgis.org/en/site/forusers/download.html (free and open source).
