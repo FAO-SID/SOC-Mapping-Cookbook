@@ -4,44 +4,52 @@
 
 ### Overview
 
-Regression-kriging is a spatial interpolation technique that combines a regression of the dependent variable (target variable) on predictors (i.e. the environmental covariates) with kriging of the prediction residuals. In other words, Regression-kriging is a hybrid method that combines either a simple or a multiple-linear regression model with ordinary kriging of the prediction residuals.   The Multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modeled relationship between predictors and target are summarized in the regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.
-In this Section, we review the regression-kriging method. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a regression-kriging technique, there is a continuous random variable called the dependent variable (target) Y (in our case SOC) and a number of independent variables which are selected covariates, x1, x2,...,xp. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is:
+Regression-kriging is a spatial interpolation technique that combines a regression of the dependent variable (target variable) on predictors (i.e. the environmental covariates) with kriging of the prediction residuals. In other words, RK is a hybrid method that combines either a simple or a multiple-linear regression model with ordinary kriging of the prediction residuals.
+
+A multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modeled relationship between predictors and target are summarized in the regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.
+
+In this Section, we review the RK method for DSM. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a RK technique, there is a continuous random variable called the dependent variable (target) $Y$, which is in our case SOC, and a number of independent variables ${x_1, x_2,\dots,x_p}$ which are selected covariates. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is explained in detail.
 
 ###  Assumptions 
 
 Standard linear regression models with standard estimation techniques make a number of assumptions \index{linear regression model assumptions} about the predictor variables, the response variables, and their relationship. One must review the assumptions made when using the model.
 
-*Linearity*: The mean value of Y for each specific combination of the X’s is a linear function of the X’s. In practice this assumption can virtually never be confirmed; fortunately, multiple regression procedures are not greatly affected by minor deviations from this assumption. If curvature in the relationships is evident, one may consider either transforming the variables or explicitly allowing for nonlinear components.\\
+* **Linearity**: The mean value of $Y$ for each specific combination of the $X$’s is a linear function of the $X$’s. In practice this assumption can virtually never be confirmed; fortunately, multiple regression procedures are not greatly affected by minor deviations from this assumption. If curvature in the relationships is evident, one may consider either transforming the variables or explicitly allowing for nonlinear components.\\
 
-*Normality Assumption*: It is assumed in multiple regression that the residuals (predicted minus observed values) are distributed normally (i.e., follow the normal distribution). Again, even though most tests (specifically the F-test) are quite robust with regard to violations of this assumption, it is always a good idea, before drawing final conclusions, to review the distributions of the major variables of interest. You can produce histograms of the residuals as well as normal probability plots, in order to inspect the distribution of the residual values.\\
+* **Normality Assumption**: It is assumed in multiple regression that the residuals (predicted minus observed values) are distributed normally (i.e., follow the normal distribution). Again, even though most tests (specifically the F-test) are quite robust with regard to violations of this assumption, it is always a good idea, before drawing final conclusions, to review the distributions of the major variables of interest. You can produce histograms of the residuals as well as normal probability plots, in order to inspect the distribution of the residual values.\\
 
-*Collinearity*: There is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. Collinearity (also multicollinearity) is a phenomenon in which two or more predictors in a multiple regression models are highly correlated. Collinearity causes increase in variances and relatedly increases inaccuracy.\\
+* **Collinearity**: There is not perfect collinearity in any combination of the $X$’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. Collinearity (also multicollinearity) is a phenomenon in which two or more predictors in a multiple regression models are highly correlated. Collinearity causes increase in variances and relatedly increases inaccuracy.\\
 
-*Distribution of the Errors*: The error term is normally distributed with a mean of zero and constant variance.\\
+* **Distribution of the Errors**: The error term is normally distributed with a mean of zero and constant variance.\\
 
-*Homoscedasticity*: The variance of the error term is constant for all combinations of X’s. The term homoscedasticity means “same scatter.” Its antonym is heteroscedasticity (“different scatter”).
+* **Homoscedasticity**: The variance of the error term is constant for all combinations of $X$’s. The term homoscedasticity means *same scatter*. Its antonym is heteroscedasticity which means *different scatter*.
 
 ### Pre-Processing of Covariates
 
-Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the X’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. The multicollinearity of a number of variables can be assessed using Variance Inflation Factor (VIF). In R, the function vif() from caret package can estimate the VIF \index{variance inflation factor}. There are several rules of thumb to establish when there is a serious multi-collinearity (e.g. when the VIF square root is over 2). The Principal component analysis can be used to overcome multicollinearity issues.
+Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the $X$’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. The multicollinearity of a number of variables can be assessed using Variance Inflation Factor (VIF).
+
+In **R**, the function `vif()` from **caret** package can estimate the VIF \index{variance inflation factor}. There are several rules of thumb to establish when there is a serious multi-collinearity (e.g. when the VIF square root is over 2). The principal component analysis (PCA) can be used to overcome multicollinearity issues.
+
 Principal components analysis can cope with data containing large numbers of covariates that are highly collinear which is the common case in environmental predictors. Often the principal components with higher variances are selected as regressors. However, for the purpose of predicting the outcome, the principal components with low variances may also be important, in some cases even more important.
-The PCA + Linear Regression (PCR) method may be coarsely divided into three main steps:
-  1. Run PCA on the data matrix for the predictors to obtain the principal components, and then select a subset of the principal components for further use.
+
+The PCA and the linear regression (PCR) method may be coarsely divided into three main steps:
+
+1. Run PCA on the data matrix for the predictors to obtain the principal components, and then select a subset of the principal components for further use.
 2. Regress the dependent variable on the selected principal components as covariates, linear regression to get estimated regression coefficients.
 3. Transforming the data back to the scale of the actual covariates, using the selected PCA loadings.
 
 ###  The Terminology
 
-* **Dependent variable (Y)**: \index{dependent variable} What we are trying to predict (e.g. soil organic carbon content).
-* **Independent variables (Predictors) (X)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates - DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter \@ref(covariates).
-* **Coefficients (β)**: values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
-* **Residuals (ε)**: the portion of the dependent variable that cannot be explained by the model; the model under/over predictions.
+* **Dependent variable $Y$**: \index{dependent variable} What we are trying to predict (e.g. SOC content).
+* **Independent variables $X$'s (Predictors)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates, DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter \@ref(covariates).
+* **Coefficients $\beta$**: Values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
+* **Residuals $\varepsilon$**: The portion of the dependent variable that cannot be explained by the model; the model under/over predictions.
 
 ![Linear regression model](images/RKequation.png)
 
 Before we proceed with the regression analysis, it is advisable to inspect the histogram of the dependent/target variable, in order to see if it needs to be transformed before fitting the regression model. The data for the selected soil property is normal when the frequency distribution of the values follow a bell-shaped curve (Gaussian distribution) which is symmetric around its mean. Normality tests may be used to assess normality. If a normality test indicates that data are not normally distributed, it may be necessary to transform the data to meet the normality assumption.
 
-> Both, the normality tests and the data transformation can be easily performed using any commercial or open source statistical tool (R, SPSS, MINITAB...)
+Both, the normality tests and the data transformation can be easily performed using any commercial or open source statistical tool (**R**, SPSS, MINITAB...).
 
 The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
 
@@ -50,66 +58,56 @@ knitr::include_graphics("images/RKworkflow.png")
 ```
 
 
-> 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in Section [Overlay covariates and spatial data]. The overlaying operation can be performed in R, ArcGIS, SAGA GIS or QGIS.
+1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in Section [Overlay covariates and spatial data]. The overlaying operation can be performed in **R**, ArcGIS, SAGA GIS or QGIS.
 2. The essential part of multiple regression analysis is to build a regression model by using the environmental predictors. After extracting the values of explanatory maps and target variables into the single table, we can now start fitting multiple regression model using the table that contains data from dependent variable and predictors.
-3. In particular cases, stepwise multiple linear regression (SMLR) can be used to eliminate insignificant predictors. Stepwise multiple linear regression (SMLR) usually selects predictors that have the strongest linear correlations with the target variable, which reflect the highest predictive capacity.
-4. Kriging of the residuals (prediction errors): In the regression-kriging, the regression model detrends the data, produces the residuals which we need to krige and to be added to the regression model predictions.
+3. In particular cases, stepwise multiple linear regression (MLR) can be used to eliminate insignificant predictors. The stepwise MLR usually selects predictors that have the strongest linear correlations with the target variable, which reflect the highest predictive capacity.
+4. Kriging of the residuals (prediction errors): In RK, the regression model detrends the data, produces the residuals which we need to krige and to be added to the regression model predictions.
 
 ### Interpret the Key Results of Multiple Regression
 
-Regression analysis generates an equation to describe the statistical relationship between one or more predictor variables and the response variable. he r-squared, p-values and coefficients that appear in the output for linear regression analysis must also be reviewed. Before accepting the result of a linear regression it is important to evaluate its suitability at explaining the data. One of the many ways to do this is to visually examine the residuals. If the model is appropriate, then the residual errors should be random and normally distributed.
+Regression analysis generates an equation to describe the statistical relationship between one or more predictor variables and the response variable. The $R$-squared, $p$-values and coefficients that appear in the output for linear regression analysis must also be reviewed. Before accepting the result of a linear regression it is important to evaluate its suitability at explaining the data. One of the many ways to do this is to visually examine the residuals. If the model is appropriate, then the residual errors should be random and normally distributed.
 
-**R-sq**
+**$R$-sqared**
 
-R2 is the percentage of variation in the response that is explained by the model. The higher the R2 Value, the better the model fits your data. R-squared is always between $0\%$ and $100\%$. R2 usually increases when additional predictors are added in the model.
+$R$-sqared ($R^2$) is the percentage of variation in the response that is explained by the model. The higher the $R^2$ value is, the better the model fits your data. $R^2$ ranges between 0% and 100%. $R^2$ usually increases when additional predictors are added in the model.
 
-**P Values**
+**$p$-value**
 
-To determine whether the association between the dependent and each predictor in the model is statistically significant, compare the p-value for the term to your significance level to assess the null hypothesis. Usually, a significance level of 0.05 works well.
-P-value ≤ significance level: The relationship is statistically significant. If the p-value is less than or equal to the significance level, we can conclude that there is a statistically significant relationship between the dependent variable and the predictor.
-P-value > significance level: The relationship is not statistically significant, If the p-value is greater than the significance level, you cannot conclude that there is a statistically significant relationship between the dependent variable and the predictor. You may want to refit the model without the predictor.
+To determine whether the association between the dependent and each predictor in the model is statistically significant, compare the $p$-value for the term to your significance level to assess the null hypothesis. Usually, a significance level of 0.05 works well.
+
+* **$p$-value $\leq$ significance level**: The relationship is statistically significant. If the $p$-value is less than or equal to the significance level, we can conclude that there is a statistically significant relationship between the dependent variable and the predictor.
+* **$p$-value > significance level**: The relationship is not statistically significant. If the $p$-value is greater than the significance level, you cannot conclude that there is a statistically significant relationship between the dependent variable and the predictor. You may want to refit the model without the predictor.
 
 **Residuals**
 
-We can plot the residuals which can help us determine whether the model is adequate and meets the assumptions of the analysis. If the model is appropriate, then the residual errors should be random and normally distributed. We can plot residuals versus fits to verify the assumption that the residuals are randomly distributed and have constant variance. Ideally, the points should fall randomly on both sides of “0”, with no recognizable patterns in the points.
+We can plot the residuals which can help us determine whether the model is adequate and meets the assumptions of the analysis. If the model is appropriate, then the residual errors should be random and normally distributed. We can plot residuals versus fits to verify the assumption that the residuals are randomly distributed and have constant variance. Ideally, the points should fall randomly around zero, with no recognizable patterns in the points.
 
-The diagnostic plots for the model should be evaluated to confirm if all the assumptions of linear regression are met.  After the abovementioned assumptions are validated, we can proceed with making the prediction map using the model with significant predictors.
+The diagnostic plots for the model should be evaluated to confirm if all the assumptions of linear regression are met. After the abovementioned assumptions are validated, we can proceed with making the prediction map using the model with significant predictors.
 
 ### Using the Results of a Regression Analysis to Make Predictions
 
 The purpose of a regression analysis, of course, is to develop a model that can be used to make the prediction of a dependent variable. The derived regression equation is to be used to create the prediction map for the dependent variable.
 
-> Raster calculation can be easily performed using “raster” Package in R or ArcGIS using the ”Raster Calculator” tool (It’s called Map Algebra in the prior versions).
+> Raster calculation can be easily performed using **raster** package in **R** or ArcGIS using the **Raster Calculator** tool (is called **Map Algebra** in the prior versions).
 
 ### Technical Steps - Regression-kriging
 
 **Requirements**
-  The following are required to implement regression-kriging in R
 
-* Setting-up the Software Environment
+The following computational steps from the previous Chapters are required to implement RK in **R**:
 
-* Obtaining and Installing R Studio
-
-* R Packages
-
-* Preparation of local soil property data
-
-* Preparation of spatial covariates
-
-  + DEM-derived covariates
-
-  + Land cover/Land use
-
-  + Climate
-
-  + Parent material
+1. Setting-up the software environment.
+2. Obtaining and installing **RStudio**.
+3. Installing and loading the required **R** packages.
+4. Preparation of local soil property data.
+5. Preparation of spatial covariates (DEM-derived covariates, land cover/land use, climate, parent material).
 
 
 **Step 1 - Setting working space and initial steps**
 
-One of the first steps should be setting our working directory. If you read/write files from/ to disk, this takes place in the working directory. If we don’t set the working directory we could easily write files to an undesirable file location. The following example shows how to set the working directory in R to our folder which contains data for the study area (point data, covariates).
+One of the first steps should be setting our working directory. If you read/write files from/to disk, this takes place in the working directory. If we do not set the working directory, we could easily write files to an undesirable file location. The following example shows how to set the working directory in **R** to our folder which contains data for the study area (point data, covariates).
 
-Note that we must use the forward slash / or double backslash \\\\ in R! Single backslash \\ will not work. Now we can check if the working directory has been correctly set by using the function:
+Note that we must use the forward slash / or double backslash \\\\ in **R**! Single backslash \\ will not work. Now we can check if the working directory has been correctly set by using the `getwd()` function:
 
 ```{r, eval=FALSE}
 getwd()
@@ -119,7 +117,9 @@ getwd()
 
 **Point dataset**
 
-We previously applied spline function to produce continuous soil information to a given soil depth (0-30 cm) in Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain profile id, upper (surface) and lower depth (30cm), the estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline). If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use Profile IDs to add the X, Y columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
+We previously applied spline function to produce continuous soil information to a given soil depth (0 cm - 30 cm) in the Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain the profile ID `id`, upper (surface) and lower depth (30 cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline).
+
+If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use profile IDs to add the `X` and `Y` columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
 
 **Environmental predictors (covariates)**
 
@@ -127,7 +127,7 @@ In the Chapter \@ref(covariates), we presented and prepared several global and c
 
 In Section \@ref(overlay-soil-covariates), a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.
 
-Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file—this is done using the function read.csv, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but read.csv is the most commonly used approach. R is very flexible in how it reads in data from text files (`read.table`, `read.csv`, `read.csv2`, `read.delim`, `read.delim2`). Please type `?read.table()` for help.
+Now we will import our point dataset using `read.csv()` function. The easiest way to create a data frame is to read in data from a file. This is done using the function `read.csv()`, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but `read.csv()` is the most commonly used approach. **R** is very flexible in how it reads in data from text files (`read.table()`, `read.csv()`, `read.csv2()`, `read.delim()`, `read.delim2()`). Please type `?read.table()` for help.
 
 ```{r}
 # Load data
@@ -140,24 +140,22 @@ dat$soilmap <- as.factor(dat$soilmap)
 str(dat)
 ```
 
-Since we will be working with spatial data we need to define the coordinates for the imported data. Using the coordinates()  function from the sp \index{R Packages!sp} package we can define the columns in the data frame to refer to spatial coordinates—here the coordinates are listed in columns X and Y.
+Since we will be working with spatial data we need to define the coordinates for the imported data. Using the `coordinates()` function from the **sp** \index{R packages!sp} package we can define the columns in the data frame to refer to spatial coordinates. Here the coordinates are listed in columns `X` and `Y`.
 
 ```{r}
 library(sp)
 
-# Promote to spatialPointsDataFrame
+# Promote to SpatialPointsDataFrame
 coordinates(dat) <- ~ X + Y
 
 class(dat)
 ```
 
-SpatialPointsDataFrame structure is essentially the same data frame, except that additional “spatial” elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system proj4string(), which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set, the CRS used was: WGS84  (EPSG:4326).
+`SpatialPointsDataFrame` structure is essentially the same as a data frame, except that additional *spatial* elements have been added or partitioned into slots. Some important ones being the bounding box (sort of like the spatial extent of the data), and the coordinate reference system `proj4string()`, which we need to define for the sample dataset. To define the CRS, we must know where our data are from, and what was the corresponding CRS used when recording the spatial information in the field. For this data set, the CRS used was WGS84 (EPSG:4326).
 
-To clearly tell R this information we define the CRS which describes a reference system in a way understood by the [PROJ.4 projection library](http://trac.osgeo.org/proj/). An interface to the PROJ.4 library is available in the rgdal package. As an alternative to using Proj4 character strings, we can use the corresponding yet simpler EPSG code (European Petroleum Survey Group). rgdal also recognizes these codes. If you are unsure of the Proj4 or EPSG code for the spatial data that you have but know the CRS, you should consult http://spatialreference.org/ for assistance.
+To clearly tell **R** this information we define the CRS which describes a reference system in a way understood by the [PROJ.4](http://trac.osgeo.org/proj/) projection library. An interface to the PROJ.4 library is available in the **rgdal** package. As an alternative to using PROJ.4 character strings, we can use the corresponding yet simpler EPSG code. **rgdal** also recognizes these codes. If you are unsure of the PROJ.4 or EPSG code for the spatial data that you have but know the CRS, you should consult http://spatialreference.org/ for assistance.
 
-Please also note that, when working with spatial data, it’s very important that the CRS (coordinate reference system) of the point data and covariates are the same.
-
-Now, we will define our CRS:
+> **CRS**: Please note that, when working with spatial data, it is very important that the CRS of the point data and covariates are the same.
 
 ```{r}
 dat@proj4string <- CRS(projargs = "+init=epsg:4326")
@@ -165,7 +163,7 @@ dat@proj4string <- CRS(projargs = "+init=epsg:4326")
 dat@proj4string
 ```
 
-Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single R object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of Chapter \@ref(covariates).
+Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single **R** object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in [Technical Steps - Rasterizing a vector layer in R]. The file containing all the covariates was prepared at the end of Chapter \@ref(covariates).
 
 ```{r}
 load(file = "covariates.RData")
@@ -176,7 +174,7 @@ names(covs)
 
 **Step 3 - Fitting the MLR model**
 
-It would be better to progress with a data frame of just the data and covariates required for the modeling. In this case, we will subset the columns SOC, the covariates and the spatial coordinates (X and Y).
+It would be better to progress with a data frame of just the data and covariates required for the modeling. In this case, we will subset the columns SOC, the covariates and the spatial coordinates (`X` and `Y`).
 
 ```{r}
 datdf <- dat@data
@@ -184,8 +182,7 @@ datdf <- dat@data
 datdf <- datdf[, c("OCSKGM", names(covs))]
 ```
 
-
-Let’s fit a linear model using with all available covariates.
+Let’s fit a linear model with all available covariates.
 
 ```{r}
 # Fit a multiple linear regression model between the log-transformed
@@ -193,14 +190,14 @@ Let’s fit a linear model using with all available covariates.
 model.MLR <- lm(log(OCSKGM) ~ ., data = datdf)
 ```
 
-From the summary of our fitted model (model.MLR) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression \index{stepwise variable selection} using the `step()` function. With this function, we can also specify the mode of stepwise search, can be one of "both", "backward", or "forward".
+From the summary of our fitted model (`model.MLR`) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression \index{stepwise variable selection} using the `step()` function. With this function, we can also specify the mode of stepwise search, can be one of *both*, *backward*, or *foreward*.
 
 ```{r, results='hide'}
 # Stepwise variable selection
 model.MLR.step <- step(model.MLR, direction="both")
 ```
 
-Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the R2. Both models explain about $23\%$ of variation of the target variable. Obviously, the “full” model is more complex as it has more parameters than the “step” model.
+Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the $R^2$. Both models explain about 23% of variation of the target variable. Obviously, the full model is more complex as it has more parameters than the step model.
 
 ```{r, results='hold'}
 # Summary and ANOVA of the new model using stepwise covariates
@@ -209,7 +206,9 @@ summary(model.MLR.step)
 anova(model.MLR.step)
 ```
 
-In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation. Let's fit a new model using a random subset of the available data. We will sample $70\%$ of the SOC data for the model calibration data set.
+In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation.
+
+Let's fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
 
 
 ```{r}
@@ -231,8 +230,7 @@ vif(model.MLR.step)
 sqrt(vif(model.MLR.step))
 ```
 
-colinear: Temperature seasonality at 1 km (B04CHE3) and Temperature Annual Range [°C] at 1 km (B07CHE3)
-
+Colinear: Temperature seasonality at 1 km (B04CHE3) and Temperature Annual Range [°C] at 1 km (B07CHE3).
 
 ```{r}
 # Removing B07CHE3 from the stepwise model
@@ -255,7 +253,7 @@ outlierTest(model.MLR.step)
 
 **Step 4 - Prediction and residual kriging**
 
-Now we can make the predictions and plot the map. We can use either our DSM_data table for covariate values or `covs` object for making our prediction. Using stack avoids the step of arranging all covariates into a table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created in the Step 3.
+Now we can make the predictions and plot the map. We can use either our DSM data table for covariate values or `covs` object for making our prediction. Using stack avoids the step of arranging all covariates into a table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created in the Step 3.
 
 ```{r, warning=FALSE}
 # Project point data
@@ -352,7 +350,7 @@ saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 
 ### Technical Steps - Cross-Validation of Regression-Kriging Models
 
-Cross-validation \index{Cross-validation} is introduced in Section \@ref(xval). In Regression-Kriging models, n-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat* R package. In this example, we will apply 10 fold cross-validation to our RK model.
+Cross-validation \index{Cross-validation} is introduced in Section \@ref(xval). In RK models, $n$-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat** **R** package. In this example, we will apply 10 fold cross-validation to our RK model.
 
 ```{r, warning=FALSE, message=FALSE, results='hide'}
 # autoKrige.cv() does not removes the duplicated points
