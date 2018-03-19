@@ -133,11 +133,13 @@ fm = as.formula(paste("log(OCSKGM) ~", paste0(names(covs[[-14]]),
 
 This is the **R** syntax to define a model formula required for the model structure, where soil organic carbon transformed to its natural logarithm (*OCSKGMlog*) can be predicted as a function of the available prediction factors, each explained in Chapter \@ref(covariates) of this book, e.g., B04CHE3, B07CHE3, B13CHE3, B14CHE3, DEMENV5 , LCEE10, PRSCHE3, SLPMRG5, TMDMOD3, TMNMOD3, TWIMRG5, VBFMRG5, VDPMRG5. 
 
-Note that the variable soilmap is categorical, so is not included in the correlation analysis. In fact, although soil type polygon maps are in theory powerful predictors for *OCSKGM* we will not use this map for this exercise, because not all categories in the map are represented by available *OCSKGM* estimates, therefore this map requires a generalization of soil type units in function of the classes represented by the sites of *OCSKGM* estimates, which is beyond the scope of this Chapter. Ideally, the number of observations across all the categories of soil type or any other factorial variable should be balanced. Another alternative to using an unbalanced categorical map is by generating dummy variables, where each category in the map becomes an independent binomial predictor variable (e.g., only 0 and 1 values) as is explained in the following Chapter. The risk of doing so rely upon the potential underestimation of the spatial variability of the target variable under each category with a low density of available data.  
+Note that the variable soil map is categorical, so is not included in the correlation analysis. In fact, although soil type polygon maps are in theory powerful predictors for *OCSKGM* we will not use this map for this exercise, because not all categories in the map are represented by available *OCSKGM* estimates, therefore this map requires a generalization of soil type units in function of the classes represented by the sites of *OCSKGM* estimates, which is beyond the scope of this Chapter.
+
+Ideally, the number of observations across all the categories of soil type or any other factorial variable should be balanced. Another alternative to using an unbalanced categorical map is by generating dummy variables, where each category in the map becomes an independent binomial predictor variable (e.g., only 0 and 1 values) as is explained in the following Chapter. The risk of doing so rely upon the potential underestimation of the spatial variability of the target variable under each category with a low density of available data.  
 
 **Step 2 - Tuning parameters**
 
-Now we will use the cross-validation strategy implemented in the train function of the caret package  (Kuhn et al. 2017), which default is 10-fold. The result of this function includes information to select the best mtry parameter and to decide the appropriate number of trees. The out-of-bag root mean squared error (rmse) will be used to select the optimal mtry model. To analyze the ntree parameter we will plot the number of trees against the out-of-bag rmse, an optimal ntree can be selected with the number of trees when these relationships stabilizes at the minimum possible rmse (in the y axis). Reduncing the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence of multidimensional and highly correlated prediction factors, avoiding an excessive number of trees will also reduce the risk of model overfitting. 
+Now we will use the cross-validation strategy implemented in the train function of the **caret** package  [@kuhn2017caret], which default is 10-fold. The result of this function includes information to select the best *mtry* parameter and to decide the appropriate number of trees. The out-of-bag RMSE will be used to select the optimal *mtry* model. To analyze the *ntree* parameter we will plot the number of trees against the out-of-bag RMSE, an optimal *ntree* can be selected with the number of trees when these relationships stabilizes at the minimum possible RMSE (in the y axis). Reduncing the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence of multidimensional and highly correlated prediction factors, avoiding an excessive number of trees will also reduce the risk of model overfitting. 
 
 ```{r tunning rf}
 library(randomForest)
@@ -156,7 +158,7 @@ rfmodel <- train(fm, data=dat@data, method = "rf", trControl = ctrl,
 # possibilitites implemented on this function.
 ```
 
-The object derived from the train function can be used to generate predictions of OCSKGMlog at the spatial resolution of the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, \%IncMSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that Random forest uses to reduce overfitting. 
+The object derived from the train function can be used to generate predictions of *OCSKGMlog* at the spatial resolution of the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, MSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that RF uses to reduce overfitting. 
 
 ```{r, fig.cap='Model Decreasing Error and Node Purity for the RF model'}
 # Variable importance plot, compare with the correlation matrix
@@ -169,8 +171,7 @@ varImpPlot(rfmodel[11][[1]])
 plot(rfmodel[11][[1]])
 ```
 
-
-Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our Random forest model needs to be validated using the independent dataset to complement the results of the cross-validation (e.g., rmse and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the rmse and the explained variance derived from the independent validations are slightly lower than the values obtained using cross-validation. 
+Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our RF model needs to be validated using the independent dataset to complement the results of the cross-validation (e.g., RMSE and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the RMSE and the explained variance derived from the independent validations are slightly lower than the values obtained using cross-validation. 
 
 ```{r rf-pred, fig.cap='SOC prediction map for FYROM using a random forest model'}
 # Make a prediction across all FYROM
@@ -194,7 +195,9 @@ Ideally, a digital soil map should include a spatial explicit metric of uncertai
 
 **Step 1 - Split the data in into training and testing subsets**
 
-To analyze the sensitivity of the model to available data we need to randomly split the data several times (e.g., 10 or more, is possible until the variance stabilizes) in training and testing subsets. A model generation and prediction are made on each split, in a way that the dispersion of the predicted values at the pixel level will represent the uncertainty and the sensitivity of the model to variations in available data. This process increases computational demand and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example, we will use only 10 realizations and random splits of 25% of available data. 
+To analyze the sensitivity of the model to available data we need to randomly split the data several times (e.g., 10 or more, is possible until the variance stabilizes) in training and testing subsets. A model generation and prediction are made on each split, in a way that the dispersion of the predicted values at the pixel level will represent the uncertainty and the sensitivity of the model to variations in available data.
+
+This process increases computational demand and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example, we will use only 10 realizations and random splits of 25% of available data. 
 
 
 ```{r, eval=TRUE, warning=FALSE}
@@ -233,7 +236,7 @@ plot(sensitivity, col=rev(topo.colors(10)),
      main='Sensitivity based on 10 realizations using 25% samples')
 ```
 
-The rmse and the explained variance of the models is stored in the object validation (type `summary(validation)`). The standard deviation of all the ten predictions allows generating a map of model sensitivity to available data.
+The RMSE and the explained variance of the models is stored in the object validation (type `summary(validation)`). The standard deviation of all the ten predictions allows generating a map of model sensitivity to available data.
 
 ```{r, eval=TRUE}
 # Sensitivity of validation metrics
@@ -253,7 +256,7 @@ plot(prediction75, main='OCSKGM prediction based on 75% of data',
 
 **Step 4 - Estimate the full conditional distribution of OCSKGMlog**
 
-Finally, we will estimate the model uncertainty, represented by the full conditional distribution of the response variable (OCSKGMlog) as a function of the selected prediction factors using the quantile regression forest package of R. This approach has proven to be efficient for digital soil mapping across large areas [@vaysse2017using]. 
+Finally, we will estimate the model uncertainty, represented by the full conditional distribution of the response variable (*OCSKGMlog*) as a function of the selected prediction factors using the quantile regression forest package **quantregForest** of **R**. This approach has proven to be efficient for DSM across large areas [@vaysse2017using]. 
 
 ```{r fit quantreg, eval=TRUE}
 # Use quantile regression forest to estimate the full conditional 
