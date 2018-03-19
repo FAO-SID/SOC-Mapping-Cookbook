@@ -1,9 +1,11 @@
 # Model Evaluation in Digital Soil Mapping {#evaluation}
 *M Guevara & GF Olmedo*
 
-There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @soil-2017-40; @nussbaum2018evaluation). This Section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM. Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled  SOC estimates derived from three different statistical methods (multiple linear regression-kriging RK (Sect.\@ref(RK)) random forests RF (Sect.\@ref(rf)), and support vector machines SVM (Sect.\@ref(svm))). The model evaluation methods presented here were adapted from the original work of Carslaw \& Ropkins for air quality assessments and its R package openair [@openair]. 
+There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @soil-2017-40; @nussbaum2018evaluation). This Section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM.
 
-We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous Chapter. The cross validation strategy and the repeated random split for training and testing the models are other two alrernatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting 'best method' could be the one that overfits the most.
+Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled  SOC estimates derived from three different statistical methods describes in Chapter \@ref(mappingMethods): multiple linear regression-kriging (RK) (see Section \@ref(RK)), random forests (RF) (see Section \@ref(rf)), and support vector machines (SVM) (see Section \@ref(svm))). The model evaluation methods presented here were adapted from the original work of @openair for air quality assessments and their **R** package **openair**. 
+
+We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous Chapter. The cross-validation strategy and the repeated random split for training and testing the models are other two alternatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting *best method* could be the one that overfits the most.
 
 The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
 
@@ -19,7 +21,7 @@ install.packages(c("raster", "psych", "rasterVis",
 
 **Step 1 - Harmonize the predicted maps to the same spatial resolution**
 
-We will import the predicted maps and harmonize them in to the same regular grid (~1x1km of spatial resolution).
+We will import the predicted maps and harmonize them in to the same regular grid ($1 \times 1$ km of spatial resolution).
 
 ```{r, out.width='70%'}
 library(raster)
@@ -52,8 +54,7 @@ pairs.panels(na.omit(as.data.frame(models)),
 ```
 
 
-
-Here we found that the higher correlation between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches (0.79, RF and SVM).
+Here we found that the higher Pearson correlation coefficient ($r$ value) between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches with $r$ 0.79 for RF and SVM.
 
 We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values. 
 
@@ -75,7 +76,10 @@ SD <- calc(models , sd)
 
 mapview(SD)
 ```
-The mapview command will plot the standard deviation map in a *.html* file. Note roughly how the hotspots (yellow to red colors) of higher variance of predictions tend to be higher towards the west of the country, whereas models tend to agree in their predictions across the east side of the country. Note also that the variability although noisy, it shows a general pattern, (e.g., from east to west), suggesting that model agreement could be associated with specific land surface characteristics. Now we will analyze specific differences between the three models (RK vs RF, RK vs SVM, RF vs SVM). 
+
+The mapview command will plot the standard deviation map in a `.html` file. Note roughly how the hotspots (yellow to red colors) of higher variance of predictions tend to be higher towards the west of the country, whereas models tend to agree in their predictions across the east side of the country. Note also that the variability although noisy, it shows a general pattern, (e.g., from east to west), suggesting that model agreement could be associated with specific land surface characteristics.
+
+Now we will analyze specific differences between the three models (RK - RF, RK - SVM, RF - SVM). 
 
 ```{r, fig.cap='1 to 1 comparison between the three selected DSM models', eval=FALSE}
 library(raster)
@@ -91,14 +95,15 @@ X <- raster::cellStats(preds, mean)
 levelplot(preds - X, at=seq(-0.5,0.5, length.out=10),
           par.settings = RdBuTheme)
 ```
-Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF semms to be less sharp than the differences of SVM with the other two methods. Note that we use the levelplot function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the mapview function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks). 
+
+Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF seems to be less sharp than the differences of SVM with the other two methods. Note that we use the `levelplot()` function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the `mapview()` function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks). 
 
 
 ## Technical steps - Model evaluation
 
 **Step 1 - Data preparation**
 
-To compare the performance of the three models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the 3 models. The table containing these values was prepared in Section \@ref(TS:validation). 
+To compare the performance of the three models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the three models. The table containing these values was prepared in Section \@ref(TS:validation). 
 
 ```{r}
 dat <- read.csv("results/validation.csv")
@@ -125,20 +130,22 @@ summary(modData)
 
 **Step 2 - Calucalte statistical evaluation metrics**
 
-Now we will use the modStats function to calculate common numerical model evaluation statistics which are described and mathematically defined in the openair manual (@carslaw2015openair, Ch. 27, pp 231-233). These include:
+Now we will use the `modStats()` function to calculate common numerical model evaluation statistics which are described and mathematically defined in the **openair** package manual [@carslaw2015openair, Ch. 27, pp. 231-233]. These include:
 
-* $n$, the number of complete pairs of data. 
-* $FAC2$, fraction of predictions within a factor of two.
-* $MB$, the mean bias.
-* $MGE$, the mean gross error. 
-* $NMB$, the normalized mean bias.
-* $NMGE$, the normalized mean gross error.
-* $RMSE$, the root mean squared error.
-* $r$, the Pearson correlation coefficient.
-* $COE$, the Coefficient of Efficiency based on @legates1999evaluating, @legates2013refined. A perfect model has a $COE$ = 1. A value of $COE$ = 0.0 or negative implies no prediction capacity. 
-* $IOA$, the Index of Agreement based on @willmott2012refined, which spans between -1 and 1 with values approaching +1 representing better model performance.
+* $n$, the number of complete pairs of data; 
+* $FAC2$, fraction of predictions within a factor of two;
+* $MB$, the mean bias;
+* $MGE$, the mean gross error;
+* $NMB$, the normalized mean bias;
+* $NMGE$, the normalized mean gross error;
+* $RMSE$, the root mean squared error;
+* $r$, the Pearson correlation coefficient;
+* $COE$, the Coefficient of Efficiency based on @legates1999evaluating, @legates2013refined. A perfect model has a $COE$ = 1. A value of $COE$ = 0 or negative implies no prediction capacity; 
+* $IOA$, the Index of Agreement based on @willmott2012refined, which spans between -1 and 1, with values approaching +1 representing better model performance.
 
-A perfect model would have a $FAC24$, $r$, $COE$ and $IOA$ ~ 1.0, while all the others ~ 0. However, digital soil mappers should have in mind that there is no such thing as a perfect model on digital SOC mapping for large areas, especially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures [@chang2004air].  
+A perfect model would have a $FAC2$, $r$, $COE$ and $IOA$ ~ 1.0, while all the others ~ 0.
+
+However, digital soil mappers should have in mind that there is no such thing as a perfect model on digital SOC mapping for large areas, especially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures [@chang2004air].  
 
 ```{r}
 library(openair)
@@ -154,23 +161,23 @@ knitr::kable(modsts[,c(1,3:11)], caption = "Summary of different model evaluatio
 ```
 
 
-From our SOC mapping example across FYROM, the three models generate similar results. The FAC2 is over to 0.8 in all cases, being RK the one closer to 1. MB and NMB suggest that all the model's tent to underestimate SOC because they are negative. SVM tend to underestimate less than RK and RF. The MGE, NMGE, and RMSE suggest however that SVM is generating the larger error rate and by the values of r COE and IOA, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM. 
+From our SOC mapping example across FYROM, the three models generate similar results. The $FAC2$ is over to 0.8 in all cases, being RK the one closer to 1. $MB$ and $NMB$ suggest that all the models tent to underestimate SOC because they are negative. SVM tend to underestimate SOC values less than RK and RF. The $MGE$, $NMGE$, and $RMSE$ suggest however that SVM is generating the larger error rate and by the values of $r$, $COE$ and $IOA$, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM. 
 
-The aforementioned conclusion can be verified by plotting a Taylor Diagram (Fig. \@ref(fig:taylor)), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values [@taylor2001summarizing]. Recent reports show that the integration of simple validation metrics (e.g., the rmse correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias (@soil-2017-40; @nussbaum2018evaluation). Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms. 
+These conclusion can be verified by plotting a Taylor Diagram (see Figure \@ref(fig:taylor)), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values [@taylor2001summarizing]. Recent reports show that the integration of simple validation metrics (e.g., the RMSE correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias [@soil-2017-40; @nussbaum2018evaluation]. Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms. 
 
 ```{r taylor, fig.cap="Taylor diagram used in the evaluation of the three selected DSM models"}
 TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
 cols = c("orange", "red","blue"), cor.col='brown',rms.col='black')
 ```
 
-However, we need also to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (Fig. \@ref(fig:condquant)). 
+However, we need also to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (see Figure \@ref(fig:condquant)). 
 
 ```{r condquant, fig.cap="Effectiveness of the different DSM models across the full distribution of SOC observed values"}
 conditionalQuantile(modData,obs = "obs", mod = "mod", type = "model")
 ```
 
-The blue line shows the results for a perfect model. In this case, the observations cover a range from 0 to 6 kg.m-2. Interestingly, the maximum predicted value is in all cases less than 3  kg.m-2, which is consistent with the MB and NMB previous results. The red line shows the median value of the predictions. Note that the median of predictions across the larger SOC values seems to have more variability across SVM and RK compared with RF, which tends to be conservative across the third quantile of data distribution. The shading shows the predicted quantile intervals (i.e. the 25/75th and the10/90th). A perfect model (blue line) would have a very narrow spread [@openair]. The histograms show the counts of observed (gray) and predicted values (blue). While RF shows more conservative results across the higher SOC values (e.g., over the 4th), SVM had the lowest model performance based these metrics. SVM was also the method showing higher spatail differences compared with RF and RK.  
+The blue line shows the results for a perfect model. In this case, the observations cover a range from 0 to $6 kg \cdot m^{-2}$. Interestingly, the maximum predicted value is in all cases less than $3 kg \cdot m^{-2}$, which is consistent with the $MB$ and $NMB$ previous results. The red line shows the median value of the predictions. Note that the median of predictions across the larger SOC values seems to have more variability across SVM and RK compared with RF, which tends to be conservative across the third quantile of data distribution. The shading shows the predicted quantile intervals (i.e., the 25/75th and the 10/90th). A perfect model (blue line) would have a very narrow spread [@openair]. The histograms show the counts of observed (gray) and predicted values (blue). While RF shows more conservative results across the higher SOC values (e.g., over the 4th), SVM had the lowest model performance based on these metrics. SVM was also the method showing higher spatial differences compared to RF and RK.  
 
-We conclude, for this specific example, that RK showed the best performance based on the implemented evaluation metrics. Therefore RK is a suitable method predicting SOC values across Macedonia, although other methods generate similar results, we propose that, given available data, RK could be also easier to interpret, because it provides the means to identify the main effects and coefficients of the relationships across the covariate space and the response variable. Beyond model evaluation, the spatial combination of different modeling approaches (e.g., by the means of the ensemble learning theory) should also be considered in order to maximize the accuracy of results. 
+We conclude, for this specific example, that RK showed the best performance based on the implemented evaluation metrics. Therefore RK is a suitable method predicting SOC values across FYROM, although other methods generate similar results, we propose that, given available data, RK could be also easier to interpret, because it provides the means to identify the main effects and coefficients of the relationships across the covariate space and the response variable. Beyond model evaluation, the spatial combination of different modeling approaches (e.g., by the means of the ensemble learning theory) should also be considered in order to maximize the accuracy of results. 
 
-Finally, we want to highlight that Integrating different statistical methods and visualization tools, such as those provided by the openair package of R [@openair] will enhance our capacity to identify the best modeling approaches and a combination of SOC prediction factors given a specific dataset. Model evaluation benefits our understanding of the circumstances why each modeling approach will generate different results, which is a first step towards reducing uncertainty while increasing the spatial resolution and accuracy of predictions, the eternal digital soil mapping problem. 
+Finally, we want to highlight that integrating different statistical methods and visualization tools, such as those provided by the **openair** package in **R** [@openair] will enhance our capacity to identify the best modeling approaches and a combination of SOC prediction factors given a specific dataset. Model evaluation benefits our understanding of the circumstances why each modeling approach will generate different results, which is a first step towards reducing uncertainty while increasing the spatial resolution and accuracy of predictions, the eternal problem for DSM. 
