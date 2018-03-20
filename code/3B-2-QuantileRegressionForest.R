@@ -46,7 +46,8 @@ plot(prediction75, main='OCSKGM prediction based on 75% of data',
 
 
 model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500,
-                        keep.inbag=TRUE, mtry = as.numeric(mod$bestTune))
+                        keep.inbag=TRUE,
+                        mtry = as.numeric(mod$bestTune))
 
 library(snow)
 # Estimate model uncertainty at the pixel level using parallel

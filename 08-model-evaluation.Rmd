@@ -1,7 +1,7 @@
-# Model Evaluation in Digital Soil Mapping {#evaluation}
-*M Guevara & GF Olmedo*
+# Model evaluation in digital soil mapping {#evaluation}
+*M. Guevara & G.F. Olmedo*
 
-There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @soil-2017-40; @nussbaum2018evaluation). This Section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM.
+There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy  (@ho2002simple; @qiao2015no; @guevara_2018; @nussbaum2018evaluation). This Section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM.
 
 Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled  SOC estimates derived from three different statistical methods describes in Chapter \@ref(mappingMethods): multiple linear regression-kriging (RK) (see Section \@ref(RK)), random forests (RF) (see Section \@ref(rf)), and support vector machines (SVM) (see Section \@ref(svm))). The model evaluation methods presented here were adapted from the original work of @openair for air quality assessments and their **R** package **openair**. 
 
@@ -17,7 +17,7 @@ install.packages(c("raster", "psych", "rasterVis",
 ```
 
 
-## Technical Steps - Model Correlations and Spatial Differences
+## Technical steps - Model correlations and spatial differences
 
 **Step 1 - Harmonize the predicted maps to the same spatial resolution**
 
@@ -163,7 +163,7 @@ knitr::kable(modsts[,c(1,3:11)], caption = "Summary of different model evaluatio
 
 From our SOC mapping example across FYROM, the three models generate similar results. The $FAC2$ is over to 0.8 in all cases, being RK the one closer to 1. $MB$ and $NMB$ suggest that all the models tent to underestimate SOC because they are negative. SVM tend to underestimate SOC values less than RK and RF. The $MGE$, $NMGE$, and $RMSE$ suggest however that SVM is generating the larger error rate and by the values of $r$, $COE$ and $IOA$, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM. 
 
-These conclusion can be verified by plotting a Taylor Diagram (see Figure \@ref(fig:taylor)), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values [@taylor2001summarizing]. Recent reports show that the integration of simple validation metrics (e.g., the RMSE correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias [@soil-2017-40; @nussbaum2018evaluation]. Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms. 
+These conclusion can be verified by plotting a Taylor Diagram (see Figure \@ref(fig:taylor)), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values [@taylor2001summarizing]. Recent reports show that the integration of simple validation metrics (e.g., the RMSE correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias [@guevara_2018; @nussbaum2018evaluation]. Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms. 
 
 ```{r taylor, fig.cap="Taylor diagram used in the evaluation of the three selected DSM models"}
 TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",

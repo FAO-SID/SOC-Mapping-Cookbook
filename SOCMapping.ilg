@@ -1,14 +1,12 @@
 This is makeindex, version 2.15 [TeX Live 2017] (kpathsea + Thai support).
-Scanning style file /usr/share/texmf-dist/makeindex/nomencl/nomencl.ist.......
-** Input style error (file = /usr/share/texmf-dist/makeindex/nomencl/nomencl.ist, line = 70):
-   -- Unknown specifier lethead_prefix.
-** Input style error (file = /usr/share/texmf-dist/makeindex/nomencl/nomencl.ist, line = 71):
-   -- Unknown specifier lethead_suffix.
-** Input style error (file = /usr/share/texmf-dist/makeindex/nomencl/nomencl.ist, line = 72):
-   -- Unknown specifier lethead_flag.
-...done (10 attributes redefined, 3 ignored).
-Scanning input file SOCMapping.nlo....done (48 entries accepted, 0 rejected).
-Sorting entries....done (232 comparisons).
-Generating output file SOCMapping.nls....done (97 lines written, 0 warnings).
-Output written in SOCMapping.nls.
+Scanning input file SOCMapping.idx....
+!! Input index error (file = SOCMapping.idx, line = 23):
+   -- Extra `|' at position 26 of first argument.
+
+!! Input index error (file = SOCMapping.idx, line = 30):
+   -- Extra `|' at position 26 of first argument.
+done (38 entries accepted, 2 rejected).
+Sorting entries....done (224 comparisons).
+Generating output file SOCMapping.ind....done (55 lines written, 0 warnings).
+Output written in SOCMapping.ind.
 Transcript written in SOCMapping.ilg.

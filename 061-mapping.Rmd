@@ -1,16 +1,11 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-# Mapping Methods {#mappingMethods}
-*R Baritz, M Guevara, VL Mulder, GF Olmedo, C Thine, RR Vargas, Y Yigini*
+# Mapping methods {#mappingMethods}
+*R. Baritz, M. Guevara, V.L. Mulder, G.F. Olmedo, C. Thine, R.R. Vargas, Y. Yigini*
 
 In this Chapter, we want to introduce five different approaches for obtaining the SOC map for FYROM. The first two methods presented in Section \@ref(convUpscaling) are classified as conventional upscaling and the presented methods in the Sections \@ref(RK), \@ref(rf), and \@ref(svm) are approaches from DSM.
 
 The first method is class-matching. In this approach, we derive average SOC stocks per class either from the soil type for which a national map exists, or through the combination with other spatial covariates such as land use category, climate type, biome, etc. This approach is used in the absence of spatial coordinates of the source data. The second conventional upscaling method is geo-matching, were upscaling is based on averaged SOC values per mapping unit.
 
-Furthermore, we present three methods from DSM. Regression-kriging (RK) is a hybrid model with both, a deterministic and a stochastic component [@hengl2007regression]. Next method is called random forest (RF). This one is an ensemble of regression trees based on bagging. This machine learning algorithm uses a different combination of prediction factors to train multiple regression trees [@Breiman1996]. The last method is called support vector machines (SVM). This method applies a simple linear method to the data but in a high-dimensional feature space, non-linearly related to the input space [@Karatzoglou2006]. We present this diversity of methods because there is no *best* mapping method for DSM, and testing and selection has to be done for every data scenario [@soil-2017-40].
+Furthermore, we present three methods from DSM. Regression-kriging (RK) is a hybrid model with both, a deterministic and a stochastic component [@hengl2007regression]. Next method is called random forest (RF). This one is an ensemble of regression trees based on bagging. This machine learning algorithm uses a different combination of prediction factors to train multiple regression trees [@Breiman1996]. The last method is called support vector machines (SVM). This method applies a simple linear method to the data but in a high-dimensional feature space, non-linearly related to the input space [@Karatzoglou2006]. We present this diversity of methods because there is no *best* mapping method for DSM, and testing and selection has to be done for every data scenario [@guevara_2018].
 
 The authors of this Chapter used **R** packages. To run the code provided in this Chapter, the following packages need to be installed in the **R** user library. If the packages are not yet installed, the `install.packages()` function can be used.
 
@@ -22,8 +17,8 @@ install.packages(c("sp", "car", "automap",
                    "e1071"))
 ```
 
-## Conventional Upscaling Using Soil Maps {#convUpscaling}
-*R Baritz, VL Mulder*
+## Conventional upscaling using soil maps {#convUpscaling}
+*R. Baritz, V.L. Mulder*
 
 ### Overview
 
@@ -31,7 +26,7 @@ The two conventional upscaling methods in the context of SOC mapping, are descri
 
 However, the essential principle which is commonly used, is to combine soil property data from local observations with soil maps via class-matching and geo-matching. 
 
-## Diversity of National Soil Legacy Data Sets
+## Diversity of national soil legacy data sets
 
 In order to develop a representative and large national soil database, very often, data from different sources (e.g. soil surveys or projects in different parts of the country at different times) are combined. The following case of Belgium demonstrates, how available legacy databases could be combined. Three different sources are used to compile an overview of national SOC stocks:
 
@@ -43,7 +38,7 @@ In order to develop a representative and large national soil database, very ofte
 
 From all data sources, SOC stocks for peat soils were calculated separately.
 
-### Technical Steps - Class-Matching
+### Technical steps - Class-matching
 
 **Step 1 - Data preparation**
 
@@ -74,7 +69,7 @@ Through class-matching, only those points or profiles are attributed to a soil o
 > Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.  
 
 
-### Technical Steps - Geo-Matching
+### Technical steps - Geo-matching
 
 Because of its importance, geo-matching as a mapping method is described in more detail. It is neccessary to first prepare the working environment with the pre-processed input data. The following Section presents different geo-matching procedures. 
 

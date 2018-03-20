@@ -1,8 +1,4 @@
 \mainmatter
-\tableofcontents
-\listoffigures
-\listoftables
-\printnomenclature
 
 # Presentation
 
@@ -29,7 +25,7 @@ This cookbook presents two approaches in detail, namely spatial modelling using 
 
 It is our hope that this cookbook will fulfill its mandate of easily enabling any user to produce a digital SOC or other soil property map using soil legacy data and modern methods of digital soil mapping \index{Digital Soil Mapping (DSM)} with the overall aim for improved decision making on soil management.
 
-## 	How to Use This Book
+## 	How to use this book
 
 In the second edition of this cookbook, we want to introduce five different approaches for obtaining a SOC map, using an example soil data set from the Former Yugoslav Republic of Macedonia (FYROM).
 
@@ -37,9 +33,9 @@ The first two mapping methods presented are classified as conventional upscaling
 
 In addition to that, we present three methods from digital soil mapping \index{Digital Soil Mapping (DSM)}. Regression-kriging \index{Regression-kriging (RK)} is a hybrid model with both, a deterministic and a stochastic component [@hengl2007regression]. Next method is called random forest \index{Random forest (RF)}. This one is an ensemble of regression trees based on bagging. This machine learning algorithm uses a different combination of prediction factors to train multiple regression trees [@Breiman1996]. The last method is called support vector machines \index{Support Vector Machines (SVM)}. This method applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space [@Karatzoglou2006].
 
-We present this diversity of methods because there is no *best* mapping method for digital soil mapping \index{Digital Soil Mapping (DSM)} and testing, and selection has to be done for every data scenario [@soil-2017-40].
+We present this diversity of methods because there is no *best* mapping method for digital soil mapping \index{Digital Soil Mapping (DSM)} and testing, and selection has to be done for every data scenario [@guevara_2018].
 
-## The FYROM Soil Database
+## The FYROM soil database
 
 The sample data set used for the spline function and the regression-kriging for digital soil mapping in this cookbook has been extracted from the [Macedonian Soil Information System Database](http://www.maksoil.ukim.mk/) (MASIS). The database contains around 4,000 soil profiles with 11,000 horizons. The MASIS was developed with support from the FAO and the GSP. Decades of archived soil research have now been transformed into an accurate, up-to-date, and fully functioning information system, based on state-of-the-art digital soil mapping techniques.
 
@@ -50,3 +46,13 @@ Bringing MASIS to life took just over two years and was completed in four phases
 The data were then used to develop a spatial geo-database within MASIS. This led to the production of a national soil map compliant with both, European and global standards, in phase two of the project. 
 
 The MASIS is available at the following link: http://www.maksoil.ukim.mk/.
+
+## Foreword to the first edition
+
+The first edition of the cookbook provides step-by-step guidance for developing 1 km grids for the mapping of soil carbon stocks. It includes the preparation of local soil data, the compilation and pre-processing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessments. Guidance is mainly specific to soil carbon data, but also contains many generic sections on soil grid development, as it is relevant for other soil properties.
+
+Therefore, this first edition is the beginning of a series of updates and extensions, necessary to cover a larger variety of upscaling approaches. Experiences gained throughout 2017 during the GSOCmap programme, through applications at country scale and various trainings scheduled for 2017, shall be considered in the next editions. Also, the section on uncertainties will be adjusted to more practical implementation steps.
+
+## Foreword to the second edition
+
+This second edition has been updated with knowledge and practical experiences gained during the implementation process of GSOCmap V1.0 throughout 2017. The cookbook includes step-by-step guidance for developing 1 km grids for SOC stocks, as well as for the preparation of local soil data, the compilation and preprocessing of ancillary spatial data sets, upscaling methodologies, and uncertainty assessment methods. Guidance is mainly specific to soil organic carbon data, but as this cookbook contains generic sections on soil grid development, it can be applicable to map various soil properties. 

@@ -1,6 +1,6 @@
 \clearpage
 ## Regression-Kriging {#RK}
-*GF Olmedo & Y Yigini*
+*G.F. Olmedo & Y. Yigini*
 
 ### Overview
 
@@ -24,7 +24,7 @@ Standard linear regression models with standard estimation techniques make a num
 
 * **Homoscedasticity**: The variance of the error term is constant for all combinations of $X$’s. The term homoscedasticity means *same scatter*. Its antonym is heteroscedasticity which means *different scatter*.
 
-### Pre-Processing of Covariates
+### Pre-processing of covariates
 
 Before using the selected predictors, multicollinearity assumption must be reviewed. As an assumption, there is not perfect collinearity in any combination of the $X$’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. The multicollinearity of a number of variables can be assessed using Variance Inflation Factor (VIF).
 
@@ -38,7 +38,7 @@ The PCA and the linear regression (PCR) method may be coarsely divided into thre
 2. Regress the dependent variable on the selected principal components as covariates, linear regression to get estimated regression coefficients.
 3. Transforming the data back to the scale of the actual covariates, using the selected PCA loadings.
 
-###  The Terminology
+###  The terminology
 
 * **Dependent variable $Y$**: \index{dependent variable} What we are trying to predict (e.g. SOC content).
 * **Independent variables $X$'s (Predictors)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates, DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter \@ref(covariates).
@@ -67,7 +67,7 @@ knitr::include_graphics("images/RKworkflow.png")
 
 Regression analysis generates an equation to describe the statistical relationship between one or more predictor variables and the response variable. The $R$-squared, $p$-values and coefficients that appear in the output for linear regression analysis must also be reviewed. Before accepting the result of a linear regression it is important to evaluate its suitability at explaining the data. One of the many ways to do this is to visually examine the residuals. If the model is appropriate, then the residual errors should be random and normally distributed.
 
-**$R$-sqared**
+**$R$-squared**
 
 $R$-sqared ($R^2$) is the percentage of variation in the response that is explained by the model. The higher the $R^2$ value is, the better the model fits your data. $R^2$ ranges between 0% and 100%. $R^2$ usually increases when additional predictors are added in the model.
 
@@ -84,13 +84,13 @@ We can plot the residuals which can help us determine whether the model is adequ
 
 The diagnostic plots for the model should be evaluated to confirm if all the assumptions of linear regression are met. After the abovementioned assumptions are validated, we can proceed with making the prediction map using the model with significant predictors.
 
-### Using the Results of a Regression Analysis to Make Predictions
+### Using the results of a regression analysis to make predictions
 
 The purpose of a regression analysis, of course, is to develop a model that can be used to make the prediction of a dependent variable. The derived regression equation is to be used to create the prediction map for the dependent variable.
 
 > Raster calculation can be easily performed using **raster** package in **R** or ArcGIS using the **Raster Calculator** tool (is called **Map Algebra** in the prior versions).
 
-### Technical Steps - Regression-kriging
+### Technical steps - Regression-kriging
 
 **Requirements**
 
@@ -348,7 +348,7 @@ writeRaster(RKpredsd, filename = "results/MKD_OCSKGM_RKpredsd.tif",
 saveRDS(model.MLR.step, file="results/RKmodel.Rds")
 ```
 
-### Technical Steps - Cross-Validation of Regression-Kriging Models
+### Technical steps - Cross-validation of regression-kriging models
 
 Cross-validation \index{Cross-validation} is introduced in Section \@ref(xval). In RK models, $n$-fold cross-validation and leave-one-out cross-validation can be run using the `krige.cv()` included in **gstat** **R** package. In this example, we will apply 10 fold cross-validation to our RK model.
 

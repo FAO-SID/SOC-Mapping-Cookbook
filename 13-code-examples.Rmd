@@ -1,5 +1,5 @@
-# Compendium of the Code Examples Included in the Cookbook
-*GF Olmedo*
+# Compendium of the code examples included in the cookbook
+*G.F. Olmedo*
 
 In this Chapter, we present a compendium of the technical steps presented in the previous Chapters of the cookbook. With the help of these examples, the user should be able to produce a soil property prediction map starting from the soil samples, covariates preparation, modeling and ending with the validation. However, we present different alternatives for the different steps. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
@@ -25,9 +25,9 @@ In this Chapter, we present a compendium of the technical steps presented in the
   
   
 \clearpage
-## Data Preparation for Soil Profiles{#cd:PreparationProfiles}
+## Data preparation for soil profiles{#cd:PreparationProfiles}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by GF Olmedo & R Baritz.
+The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by G.F. Olmedo & R. Baritz.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -41,9 +41,9 @@ knitr::read_chunk(path = "code/1A-DataPreparation-Profiles.R")
 
 
 \clearpage
-## Data Preparation for Top Soil or Auger Samples {#cd:PreparationAuger}  
+## Data preparation for top soil or auger samples {#cd:PreparationAuger}  
 
-The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by GF Olmedo & R Baritz.
+The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by G.F. Olmedo & R. Baritz.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -57,7 +57,7 @@ knitr::read_chunk(path = "code/1B-DataPreparation-Augers.R")
 
 
 \clearpage
-## Merging Top Soil and Soil Profiles Databases{#cd:merging}
+## Merging top soil and soil profiles Databases{#cd:merging}
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -71,9 +71,9 @@ knitr::read_chunk(path = "code/optional-Merging.R")
 
 
 \clearpage
-## Data-Splitting{#cd:data-splitting}
+## Data-splitting{#cd:data-splitting}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B. Kempen, D.J. Brus & G.B.M. Heuvelink, with code contributions from G.F. Olmedo.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -87,9 +87,9 @@ knitr::read_chunk(path = "code/optional-DataSplitting.R")
 
 
 \clearpage
-## Rasterizing a Vector Layer in R {#cd:Rasterizing}
+## Rasterizing a vector layer in R {#cd:Rasterizing}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
+The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R. Baritz & Y. Yigini.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -103,9 +103,9 @@ knitr::read_chunk(path = "code/optional-Rasterizing.R")
 
 
 \clearpage
-## Overlay Covariates and Soil Points Data{#cd:Overlay}
+## Overlay covariates and soil points Data{#cd:Overlay}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R Baritz & Y Yigini.
+The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R. Baritz & Y. Yigini.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -119,9 +119,9 @@ knitr::read_chunk(path = "code/2-OverlayCovariates.R")
 
 
 \clearpage
-##	Fitting a Regression-Kriging Model to Predict the OCS	{#cd:RK}
+##	Fitting a regression-kriging model to predict the OCS	{#cd:RK}
 
-The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
+The extended and discussed version of the following code is presented in Section  \@ref(RK), by G.F. Olmedo & Y. Yigini.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -134,9 +134,9 @@ knitr::read_chunk(path = "code/3A-1-RegressionKriging.R")
 ```
 
 
-## 	Cross-Validation of Regression-Kriging Models	 {#cd:xvalRK}
+## 	Cross-validation of regression-kriging models	 {#cd:xvalRK}
 
-The extended and discussed version of the following code is presented in Section  \@ref(RK), by GF Olmedo & Y Yigini.
+The extended and discussed version of the following code is presented in Section  \@ref(RK), by G.F. Olmedo & Y. Yigini.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -150,9 +150,9 @@ knitr::read_chunk(path = "code/3A-2-XvalRegressionKriging.R")
 
 
 \clearpage
-## Fitting a Random Forest Model to Predict the SOC	{#cd:rf}
+## Fitting a random forest model to predict the SOC	{#cd:rf}
 
-The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
+The extended and discussed version of the following code is presented in Section \@ref(rf), by M. Guevara, C. Thine, G.F. Olmedo & R.R. Vargas.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -166,9 +166,9 @@ knitr::read_chunk(path = "code/3B-1-randomForest.R")
 
 
 \clearpage
-## Using Quantile Regression Forest to Estimate Uncertainty {#cd:quantreg}
+## Using quantile regression forest to estimate uncertainty {#cd:quantreg}
 
-The extended and discussed version of the following code is presented in Section \@ref(rf), by M Guevara, C Thine, GF Olmedo & RR Vargas.
+The extended and discussed version of the following code is presented in Section \@ref(rf), by M. Guevara, C. Thine, G.F. Olmedo & R.R. Vargas.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -182,9 +182,9 @@ knitr::read_chunk(path = "code/3B-2-QuantileRegressionForest.R")
 
 
 \clearpage
-## Fitting a SVM Model to Predict the SOC	{#cd:svm}
+## Fitting a SVM model to predict the SOC	{#cd:svm}
 
-The extended and discussed version of the following code is presented in Section \@ref(svm), by GF Olmedo & M Guevara.
+The extended and discussed version of the following code is presented in Section \@ref(svm), by G.F. Olmedo & M. Guevara.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -200,7 +200,7 @@ knitr::read_chunk(path = "code/3C-SupportVectorMachines.R")
 \clearpage
 ## Validation{#cd:Validation}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B. Kempen, D.J. Brus & G.B.M. Heuvelink, with code contributions from G.F. Olmedo.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -214,9 +214,9 @@ knitr::read_chunk(path = "code/4-1-Validation.R")
 
 
 \clearpage
-## Graphical Map Quality Measures {#cd:Graphs}
+## Graphical map quality measures {#cd:Graphs}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B Kempen, DJ Brus & GBM Heuvelink, with code contributions from GF Olmedo.
+The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B. Kempen, D.J. Brus & G.B.M. Heuvelink, with code contributions from G.F. Olmedo.
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -230,9 +230,9 @@ knitr::read_chunk(path = "code/4-2-GraphicalQualityMeasures.R")
 
 
 \clearpage
-## Model Evaluation {#cd:Evaluation}
+## Model evaluation {#cd:Evaluation}
 
-The extended and discussed version of the following code is presented in Chapter \@ref(evaluation), by M Guevara and GF Olmedo.
+The extended and discussed version of the following code is presented in Chapter \@ref(evaluation), by M. Guevara and G.F. Olmedo.
 
 
 ```{r, echo=FALSE, cache=FALSE}

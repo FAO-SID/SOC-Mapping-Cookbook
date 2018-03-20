@@ -1,5 +1,5 @@
-# Data Sharing
-*T Hengl, L Poggio, E Ribeiro & B Kempen*
+# Data sharing
+*T. Hengl, L. Poggio, E. Ribeiro & B. Kempen*
 
 This Chapter reviews possibilities and *good practices* of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make a correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, GeoServer, Leaflet, OpenLayers and **R**, and public domain data and metadata standards.
 
@@ -15,9 +15,9 @@ install.packages(c("soiltexture", "rgdal", "plotKML",
 ```
 
 
-## Export Formats
+## Export formats
 
-### Type of Soil Data and Their Formatting
+### Type of soil data and their formatting
 
 Before we start reviewing soil data formats, it is useful to understand which types of soil variables, soil maps, and soil DBs are most commonly generated and used, and what are their specific advantages and limitations. Soil science works with many variables common to ecology and/or physical geography (e.g., soil temperature), but it also works with several variables specific to soil science only. Some soil factor-type variables specific to soil science only are for example:
 
@@ -69,7 +69,7 @@ It is also important to be able to distinguish between sampled or predicted soil
 
 A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification, etc.) make a SIS. SIS are often complemented with soil sample data and serve both data formats. A SIS should preferably be a database (DB), so that users can access and query data using some standard DB languages (e.g., SQL). Steps to export soil data into a DB format are explained in later Sections.
 
-### General GIS Data Formats: Vector, Raster, Table
+### General GIS data formats: vector, raster, table
 
 All soil data we produce through soil mapping can be in principle distributed using one of the two basic GIS formats of data:
 
@@ -108,7 +108,7 @@ str(eberg_zones.tbl)
 
 Note that using spatial layers in simple tabular formats can be cumbersome because many spatial relationships and properties are likely lost (although these can be assigned reversibly). In addition, the size of tabular objects is much bigger than if we use data in the original GIS data formats, especially if those formats support compression. On the other hand, having data in tabular format can be often the only way to exchange the data from spatial to non-spatial databases or from software without any data communication bridge. Also, tabular data is human-readable which means that it can be opened in text editors, spreadsheet programs or similar.
 
-### Recommended GIS Data Exchange Formats
+### Recommended GIS data exchange formats
 
 As a general recommendation producers of soil data should primarily look at using the following data formats for exchanging soil data (points, polygons, and rasters):
 
@@ -159,9 +159,9 @@ Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], ar
 
 As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTIFF formats because floating point formats can lead to up to more than four times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g., multiply pH values by 10 before exporting your raster in GeoTIFF format).
 
-## Web Services: Serving Soil Data Using Web Technology {webService}
+## Web services: serving soil data using web technology{webService}
 
-### Third-Party Services
+### Third-party services
 
 If you are a data producer but with limited technical capacity and/or financial resources, then publishing geo-data through a third-party service could be very well that the easiest and most professional solution for you. Some commonly used commercial web services to share geo-data are:
 
@@ -174,7 +174,7 @@ All these have limitations and primarily suitable for sharing vector type data o
 
 Soil data producers can also contact ISRIC, as World Data Centre for Soils, to request support for hosting and/or distributing their soil data in case they lack the technical capacity to do so themselves while adhering to the data sharing agreement and license set by the data producer.
 
-### GeoServer (Web Serving and Web Processing)
+### GeoServer (web serving and web processing)
 
 GeoServer (http://geoserver.org/) is an open source software solution for serving raster or vector data. It includes the majority of the Open Geospatial Consortium (OGC) service standards: the Web Map Service, Web Coverage Service and Web Processing Service [@youngblood2013geoserver]. Installation and maintenance of GeoServer is however not trivial and requires specialized technical staff. Web services can also entail significant costs depending on the amount of web-processing and web-traffic. For every medium to large size organization, it is probably a better idea to use the out-of-box solution for GeoServer which is the GeoNode (http://geonode.org/). GeoNode also includes a web-interface and user-management system so that new layers can be uploaded to GeoServer through a web-form type interface.
 
@@ -182,7 +182,7 @@ The very important functionality of GeoServer are the OGC standard services such
 
 ![SoilGrids (Hengl et al. 2017) WCS opened in QGIS](images/Data_sharing_SoilGrids.png)
 
-### Visualizing Data Using Leaflet and/or Google Earth
+### Visualizing data using Leaflet and/or Google Earth
 
 A quick way to visualize produced soil maps and then share them to users without GIS capacities is to use **leaflet** package in **R**. Leaflet is basically a stand-alone web-page that contains all information (including some popular Web Mapping Services) so that users can visually explore patterns without having to install and use any desktop GIS. Consider the following example:
 
@@ -213,7 +213,7 @@ Note that the whole data set including styling and legends is basically availabl
 
 An alternative to using Leaflet is to put all data, including documents and multimedia, about your project in a Keyhole Markup Language (KML) format. As `*.kml` file the data is available for viewing in Google Earth [@hengl2015plotkml]. KML is very rich in what it can incorporate: textual data, photographs, documents, animations, videos, etc. In fact, probably whole projects can be put into a single `*.kml` file so that the users only need to open it in Google Earth and then explore interactively. Note that `*.kml` files with ground overlays will be generated by GeoServer by default, although further customization is up to the data producer.
 
-## Preparing Soil Data for Distribution
+## Preparing soil data for distribution
 
 ### Metadata
 
@@ -249,7 +249,7 @@ system('gdalinfo eberg_DEM.tif')
 
 Similarly, all necessary metadata can be added into GeoTIFF so that future users have all information at one place, i.e., inside the data file. 
 
-### Exporting Data: Final Tips
+### Exporting data: final tips
 
 As we have shown previously, if you export soil data into either GPKG and/or GeoTIFF format, these data can be accessed using DB operations. In fact, by exporting the data to GPKG and GeoTIFFs, you have created a soil spatial DB or a soil information system. This does not necessarily mean that its targeted users will be able to find all information without problems and/or questions. How usable and how popular a data set is, is a function of many aspects, not only data quality. You could create maps of perfect quality but have no users at all. |The following instructions should be definitively considered, as a way to boost the usability of your data are.
 
@@ -265,7 +265,7 @@ d. Workflows explaining how to request support (who to contact and how).
 4.    Consider installing and using a version control system (or simply use GitHub or similar repository) so that the users can track back versions of data.
 5.    Consider closely following principles of reproducible research  (all processing steps, inputs, and outputs accessible). This tutorial comes with **R** code that is available via GitHub so that everyone should be able to reproduce the examples shown in the text.
 
-## Export Formats 
+## Export formats 
 
 The produced results need to be exported in formats that can be easily read by a variety of GIS software. Two widely used formats for raster data are GeoTIFF and KML.
 

@@ -1,6 +1,6 @@
 \clearpage
-## Data Mining: Support Vector Machines {#svm}
-*GF Olmedo & M Guevara*
+## Data mining: support vector machines {#svm}
+*G.F. Olmedo & M. Guevara*
 
 ### Overview 
 
@@ -20,13 +20,13 @@ And the disadvantages of SVM include:
 
 In DSM, the problems usually involve working in high dimensional spaces (were the dimensions are the covariates) with a limited number of samples. SVM is a technique mostly used in classification problems, but it can be used to solve regression problems, such as modeling the continuous variability of SOC using environmental covariates. When SVM is used to solve a regression problem, it is called support vector regression. 
 
-Support vector regression applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates $n$ hyperplanes through the $n$-dimensional spectral-space and each hyperplanes separates numerical data based on a Kernel function (e.g., Gaussian). SVM uses parameters such as *gamma*, *cost* and *epsilon*. These parameters are used to define the shape of the hyperplane, including the margin from the closest point to the hyperplane that divides data with the largest possible margin and defines the tolerance to errors on each single training. Linear models are fitted to the support vectors and used for prediction purposes. The support vectors are the points which fall within each hyperplane [@soil-2017-40].
+Support vector regression applies a simple linear method to the data but in a high-dimensional feature space non-linearly related to the input space. It creates $n$ hyperplanes through the $n$-dimensional spectral-space and each hyperplanes separates numerical data based on a Kernel function (e.g., Gaussian). SVM uses parameters such as *gamma*, *cost* and *epsilon*. These parameters are used to define the shape of the hyperplane, including the margin from the closest point to the hyperplane that divides data with the largest possible margin and defines the tolerance to errors on each single training. Linear models are fitted to the support vectors and used for prediction purposes. The support vectors are the points which fall within each hyperplane [@guevara_2018].
 
 In the example below, we will use the implementation of SVM in the R package `e1071` [@e1071]. The package `e1071` offers an interface to the award-winning C++ implementation by Chih-Chung Chang and Chih-Jen Lin, libsvm (current version: 2.6). For further implementation details on libsvm, see @chang2001libsvm.
 
 > **SVM**: This approach is a broad research area and for a better understanding of the mathematical background we can recommend the following books: @vapnik2013nature, @friedman2001elements, and @james2013introduction.
 
-### Technical Steps - Fitting an SVM Model to Predict the SOC
+### Technical steps - fitting an SVM model to predict the SOC
 
 **Step 1 - Setting working space and initial steps**
 

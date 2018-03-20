@@ -1,27 +1,27 @@
 # Uncertainty {#uncertainty}
-*GBM Heuvelink*
+*G.B.M. Heuvelink*
 
 Soil mapping involves making predictions at locations where no soil measurements were taken. This inevitably leads to prediction errors because soil spatial variation is complex and cannot be modeled perfectly. It also implies that we are uncertain about the true soil class or true soil property at prediction locations. We only have the predictions, which differ from the true values in an unpredictable way, and hence we are uncertain about the true value. In fact, we may even be uncertain about the soil at the measurement locations because no measurement method is perfect and uncertainty also arises from measurement errors.
 
 This Chapter describes how uncertainty may be characterized by probability distributions. It also explains how the parameters of these distributions may be derived, leading to quantification of uncertainty. We will see that this can become quite complex, because soil properties vary in space and are often cross-correlated, which the uncertainty model must take into account. A further complication is that there are many different sources of uncertainty. In some cases, it may be too difficult to arrive at a spatially explicit characterization of uncertainty, and in such case, statistical validation may be used to derive summary measures of the accuracy of soil maps. We begin this Chapter with a description of uncertainty sources.
 
-## Sources of Uncertainty {#sourcesuncert}
+## Sources of uncertainty {#sourcesuncert}
 
 Consider a case in which soil samples were taken from a large number of measurement locations in a study area, taken to the laboratory and analyzed for various soil properties. Let us further assume that the measurement locations were indicated on a topographic map and that the soil was also classified at each measurement location. Next, the soil property and soil type observations were used to create maps of soil properties and soil type using DSM techniques. These techniques not only make use of the soil observations but also benefit from maps of environmental variables that are correlated with the soil, and hence help explain the soil spatial variation. Which sources of uncertainty contribute to uncertainty about the final soil maps? We distinguish four main categories.
 
-### Attribute Uncertainty of Soil Measurements
+### Attribute uncertainty of soil measurements
 
 Soil measurements suffer from measurement errors in the field and laboratory. Perhaps the soil was not sampled at the right depth, perhaps the organic layer was not removed completely before collecting soil material, or perhaps by accident bags were interchanged or numbered wrongly. Field estimates of soil type and soil properties are also not error-free, especially when estimation is difficult, such as estimation of SOC content or texture. Field estimates may also be subjective because soil scientists may be trained differently and so there may be systematic differences between their field estimates of soil properties. Similarly, it is also not uncommon for soil scientists to disagree about the soil type when classifying a soil in the field.
 
 Laboratory analysis adds error too. Soil samples may not be perfectly mixed prior to taking a much smaller subsample that is actually measured; instruments have limited precision and may have systematic errors, climate conditions in the lab vary, and there can be differences between procedures used by laboratory personnel. Differences between laboratories are even bigger and may be of the same order of magnitude as the soil variation itself. It is strongly advised to always take sufficient duplicates and randomize the order in which soil samples are analyzed in the laboratory. This allows quantifying the combined field and laboratory measurement errors.
 
-### Positional Uncertainty of Soil Measurements
+### Positional uncertainty of soil measurements
 
 When collecting soil data in the field we would generally note the geographic coordinates of the measurement locations. Nowadays this is easy with GPS instruments and depending on the device, modest to high positional accuracy can be achieved. But it may still be too large to be negligible. For instance, consider the case where the soil data are used to train a DSM model that predicts soil properties from covariates. Let these covariates be available at high spatial resolution and have substantial fine-scale spatial variation. Then it is clear that positional uncertainty in the soil measurements may link these measurements to the wrong covariates, which will weaken the strength of the relationship between the soil variable and covariates and deteriorate the quality of the final soil map.
 
 Many soil legacy data suffer from large positional uncertainty. Locations may only be traced from vague descriptions such as *near village A* or *east of the road from B to C*. In such case, researchers should consider whether using such data for calibration of a DSM model and for spatial prediction using the calibrated DSM model is wise. It may do more harm than good. This depends on the specific DSM model used and the degree of spatial variation of the covariates. It also depends on the degree of spatial variation of the soil property itself. If it has negligible fine-scale spatial variation and hence has similar values at the registered and actual geographic location, then little harm is done. For instance, in the Sahara desert many soil properties will show little spatial variation over distances of hundreds or perhaps thousands of meters, so in such case, poor geographic positional accuracy will not seriously affect DSM predictions.
 
-### Uncertainty in Covariates
+### Uncertainty in covariates
 
 Maps of covariates that are used in DSM can also suffer from errors and uncertainties. For instance, a DEM is a major source of geomorphological covariates but DEMs are only approximations of the real elevation. DEM errors will propagate and cause uncertainty in geomorphological properties such as slope, aspect and topographic wetness index. As a result, the DSM model must be trained on covariate data that are merely approximations of the intended covariates, which will generally lead to weakened relationships and larger DSM prediction errors. Land cover is another example; soil properties may be strongly influenced by land cover, but such relationship may come out quite weak if the DSM model is trained with a land cover map that represents land cover wrongly for a large part of the study area.
 
@@ -29,13 +29,13 @@ Covariates also come in a specific spatial resolution which may be quite coarse 
 
 Uncertainty in covariates leads to weaker DSM models, but this weakening is not hidden to the developer because the deterioration of predictive power is implicitly included in the DSM model. For instance, the amount of variance explained by a DSM model that uses the true land cover as measured on sampling sites may be much higher than that of a model that uses a land cover map. Users may then be tempted to calibrate the DSM model with the true land cover data, but if they next apply that model using the land cover map to predict the soil at non-measurement locations they would systematically underestimate the uncertainty of the resulting map.
 
-### Uncertainty in Models Predicting Soil Properties From Covariates and Soil Point Data
+### Uncertainty in models predicting soil properties from covariates and soil point data
 
 Even if the soil point data and covariate data were error-free, the resulting DSM predictions would still deviate from the true soil properties. This is because the DSM model itself also introduces uncertainties. Models are merely simplified representations of the real world. The real world is too complex and approximations are needed. For instance, even though we know that physical, chemical and biological processes determine the soil as given by the state equation of soil formation $soil$ = $f$($cl$, $o$, $r$, $p$, $t$), the function $f$ is too complex to be fully understood and implemented in a  computer model. Instead, we use crude approximations such as multiple linear regression and machine-learning algorithms. These empirical models have the additional burden that extrapolation beyond conditions represented by the calibration data is difficult and risky. For extrapolation purposes, it is advised to use DSM models that better represent the mechanisms behind soil formation, but again it is practically impossible to build mechanistic models that represent the real world perfectly. This is not only because we may not understand all processes and their interactions well, but also because dynamic mechanistic models need much information, such as the initial state, boundary conditions, and driving forces. Such detailed information is generally lacking.
 
 Model uncertainty is generally subdivided into model parameter uncertainty and model structural uncertainty. The first can be reduced by using models with fewer parameters or by using a larger calibration data set. The latter can be reduced by using a more complex model, but this will only work if there are enough data to calibrate such model. Thus, in general, a compromise has to be sought by choosing a level of model complexity that matches the amount of information available.
 
-## Uncertainty and Spatial Data Quality
+## Uncertainty and spatial data quality
 
 Research into spatial accuracy in geographic information science has listed five main elements of spatial data quality:
 
@@ -49,11 +49,11 @@ We have already discussed positional and attribute accuracy. Lineage refers to d
 
 In summary, there are many sources of uncertainty that affect the quality of DSM products. This Section has reviewed these sources but was purposely descriptive. The next Section selects a few major uncertainty sources and works out quantitatively how these cause uncertainty in the resulting soil map. Perhaps it is useful to mention that focussing attention on errors and uncertainties may give the wrong impression that soil maps are generally inaccurate and of poor quality. This is not the message that we wish to convey here. But producers and users of soil maps should be aware of the sources of uncertainty and should ideally identify how these uncertainties affect the final product. Thus, quantification of the uncertainty in DSM maps, be it through explicit modeling or independent validation is important.
 
-## Quantifying Prediction Uncertainty
+## Quantifying prediction uncertainty
 
 Uncertainties in soil measurements, covariates and DSM models propagate to resulting soil maps. The uncertainty propagation can fairly easily be traced provided that the uncertainty sources are characterized adequately. The most appropriate way of doing that is by making use of statistics and probability distributions. This Section also takes that approach and starts by providing a brief overview of probability distributions and how these may be used to represent uncertainty. Next, it analyses how the four sources of uncertainty distinguished in Section \@ref(sourcesuncert) lead to uncertainty in soil maps produced using DSM.
 
-### Uncertainty Characterised by Probability Distributions
+### Uncertainty characterised by probability distributions
 
 If we are uncertain about the value of a soil property at some location and depth this means that we cannot identify one single, true value for that soil property [@goovaerts2001geostatistical; @arrouays_uncertainty_2014]. Instead, we may be able to provide a list of all possible values for it and attach a probability to each. In other words, we represent the true but unknown soil property by a probability distribution.
 
@@ -72,7 +72,7 @@ knitr::include_graphics("images/pairedsoilpropierties.png")
 
 
 
-### Propagation of Model Uncertainty
+### Propagation of model uncertainty
 
 Now that we have clarified how uncertainty in soil properties may be characterized by probability distributions, let us consider what these distributions look like in DSM and how these are influenced by the uncertainty sources described in Section \@ref(sourcesuncert). We begin with uncertainty source 4, uncertainty in DSM models.
 We noted before that uncertainty in DSM models may be separated in model parameter and model structural uncertainty. A typical example of this is a multiple linear regression model:
@@ -110,7 +110,7 @@ In many DSM applications, an additional step will be included that makes use of 
 
 So far we considered uncertainty in DSM models that are linear in the covariates and that represent the model structural uncertainty by an additive stochastic term. This was relatively easy because tracing how uncertainty in model parameters and model structure propagate to the model output could be done analytically. However, using linear models also poses serious restrictions. The relationship between soil properties and covariates are typically not linear but much more complex. This has led to the development and use of complex non-linear DSM models, such as regression trees, artificial neural networks, support vector machines and random forests approaches, all summarised under the term *machine learning* [e.g., @hengl2015mapping]. These more complex models typically yield more accurate soil predictions but quantification of the associated uncertainty is more difficult. In most cases, one resorts to validation and cross-validation statistics that summarise the prediction accuracy over the entire study area. How this is done will be explained in detail in  Section \@ref(propUncertainty). Such summary validation measures are very valuable but are no substitute for spatially explicit uncertainties such as the kriging variance and the prediction error variance presented in Eq. \ref{eq:pred err}. Research into quantification of location-specific uncertainties when using machine learning algorithms is therefore important. However, it is beyond the scope of this Chapter to review this area of ongoing research. One particular approach makes use of quantile regression forests. We refer to \cite{meinshausen2006quantile} for a general text and to \cite{vaysse2017using} for a DSM application of this promising, albeit computationally challenging approach.
 
-### Propagation of Attribute, Positional and Covariate Uncertainty {propUncertainty}
+### Propagation of attribute, positional and covariate uncertainty{propUncertainty}
 
 In Section \@ref(sourcesuncert) we noted that next to uncertainties in model parameters and model structure there may also be uncertainties in the attribute values and positions of the soil point data and in the covariates. These sources of uncertainty will also affect the outcome of DSM model predictions.
 

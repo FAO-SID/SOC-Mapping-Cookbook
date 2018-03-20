@@ -48,17 +48,21 @@
 \usepackage{tabu}
 \usepackage{threeparttable}
 \usepackage[normalem]{ulem}
-
+% empty pages betwen chapters
+\usepackage{emptypage}
 
 \makeatletter
 \makeatother
+
+\renewcommand{\listfigurename}{Figures}
+\renewcommand{\listtablename}{Tables}
 
 \usepackage[sectionbib]{chapterbib}
 
 %% List of Abbreviations
 \usepackage{nomencl}
 \makenomenclature
-\renewcommand{\nomname}{List of Abbreviations and Acronyms}
+\renewcommand{\nomname}{Acronyms}
 %% to update run makeindex on docs folder and move results to / folder
 %% see nomencl manual
 %% e.g. makeindex SOCMapping.nlo -s nomencl.ist -o SOCMapping.nls
@@ -67,4 +71,5 @@
 \usepackage{imakeidx}
 \makeindex
 
+% no title page
 \AtBeginDocument{\let\maketitle\relax}

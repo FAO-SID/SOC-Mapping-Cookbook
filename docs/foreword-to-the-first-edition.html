@@ -25,7 +25,7 @@
 <meta name="author" content="">
 
 
-<meta name="date" content="2018-03-13">
+<meta name="date" content="2018-03-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -188,7 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4" data-path="covariates.html"><a href="covariates.html#land-cover-and-land-use"><i class="fa fa-check"></i><b>5.4</b> Land Cover and Land Use</a><ul>
 <li class="chapter" data-level="5.4.1" data-path="covariates.html"><a href="covariates.html#globcover-global"><i class="fa fa-check"></i><b>5.4.1</b> GlobCover (Global)</a></li>
 <li class="chapter" data-level="5.4.2" data-path="covariates.html"><a href="covariates.html#landsat-geocover-global"><i class="fa fa-check"></i><b>5.4.2</b> Landsat GeoCover (Global)</a></li>
-<li class="chapter" data-level="5.4.3" data-path="covariates.html"><a href="covariates.html#globeland30-global"><i class="fa fa-check"></i><b>5.4.3</b> Globeland30 (Global)</a></li>
+<li class="chapter" data-level="5.4.3" data-path="covariates.html"><a href="covariates.html#globeland30-global"><i class="fa fa-check"></i><b>5.4.3</b> GlobeLand30 (Global)</a></li>
 <li class="chapter" data-level="5.4.4" data-path="covariates.html"><a href="covariates.html#corine-land-cover-europe-only"><i class="fa fa-check"></i><b>5.4.4</b> CORINE Land Cover (Europe Only)</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="covariates.html"><a href="covariates.html#climate"><i class="fa fa-check"></i><b>5.5</b> Climate</a><ul>
@@ -205,33 +205,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.9" data-path="covariates.html"><a href="covariates.html#overlay-soil-covariates"><i class="fa fa-check"></i><b>5.9</b> Technical Steps - Overlay Covariates and Soil Points Data</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="mappingMethods.html"><a href="mappingMethods.html"><i class="fa fa-check"></i><b>6</b> Mapping Methods</a><ul>
-<li class="chapter" data-level="6.1" data-path="mappingMethods.html"><a href="mappingMethods.html#conventional-upscaling-using-soil-maps"><i class="fa fa-check"></i><b>6.1</b> Conventional Upscaling Using Soil Maps</a><ul>
+<li class="chapter" data-level="6.1" data-path="mappingMethods.html"><a href="mappingMethods.html#convUpscaling"><i class="fa fa-check"></i><b>6.1</b> Conventional Upscaling Using Soil Maps</a><ul>
 <li class="chapter" data-level="6.1.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview"><i class="fa fa-check"></i><b>6.1.1</b> Overview</a></li>
-<li class="chapter" data-level="6.1.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---class-matching"><i class="fa fa-check"></i><b>6.1.2</b> Technical Steps - Class-Matching</a></li>
-<li class="chapter" data-level="6.1.3" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---geo-matching"><i class="fa fa-check"></i><b>6.1.3</b> Technical Steps - Geo-Matching</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="mappingMethods.html"><a href="mappingMethods.html#RK"><i class="fa fa-check"></i><b>6.2</b> Regression-Kriging</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-1"><i class="fa fa-check"></i><b>6.2.1</b> Overview</a></li>
-<li class="chapter" data-level="6.2.2" data-path="mappingMethods.html"><a href="mappingMethods.html#assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Assumptions</a></li>
-<li class="chapter" data-level="6.2.3" data-path="mappingMethods.html"><a href="mappingMethods.html#pre-processing-of-covariates"><i class="fa fa-check"></i><b>6.2.3</b> Pre-Processing of Covariates</a></li>
-<li class="chapter" data-level="6.2.4" data-path="mappingMethods.html"><a href="mappingMethods.html#the-terminology"><i class="fa fa-check"></i><b>6.2.4</b> The Terminology</a></li>
-<li class="chapter" data-level="6.2.5" data-path="mappingMethods.html"><a href="mappingMethods.html#interpret-the-key-results-of-multiple-regression"><i class="fa fa-check"></i><b>6.2.5</b> Interpret the Key Results of Multiple Regression</a></li>
-<li class="chapter" data-level="6.2.6" data-path="mappingMethods.html"><a href="mappingMethods.html#using-the-results-of-a-regression-analysis-to-make-predictions"><i class="fa fa-check"></i><b>6.2.6</b> Using the Results of a Regression Analysis to Make Predictions</a></li>
-<li class="chapter" data-level="6.2.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---regression-kriging"><i class="fa fa-check"></i><b>6.2.7</b> Technical Steps - Regression-kriging</a></li>
-<li class="chapter" data-level="6.2.8" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---cross-validation-of-regression-kriging-models"><i class="fa fa-check"></i><b>6.2.8</b> Technical Steps - Cross-Validation of Regression-Kriging Models</a></li>
+<li class="chapter" data-level="6.2" data-path="mappingMethods.html"><a href="mappingMethods.html#diversity-of-national-soil-legacy-data-sets"><i class="fa fa-check"></i><b>6.2</b> Diversity of National Soil Legacy Data Sets</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---class-matching"><i class="fa fa-check"></i><b>6.2.1</b> Technical Steps - Class-Matching</a></li>
+<li class="chapter" data-level="6.2.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---geo-matching"><i class="fa fa-check"></i><b>6.2.2</b> Technical Steps - Geo-Matching</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="mappingMethods.html"><a href="mappingMethods.html#rf"><i class="fa fa-check"></i><b>6.3</b> Data Mining: Random Forest</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-2"><i class="fa fa-check"></i><b>6.3.1</b> Overview</a></li>
-<li class="chapter" data-level="6.3.2" data-path="mappingMethods.html"><a href="mappingMethods.html#random-forests"><i class="fa fa-check"></i><b>6.3.2</b> Random Forests</a></li>
-<li class="chapter" data-level="6.3.3" data-path="mappingMethods.html"><a href="mappingMethods.html#conceptual-model-and-data-preparation"><i class="fa fa-check"></i><b>6.3.3</b> Conceptual Model and Data Preparation</a></li>
-<li class="chapter" data-level="6.3.4" data-path="mappingMethods.html"><a href="mappingMethods.html#software"><i class="fa fa-check"></i><b>6.3.4</b> Software</a></li>
-<li class="chapter" data-level="6.3.5" data-path="mappingMethods.html"><a href="mappingMethods.html#tunning-random-forest-parameters"><i class="fa fa-check"></i><b>6.3.5</b> Tunning Random Forest Parameters</a></li>
-<li class="chapter" data-level="6.3.6" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---random-forest"><i class="fa fa-check"></i><b>6.3.6</b> Technical steps - Random Forest</a></li>
-<li class="chapter" data-level="6.3.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---using-quantile-regression-forest-to-estimate-uncertainty"><i class="fa fa-check"></i><b>6.3.7</b> Technical steps - Using Quantile Regression Forest to Estimate Uncertainty</a></li>
+<li class="chapter" data-level="6.3" data-path="mappingMethods.html"><a href="mappingMethods.html#RK"><i class="fa fa-check"></i><b>6.3</b> Regression-Kriging</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-1"><i class="fa fa-check"></i><b>6.3.1</b> Overview</a></li>
+<li class="chapter" data-level="6.3.2" data-path="mappingMethods.html"><a href="mappingMethods.html#assumptions"><i class="fa fa-check"></i><b>6.3.2</b> Assumptions</a></li>
+<li class="chapter" data-level="6.3.3" data-path="mappingMethods.html"><a href="mappingMethods.html#pre-processing-of-covariates"><i class="fa fa-check"></i><b>6.3.3</b> Pre-Processing of Covariates</a></li>
+<li class="chapter" data-level="6.3.4" data-path="mappingMethods.html"><a href="mappingMethods.html#the-terminology"><i class="fa fa-check"></i><b>6.3.4</b> The Terminology</a></li>
+<li class="chapter" data-level="6.3.5" data-path="mappingMethods.html"><a href="mappingMethods.html#interpret-the-key-results-of-multiple-regression"><i class="fa fa-check"></i><b>6.3.5</b> Interpret the Key Results of Multiple Regression</a></li>
+<li class="chapter" data-level="6.3.6" data-path="mappingMethods.html"><a href="mappingMethods.html#using-the-results-of-a-regression-analysis-to-make-predictions"><i class="fa fa-check"></i><b>6.3.6</b> Using the Results of a Regression Analysis to Make Predictions</a></li>
+<li class="chapter" data-level="6.3.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---regression-kriging"><i class="fa fa-check"></i><b>6.3.7</b> Technical Steps - Regression-kriging</a></li>
+<li class="chapter" data-level="6.3.8" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---cross-validation-of-regression-kriging-models"><i class="fa fa-check"></i><b>6.3.8</b> Technical Steps - Cross-Validation of Regression-Kriging Models</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="mappingMethods.html"><a href="mappingMethods.html#svm"><i class="fa fa-check"></i><b>6.4</b> Data Mining: Support Vector Machines</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-3"><i class="fa fa-check"></i><b>6.4.1</b> Overview</a></li>
-<li class="chapter" data-level="6.4.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---fitting-an-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>6.4.2</b> Technical Steps - Fitting an SVM Model to Predict the SOC</a></li>
+<li class="chapter" data-level="6.4" data-path="mappingMethods.html"><a href="mappingMethods.html#rf"><i class="fa fa-check"></i><b>6.4</b> Data Mining: Random Forest</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-2"><i class="fa fa-check"></i><b>6.4.1</b> Overview</a></li>
+<li class="chapter" data-level="6.4.2" data-path="mappingMethods.html"><a href="mappingMethods.html#random-forest"><i class="fa fa-check"></i><b>6.4.2</b> Random Forest</a></li>
+<li class="chapter" data-level="6.4.3" data-path="mappingMethods.html"><a href="mappingMethods.html#conceptual-model-and-data-preparation"><i class="fa fa-check"></i><b>6.4.3</b> Conceptual Model and Data Preparation</a></li>
+<li class="chapter" data-level="6.4.4" data-path="mappingMethods.html"><a href="mappingMethods.html#software"><i class="fa fa-check"></i><b>6.4.4</b> Software</a></li>
+<li class="chapter" data-level="6.4.5" data-path="mappingMethods.html"><a href="mappingMethods.html#tunning-random-forest-parameters"><i class="fa fa-check"></i><b>6.4.5</b> Tunning Random Forest Parameters</a></li>
+<li class="chapter" data-level="6.4.6" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---random-forest"><i class="fa fa-check"></i><b>6.4.6</b> Technical steps - Random Forest</a></li>
+<li class="chapter" data-level="6.4.7" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---using-quantile-regression-forest-to-estimate-uncertainty"><i class="fa fa-check"></i><b>6.4.7</b> Technical steps - Using Quantile Regression Forest to Estimate Uncertainty</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="mappingMethods.html"><a href="mappingMethods.html#svm"><i class="fa fa-check"></i><b>6.5</b> Data Mining: Support Vector Machines</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="mappingMethods.html"><a href="mappingMethods.html#overview-3"><i class="fa fa-check"></i><b>6.5.1</b> Overview</a></li>
+<li class="chapter" data-level="6.5.2" data-path="mappingMethods.html"><a href="mappingMethods.html#technical-steps---fitting-an-svm-model-to-predict-the-soc"><i class="fa fa-check"></i><b>6.5.2</b> Technical Steps - Fitting an SVM Model to Predict the SOC</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="chvalidation.html"><a href="chvalidation.html"><i class="fa fa-check"></i><b>7</b> Validation</a><ul>
@@ -243,7 +245,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="chvalidation.html"><a href="chvalidation.html#graphical-map-quality-measures"><i class="fa fa-check"></i><b>7.3</b> Graphical Map Quality Measures</a></li>
 <li class="chapter" data-level="7.4" data-path="chvalidation.html"><a href="chvalidation.html#validationMeth"><i class="fa fa-check"></i><b>7.4</b> Validation Methods and Statistical Inference</a><ul>
-<li class="chapter" data-level="7.4.1" data-path="chvalidation.html"><a href="chvalidation.html#additional-probability-sampling"><i class="fa fa-check"></i><b>7.4.1</b> Additional Probability Sampling</a></li>
+<li class="chapter" data-level="7.4.1" data-path="chvalidation.html"><a href="chvalidation.html#addProbSampling"><i class="fa fa-check"></i><b>7.4.1</b> Additional Probability Sampling</a></li>
 <li class="chapter" data-level="7.4.2" data-path="chvalidation.html"><a href="chvalidation.html#data-splitting"><i class="fa fa-check"></i><b>7.4.2</b> Data-Splitting</a></li>
 <li class="chapter" data-level="7.4.3" data-path="chvalidation.html"><a href="chvalidation.html#xval"><i class="fa fa-check"></i><b>7.4.3</b> Cross-Validation</a></li>
 </ul></li>

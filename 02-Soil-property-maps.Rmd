@@ -1,8 +1,8 @@
-# Soil Property Maps
+# Soil property maps
 
-*R Baritz*
+*R. Baritz*
 
-## Definitions and Objectives
+## Definitions and objectives
 
 \index{Soil property maps|textbf|(}
 Soil property maps represent spatial information about soil properties to a certain depth or for soil horizons \index{Soil horizons}. Conventionally, soil property maps are generated as polygon maps, with properties from typical soil profiles representing soil mapping units.
@@ -13,7 +13,7 @@ The development of soil property maps via DSM is spatially flexible. For differe
 The mapping of global soil organic carbon (GSOC) stocks will be the first implementation of a series of other soil property grids to be developed for GLOSIS \index{Soil Information System (SIS)!global}, based on the typical GSP country-driven system. GSOCmap will demonstrate the capacity of countries all around the globe to compile and manage national soil information systems and to utilize and evaluate these data following agreed international specifications. The GSP Secretariat, FAO, and its regional offices, as well as the Regional Soil Partnerships, are challenged together with the GSP members, especially the members of INSII, to establish national capacity and soil data infrastructures to enable soil property mapping.
 \index{Soil property maps|textbf|)}
 
-## Generic Mapping of Soil Grids: Upscaling of Plot-Level Measurements and Estimates
+## Generic mapping of soil grids: upscaling of plot-Level measurements and estimates
 
 The following table presents an overview of different geographic upscaling approaches, recommended to produce soil property maps, in particular, GSOCmap.
 
