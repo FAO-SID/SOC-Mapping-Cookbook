@@ -26,7 +26,7 @@ The two conventional upscaling methods in the context of SOC mapping, are descri
 
 However, the essential principle which is commonly used, is to combine soil property data from local observations with soil maps via class-matching and geo-matching. 
 
-## Diversity of national soil legacy data sets
+### Diversity of national soil legacy data sets
 
 In order to develop a representative and large national soil database, very often, data from different sources (e.g. soil surveys or projects in different parts of the country at different times) are combined. The following case of Belgium demonstrates, how available legacy databases could be combined. Three different sources are used to compile an overview of national SOC stocks:
 
@@ -69,7 +69,7 @@ Through class-matching, only those points or profiles are attributed to a soil o
 > Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap legend.  
 
 
-### Technical steps - Geo-matching
+### Technical steps - Geo-matching {#geomQGIS}
 
 Because of its importance, geo-matching as a mapping method is described in more detail. It is neccessary to first prepare the working environment with the pre-processed input data. The following Section presents different geo-matching procedures. 
 
@@ -111,7 +111,7 @@ knitr::include_graphics("images/Conv_upscaling3.png")
 
 7.  Save the project in the created folder. Load and display the pre-processed SOC point data. If a shapefile already exists, this is done the same way as described in Step 4. If you have the data as a text file, you need to create a vector layer out of that file. Go to *Layer*, *Add Layer*, *Add Delimited Text Layer*. Select the correct file and proper CRS projection. The layer should be added to your **Layers Panel** and displayed on top of the soil map.
 
-**Step 2 - Geo-Matching SOC with WRB soil map**
+**Step 2A - Geo-matching SOC with WRB soil map**
 
 In **Step 2** you will make a SOC map, based on the FYROM soil map and the SOC values at the sampled points, following three steps. First you extract the soil map information for the point data, then you obtain the mean and standard deviation of the SOC stocks per soil class, based on the point data, and last you assign these values to the corresponding soil map units. The steps are described in detail below.
 
@@ -164,7 +164,7 @@ knitr::include_graphics("images/Conv_upscaling8.png")
 10.  Repeat the Steps 2 to 8 but now for the standard deviation of the SOC stocks.
 11. Save the file as a new shapefile. Go to **Layers Panel**, *Save As* and select ESRI SHP format and make sure that you define the symbology export *Feature Symbology*. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
 
-**Step 3 - Geo-Matching SOC with other environmental variables: Land use**
+**Step 2B - Geo-matching SOC with other environmental variables: Land use**
 
 1.    Start a new project and add the soil point data and FYROM soil map layers from the **Browser Panel**.
 2.    Add the land use raster file to the **Layers Panel**. This is a raster file with 1 km resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3.
@@ -182,7 +182,7 @@ knitr::include_graphics("images/Conv_upscaling9.png")
 9. Join the files with the land use polygon map, generated in Steps 3 and 4.
 10. Change the classes in the legend and inspect the histogram with the median SOC values. Try to find a proper definition of the class boundaries (Steps 2 to 8).
 
-**Step 4 - Joining landscape units and soil mapping units to support class- and geo-matching (optional)**
+**Step 2C - Joining landscape units and soil mapping units to support class- and geo-matching (optional)**
 
 In this Section, it is outlined how SOC stocks can be mapped following the method outlined by @lettens2004soil. The general idea is that the landscape is stratified into more or less homogenous units and subsequently, the SOC stocks are obtained following the procedure outlined earlier in this practical. @lettens2004soil outlines a method to stratify the landscape into homogeneous strata with respect to land use and soil type, as was explained earlier. In order to obtain such strata, the soil map and the land use map need to be combined. This can be done using various types of software, e.g. ArcMap, GRASS, QGIS or **R**.
 
@@ -201,4 +201,49 @@ Below you find the instructions in case you have no problems with your geometry.
 *    Run the *v_clean* tool from GRASS within QGIS. Open the *Processing Toolbox*, *GRASS GIS 5 Commands*, *Vector*, and select *v.clean*.
 *    Install the plugin **Processing LWGEOM Provider**. Go to the plugins menu and search for the plugin and install it. You can find the newly installed tool in the *Processing Toolbox* by typing the name in the *Search* function.
 *    Manually correct the error nodes of the vector features.
+
+### Technical steps -  Geo-matching SOC with WRB soil map in R
+*G.F. Olmedo*
+
+Geo-matching can also be done in **R**. We will provide a example code following the steps from Section \@ref(geomQGIS) - Step 2A, using the WRB soil map.
+
+**Step 1 - Load the soil data and soil map**
+
+```{r}
+library(raster)
+# Load the soil map from a shapefile *.shp file
+soilmap <- shapefile("MK_soilmap_simple.shp")
+
+library(sp)
+# Load soil data
+dat <- read.csv("data/dataproc.csv")
+
+# Promote to SpatialPointsDataFrame
+coordinates(dat) <- ~ X + Y
+
+# set the CRS for the soil samples. As if the same we will copy the 
+# CRS from the soilmap object
+dat@proj4string <- soilmap@proj4string
+
+class(dat)
+```
+
+**Step 2 - Geo-matching**
+
+```{r}
+soilmap$OCSKGM <- over(soilmap, dat[,"OCSKGM"])[,1]
+
+```
+
+**Step 3 - Rasterize and export the results as geotiff**
+
+```{r, fig.cap='SOC prediction map for FYROM using geo-matching'}
+pred <- rasterize(soilmap, DEM, "OCSKGM")
+
+plot(pred)
+
+writeRaster(pred, "results/MKD_OCSKGM_GM.tif",
+            overwrite=TRUE)
+```
+
 
