@@ -26,20 +26,21 @@ We will import the predicted maps and harmonize them in to the same regular grid
 ```{r, out.width='70%'}
 library(raster)
 
-RF<-raster('results/MKD_OCSKGM_rf.tif')
+GM<-raster('results/MKD_OCSKGM_GM.tif')
 RK<-raster('results/MKD_OCSKGM_RK.tif')
+RF<-raster('results/MKD_OCSKGM_rf.tif')
 SVM<-raster('results/MKD_OCSKGM_svm.tif')
 
 # Note that RK has a different reference system 
 RK <- projectRaster(RK, SVM)
-models <- stack(RK, RF, SVM)
+models <- stack(GM, RK, RF, SVM)
 ```
 
 **Step 2 - Compare the statistical distribution and correlation between the models**
 
 Then we will plot the statistical distribution and the correlation between the three different methods (RK, RF, SVM).   
 
-```{r, fig.cap='Comparision of DSM model correlations (RK, RF, SVM) und statical distributions'}
+```{r, fig.cap='Comparision of DSM model correlations (GM, RK, RF, SVM) and statical distributions'}
 library(psych)
 
 pairs.panels(na.omit(as.data.frame(models)),
@@ -103,7 +104,7 @@ Note how the spatial differences of the predicted SOC values have similar patter
 
 **Step 1 - Data preparation**
 
-To compare the performance of the three models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the three models. The table containing these values was prepared in Section \@ref(TS:validation). 
+To compare the performance of the four models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the four models. The table containing these values was prepared in Section \@ref(TS:validation). 
 
 ```{r}
 dat <- read.csv("results/validation.csv")
@@ -112,7 +113,10 @@ dat <- read.csv("results/validation.csv")
 We will prepare a new table from this data that we are going to use for model evaluation purposes. The new table should have the observed value, the predicted value and the model. 
 
 ```{r}
-# Prepare 3 new data.frame with the observed, predicted and the model
+# Prepare 4 new data.frame with the observed, predicted and the model
+modGM <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_GM, 
+                    model = "GM")
+
 modRK <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_RK, 
                     model = "RK")
 
@@ -123,7 +127,7 @@ modSVM <- data.frame(obs = dat$OCSKGM, mod = dat$MKD_OCSKGM_svm,
                      model = "SVM")
 
 # Merge the 3 data.frames into one
-modData <- rbind(modRK, modRF, modSVM)
+modData <- rbind(modGM, modRK, modRF, modSVM)
 
 summary(modData)
 ```
@@ -167,7 +171,7 @@ These conclusion can be verified by plotting a Taylor Diagram (see Figure \@ref(
 
 ```{r taylor, fig.cap="Taylor diagram used in the evaluation of the three selected DSM models"}
 TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
-cols = c("orange", "red","blue"), cor.col='brown',rms.col='black')
+cols = c("green", "yellow", "red","blue"), cor.col='brown',rms.col='black')
 ```
 
 However, we need also to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (see Figure \@ref(fig:condquant)). 

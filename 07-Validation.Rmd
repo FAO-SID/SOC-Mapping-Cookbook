@@ -373,14 +373,17 @@ Now, we will load the predicted layers from Chapter \@ref(mappingMethods), extra
 ```{r ,warning=FALSE}
 library(raster)
 
+OCSKGM_GM <- raster("results/MKD_OCSKGM_GM.tif")
 OCSKGM_RK <- raster("results/MKD_OCSKGM_RK.tif")
 OCSKGM_rf <- raster("results/MKD_OCSKGM_rf.tif")
 OCSKGM_svm <- raster("results/MKD_OCSKGM_svm.tif")
 
+dat <- extract(x = OCSKGM_GM, y = dat, sp = TRUE)
 dat <- extract(x = OCSKGM_RK, y = dat, sp = TRUE)
 dat <- extract(x = OCSKGM_rf, y = dat, sp = TRUE)
 dat <- extract(x = OCSKGM_svm, y = dat, sp = TRUE)
 
+dat$PE_GM <- dat$MKD_OCSKGM_GM - dat$OCSKGM
 dat$PE_RK <- dat$MKD_OCSKGM_RK - dat$OCSKGM
 dat$PE_rf <- dat$MKD_OCSKGM_rf - dat$OCSKGM
 dat$PE_svm <- dat$MKD_OCSKGM_svm - dat$OCSKGM
@@ -391,9 +394,9 @@ write.csv(dat, "results/validation.csv", row.names = F)
 
 
 ```{r prederrors, echo=FALSE}
-prederrors <-  as.data.frame(cbind(summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
-names(prederrors) <- c('RK', 'randomForest', 'svm')
-knitr::kable(prederrors, caption = "Summary of prediction errors for three different mapping methods", digits = 2, align = "rrr", booktabs = TRUE)
+prederrors <-  as.data.frame(cbind(summary(dat$PE_GM), summary(dat$PE_RK), summary(dat$PE_rf), summary(dat$PE_svm)))
+names(prederrors) <- c('GM', 'RK', 'randomForest', 'svm')
+knitr::kable(prederrors, caption = "Summary of prediction errors for three different mapping methods", digits = 2, align = "rrrr", booktabs = TRUE)
 ```
 
 **Step 2 - Estimating the map quality measures**
@@ -402,26 +405,34 @@ In this Section, we present the code needed to estimate the map quality measures
 
 ```{r}
 # Mean Error
+ME_GM <- mean(dat$PE_GM, na.rm=TRUE)
 ME_RK <- mean(dat$PE_RK, na.rm=TRUE)
 ME_rf <- mean(dat$PE_rf, na.rm=TRUE)
 ME_svm <- mean(dat$PE_svm, na.rm=TRUE)
 
 # Mean Absolute Error (MAE)
+MAE_GM <- mean(abs(dat$PE_GM), na.rm=TRUE)
 MAE_RK <- mean(abs(dat$PE_RK), na.rm=TRUE)
 MAE_rf <- mean(abs(dat$PE_rf), na.rm=TRUE)
 MAE_svm <- mean(abs(dat$PE_svm), na.rm=TRUE)
 
 # Mean Squared Error (MSE)
+MSE_GM <- mean(dat$PE_GM^2, na.rm=TRUE)
 MSE_RK <- mean(dat$PE_RK^2, na.rm=TRUE)
 MSE_rf <- mean(dat$PE_rf^2, na.rm=TRUE)
 MSE_svm <- mean(dat$PE_svm^2, na.rm=TRUE)
 
 # Root Mean Squared Error (RMSE)
+RMSE_GM <- sqrt(sum(dat$PE_GM^2, na.rm=TRUE) / length(dat$PE_GM))
 RMSE_RK <- sqrt(sum(dat$PE_RK^2, na.rm=TRUE) / length(dat$PE_RK))
 RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
 RMSE_svm <- sqrt(sum(dat$PE_svm^2, na.rm=TRUE) / length(dat$PE_svm))
 
 # Amount of Variance Explained (AVE)
+AVE_GM <- 1 - sum(dat$PE_GM^2, na.rm=TRUE) / 
+  sum( (dat$MKD_OCSKGM_GM - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+       na.rm = TRUE)
+
 AVE_RK <- 1 - sum(dat$PE_RK^2, na.rm=TRUE) / 
   sum( (dat$MKD_OCSKGM_RK - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
@@ -433,23 +444,17 @@ AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) /
 AVE_svm <- 1 - sum(dat$PE_svm^2, na.rm=TRUE) / 
   sum( (dat$MKD_OCSKGM_svm - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
-
-# Mean Squared Deviation Ratio (MSDR)
-MSDR_RK <- 1  # Filler
-MSDR_rf <- 1
-MSDR_svm <- 1
 ```
 
 ```{r validation, echo=FALSE}
-validation <- data.frame(ME = c(ME_RK, ME_rf, ME_svm),
-                         MAE= c(MAE_RK, MAE_rf, MAE_svm),
-                         MSE= c(MSE_RK, MSE_rf, MSE_svm),
-                         RMSE= c(RMSE_RK, RMSE_rf, RMSE_svm),
-                         AVE= c(AVE_RK, AVE_rf, AVE_svm),
-                         MSDR= c(MSDR_RK, MSDR_rf, MSDR_svm)
+validation <- data.frame(ME = c(ME_GM, ME_RK, ME_rf, ME_svm),
+                         MAE= c(MAE_GM, MAE_RK, MAE_rf, MAE_svm),
+                         MSE= c(MSE_GM, MSE_RK, MSE_rf, MSE_svm),
+                         RMSE= c(RMSE_GM, RMSE_RK, RMSE_rf, RMSE_svm),
+                         AVE= c(AVE_GM, AVE_RK, AVE_rf, AVE_svm)
                          )
 validation <- as.data.frame(t(validation))
-names(validation) <- c('RK', 'randomForest', 'svm')
+names(validation) <- c('GM', 'RK', 'randomForest', 'svm')
 ```
 
 ```{r, echo=FALSE}
@@ -461,9 +466,19 @@ knitr::kable(validation, caption = "Summary of map quality measures for three di
 
 In this Section, we will apply the proposed graphical quality measures to the results of Chapter \@ref(mappingMethods).
 
-```{r, fig.asp=3, fig.cap='Scatter plots of predicted against observed values'}
+```{r, fig.asp=2, fig.cap='Scatter plots of predicted against observed values'}
 # Two plots in one plot
-par(mfrow=c(3,1))
+par(mfrow=c(2,2))
+
+# Scatter plot
+plot(dat$MKD_OCSKGM_GM, dat$OCSKGM, main="GM", xlab="predicted", 
+     ylab='observed')
+
+# 1:1 line in black
+abline(0,1, lty=2, col='black')
+
+# Regression line between predicted and observed in blue
+abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_GM), col = 'blue', lty=2)
 
 # Scatter plot
 plot(dat$MKD_OCSKGM_RK, dat$OCSKGM, main="RK", xlab="predicted", 
@@ -498,6 +513,12 @@ abline(lm(dat$OCSKGM ~ dat$MKD_OCSKGM_svm), col = 'blue', lty=2)
 par(mfrow=c(1,1))
 ```
 
+```{r, fig.cap='Spatial bubble of the prediction errors for GM', out.width='60%'}
+# Spatial bubbles for prediction errors
+bubble(dat[!is.na(dat$PE_GM),], "PE_GM", pch = 21, 
+       col=c('red', 'green'))
+```
+
 ```{r, fig.cap='Spatial bubble of the prediction errors for RK', out.width='60%'}
 # Spatial bubbles for prediction errors
 bubble(dat[!is.na(dat$PE_RK),], "PE_RK", pch = 21, 
@@ -515,7 +536,6 @@ bubble(dat[!is.na(dat$PE_rf),], "PE_rf", pch = 21,
 bubble(dat[!is.na(dat$PE_svm),], "PE_svm", pch = 21, 
        col=c('red', 'green'))
 ```
-
 
 
 ## Technical steps - Data-splitting {#dataSplit}
