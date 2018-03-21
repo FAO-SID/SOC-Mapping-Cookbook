@@ -36,6 +36,12 @@ In addition to that, we present three methods from digital soil mapping \index{D
 
 We present this diversity of methods because there is no *best* mapping method for digital soil mapping \index{Digital Soil Mapping (DSM)} and testing, and selection has to be done for every data scenario [@guevara_2018].
 
+```{r grworkflow, fig.cap="Proposed graphical workflow for producing a SOC map from data preparation to final result publishing" , out.width='80%', echo=FALSE, fig.align='center'}
+knitr::include_graphics("images/grworkflow.png")
+```
+
+> This cookbook is a step-by-step manual starting with the soil data preparation, producing the map, and finishing with map validation and data sharing (Fig \@ref(fig:grworkflow)). In the different chapters, we present a continuing example using the FYROM soil database and some environmental covariates. On every chapter with start with the input data and produce the proposed output, which is usually the input for the following chapter. The soil data needed can be downloaded from the [data repository](https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/data), and the same applies to the [environmental covariates](https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/covs). The results obtained in every chapter can be also downloaded for comparison purposes from the [result folder](https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/results). Finally, all the needed code is summarized in Chapter \@ref(compendium) and can be downloaded from the [code folder](https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/code).
+
 ## The FYROM soil database
 
 The sample data set used for the spline function and the regression-kriging for digital soil mapping in this cookbook has been extracted from the [Macedonian Soil Information System Database](http://www.maksoil.ukim.mk/) (MASIS). The database contains around 4,000 soil profiles with 11,000 horizons. The MASIS was developed with support from the FAO and the GSP. Decades of archived soil research have now been transformed into an accurate, up-to-date, and fully functioning information system, based on state-of-the-art digital soil mapping techniques.
