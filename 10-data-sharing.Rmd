@@ -159,7 +159,7 @@ Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], ar
 
 As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTIFF formats because floating point formats can lead to up to more than four times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g., multiply pH values by 10 before exporting your raster in GeoTIFF format).
 
-## Web services: serving soil data using web technology{webService}
+## Web services: serving soil data using web technology {#webService}
 
 ### Third-party services
 
