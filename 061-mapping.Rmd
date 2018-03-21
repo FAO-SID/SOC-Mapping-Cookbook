@@ -211,7 +211,7 @@ Geo-matching can also be done in **R**. We will provide a example code following
 
 Load the shapefile including the soil map. Then load the points, and promote the points to `spatialPointsDataFrame` using the `coordinates()` function. Make sure both are in the same coordinate system. In case they aren't, you can use `spTransform()` to reproject one of the layers.
 
-```{r}
+```{r, fig.cap='Soil map units and soil samples (in red) for the geo-matching exercise'}
 library(raster)
 # Load the soil map from a shapefile *.shp file
 soilmap <- shapefile("MK_soilmap_simple.shp")
@@ -228,6 +228,10 @@ coordinates(dat) <- ~ X + Y
 dat@proj4string <- soilmap@proj4string
 
 class(dat)
+
+# We can plot the soil map units with ths soil samples data over
+plot(soilmap, lwd=0.3)
+points(dat, col="red", cex=0.2)
 ```
 
 **Step 2 - Geo-matching**

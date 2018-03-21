@@ -200,6 +200,18 @@
 
 % no title page
 \AtBeginDocument{\let\maketitle\relax}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage[normalem]{ulem}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -218,17 +230,20 @@
 \begin{document}
 \maketitle
 
+\pagestyle{plain}
 \includepdf{cover.pdf}
 \begin{titlepage}
     \begin{center}
         \vspace*{4cm}
         \Large
 
-        \textbf{Soil Organic Carbon Mapping Cookbook\\}
+        \textcolor{astral}{\textbf{Soil Organic Carbon Mapping Cookbook\\}}
         \vspace{0.5cm}
         \normalsize
         \emph{2nd edition}
         \vfill
+        \noindent
+        {\color{astral}\rule{\linewidth}{0.5mm} }
 
         Food and Agriculture Organization of the United Nations, Rome, 2018
     \end{center}
@@ -282,6 +297,7 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 \nomenclature{GDEM}{Global Digital Elevation Model}
 \nomenclature{GIS}{Geographic Information System}
 \nomenclature{GLOSIS}{Global Soil Information System}
+\nomenclature{GM}{Geo-matching}
 \nomenclature{GPS}{Global Positioning System}
 \nomenclature{GSIF}{Global Soil Information Facility}
 \nomenclature{GSOC}{global soil organic carbon}
@@ -343,14 +359,11 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 \section*{Editorial Board}\label{editorial-board}}
 \addcontentsline{toc}{section}{Editorial Board}
 
-\begin{itemize}
-\item
-  Yusuf Yigini, Guillermo Federico Olmedo, Kostiantyn Viatkin, Rainer
-  Baritz, Ronald R. Vargas Global Soil Partnership, Food and Agriculture
-  Organization of the United Nations
-\item
-  Cover design: Matteo Salas
-\end{itemize}
+Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Kostiantyn
+Viatkin, Rainer Baritz, Ronald R. Vargas Global Soil Partnership, Food
+and Agriculture Organization of the United Nations
+
+Cover design: Matteo Sala
 
 \hypertarget{contributing-authors}{%
 \section*{Contributing Authors}\label{contributing-authors}}
@@ -444,11 +457,13 @@ Nations\strut
 \textbf{Recommended citation:}
 
 \begin{quote}
-FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y Yigini, GF Olmedo, K
-Viatkin, R Baritz, and RR Vargas, (Eds). 2nd edition, 2018.
+FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y. Yigini, G.F. Olmedo,
+S. Reiter, K. Viatkin, R. Baritz, and R.R. Vargas, (Eds). 2nd edition,
+2018.
 \end{quote}
 
 \mainmatter
+\pagestyle{fancy}
 
 \hypertarget{presentation}{%
 \chapter{Presentation}\label{presentation}}
@@ -592,6 +607,40 @@ We present this diversity of methods because there is no \emph{best}
 mapping method for digital soil mapping
 \index{Digital Soil Mapping (DSM)} and testing, and selection has to be
 done for every data scenario \citep{guevara_2018}.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/grworkflow} 
+
+}
+
+\caption{Proposed graphical workflow for producing a SOC map from data preparation to final result publishing}\label{fig:grworkflow}
+\end{figure}
+
+\begin{quote}
+This cookbook is a step-by-step manual starting with the soil data
+preparation, producing the map, and finishing with map validation and
+data sharing (Fig \ref{fig:grworkflow}). In the different chapters, we
+present a continuing example using the FYROM soil database and some
+environmental covariates. On every chapter with start with the input
+data and produce the proposed output, which is usually the input for the
+following chapter. The soil data needed can be downloaded from the
+\href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/data}{data
+repository}, and the same applies to the
+\href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/covs}{environmental
+covariates}. The results obtained in every chapter can be also
+downloaded for comparison purposes from the
+\href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/results}{result
+folder}. Finally, all the needed code is summarized in Chapter
+\ref{compendium} and can be downloaded from the
+\href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/code}{code
+folder}.
+\end{quote}
+
+The authors use the Github development environment to build this
+document. We produced also an online version to be able to implement
+minor changes/improvements without reprinting. We encourage users to
+follow the online version on the Global Soil partnership Website.
 
 \hypertarget{the-fyrom-soil-database}{%
 \section{The FYROM soil database}\label{the-fyrom-soil-database}}
@@ -1026,6 +1075,15 @@ writing shapefiles.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(raster)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: sp
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{# Load the soil map from a shapefile *.shp file}
 \NormalTok{soilmap <-}\StringTok{ }\KeywordTok{shapefile}\NormalTok{(}\StringTok{"MK_soilmap_simple.shp"}\NormalTok{)}
 \end{Highlighting}
@@ -1766,7 +1824,26 @@ The following technical steps require \textbf{R} and the named packages.
 \begin{Highlighting}[]
 \CommentTok{# Load aqp package}
 \KeywordTok{library}\NormalTok{(aqp)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## This is aqp 1.15
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'aqp'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:raster':
+## 
+##     metadata, metadata<-
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{# Promote to SoilProfileCollection }
 \CommentTok{# The SoilProfileCollection is a object class in R designed to }
 \CommentTok{# handle soil profiles}
@@ -2481,7 +2558,7 @@ for which spatial data are available, such as climate, soil type, parent
 material, slope, management. Any parameter in the table of local soil
 properties, for which a spatial layer is available, may be included in
 the final table. Other covariates will be added in Section
-@ref(\#overlay-soil-covariates).
+\ref{overlay-soil-covariates}.
 
 \begin{quote}
 In case this table is prepared for different depths, 0-10 cm, 10-30 cm,
@@ -2761,7 +2838,7 @@ soil property data from local observations with soil maps via
 class-matching and geo-matching.
 
 \hypertarget{diversity-of-national-soil-legacy-data-sets}{%
-\section{Diversity of national soil legacy data
+\subsection{Diversity of national soil legacy data
 sets}\label{diversity-of-national-soil-legacy-data-sets}}
 
 In order to develop a representative and large national soil database,
@@ -2887,9 +2964,8 @@ Note: Pre-classified SOC maps cannot be integrated into a global GSOCmap
 legend.
 \end{quote}
 
-\hypertarget{technical-steps---geo-matching}{%
-\subsection{Technical steps -
-Geo-matching}\label{technical-steps---geo-matching}}
+\hypertarget{geomQGIS}{%
+\subsection{Technical steps - Geo-matching}\label{geomQGIS}}
 
 Because of its importance, geo-matching as a mapping method is described
 in more detail. It is neccessary to first prepare the working
@@ -3017,7 +3093,7 @@ information, see also the following links:
   map.
 \end{enumerate}
 
-\textbf{Step 2 - Geo-Matching SOC with WRB soil map}
+\textbf{Step 2A - Geo-matching SOC with WRB soil map}
 
 In \textbf{Step 2} you will make a SOC map, based on the FYROM soil map
 and the SOC values at the sampled points, following three steps. First
@@ -3204,7 +3280,7 @@ soil map units. The steps are described in detail below.
   created.
 \end{enumerate}
 
-\textbf{Step 3 - Geo-Matching SOC with other environmental variables:
+\textbf{Step 2B - Geo-matching SOC with other environmental variables:
 Land use}
 
 \begin{enumerate}
@@ -3269,7 +3345,7 @@ Land use}
   boundaries (Steps 2 to 8).
 \end{enumerate}
 
-\textbf{Step 4 - Joining landscape units and soil mapping units to
+\textbf{Step 2C - Joining landscape units and soil mapping units to
 support class- and geo-matching (optional)}
 
 In this Section, it is outlined how SOC stocks can be mapped following
@@ -3339,6 +3415,104 @@ and \emph{Dissolve}.
 \item
   Manually correct the error nodes of the vector features.
 \end{itemize}
+
+\hypertarget{technical-steps---geo-matching-soc-with-wrb-soil-map-in-r}{%
+\subsection{Technical steps - Geo-matching SOC with WRB soil map in
+R}\label{technical-steps---geo-matching-soc-with-wrb-soil-map-in-r}}
+
+\emph{G.F. Olmedo}
+
+Geo-matching can also be done in \textbf{R}. We will provide a example
+code following the steps from Section \ref{geomQGIS} - Step 2A, using
+the WRB soil map.
+
+\textbf{Step 1 - Load the soil data and soil map}
+
+Load the shapefile including the soil map. Then load the points, and
+promote the points to \texttt{spatialPointsDataFrame} using the
+\texttt{coordinates()} function. Make sure both are in the same
+coordinate system. In case they aren't, you can use
+\texttt{spTransform()} to reproject one of the layers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(raster)}
+\CommentTok{# Load the soil map from a shapefile *.shp file}
+\NormalTok{soilmap <-}\StringTok{ }\KeywordTok{shapefile}\NormalTok{(}\StringTok{"MK_soilmap_simple.shp"}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(sp)}
+\CommentTok{# Load soil data}
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dataproc.csv"}\NormalTok{)}
+
+\CommentTok{# Promote to SpatialPointsDataFrame}
+\KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
+
+\CommentTok{# set the CRS for the soil samples. As if the same we will copy the }
+\CommentTok{# CRS from the soilmap object}
+\NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\NormalTok{soilmap}\OperatorTok{@}\NormalTok{proj4string}
+
+\KeywordTok{class}\NormalTok{(dat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "SpatialPointsDataFrame"
+## attr(,"package")
+## [1] "sp"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# We can plot the soil map units with ths soil samples data over}
+\KeywordTok{plot}\NormalTok{(soilmap, }\DataTypeTok{lwd=}\FloatTok{0.3}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(dat, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{cex=}\FloatTok{0.2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-30-1.pdf}
+\caption{\label{fig:unnamed-chunk-30}Soil map units and soil samples (in
+red) for the geo-matching exercise}
+\end{figure}
+
+\textbf{Step 2 - Geo-matching}
+
+Now, use the \texttt{over()} function to estimate the mean value of the
+\texttt{OCSKGM} field for every map unit.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{soilmap}\OperatorTok{$}\NormalTok{OCSKGM <-}\StringTok{ }\KeywordTok{over}\NormalTok{(soilmap, dat[,}\StringTok{"OCSKGM"}\NormalTok{], }\DataTypeTok{fun=}\NormalTok{mean)[,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Step 3 - Rasterize and export the results as geotiff}
+
+Finally, convert the layer to raster, to comply with the deliverables
+specifications (see Chapter \ref{deliverables}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{rasterize}\NormalTok{(soilmap, DEM, }\StringTok{"OCSKGM"}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(pred)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-32-1.pdf}
+\caption{\label{fig:unnamed-chunk-32}SOC prediction map for FYROM using
+geo-matching}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{writeRaster}\NormalTok{(pred, }\StringTok{"results/MKD_OCSKGM_GM.tif"}\NormalTok{,}
+            \DataTypeTok{overwrite=}\OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \clearpage
 
@@ -3995,7 +4169,7 @@ will sample 70\% of the SOC data for the model calibration data set.
 ##   340
 \end{verbatim}
 
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-39-1.pdf}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-42-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4269,8 +4443,8 @@ raster stack as we created in the Step 3.
 \begin{figure}
 \centering
 \includegraphics{SOCMapping_files/figure-latex/predRK-1.pdf}
-\caption{\label{fig:predRK}Prediction FYROM map from regression-kriging
-model}
+\caption{\label{fig:predRK}SOC prediction map for FYROM using a regression
+kriging model}
 \end{figure}
 
 \begin{Shaded}
@@ -4334,17 +4508,17 @@ fold cross-validation to our RK model.
 
 \begin{verbatim}
 ##             [,1]    
-## mean_error  0.004726
-## me_mean     -0.3918 
-## MAE         0.3402  
-## MSE         0.2692  
-## MSNE        0.9504  
-## cor_obspred 0.4471  
-## cor_predres -0.3132 
-## RMSE        0.5188  
-## RMSE_sd     0.9418  
-## URMSE       0.5188  
-## iqr         0.5223
+## mean_error  0.003371
+## me_mean     -0.2795 
+## MAE         0.3351  
+## MSE         0.2079  
+## MSNE        NaN     
+## cor_obspred 0.5624  
+## cor_predres -0.04639
+## RMSE        0.4559  
+## RMSE_sd     0.8276  
+## URMSE       0.4559  
+## iqr         0.5299
 \end{verbatim}
 
 \clearpage
@@ -4812,8 +4986,44 @@ overfitting.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(randomForest)}
-\KeywordTok{library}\NormalTok{(caret)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## randomForest 4.6-12
+\end{verbatim}
+
+\begin{verbatim}
+## Type rfNews() to see new features/changes/bug fixes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(caret)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'ggplot2'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:randomForest':
+## 
+##     margin
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{# Default 10-fold cross-validation}
 \NormalTok{ctrl <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method =} \StringTok{"cv"}\NormalTok{, }\DataTypeTok{savePred=}\NormalTok{T)}
 
@@ -4849,8 +5059,8 @@ overfitting.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-56-1.pdf}
-\caption{\label{fig:unnamed-chunk-56}Model Decreasing Error and Node Purity
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-59-1.pdf}
+\caption{\label{fig:unnamed-chunk-59}Model Decreasing Error and Node Purity
 for the RF model}
 \end{figure}
 
@@ -4863,8 +5073,8 @@ for the RF model}
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-57-1.pdf}
-\caption{\label{fig:unnamed-chunk-57}Select ntree}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-60-1.pdf}
+\caption{\label{fig:unnamed-chunk-60}Select ntree}
 \end{figure}
 
 Random forest users are encouraged to compare and test the prediction
@@ -4988,8 +5198,8 @@ of data for training and validating the models.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-59-1.pdf}
-\caption{\label{fig:unnamed-chunk-59}Sensitivity based on 10 realizations
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-62-1.pdf}
+\caption{\label{fig:unnamed-chunk-62}Sensitivity based on 10 realizations
 using 25\% samples}
 \end{figure}
 
@@ -5007,12 +5217,12 @@ sensitivity to available data.
 
 \begin{verbatim}
 ##       rmse              r2        
-##  Min.   :0.4745   Min.   :0.2150  
-##  1st Qu.:0.4771   1st Qu.:0.2296  
-##  Median :0.4796   Median :0.2338  
-##  Mean   :0.4806   Mean   :0.2359  
-##  3rd Qu.:0.4852   3rd Qu.:0.2405  
-##  Max.   :0.4884   Max.   :0.2571
+##  Min.   :0.4721   Min.   :0.2240  
+##  1st Qu.:0.4747   1st Qu.:0.2324  
+##  Median :0.4772   Median :0.2446  
+##  Mean   :0.4789   Mean   :0.2414  
+##  3rd Qu.:0.4827   3rd Qu.:0.2503  
+##  Max.   :0.4895   Max.   :0.2555
 \end{verbatim}
 
 \textbf{Step 3 - Analyze the sensitivity of the map}
@@ -5038,7 +5248,15 @@ approach has proven to be efficient for DSM across large areas
 \CommentTok{# available data (using the object dat that instead of train) }
 \CommentTok{# to select mtry.}
 \KeywordTok{library}\NormalTok{(quantregForest)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Loading required package: RColorBrewer
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data[,}\DecValTok{8}\OperatorTok{:}\DecValTok{20}\NormalTok{], }
                         \DataTypeTok{ntree=}\DecValTok{500}\NormalTok{, }\DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }
                         \DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(rfmodel}\OperatorTok{$}\NormalTok{bestTune))                        }
@@ -5108,8 +5326,8 @@ prediction to obtain a percent map, which is easier to interpret.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-62-1.pdf}
-\caption{\label{fig:unnamed-chunk-62}OCSKGM quantregForest prediction}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-65-1.pdf}
+\caption{\label{fig:unnamed-chunk-65}OCSKGM quantregForest prediction}
 \end{figure}
 
 \begin{Shaded}
@@ -5120,8 +5338,8 @@ prediction to obtain a percent map, which is easier to interpret.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-63-1.pdf}
-\caption{\label{fig:unnamed-chunk-63}Total uncertainty}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-66-1.pdf}
+\caption{\label{fig:unnamed-chunk-66}Total uncertainty}
 \end{figure}
 
 \textbf{Step 6 - Save the results as raster format}
@@ -5619,6 +5837,17 @@ to avoid overfitting. This is a heavy and time consuming computational
 step since we will try a extensive number of different models in order
 to find the best parameters for our svm model.
 
+\begin{verbatim}
+## 
+## Attaching package: 'e1071'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:raster':
+## 
+##     interpolate
+\end{verbatim}
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(e1071)}
@@ -5643,8 +5872,8 @@ darker, the RMSE is closer to zero.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-74-1.pdf}
-\caption{\label{fig:unnamed-chunk-74}Performance of the different SVM models
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-77-1.pdf}
+\caption{\label{fig:unnamed-chunk-77}Performance of the different SVM models
 in the parameter tuning procedure}
 \end{figure}
 
@@ -5701,8 +5930,8 @@ cross-validation using 10 folds.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-76-1.pdf}
-\caption{\label{fig:unnamed-chunk-76}SOC prediction map for FYROM using a
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-79-1.pdf}
+\caption{\label{fig:unnamed-chunk-79}SOC prediction map for FYROM using a
 support vector machines model}
 \end{figure}
 
@@ -6618,14 +6847,17 @@ then, estimate the prediction error.
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(raster)}
 
+\NormalTok{OCSKGM_GM <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\StringTok{"results/MKD_OCSKGM_GM.tif"}\NormalTok{)}
 \NormalTok{OCSKGM_RK <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\StringTok{"results/MKD_OCSKGM_RK.tif"}\NormalTok{)}
 \NormalTok{OCSKGM_rf <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\StringTok{"results/MKD_OCSKGM_rf.tif"}\NormalTok{)}
 \NormalTok{OCSKGM_svm <-}\StringTok{ }\KeywordTok{raster}\NormalTok{(}\StringTok{"results/MKD_OCSKGM_svm.tif"}\NormalTok{)}
 
+\NormalTok{dat <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ OCSKGM_GM, }\DataTypeTok{y =}\NormalTok{ dat, }\DataTypeTok{sp =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ OCSKGM_RK, }\DataTypeTok{y =}\NormalTok{ dat, }\DataTypeTok{sp =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ OCSKGM_rf, }\DataTypeTok{y =}\NormalTok{ dat, }\DataTypeTok{sp =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{extract}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ OCSKGM_svm, }\DataTypeTok{y =}\NormalTok{ dat, }\DataTypeTok{sp =} \OtherTok{TRUE}\NormalTok{)}
 
+\NormalTok{dat}\OperatorTok{$}\NormalTok{PE_GM <-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_GM }\OperatorTok{-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM}
 \NormalTok{dat}\OperatorTok{$}\NormalTok{PE_RK <-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_RK }\OperatorTok{-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM}
 \NormalTok{dat}\OperatorTok{$}\NormalTok{PE_rf <-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_rf }\OperatorTok{-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM}
 \NormalTok{dat}\OperatorTok{$}\NormalTok{PE_svm <-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_svm }\OperatorTok{-}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{OCSKGM}
@@ -6639,18 +6871,18 @@ then, estimate the prediction error.
 
 \caption{\label{tab:prederrors}Summary of prediction errors for three different mapping methods}
 \centering
-\begin{tabular}[t]{lrrrrrrrrr}
+\begin{tabular}[t]{lrrrrrrrrrrrrrrrr}
 \toprule
-  & RK & randomForest & svm\\
+  & GM & RK & randomForest & svm\\
 \midrule
-Min. & -4.09 & -4.25 & -4.78\\
-1st Qu. & -0.31 & -0.30 & -0.25\\
-Median & 0.00 & 0.01 & 0.04\\
-Mean & -0.08 & -0.08 & -0.03\\
-3rd Qu. & 0.23 & 0.24 & 0.32\\
+Min. & -4.03 & -4.09 & -4.33 & -4.78\\
+1st Qu. & -0.24 & -0.31 & -0.29 & -0.25\\
+Median & 0.00 & 0.00 & 0.02 & 0.04\\
+Mean & 0.01 & -0.08 & -0.08 & -0.03\\
+3rd Qu. & 0.29 & 0.23 & 0.24 & 0.32\\
 \addlinespace
-Max. & 2.01 & 2.24 & 1.78\\
-NA's & 10.00 & 12.00 & 12.00\\
+Max. & 2.81 & 2.01 & 2.21 & 1.78\\
+NA's & 40.00 & 10.00 & 12.00 & 12.00\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -6663,26 +6895,34 @@ measures for quantitative soil maps.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Mean Error}
+\NormalTok{ME_GM <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ME_RK <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ME_rf <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{ME_svm <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_svm, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 
 \CommentTok{# Mean Absolute Error (MAE)}
+\NormalTok{MAE_GM <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{abs}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM), }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{MAE_RK <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{abs}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK), }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{MAE_rf <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{abs}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf), }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{MAE_svm <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{abs}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_svm), }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 
 \CommentTok{# Mean Squared Error (MSE)}
+\NormalTok{MSE_GM <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{MSE_RK <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{MSE_rf <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 \NormalTok{MSE_svm <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_svm}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
 
 \CommentTok{# Root Mean Squared Error (RMSE)}
+\NormalTok{RMSE_GM <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM))}
 \NormalTok{RMSE_RK <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK))}
 \NormalTok{RMSE_rf <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_rf))}
 \NormalTok{RMSE_svm <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_svm}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_svm))}
 
 \CommentTok{# Amount of Variance Explained (AVE)}
+\NormalTok{AVE_GM <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }
+\StringTok{  }\KeywordTok{sum}\NormalTok{( (dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_GM }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}\OperatorTok{^}\DecValTok{2}\NormalTok{, }
+       \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{)}
+
 \NormalTok{AVE_RK <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }
 \StringTok{  }\KeywordTok{sum}\NormalTok{( (dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_RK }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}\OperatorTok{^}\DecValTok{2}\NormalTok{, }
        \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{)}
@@ -6694,28 +6934,22 @@ measures for quantitative soil maps.
 \NormalTok{AVE_svm <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{sum}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_svm}\OperatorTok{^}\DecValTok{2}\NormalTok{, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{) }\OperatorTok{/}\StringTok{ }
 \StringTok{  }\KeywordTok{sum}\NormalTok{( (dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_svm }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}\OperatorTok{^}\DecValTok{2}\NormalTok{, }
        \DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{)}
-
-\CommentTok{# Mean Squared Deviation Ratio (MSDR)}
-\NormalTok{MSDR_RK <-}\StringTok{ }\DecValTok{1}  \CommentTok{# Filler}
-\NormalTok{MSDR_rf <-}\StringTok{ }\DecValTok{1}
-\NormalTok{MSDR_svm <-}\StringTok{ }\DecValTok{1}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-82}Summary of map quality measures for three different mapping methods}
+\caption{\label{tab:unnamed-chunk-85}Summary of map quality measures for three different mapping methods}
 \centering
-\begin{tabular}[t]{lrrrrrrrrr}
+\begin{tabular}[t]{lrrrrrrrrrrrr}
 \toprule
-  & RK & randomForest & svm\\
+  & GM & RK & randomForest & svm\\
 \midrule
-ME & -0.077 & -0.081 & -0.026\\
-MAE & 0.359 & 0.369 & 0.392\\
-MSE & 0.293 & 0.314 & 0.333\\
-RMSE & 0.538 & 0.557 & 0.574\\
-AVE & -1.054 & -1.627 & -1.426\\
-MSDR & 1.000 & 1.000 & 1.000\\
+ME & 0.014 & -0.077 & -0.081 & -0.026\\
+MAE & 0.409 & 0.359 & 0.369 & 0.392\\
+MSE & 0.395 & 0.293 & 0.314 & 0.333\\
+RMSE & 0.615 & 0.538 & 0.557 & 0.574\\
+AVE & -0.033 & -1.054 & -1.630 & -1.426\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -6728,7 +6962,17 @@ to the results of Chapter \ref{mappingMethods}.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Two plots in one plot}
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{# Scatter plot}
+\KeywordTok{plot}\NormalTok{(dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_GM, dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{main=}\StringTok{"GM"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"predicted"}\NormalTok{, }
+     \DataTypeTok{ylab=}\StringTok{'observed'}\NormalTok{)}
+
+\CommentTok{# 1:1 line in black}
+\KeywordTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'black'}\NormalTok{)}
+
+\CommentTok{# Regression line between predicted and observed in blue}
+\KeywordTok{abline}\NormalTok{(}\KeywordTok{lm}\NormalTok{(dat}\OperatorTok{$}\NormalTok{OCSKGM }\OperatorTok{~}\StringTok{ }\NormalTok{dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_GM), }\DataTypeTok{col =} \StringTok{'blue'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
 
 \CommentTok{# Scatter plot}
 \KeywordTok{plot}\NormalTok{(dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_RK, dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{main=}\StringTok{"RK"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"predicted"}\NormalTok{, }
@@ -6764,8 +7008,8 @@ to the results of Chapter \ref{mappingMethods}.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-83-1.pdf}
-\caption{\label{fig:unnamed-chunk-83}Scatter plots of predicted against
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-86-1.pdf}
+\caption{\label{fig:unnamed-chunk-86}Scatter plots of predicted against
 observed values}
 \end{figure}
 
@@ -6778,13 +7022,25 @@ observed values}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Spatial bubbles for prediction errors}
+\KeywordTok{bubble}\NormalTok{(dat[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_GM),], }\StringTok{"PE_GM"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }
+       \DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{'red'}\NormalTok{, }\StringTok{'green'}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-87-1} \caption{Spatial bubble of the prediction errors for GM}\label{fig:unnamed-chunk-87}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Spatial bubbles for prediction errors}
 \KeywordTok{bubble}\NormalTok{(dat[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(dat}\OperatorTok{$}\NormalTok{PE_RK),], }\StringTok{"PE_RK"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }
        \DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{'red'}\NormalTok{, }\StringTok{'green'}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-84-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-84}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-88-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-88}
 \end{figure}
 
 \begin{Shaded}
@@ -6796,7 +7052,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-85-1} \caption{Spatial bubble of the prediction errors for RF}\label{fig:unnamed-chunk-85}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-89-1} \caption{Spatial bubble of the prediction errors for RF}\label{fig:unnamed-chunk-89}
 \end{figure}
 
 \begin{Shaded}
@@ -6808,7 +7064,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-86-1} \caption{Spatial bubble of the prediction errors for SVM}\label{fig:unnamed-chunk-86}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-90-1} \caption{Spatial bubble of the prediction errors for SVM}\label{fig:unnamed-chunk-90}
 \end{figure}
 
 \hypertarget{dataSplit}{%
@@ -6837,8 +7093,8 @@ the code needed to achieve this using \textbf{caret} package.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-88-1.pdf}
-\caption{\label{fig:unnamed-chunk-88}Statistical distribution of train and
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-92-1.pdf}
+\caption{\label{fig:unnamed-chunk-92}Statistical distribution of train and
 test datasets}
 \end{figure}
 
@@ -6856,11 +7112,10 @@ test datasets}
 
 There are no best methods for statistical modeling and different
 evaluation strategies should be considered in order to identify,
-realistically, the overall modeling accuracy (\citet{ho2002simple};
-\citet{qiao2015no}; \citet{guevara_2018};
-\citet{nussbaum2018evaluation}). This Section is devoted to describe
-quantitative methods for model evaluation applied to SOC mapping across
-FYROM.
+realistically, the overall modeling accuracy
+\citep{ho2002simple, qiao2015no, guevara_2018, nussbaum2018evaluation}.
+This Section is devoted to describe quantitative methods for model
+evaluation applied to SOC mapping across FYROM.
 
 Our objective is to provide a model evaluation example based on a vector
 of observed SOC and a vector of modeled SOC estimates derived from three
@@ -6915,13 +7170,14 @@ regular grid (\(1 \times 1\) km of spatial resolution).
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(raster)}
 
-\NormalTok{RF<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_rf.tif'}\NormalTok{)}
+\NormalTok{GM<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_GM.tif'}\NormalTok{)}
 \NormalTok{RK<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_RK.tif'}\NormalTok{)}
+\NormalTok{RF<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_rf.tif'}\NormalTok{)}
 \NormalTok{SVM<-}\KeywordTok{raster}\NormalTok{(}\StringTok{'results/MKD_OCSKGM_svm.tif'}\NormalTok{)}
 
 \CommentTok{# Note that RK has a different reference system }
 \NormalTok{RK <-}\StringTok{ }\KeywordTok{projectRaster}\NormalTok{(RK, SVM)}
-\NormalTok{models <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(RK, RF, SVM)}
+\NormalTok{models <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(GM, RK, RF, SVM)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6934,7 +7190,46 @@ between the three different methods (RK, RF, SVM).
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(psych)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## 
+## Attaching package: 'psych'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:randomForest':
+## 
+##     outlier
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:car':
+## 
+##     logit
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:GSIF':
+## 
+##     describe
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:aqp':
+## 
+##     sim
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{pairs.panels}\NormalTok{(}\KeywordTok{na.omit}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(models)),}
              \CommentTok{# Correlation method}
              \DataTypeTok{method =} \StringTok{"pearson"}\NormalTok{, }
@@ -6949,9 +7244,9 @@ between the three different methods (RK, RF, SVM).
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-92-1.pdf}
-\caption{\label{fig:unnamed-chunk-92}Comparision of DSM model correlations
-(RK, RF, SVM) und statical distributions}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-96-1.pdf}
+\caption{\label{fig:unnamed-chunk-96}Comparision of DSM model correlations
+(GM, RK, RF, SVM) and statical distributions}
 \end{figure}
 
 Here we found that the higher Pearson correlation coefficient (\(r\)
@@ -6968,15 +7263,34 @@ across the full data distribution of values.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(rasterVis)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Loading required package: latticeExtra
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'latticeExtra'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     layer
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{densityplot}\NormalTok{(models)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-93-1.pdf}
-\caption{\label{fig:unnamed-chunk-93}Density plot of the prediction for
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-97-1.pdf}
+\caption{\label{fig:unnamed-chunk-97}Density plot of the prediction for
 three DSM models}
 \end{figure}
 
@@ -7046,10 +7360,10 @@ evaluation}\label{technical-steps---model-evaluation}}
 
 \textbf{Step 1 - Data preparation}
 
-To compare the performance of the three models, we will compare the
+To compare the performance of the four models, we will compare the
 observed values used and the predicted values for the the validation
 points. We have to load the validation dataset and the prediction result
-of the three models. The table containing these values was prepared in
+of the four models. The table containing these values was prepared in
 Section \ref{TS:validation}.
 
 \begin{Shaded}
@@ -7064,7 +7378,10 @@ the predicted value and the model.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Prepare 3 new data.frame with the observed, predicted and the model}
+\CommentTok{# Prepare 4 new data.frame with the observed, predicted and the model}
+\NormalTok{modGM <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_GM, }
+                    \DataTypeTok{model =} \StringTok{"GM"}\NormalTok{)}
+
 \NormalTok{modRK <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{obs =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{OCSKGM, }\DataTypeTok{mod =}\NormalTok{ dat}\OperatorTok{$}\NormalTok{MKD_OCSKGM_RK, }
                     \DataTypeTok{model =} \StringTok{"RK"}\NormalTok{)}
 
@@ -7075,7 +7392,7 @@ the predicted value and the model.
                      \DataTypeTok{model =} \StringTok{"SVM"}\NormalTok{)}
 
 \CommentTok{# Merge the 3 data.frames into one}
-\NormalTok{modData <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(modRK, modRF, modSVM)}
+\NormalTok{modData <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(modGM, modRK, modRF, modSVM)}
 
 \KeywordTok{summary}\NormalTok{(modData)}
 \end{Highlighting}
@@ -7083,13 +7400,13 @@ the predicted value and the model.
 
 \begin{verbatim}
 ##       obs              mod         model    
-##  Min.   :0.0111   Min.   :0.2980   RK :970  
-##  1st Qu.:0.6681   1st Qu.:0.8196   RF :970  
-##  Median :0.9518   Median :0.9589   SVM:970  
-##  Mean   :1.1076   Mean   :1.0422            
-##  3rd Qu.:1.3744   3rd Qu.:1.1507            
-##  Max.   :6.1827   Max.   :3.3768            
-##                   NA's   :34
+##  Min.   :0.0111   Min.   :0.0111   GM :970  
+##  1st Qu.:0.6681   1st Qu.:0.8013   RK :970  
+##  Median :0.9518   Median :0.9584   RF :970  
+##  Mean   :1.1076   Mean   :1.0601   SVM:970  
+##  3rd Qu.:1.3744   3rd Qu.:1.1811            
+##  Max.   :6.1827   Max.   :5.3183            
+##                   NA's   :74
 \end{verbatim}
 
 \textbf{Step 2 - Calucalte statistical evaluation metrics}
@@ -7142,7 +7459,22 @@ to use a combination of the performance measures \citep{chang2004air}.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(openair)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## 
+## Attaching package: 'openair'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:psych':
+## 
+##     corPlot
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{modsts <-}\StringTok{ }\KeywordTok{modStats}\NormalTok{(modData,}\DataTypeTok{obs =} \StringTok{"obs"}\NormalTok{, }\DataTypeTok{mod =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"model"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -7155,6 +7487,7 @@ to use a combination of the performance measures \citep{chang2004air}.
 \toprule
 model & FAC2 & MB & MGE & NMB & NMGE & RMSE & r & COE & IOA\\
 \midrule
+GM & 0.80 & 0.01 & 0.41 & 0.01 & 0.37 & 0.63 & 0.54 & 0.15 & 0.57\\
 RK & 0.89 & -0.08 & 0.36 & -0.07 & 0.32 & 0.54 & 0.63 & 0.25 & 0.63\\
 RF & 0.88 & -0.08 & 0.37 & -0.07 & 0.33 & 0.56 & 0.59 & 0.23 & 0.62\\
 SVM & 0.86 & -0.03 & 0.39 & -0.02 & 0.36 & 0.58 & 0.53 & 0.18 & 0.59\\
@@ -7190,7 +7523,7 @@ algorithms.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{TaylorDiagram}\NormalTok{(modData, }\DataTypeTok{obs =} \StringTok{"obs"}\NormalTok{, }\DataTypeTok{mod =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{group =} \StringTok{"model"}\NormalTok{,}
-\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(}\StringTok{"orange"}\NormalTok{, }\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{), }\DataTypeTok{cor.col=}\StringTok{'brown'}\NormalTok{,}\DataTypeTok{rms.col=}\StringTok{'black'}\NormalTok{)}
+\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(}\StringTok{"green"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{, }\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{), }\DataTypeTok{cor.col=}\StringTok{'brown'}\NormalTok{,}\DataTypeTok{rms.col=}\StringTok{'black'}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7689,9 +8022,9 @@ to \cite{meinshausen2006quantile} for a general text and to
 \cite{vaysse2017using} for a DSM application of this promising, albeit
 computationally challenging approach.
 
-\hypertarget{propagation-of-attribute-positional-and-covariate-uncertaintypropuncertainty}{%
+\hypertarget{propUncertainty}{%
 \subsection{Propagation of attribute, positional and covariate
-uncertainty\{propUncertainty\}}\label{propagation-of-attribute-positional-and-covariate-uncertaintypropuncertainty}}
+uncertainty}\label{propUncertainty}}
 
 In Section \ref{sourcesuncert} we noted that next to uncertainties in
 model parameters and model structure there may also be uncertainties in
@@ -8148,9 +8481,9 @@ to multiply the values of the soil property of interest by 10 or 100, in
 order not to lose accuracy (e.g., multiply pH values by 10 before
 exporting your raster in GeoTIFF format).
 
-\hypertarget{web-services-serving-soil-data-using-web-technologywebservice}{%
+\hypertarget{webService}{%
 \section{Web services: serving soil data using web
-technology\{webService\}}\label{web-services-serving-soil-data-using-web-technologywebservice}}
+technology}\label{webService}}
 
 \hypertarget{third-party-services}{%
 \subsection{Third-party services}\label{third-party-services}}
@@ -8633,21 +8966,32 @@ The following data will be delivered:
   method.
 \end{itemize}
 
-\hypertarget{compendium-of-the-code-examples-included-in-the-cookbook}{%
+\hypertarget{compendium}{%
 \chapter{Compendium of the code examples included in the
-cookbook}\label{compendium-of-the-code-examples-included-in-the-cookbook}}
+cookbook}\label{compendium}}
 
 \emph{G.F. Olmedo}
 
-In this Chapter, we present a compendium of the technical steps
-presented in the previous Chapters of the cookbook. With the help of
-these examples, the user should be able to produce a soil property
-prediction map starting from the soil samples, covariates preparation,
-modeling and ending with the validation. However, we present different
-alternatives for the different steps. This proposed framework to prepare
-a soil property prediction map includes soil data preparation,
-covariates preparation, overlaying soil data and covariates, fitting a
-model for the spatial interpolation and validation:
+This technical manual gives relatively simple step-by-step guidance on
+digital soil mapping. Guidance is mainly on mapping and modelling soil
+organic carbon, but also contains generic sections on soil grid
+development and it can be used to map various soil properties. The
+document follows the typical digital soil mapping work-flow and provides
+users a complete soil property mapping solution from the ground up (Fig
+\ref{fig:grworkflow}).
+
+The authors has demonstrated the methods in the chapters using the same
+datasetwhich is extracted from the MASIS (Macedonian Soil information
+System). In this chapter we present a compendium of the technical steps
+presented in the practical chapters.
+
+With the help of these examples, the user should be able to produce a
+soil property map starting from ground data to validation. There are
+also optional work-flow steps depending on the nature of the input data.
+This proposed framework to prepare a soil property prediction map
+includes soil data preparation, covariates preparation, overlaying soil
+data and covariates, fitting a model for the spatial interpolation and
+validation:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -9659,8 +10003,7 @@ Chapter \ref{evaluation}, by M. Guevara and G.F. Olmedo.
 \bibliography{References.bib}
 \addcontentsline{toc}{chapter}{\bibname}
 
-\printindex
-
+%\printindex
 \includepdf{backcover.pdf}
 
 

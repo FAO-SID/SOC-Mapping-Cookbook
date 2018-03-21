@@ -216,7 +216,7 @@ The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the ratio
 
 ## Preparation of a soil property table for spatial statistics
 
-The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in Section \@ref(#overlay-soil-covariates).
+The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in Section \@ref(overlay-soil-covariates).
 
 > In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
 
