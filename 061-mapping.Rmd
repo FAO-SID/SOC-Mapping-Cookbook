@@ -209,6 +209,8 @@ Geo-matching can also be done in **R**. We will provide a example code following
 
 **Step 1 - Load the soil data and soil map**
 
+Load the shapefile including the soil map. Then load the points, and promote the points to `spatialPointsDataFrame` using the `coordinates()` function. Make sure both are in the same coordinate system. In case they aren't, you can use `spTransform()` to reproject one of the layers.
+
 ```{r}
 library(raster)
 # Load the soil map from a shapefile *.shp file
@@ -230,12 +232,15 @@ class(dat)
 
 **Step 2 - Geo-matching**
 
-```{r}
-soilmap$OCSKGM <- over(soilmap, dat[,"OCSKGM"])[,1]
+Now, use the `over()` function to estimate the mean value of the `OCSKGM` field for every map unit.
 
+```{r}
+soilmap$OCSKGM <- over(soilmap, dat[,"OCSKGM"], fun=mean)[,1]
 ```
 
 **Step 3 - Rasterize and export the results as geotiff**
+
+Finally, convert the layer to raster, to comply with the deliverables specifications (see Chapter \@ref(deliverables)). 
 
 ```{r, fig.cap='SOC prediction map for FYROM using geo-matching'}
 pred <- rasterize(soilmap, DEM, "OCSKGM")
