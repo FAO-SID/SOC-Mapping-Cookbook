@@ -325,7 +325,7 @@ RKprediction <- exp(raster(OCS.krige$krige_output[1]))
 RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 ```
 
-```{r predRK, fig.cap = "Prediction FYROM map from regression-kriging model"}
+```{r predRK, fig.cap = "SOC prediction map for FYROM using a regression kriging model"}
 plot(RKprediction)
 ```
 
