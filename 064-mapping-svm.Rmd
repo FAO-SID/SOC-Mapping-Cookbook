@@ -26,7 +26,7 @@ In the example below, we will use the implementation of SVM in the R package `e1
 
 > **SVM**: This approach is a broad research area and for a better understanding of the mathematical background we can recommend the following books: @vapnik2013nature, @friedman2001elements, and @james2013introduction.
 
-### Technical steps - fitting an SVM model to predict the SOC
+### Technical steps - Fitting an SVM model to predict the SOC
 
 **Step 1 - Setting working space and initial steps**
 
