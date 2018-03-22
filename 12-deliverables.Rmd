@@ -1,7 +1,7 @@
 # Deliverables {#deliverables}
 *Y. Yigini*
 
-In 2016, the the need of the development of a tool to assess global SOC stocks was identified by the GSP Plenary Assembly. As a contribution to the Sustainable Development Goal indicator 15.3.1 which aims at estimating the total degraded land area, the prepartory work to develop a GSOCmap was completed by the end of 2016.
+In 2016, the the need of the development of a tool to assess global SOC stocks was identified by the GSP Plenary Assembly. As a contribution to the Sustainable Development Goal indicator 15.3.1 which aims at estimating the total degraded land area, the preparatory work to develop a GSOCmap was completed by the end of 2016.
 
 During 2017, the first ever GSOCmap was realized using a country driven bottom-up approach. The soil data from contributing countries were collected by the GSP Secretariat. The [*GSP Soil Data Policy*](http://www.fao.org/3/a-bs975e.pdf) [see @gsp_data_2017, Chapter 8.5], ensured that the national terms of condition are fully respected during the whole process of data sharing. National soil data was compiled and harmonized with regard to differences in laboratory methodologies and sampling units. Furthermore, a global soil database was created using recovered soil data legacy from archives, institutions and projects. Finally, a global data harmonization was conducted by the GSP Secretariat including quality control, mosaicking, border harmoization and gap filling.
 
