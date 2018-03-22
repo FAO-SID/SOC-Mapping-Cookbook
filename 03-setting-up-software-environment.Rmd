@@ -59,6 +59,8 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 [**RSAGA**](https://CRAN.R-project.org/package=RSAGA): The package provides access to geocomputing and terrain analysis functions of [SAGA GIS](\url{http://www.saga-gis.org/en/index.html} ) from within **R** by running the command line version of System for Automated Geoscientific Analyses (SAGA).
 
+[**sf**](https://cran.r-project.org/web/packages/sf/index.html): The package provides an improvement on **sp** and **rgdal** for spatial datasets. It is using the newly Simple Feratures (SF) standard which is widely implemented in spatial databases (PostGIS, ESRI ArcGIS), and forms the vector data basis for libraries such as GDAL and web standards such as GeoJSON (http://geojson.org/).
+
 [**sp**](https://CRAN.R-project.org/package=sp): The package provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
 
 #### Modeling
