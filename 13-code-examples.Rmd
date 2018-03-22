@@ -1,31 +1,31 @@
 # Compendium of the code examples included in the cookbook {#compendium}
 *G.F. Olmedo*
 
-This technical manual gives relatively simple step-by-step guidance on digital soil mapping. Guidance is mainly on mapping and modelling soil organic carbon, but also contains generic sections on soil grid development and  it can be used to map various soil properties. The document follows the typical digital soil mapping work-flow and provides users a complete soil property mapping solution from the ground up (Fig \@ref(fig:grworkflow)). 
+The technical manual provided in this Chapter gives relatively simple step-by-step guidance on DSM. Guidance is mainly on mapping and modelling soil organic carbon, but also contains generic sections on soil grid development that can be used to map various soil properties. The document follows the typical DSM work-flow and provides users a complete soil property mapping solution from the ground up (see Fig. \@ref(fig:grworkflow)). 
 
-The authors has demonstrated the methods in the chapters using the same datasetwhich is extracted from the MASIS (Macedonian Soil information System). In this chapter we present a compendium of the technical steps presented in the practical chapters.
+The authors have demonstrated the methods in the previous Chapters using the same dataset which is extracted from the Macedonian Soil Information System MASIS. In this Chapter we present a compendium of the technical steps presented in the practical Chapters.
  
-With the help of these examples, the user should be able to produce a soil property map starting from ground data to validation. There are also optional work-flow steps depending on the nature of the input data. This proposed framework to prepare a soil property prediction map includes soil data preparation, covariates preparation, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
+With the help of these examples, the user should be able to produce a soil property map starting from ground data to the validation of the map. There are also optional work-flow steps depending on the nature of the input data. This proposed framework to prepare a soil property prediction map includes soil data preparation, preparation of environmental covariates, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
 1. Soil data preparation
-  - **Option A**: Data Preparation - Soil Profiles (Code \@ref(cd:PreparationProfiles))
-  - **Option B**: Data Preparation - Top Soil or Auger Samples (Code \@ref(cd:PreparationAuger))
-  - *[optional]*: Data Preparation - Merging Top Soil/Auger Samples and Soil Profiles (Code \@ref(cd:merging))
-  - *[optional]*: Split the soil data in test and validations datasets (Code \@ref(cd:data-splitting))
+  - **Option A**: Data preparation - Soil profiles (Code \@ref(cd:PreparationProfiles))
+  - **Option B**: Data preparation - Topsoil or auger samples (Code \@ref(cd:PreparationAuger))
+  - *[optional]* Data preparation - Merging topsoil or auger samples and soil profiles (Code \@ref(cd:merging))
+  - *[optional]* Split the soil data in test and validations datasets (Code \@ref(cd:data-splitting))
 2. Covariates preparation
-  - *[optional]* Rasterizing a Vector Layer in R (Code \@ref(cd:Rasterizing))
-  - Overlay Covariates and Soil Points Data (Code \@ref(cd:Overlay))
+  - *[optional]* Rasterizing a vector layer in **R** (Code \@ref(cd:Rasterizing))
+  - Overlay covariates and soil points data (Code \@ref(cd:Overlay))
 3. Spatial interpolation model
-  - **Option A**: Fitting a Regression-kriging model to predict the OCS (Code \@ref(cd:RK))
-  - **Option B**: Fitting a Random Forest model to predict the SOC (Code \@ref(cd:rf))
-  - **Option C**: Fitting a Support Vector Machines model to predict the SOC (Code \@ref(cd:svm))
+  - **Option A**: Fitting a regression-kriging model to predict the SOC stock (Code \@ref(cd:RK))
+  - **Option B**: Fitting a random forest model to predict the SOC stock (Code \@ref(cd:rf))
+  - **Option C**: Fitting a support vector machines model to predict the SOC stock (Code \@ref(cd:svm))
 4. Validation
   - Quality measures for quantitative data (Code \@ref(cd:Validation))
   - *[optional]* Graphical quality measures for quantitative data (Code \@ref(cd:Graphs))
-  - *[optional]* Cross-validation for Regression-kriging models (Code \@ref(cd:xvalRK))
-  - *[optional]* Validation of Random Forest using Quantile Regression Trees (Code \@ref(cd:quantreg))
+  - *[optional]* Cross-validation for regression-kriging models (Code \@ref(cd:xvalRK))
+  - *[optional]* Validation of random forest using quantile regression trees (Code \@ref(cd:quantreg))
 5. Model Evaluation
-  - Model Evaluation (Code \@ref(cd:Evaluation))
+  - Model evaluation (Code \@ref(cd:Evaluation))
   
   
 \clearpage
@@ -45,7 +45,7 @@ knitr::read_chunk(path = "code/1A-DataPreparation-Profiles.R")
 
 
 \clearpage
-## Data preparation for top soil or auger samples {#cd:PreparationAuger}  
+## Data preparation for topsoil or auger samples {#cd:PreparationAuger}  
 
 The extended and discussed version of the following code is presented in Chapter \@ref(preparation), by G.F. Olmedo & R. Baritz.
 
@@ -61,7 +61,7 @@ knitr::read_chunk(path = "code/1B-DataPreparation-Augers.R")
 
 
 \clearpage
-## Merging top soil and soil profiles Databases{#cd:merging}
+## Merging topsoil or auger samples and soil profiles databases{#cd:merging}
 
 
 ```{r, echo=FALSE, cache=FALSE}
@@ -107,7 +107,7 @@ knitr::read_chunk(path = "code/optional-Rasterizing.R")
 
 
 \clearpage
-## Overlay covariates and soil points Data{#cd:Overlay}
+## Overlay covariates and soil points data {#cd:Overlay}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(covariates), by R. Baritz & Y. Yigini.
 
@@ -123,7 +123,7 @@ knitr::read_chunk(path = "code/2-OverlayCovariates.R")
 
 
 \clearpage
-##	Fitting a regression-kriging model to predict the OCS	{#cd:RK}
+##	Fitting a regression-kriging model to predict the SOC stock	{#cd:RK}
 
 The extended and discussed version of the following code is presented in Section  \@ref(RK), by G.F. Olmedo & Y. Yigini.
 
@@ -154,7 +154,7 @@ knitr::read_chunk(path = "code/3A-2-XvalRegressionKriging.R")
 
 
 \clearpage
-## Fitting a random forest model to predict the SOC	{#cd:rf}
+## Fitting a random forest model to predict the SOC	stock {#cd:rf}
 
 The extended and discussed version of the following code is presented in Section \@ref(rf), by M. Guevara, C. Thine, G.F. Olmedo & R.R. Vargas.
 
@@ -186,7 +186,7 @@ knitr::read_chunk(path = "code/3B-2-QuantileRegressionForest.R")
 
 
 \clearpage
-## Fitting a SVM model to predict the SOC	{#cd:svm}
+## Fitting a support vector machines model to predict the SOC stock	{#cd:svm}
 
 The extended and discussed version of the following code is presented in Section \@ref(svm), by G.F. Olmedo & M. Guevara.
 
@@ -202,7 +202,7 @@ knitr::read_chunk(path = "code/3C-SupportVectorMachines.R")
 
 
 \clearpage
-## Validation{#cd:Validation}
+## Validation {#cd:Validation}
 
 The extended and discussed version of the following code is presented in Chapter \@ref(chvalidation), by B. Kempen, D.J. Brus & G.B.M. Heuvelink, with code contributions from G.F. Olmedo.
 
