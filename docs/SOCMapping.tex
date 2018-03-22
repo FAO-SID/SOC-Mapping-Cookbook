@@ -198,6 +198,8 @@
 \usepackage{imakeidx}
 \makeindex
 
+\usepackage{xspace}
+
 % no title page
 \AtBeginDocument{\let\maketitle\relax}
 \usepackage{booktabs}
@@ -231,7 +233,7 @@
 \maketitle
 
 \pagestyle{plain}
-\includepdf{cover.pdf}
+\includepdf{cover2.pdf}
 \begin{titlepage}
     \begin{center}
         \vspace*{4cm}
@@ -262,7 +264,7 @@ The views expressed in this information product are those of the author(s) and d
 
 ISBN 978-92-5-130440-2
 
-\copyright FAO, 2018
+\copyright \xspace FAO, 2018
 
 FAO encourages the use, reproduction and dissemination of material in this information product. Except where otherwise indicated, material may be copied, downloaded and printed for private study, research and teaching purposes, or for use in non-commercial products or services, provided that appropriate acknowledgement of FAO as the source and copyright holder is given and that FAO’s endorsement of users’ views, products or services is not implied in any way.
 
@@ -356,8 +358,8 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 \addcontentsline{toc}{chapter}{List of contributors}
 
 \hypertarget{editorial-board}{%
-\section*{Editorial Board}\label{editorial-board}}
-\addcontentsline{toc}{section}{Editorial Board}
+\section*{Editorial board}\label{editorial-board}}
+\addcontentsline{toc}{section}{Editorial board}
 
 Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Kostiantyn
 Viatkin, Rainer Baritz, Ronald R. Vargas Global Soil Partnership, Food
@@ -366,8 +368,8 @@ and Agriculture Organization of the United Nations
 Cover design: Matteo Sala
 
 \hypertarget{contributing-authors}{%
-\section*{Contributing Authors}\label{contributing-authors}}
-\addcontentsline{toc}{section}{Contributing Authors}
+\section*{Contributing authors}\label{contributing-authors}}
+\addcontentsline{toc}{section}{Contributing authors}
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
@@ -622,8 +624,8 @@ This cookbook is a step-by-step manual starting with the soil data
 preparation, producing the map, and finishing with map validation and
 data sharing (Fig \ref{fig:grworkflow}). In the different chapters, we
 present a continuing example using the FYROM soil database and some
-environmental covariates. On every chapter with start with the input
-data and produce the proposed output, which is usually the input for the
+environmental covariates. On every chapter we start with the input data
+and produce the proposed output, which is usually the input for the
 following chapter. The soil data needed can be downloaded from the
 \href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/data}{data
 repository}, and the same applies to the
@@ -788,7 +790,7 @@ map). Upscaling is based on averaged SOC values per mapping unit.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.20\columnwidth}\raggedright
 Digital soil mapping \citep{dobos2006digital}
-\textbackslash{}index\{Digital Soil Mapping (DSM)\strut
+\index{Digital Soil Mapping (DSM)}\strut
 \end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
 Data mining and geostatistics\strut
 \end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
