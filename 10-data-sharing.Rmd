@@ -19,7 +19,7 @@ install.packages(c("soiltexture", "rgdal", "plotKML",
 
 ### Type of soil data and their formatting
 
-Before we start reviewing soil data formats, it is useful to understand which types of soil variables, soil maps, and soil DBs are most commonly generated and used, and what are their specific advantages and limitations. Soil science works with many variables common to ecology and/or physical geography (e.g., soil temperature), but it also works with several variables specific to soil science only. Some soil factor-type variables specific to soil science only are for example:
+Before we start reviewing soil data formats, it is useful to understand which types of soil variables, soil maps, and soil DBs are most commonly generated and used, and what are their specific advantages and limitations. Soil science works with many variables common to ecology and/or physical geography (e.g. soil temperature), but it also works with several variables specific to soil science only. Some soil factor-type variables specific to soil science only are for example:
 
 * Soil taxa or soil classes (this includes taxonomic systems and connected diagnostic soil properties and horizons);
 * Soil texture-class systems;
@@ -45,12 +45,12 @@ TT.plot(class.sys = "USDA.TT", tri.data = tex, main = "",
 
 The way soil texture data is displayed and texture classes (SaLo, Lo, Sa, etc.) used in a texture triangle is specific to soil science. The way this data is formatted and presented can be, likewise, specific to soil science only.
 
-Most of the soil data is in fact spatial. *Spatial* implies that spatial (and temporal) reference is attached to each measured/estimated value, i.e., it is location specific. Spatio-temporal references typically include for example: 
+Most of the soil data is in fact spatial. *Spatial* implies that spatial (and temporal) reference is attached to each measured/estimated value, i.e. it is location specific. Spatio-temporal references typically include for example: 
   
 * Geographic location in local or geographic coordinates (ideally longitude and latitude in the WGS84 coordinate system);
 * Depth interval expressed in cm from land surface (upper and lower depth);
-* Support size or referent soil volume (or voxel) i.e., the horizontal sampling area multiplied by the thickness of the sampling block;
-* Temporal reference i.e., begin and end date/time of the period of measurements/estimations.
+* Support size or referent soil volume (or voxel) i.e. the horizontal sampling area multiplied by the thickness of the sampling block;
+* Temporal reference i.e. begin and end date/time of the period of measurements/estimations.
 
 Spatial data formats are used to represent spatial objects. This can be [@bivand2013classes; @neteler2013open]:
 
@@ -63,20 +63,20 @@ Spatial data formats are used to represent spatial objects. This can be [@bivand
 It is also important to be able to distinguish between sampled or predicted soil data:
 
 * **Sampled soil Data**: Soil samples (usually points or transects) are spatially incomplete. They are used to generate spatial predictions.
-* **Predicted soil data**: Spatial predictions of soil variables (soil maps) are spatially complete. They are used for decision making and further modeling, i.e., they are used to construct a Soil Information System (SIS).
+* **Predicted soil data**: Spatial predictions of soil variables (soil maps) are spatially complete. They are used for decision making and further modeling, i.e. they are used to construct a Soil Information System (SIS).
 
 ![Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data](images/Data_sharing_soil_variables.png)
 
-A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification, etc.) make a SIS. SIS are often complemented with soil sample data and serve both data formats. A SIS should preferably be a database (DB), so that users can access and query data using some standard DB languages (e.g., SQL). Steps to export soil data into a DB format are explained in later Sections.
+A collection of spatially exhaustive soil grids of various soil properties (physical and chemical soil properties, soil water, soil classification, etc.) make a SIS. SIS are often complemented with soil sample data and serve both data formats. A SIS should preferably be a database (DB), so that users can access and query data using some standard DB languages (e.g. SQL). Steps to export soil data into a DB format are explained in later Sections.
 
 ### General GIS data formats: vector, raster, table
 
 All soil data we produce through soil mapping can be in principle distributed using one of the two basic GIS formats of data:
 
 *   **Vector format**: This format is often more suitable for exporting point, line, and polygon (areal) data.
-*    **Raster or gridded format**: This format is often more suitable for exporting spatial predictions of soil variables.
+*   **Raster or gridded format**: This format is often more suitable for exporting spatial predictions of soil variables.
 
-Data in vector format can be converted to raster (see e.g., `rasterize()` function in the **raster** **R** package ) and vice versa, raster data can be converted to vector formats. For example, rasters can be converted to polygons (see e.g., `rast2vect()` function in the **plotKML** **R** package ). If the conversion is done carefully and if all the relations between scale and pixel size have been considered [see @hengl2006finding for more details], then information loss due to conversion from raster to vector and vice versa should be minimal.
+Data in vector format can be converted to raster (see e.g. `rasterize()` function in the **raster** **R** package ) and vice versa, raster data can be converted to vector formats. For example, rasters can be converted to polygons (see e.g. `rast2vect()` function in the **plotKML** **R** package ). If the conversion is done carefully and if all the relations between scale and pixel size have been considered [see @hengl2006finding for more details], then information loss due to conversion from raster to vector and vice versa should be minimal.
 
 Both vector and raster GIS data can also be converted to tabular data formats. By converting a GIS layer to a table, spatial geometry and spatial relations will be *stripped off*, so that only limited spatial analysis operations can be applied. To convert raster layers to tabular data, consider using the `SpatialPixelsDataFrame` class in the **sp** package and/or the `RasterLayer` class from the **raster** package  in combination with the **rgdal** package [@bivand2013classes].
 
@@ -144,7 +144,7 @@ GeoTIFF format is highly recommended for sharing raster data for the following r
 
 * It is GDAL's default data format and much functionality for subsetting, reprojecting, reading and writing GeoTIFFs already exists (see GDAL utils).
 * It supports internal compression via creation options (e.g. COMPRESS=DEFLATE).
-* Extensive overlay, subset, index, translate functionality is available via GDAL and other open source software. Basically, GeoTiff functions as a raster DB.
+* Extensive overlay, subset, index, translate functionality is available via GDAL and other open source software. Basically, GeoTIFF functions as a raster DB.
 
 Consider for, example the `gdallocationinfo()` function which allows spatial queries following some indexing system such as row and column number:
 
@@ -157,7 +157,7 @@ system(paste0('gdallocationinfo ', spnad83.file, ' 100 100'))
 
 Such type of overlay operations, thanks to GDAL [@warmerdam_geospatial_2008], are extremely fast and efficient. Likewise, `gdalwarp()` function can be used subset rasters based on spatial extent or grid index. Rasters can be imported to GeoServer and shared through Web Coverage Service (see Section \@ref(webService)) or similar likewise function as a spatial raster DB.
 
-As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTIFF formats because floating point formats can lead to up to more than four times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g., multiply pH values by 10 before exporting your raster in GeoTIFF format).
+As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTIFF formats because floating point formats can lead to up to more than four times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g. multiply pH values by 10 before exporting your raster in GeoTIFF format).
 
 ## Web services: serving soil data using web technology {#webService}
 
@@ -224,10 +224,10 @@ Typical metadata should (at least) contain:
 *    Detailed description of the variables available in the data;
 *    Data license and terms of use (URL);
 *    Explanation of measurement methods and units used;
-*    Mention of the reference support size including referent depth intervals to which the soil data refers to (e.g., 0 cm – 30 cm depth interval);
+*    Mention of the reference support size including referent depth intervals to which the soil data refers to (e.g. 0 cm – 30 cm depth interval);
 *    Mention of the referent time period in which the calibration data was collected;
 *    Link to literature (report, book or scientific article) where the data production is explained in detail. Using a published and peer-reviewed scientific article as the main reference for data is a good practice since it also shows that the data production process has been evaluated by independent researchers; and
-*    Project homepage, i.e., URL containing more information and especially up-to-date contacts where users can find original data producers and request support.
+*    Project homepage, i.e. URL containing more information and especially up-to-date contacts where users can find original data producers and request support.
 
 Metadata (including color legends) can be also directly embedded into the GeoTIFF `*.tif` file by using the *gdal_edit* command  available in GDAL. The following example shows how to add a simple explanation of the data and a URL to find more info about the GeoTIFF in **R**:
 
@@ -247,7 +247,7 @@ eberg_DEM.tif'))
 system('gdalinfo eberg_DEM.tif')
 ```
 
-Similarly, all necessary metadata can be added into GeoTIFF so that future users have all information at one place, i.e., inside the data file. 
+Similarly, all necessary metadata can be added into GeoTIFF so that future users have all information at one place, i.e. inside the data file. 
 
 ### Exporting data: final tips
 
@@ -260,7 +260,7 @@ b. Screenshots of your data in action (people prefer visual explanations with ex
 c. Links to key documents explaining how the data was produced; and
 d. Workflows explaining how to request support (who to contact and how).
 
-2.    Make data accessible from multiple systems, e.g., both via WCS, FTP and through a mirror site. This might be inefficient considering there will be multiple copies of the same data, but sometimes it quadruples data usage.
+2.    Make data accessible from multiple systems, e.g, both via WCS, FTP and through a mirror site. This might be inefficient considering there will be multiple copies of the same data, but sometimes it quadruples data usage.
 3.    Explain the data formats used to share data, and point to tutorials that explain how to access and use data to both beginners and advanced users.
 4.    Consider installing and using a version control system (or simply use GitHub or similar repository) so that the users can track back versions of data.
 5.    Consider closely following principles of reproducible research  (all processing steps, inputs, and outputs accessible). This tutorial comes with **R** code that is available via GitHub so that everyone should be able to reproduce the examples shown in the text.
@@ -276,5 +276,5 @@ Raster data in GeoTIFF format need a defined geographic projection. Each country
 
 Each file should be accompanied by a set list of metadata. Geospatial metadata is a type of metadata that is applicable to objects that have an explicit or implicit geographic extent. While using GeoTIFF files it is possible to define a metadata field in which information can be recorded. Metadata can be edited with most GIS software and directly with GDAL tools (http://www.gdal.org/gdal_edit.html).
 
-> Tips for **GDAL**:  gdalwarp -t_srs 'xxx' input.tif output.tif where t_srs is the target spatial reference set, i.e., the coordinate systems that can be passed are anything supported by the  GRSpatialReference.SetFromUserInput() call, which includes EPSG PCS and GCSes (i.e. EPSG:4326), PROJ.4 declarations or the name of a `*.prj` file containing well known text.
+> Tips for **GDAL**:  *gdalwarp -t_srs* 'xxx' `input.tif` `output.tif` where *t_srs* is the target spatial reference set, i.e. the coordinate systems that can be passed are anything supported by the  `GRSpatialReference.SetFromUserInput()` call, which includes EPSG PCS and GCSes (i.e. EPSG:4326), PROJ.4 declarations or the name of a `*.prj` file containing well known text.
 For further information see the link: http://www.gdal.org/gdalwarp.html.
