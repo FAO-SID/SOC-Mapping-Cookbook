@@ -64,13 +64,13 @@ Cover design: Matteo Sala
 | ![](contrAuthors/Hengl.jpg)    |  Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands |
 | ![](contrAuthors/Heuvelink.jpg)|  Gerard Heuvelink - World Soil Information, Wageningen, the Netherlands |
 | ![](contrAuthors/Kempen.jpg)   |  Bas Kempen - ISRIC, World Soil Information, Wageningen, the Netherlands |
-| ![](contrAuthors/Mulder.jpeg)  |  Titia VL Mulder - Wageningen University, Department of Environmental Sciences, the Netherlands |
+| ![](contrAuthors/Mulder.jpeg)  |  Titia V.L. Mulder - Wageningen University, Department of Environmental Sciences, the Netherlands |
 | ![](contrAuthors/Olmedo.png)   |  Guillermo Federico Olmedo - Instituto Nacional de Tecnología Agropecuaria, Mendoza, Argentina |
 | ![](contrAuthors/Poggio.jpg)   |  Laura Poggio - The James Hutton Institute, Craigiebuckler Aberdeen, Scotland UK |
-| ![](contrAuthors/Ribeiro.jpg)  |  Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the Netherlands |
+| ![](contrAuthors/Ribeiro.jpg)  |  Eloi Ribeiro - ISRIC, World Soil Information, Wageningen, the Netherlands |
 | ![](contrAuthors/Omuto.jpg)    |  Christian Thine Omuto - Department of Environmental and Biosystems Engineering, University of Nairobi, Kenya |
 | ![](contrAuthors/Yigini.jpg)   |  Yusuf Yigini - Food and Agriculture Organization of the United Nations |
-| ![](contrAuthors/Vargas.jpg)   |  Ronald R Vargas - Food and Agriculture Organization of the United Nations |
+| ![](contrAuthors/Vargas.jpg)   |  Ronald R. Vargas - Food and Agriculture Organization of the United Nations |
 
 \vfill
 
