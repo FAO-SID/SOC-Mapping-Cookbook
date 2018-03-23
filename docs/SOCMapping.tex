@@ -198,6 +198,8 @@
 \usepackage{imakeidx}
 \makeindex
 
+\usepackage{xspace}
+
 % no title page
 \AtBeginDocument{\let\maketitle\relax}
 \usepackage{booktabs}
@@ -231,7 +233,7 @@
 \maketitle
 
 \pagestyle{plain}
-\includepdf{cover.pdf}
+\includepdf{cover2.pdf}
 \begin{titlepage}
     \begin{center}
         \vspace*{4cm}
@@ -262,7 +264,7 @@ The views expressed in this information product are those of the author(s) and d
 
 ISBN 978-92-5-130440-2
 
-\copyright FAO, 2018
+\copyright \xspace FAO, 2018
 
 FAO encourages the use, reproduction and dissemination of material in this information product. Except where otherwise indicated, material may be copied, downloaded and printed for private study, research and teaching purposes, or for use in non-commercial products or services, provided that appropriate acknowledgement of FAO as the source and copyright holder is given and that FAO’s endorsement of users’ views, products or services is not implied in any way.
 
@@ -356,8 +358,8 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 \addcontentsline{toc}{chapter}{List of contributors}
 
 \hypertarget{editorial-board}{%
-\section*{Editorial Board}\label{editorial-board}}
-\addcontentsline{toc}{section}{Editorial Board}
+\section*{Editorial board}\label{editorial-board}}
+\addcontentsline{toc}{section}{Editorial board}
 
 Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Kostiantyn
 Viatkin, Rainer Baritz, Ronald R. Vargas Global Soil Partnership, Food
@@ -366,8 +368,8 @@ and Agriculture Organization of the United Nations
 Cover design: Matteo Sala
 
 \hypertarget{contributing-authors}{%
-\section*{Contributing Authors}\label{contributing-authors}}
-\addcontentsline{toc}{section}{Contributing Authors}
+\section*{Contributing authors}\label{contributing-authors}}
+\addcontentsline{toc}{section}{Contributing authors}
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule
@@ -622,8 +624,8 @@ This cookbook is a step-by-step manual starting with the soil data
 preparation, producing the map, and finishing with map validation and
 data sharing (Fig \ref{fig:grworkflow}). In the different chapters, we
 present a continuing example using the FYROM soil database and some
-environmental covariates. On every chapter with start with the input
-data and produce the proposed output, which is usually the input for the
+environmental covariates. On every chapter we start with the input data
+and produce the proposed output, which is usually the input for the
 following chapter. The soil data needed can be downloaded from the
 \href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/data}{data
 repository}, and the same applies to the
@@ -788,7 +790,7 @@ map). Upscaling is based on averaged SOC values per mapping unit.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.20\columnwidth}\raggedright
 Digital soil mapping \citep{dobos2006digital}
-\textbackslash{}index\{Digital Soil Mapping (DSM)\strut
+\index{Digital Soil Mapping (DSM)}\strut
 \end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
 Data mining and geostatistics\strut
 \end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
@@ -971,6 +973,13 @@ package provides access to geocomputing and terrain analysis functions
 of \href{/url\%7Bhttp://www.saga-gis.org/en/index.html\%7D}{SAGA GIS}
 from within \textbf{R} by running the command line version of System for
 Automated Geoscientific Analyses (SAGA).
+
+\href{https://cran.r-project.org/web/packages/sf/index.html}{\textbf{sf}}:
+The package provides an improvement on \textbf{sp} and \textbf{rgdal}
+for spatial datasets. It is using the newly Simple Feratures (SF)
+standard which is widely implemented in spatial databases (PostGIS, ESRI
+ArcGIS), and forms the vector data basis for libraries such as GDAL and
+web standards such as GeoJSON (\url{http://geojson.org/}).
 
 \href{https://CRAN.R-project.org/package=sp}{\textbf{sp}}: The package
 provides classes and methods for spatial data. The classes document
@@ -5447,7 +5456,7 @@ and \citet{james2013introduction}.
 \end{quote}
 
 \hypertarget{technical-steps---fitting-an-svm-model-to-predict-the-soc}{%
-\subsection{Technical steps - fitting an SVM model to predict the
+\subsection{Technical steps - Fitting an SVM model to predict the
 SOC}\label{technical-steps---fitting-an-svm-model-to-predict-the-soc}}
 
 \textbf{Step 1 - Setting working space and initial steps}
@@ -8928,43 +8937,88 @@ assessment}\label{evaluation-of-output-and-quality-assessment}}
 
 \emph{Y. Yigini}
 
-Data shared by countries will be collected by the GSP Secretariat. The
-GSP data policy (see GSP GSOC Guidelines, Chapter 8.5) will ensure that
-the national terms of condition are fully respected. Data will be shared
-using common GIS formats, and metadata should be compiled into an excel
-file. The Soil Organic Carbon Map will be delivered as grid using the 30
-arc-seconds grid.
+In 2016, the the need of the development of a tool to assess global SOC
+stocks was identified by the GSP Plenary Assembly. As a contribution to
+the Sustainable Development Goal indicator 15.3.1 which aims at
+estimating the total degraded land area, the prepartory work to develop
+a GSOCmap was completed by the end of 2016.
 
-The following data will be delivered:
+During 2017, the first ever GSOCmap was realized using a country driven
+bottom-up approach. The soil data from contributing countries were
+collected by the GSP Secretariat. The
+\href{http://www.fao.org/3/a-bs975e.pdf}{\emph{GSP Soil Data Policy}}
+\citep[see][Chapter 8.5]{gsp_data_2017}, ensured that the national terms
+of condition are fully respected during the whole process of data
+sharing. National soil data was compiled and harmonized with regard to
+differences in laboratory methodologies and sampling units. Furthermore,
+a global soil database was created using recovered soil data legacy from
+archives, institutions and projects. Finally, a global data
+harmonization was conducted by the GSP Secretariat including quality
+control, mosaicking, border harmoization and gap filling.
+
+The GSOCmap V1.0 has been launched on the 5\textsuperscript{th} of
+December 2017 during World Soil Day. At the launching, the map is based
+on more than 1 million sampling points. The product is hosted by GLOSIS
+and constantly updated. It is available as an online application,
+accessible at the link:
+\url{http://www.fao.org/global-soil-partnership/pillars-action/4-information-and-data/global-soil-organic-carbon-gsoc-map/en/}.
+
+The following \textbf{deliverables} are comprised with GSOCmap V1.0:
 
 \begin{itemize}
 \tightlist
 \item
-  The Soil Organic Carbon Map: will be digitally delivered in grid with
-  30 arc-second resolution. An empty grid is provided by the GSP
-  Secretariat (\url{ftp://gsp.isric2.org/}/mask/mask.tif). The SOC
-  values should be transferred to this empty grid from the produced SOC
-  data. To transfer values to the empty grid, QGis (Raster Calculator),
-  ArcGIS (Mosaicing tool, Raster Calculator) can be used.
+  GSOCmap V1.0 is digitally delivered in grid (GeoTIFF) format with a 30
+  arc-second resolution. The global data can be downloaded as
+  \texttt{GSOCmap.tif}.
 \item
-  Uncertainty Layers and prediction quality figures: a) Qualitative
-  assessment (Conventional Upscaling) b) Quantitative assessment for DSM
-  Methods. The uncertainty associated with the estimated map quality
-  measures will be provided (Mean Error (ME), Mean Absolute Error (MAE),
-  and MSE (Mean Squared Error).
+  The associated uncertainty layers and prediction quality figures,
+  including qualitative assessment from conventional upscaling, and
+  quantitative assessment from DSM methods. The prediction uncertainty
+  is provided with the estimated map quality measures such as mean
+  error, mean absolute error, (root) mean squared error.
 \item
-  Metadata: Metadata is data describing data sets. It provides
-  standardized information about a data set, for example, the
-  maintaining institution through which the data can be accessed. It
-  thus helps a user to find spatial data sets and services and to
-  indicate for which purpose it can be used. In the case of the GSOC
-  maps, a project-specific metadata template has been prepared. It
-  deviates from the metadata elements listed in common standards such as
-  ISO 19115. Following the guideline for SOC mapping, the importance of
-  soil-specific methodical elements is given. This includes metadata
-  describing the data sources used for SOC mapping and the upscaling
-  method.
+  The metadata providing standardized information about a data set, for
+  example, the maintaining institution through which the data can be
+  accessed. In the case of the GSOCmap, a project-specific metadata
+  template has been prepared. It deviates from the metadata elements
+  listed in common standards such as ISO 19115. The template is
+  following the \href{http://www.fao.org/3/a-bp164e.pdf}{\emph{GSP
+  Guidelines for Sharing National Data/Information to Compile a Global
+  Soil Organic Carbon (GSOC) Map}} \citep{gsp_guidelines_2017} which
+  provide technical guidelines to prepare and evaluate spatial soil data
+  sets. Soil-specific methodical elements are considered including
+  metadata describing the data sources used for SOC mapping and the
+  upscaling method.
+\item
+  A GSOCmap information leaflet is provided in three different
+  languages, giving an overview of the objectives and the development
+  process. Summarized quantitative results obtained from GSOCmap V1.0
+  are given, e.g.~estimated SOC stocks for different soil types, land
+  covers or climate zones.
+\item
+  This cookbook on SOC mapping was built using the Github development
+  environment. An updated online version of the cookbook which will
+  include improvements from the continuous work process of the GSOCmap
+  project is provided for users on the
+  \href{http://www.fao.org/global-soil-partnership/pillars-action/4-information-and-data/global-soil-organic-carbon-gsoc-map/en/}{GSP
+  official website}.
 \end{itemize}
+
+The GSOCmap provides users and relevant stakeholders such as policy
+makers with useful information to monitor soil condition, identify
+degraded land and soil areas, set restoration targets, explore SOC
+sequestration potentials, support the greenhouse gas emission reporting
+under the United Nations Framework Convention on Climate Change (UNFCCC)
+and make evidence based decisions to mitigate and adapt to a changing
+climate on a national and global level.
+
+In the future, the GSP aims to adopt feasible guidelines for measuring,
+mapping, monitoring and reporting SOC stocks locally. This objective
+well as the continuing capacity development process through the global
+SOC mapping programme and DSM training on national level are the basis
+for integrating new and updated national SOC maps to produce GSOCmap
+V2.0. as a step towards establishing a global SOC monitoring system.
 
 \hypertarget{compendium}{%
 \chapter{Compendium of the code examples included in the
@@ -8972,26 +9026,26 @@ cookbook}\label{compendium}}
 
 \emph{G.F. Olmedo}
 
-This technical manual gives relatively simple step-by-step guidance on
-digital soil mapping. Guidance is mainly on mapping and modelling soil
-organic carbon, but also contains generic sections on soil grid
-development and it can be used to map various soil properties. The
-document follows the typical digital soil mapping work-flow and provides
-users a complete soil property mapping solution from the ground up (Fig
+The technical manual provided in this Chapter gives relatively simple
+step-by-step guidance on DSM. Guidance is mainly on mapping and
+modelling soil organic carbon, but also contains generic sections on
+soil grid development that can be used to map various soil properties.
+The document follows the typical DSM work-flow and provides users a
+complete soil property mapping solution from the ground up (see Fig.
 \ref{fig:grworkflow}).
 
-The authors has demonstrated the methods in the chapters using the same
-datasetwhich is extracted from the MASIS (Macedonian Soil information
-System). In this chapter we present a compendium of the technical steps
-presented in the practical chapters.
+The authors have demonstrated the methods in the previous Chapters using
+the same dataset which is extracted from the Macedonian Soil Information
+System MASIS. In this Chapter we present a compendium of the technical
+steps presented in the practical Chapters.
 
 With the help of these examples, the user should be able to produce a
-soil property map starting from ground data to validation. There are
-also optional work-flow steps depending on the nature of the input data.
-This proposed framework to prepare a soil property prediction map
-includes soil data preparation, covariates preparation, overlaying soil
-data and covariates, fitting a model for the spatial interpolation and
-validation:
+soil property map starting from ground data to the validation of the
+map. There are also optional work-flow steps depending on the nature of
+the input data. This proposed \textbf{framework} to prepare a soil
+property prediction map includes soil data preparation, preparation of
+environmental covariates, overlaying soil data and covariates, fitting a
+model for the spatial interpolation and validation:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -9003,16 +9057,16 @@ validation:
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Option A}: Data Preparation - Soil Profiles (Code
+  \textbf{Option A}: Data preparation - Soil profiles (Code
   \ref{cd:PreparationProfiles})
 \item
-  \textbf{Option B}: Data Preparation - Top Soil or Auger Samples (Code
+  \textbf{Option B}: Data preparation - Topsoil or auger samples (Code
   \ref{cd:PreparationAuger})
 \item
-  \emph{{[}optional{]}}: Data Preparation - Merging Top Soil/Auger
-  Samples and Soil Profiles (Code \ref{cd:merging})
+  \emph{{[}optional{]}} Data preparation - Merging topsoil or auger
+  samples and soil profiles (Code \ref{cd:merging})
 \item
-  \emph{{[}optional{]}}: Split the soil data in test and validations
+  \emph{{[}optional{]}} Split the soil data in test and validations
   datasets (Code \ref{cd:data-splitting})
 \end{itemize}
 
@@ -9027,10 +9081,10 @@ validation:
 \begin{itemize}
 \tightlist
 \item
-  \emph{{[}optional{]}} Rasterizing a Vector Layer in R (Code
+  \emph{{[}optional{]}} Rasterizing a vector layer in \textbf{R} (Code
   \ref{cd:Rasterizing})
 \item
-  Overlay Covariates and Soil Points Data (Code \ref{cd:Overlay})
+  Overlay covariates and soil points data (Code \ref{cd:Overlay})
 \end{itemize}
 
 \begin{enumerate}
@@ -9044,14 +9098,14 @@ validation:
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Option A}: Fitting a Regression-kriging model to predict the
-  OCS (Code \ref{cd:RK})
+  \textbf{Option A}: Fitting a regression-kriging model to predict the
+  SOC stock (Code \ref{cd:RK})
 \item
-  \textbf{Option B}: Fitting a Random Forest model to predict the SOC
-  (Code \ref{cd:rf})
+  \textbf{Option B}: Fitting a random forest model to predict the SOC
+  stock (Code \ref{cd:rf})
 \item
-  \textbf{Option C}: Fitting a Support Vector Machines model to predict
-  the SOC (Code \ref{cd:svm})
+  \textbf{Option C}: Fitting a support vector machines model to predict
+  the SOC stock (Code \ref{cd:svm})
 \end{itemize}
 
 \begin{enumerate}
@@ -9070,11 +9124,11 @@ validation:
   \emph{{[}optional{]}} Graphical quality measures for quantitative data
   (Code \ref{cd:Graphs})
 \item
-  \emph{{[}optional{]}} Cross-validation for Regression-kriging models
+  \emph{{[}optional{]}} Cross-validation for regression-kriging models
   (Code \ref{cd:xvalRK})
 \item
-  \emph{{[}optional{]}} Validation of Random Forest using Quantile
-  Regression Trees (Code \ref{cd:quantreg})
+  \emph{{[}optional{]}} Validation of random forest using quantile
+  regression trees (Code \ref{cd:quantreg})
 \end{itemize}
 
 \begin{enumerate}
@@ -9082,13 +9136,13 @@ validation:
 \setcounter{enumi}{4}
 \tightlist
 \item
-  Model Evaluation
+  Model evaluation
 \end{enumerate}
 
 \begin{itemize}
 \tightlist
 \item
-  Model Evaluation (Code \ref{cd:Evaluation})
+  Model evaluation (Code \ref{cd:Evaluation})
 \end{itemize}
 
 \clearpage
@@ -9207,7 +9261,7 @@ Chapter \ref{preparation}, by G.F. Olmedo \& R. Baritz.
 \clearpage
 
 \hypertarget{cd:PreparationAuger}{%
-\section{Data preparation for top soil or auger
+\section{Data preparation for topsoil or auger
 samples}\label{cd:PreparationAuger}}
 
 The extended and discussed version of the following code is presented in
@@ -9271,8 +9325,8 @@ Chapter \ref{preparation}, by G.F. Olmedo \& R. Baritz.
 \clearpage
 
 \hypertarget{cd:merging}{%
-\section{Merging top soil and soil profiles
-Databases}\label{cd:merging}}
+\section{Merging topsoil or auger samples and soil profiles
+databases}\label{cd:merging}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -9353,7 +9407,7 @@ Chapter \ref{covariates}, by R. Baritz \& Y. Yigini.
 \clearpage
 
 \hypertarget{cd:Overlay}{%
-\section{Overlay covariates and soil points Data}\label{cd:Overlay}}
+\section{Overlay covariates and soil points data}\label{cd:Overlay}}
 
 The extended and discussed version of the following code is presented in
 Chapter \ref{covariates}, by R. Baritz \& Y. Yigini.
@@ -9411,8 +9465,8 @@ Chapter \ref{covariates}, by R. Baritz \& Y. Yigini.
 \clearpage
 
 \hypertarget{cd:RK}{%
-\section{Fitting a regression-kriging model to predict the
-OCS}\label{cd:RK}}
+\section{Fitting a regression-kriging model to predict the SOC
+stock}\label{cd:RK}}
 
 The extended and discussed version of the following code is presented in
 Section \ref{RK}, by G.F. Olmedo \& Y. Yigini.
@@ -9555,7 +9609,8 @@ Section \ref{RK}, by G.F. Olmedo \& Y. Yigini.
 \clearpage
 
 \hypertarget{cd:rf}{%
-\section{Fitting a random forest model to predict the SOC}\label{cd:rf}}
+\section{Fitting a random forest model to predict the SOC
+stock}\label{cd:rf}}
 
 The extended and discussed version of the following code is presented in
 Section \ref{rf}, by M. Guevara, C. Thine, G.F. Olmedo \& R.R. Vargas.
@@ -9718,7 +9773,8 @@ Section \ref{rf}, by M. Guevara, C. Thine, G.F. Olmedo \& R.R. Vargas.
 \clearpage
 
 \hypertarget{cd:svm}{%
-\section{Fitting a SVM model to predict the SOC}\label{cd:svm}}
+\section{Fitting a support vector machines model to predict the SOC
+stock}\label{cd:svm}}
 
 The extended and discussed version of the following code is presented in
 Section \ref{svm}, by G.F. Olmedo \& M. Guevara.
