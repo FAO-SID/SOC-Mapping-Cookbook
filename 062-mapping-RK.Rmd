@@ -32,12 +32,6 @@ In **R**, the function `vif()` from **caret** package can estimate the VIF \inde
 
 Principal components analysis can cope with data containing large numbers of covariates that are highly collinear which is the common case in environmental predictors. Often the principal components with higher variances are selected as regressors. However, for the purpose of predicting the outcome, the principal components with low variances may also be important, in some cases even more important.
 
-The PCA and the linear regression (PCR) method may be coarsely divided into three main steps:
-
-1. Run PCA on the data matrix for the predictors to obtain the principal components, and then select a subset of the principal components for further use.
-2. Regress the dependent variable on the selected principal components as covariates, linear regression to get estimated regression coefficients.
-3. Transforming the data back to the scale of the actual covariates, using the selected PCA loadings.
-
 ###  The terminology
 
 * **Dependent variable $Y$**: \index{dependent variable} What we are trying to predict (e.g. SOC content).
@@ -47,16 +41,15 @@ The PCA and the linear regression (PCR) method may be coarsely divided into thre
 
 ![Linear regression model](images/RKequation.png)
 
-Before we proceed with the regression analysis, it is advisable to inspect the histogram of the dependent/target variable, in order to see if it needs to be transformed before fitting the regression model. The data for the selected soil property is normal when the frequency distribution of the values follow a bell-shaped curve (Gaussian distribution) which is symmetric around its mean. Normality tests may be used to assess normality. If a normality test indicates that data are not normally distributed, it may be necessary to transform the data to meet the normality assumption.
+Before we proceed with the regression analysis, it is advisable to inspect the histogram of the dependent/target variable, in order to see if it needs to be transformed before fitting the regression model. The data for the selected soil property is normal when the frequency distribution of the values follow a bell-shaped curve (Gaussian Distribution) which is symmetric around its mean. Normality tests may be used to assess normality. If a normality test indicates that data are not normally distributed, it may be necessary to transform the data to meet the normality assumption.
 
-Both, the normality tests and the data transformation can be easily performed using any commercial or open source statistical tool (**R**, SPSS, MINITAB...).
+Both, the normality tests and data transformations can be easily performed using any commercial or open source statistical tool (**R**, SPSS, MINITAB...).
 
 The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
 
 ```{r workflowRK, fig.cap="Workflow for regression-kriging" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/RKworkflow.png")
 ```
-
 
 1. The first step is to prepare a map showing the spatial distribution of the sample locations and the corresponding soil property information, e.g. soil organic matter and environmental properties. The first can be achieved as outlined in Section [Overlay covariates and spatial data]. The overlaying operation can be performed in **R**, ArcGIS, SAGA GIS or QGIS.
 2. The essential part of multiple regression analysis is to build a regression model by using the environmental predictors. After extracting the values of explanatory maps and target variables into the single table, we can now start fitting multiple regression model using the table that contains data from dependent variable and predictors.
@@ -117,9 +110,7 @@ getwd()
 
 **Point dataset**
 
-We previously applied spline function to produce continuous soil information to a given soil depth (0 cm - 30 cm) in the Section \@ref(EqualAreaSplines). Spline function basically imports soil profile data (including instances where layers are not contiguous), fits it to a mass-preserving spline and outputs attribute means for a given depth. The output file should contain the profile ID `id`, upper (surface) and lower depth (30 cm), estimated value for the selected soil attribute (Value) and tmse (estimated mean squared error of the spline).
-
-If you used the Spline Tool V2, the coordinates were not kept in the output file. The coordinates should be added back in the data table. You can use profile IDs to add the `X` and `Y` columns back. Once your point dataset is ready, copy this table into your working directory as a .csv file.
+We previously prepared the point dataset in \@ref(preperation) chapter. We will be using this data file (.csv) in this section.
 
 **Environmental predictors (covariates)**
 
