@@ -167,58 +167,63 @@ plot(climate[[1:2]])
 
 ### Gridded agro-meteorological data in Europe (Europe)
 
-CGMS database contains meteorological parameters from weather stations interpolated on a 25×25 km grid. Meteorological data are available on a daily basis from 1975 to the last calendar year completed, covering the EU Member States, neighboring European countries. 
+CGMS database contains meteorological parameters from weather stations interpolated on a 25×25 km grid. Meteorological data are available on a daily basis from 1975 to the last calendar year completed, covering the EU member states, and neighboring European countries. 
 
 The following parameters are available at 1-day time resolution:
 
-* maximum air temperature (°C)
-* minimum air temperature (°C)
-* mean air temperature (°C)
-* mean daily wind speed at 10m (m/s)
-* mean daily vapor pressure (hPa)
-* sum of precipitation (mm/day)
-* potential evaporation from a free water surface (mm/day)
-* potential evapotranspiration from a crop canopy (mm/day)
-* potential evaporation from a moist bare soil surface (mm/day)
-* total global radiation (KJ/m2/day)
-* Snow Depth
+* Maximum air temperature (°C)
+* Minimum air temperature (°C)
+* Mean air temperature (°C)
+* Mean daily wind speed at 10m (m/s)
+* Mean daily vapor pressure (hPa)
+* Sum of precipitation (mm/day)
+* Potential evaporation from a free water surface (mm/day)
+* Potential evapotranspiration from a crop canopy (mm/day)
+* Potential evaporation from a moist bare soil surface (mm/day)
+* Total global radiation (KJ/m2/day)
+* Snow depth
 
-Data Access: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx
+Data is accessible at the following link: http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx.
 
-## GSOCMap - data repository (ISRIC, 2017) {#GSOCDataRepo}
+## GSOCMap - Data repository (ISRIC, 2017) {#GSOCDataRepo}
 
-ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a digital soil mapping exercise.
+ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a DSM exercise.
 
 ### Covariates and empty mask
 
-The territories and their boundaries are obtained from the Global Administrative Unit Layers (GAUL)dataset: 
-each folder contains three subfolders;
-covs: GIS layers of various biophysical earth surface properties
-mask: an 'empty'  grid file of the territory with territory boundary according to GAUL. This grid to be used for the final delivery. .
-soilgrids: all SoilGrids250m soil class and property layers as available through www.soilgrids.org. Layers are aggregated to 1 km.
+The territories and their boundaries are obtained from the Global Administrative Unit Layers (GAUL) dataset. Each folder contains three subfolders:
+
+* **Covs**: GIS layers of various biophysical earth surface properties.
+* **Mask**: One *empty*  grid file of the territory with territory boundary according to GAUL This grid to be used for the final delivery.
+* **Soilgrids**: All `SoilGrids250m` soil class and property layers as available through www.soilgrids.org. Layers are aggregated to 1 km.
 
 ### Data specifications
 
-File format: GeoTiff
-Coordinate system: WGS84, latitude-longitude in decimal degrees
-Spatial resolution: 1km 
+The data is provided as follows:
+
+* **File format**: GeoTIFF
+* **Coordinate system**: WGS84, latitude-longitude in decimal degrees
+* **Spatial resolution**: 1 km 
 
 ### Data access
+
+The data can be accessed at the following links:
 
 ftp://gsp.isric2.org/  (username: gsp, password: gspisric) or ftp://85.214.253.67/  (username: gsp, password: gspisric)
 
 LICENCE and ACKNOWLEDGEMENT
-*The GIS layers can be freely used under the condition that proper credit should be given to the original data source in each publication or product derived from these layers. Licences, data sources, data citations are indicated the data description table.*
+
+**The GIS layers can be freely used under the condition that proper credit should be given to the original data source in each publication or product derived from these layers. Licences, data sources, data citations are indicated the data description table.**
 
 ## Extending the soil property table for spatial statistics
 
-The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted to each georeferenced sample site and added to the soil property table (Table 3.1). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
+The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale that the accumulation of local soil carbon stocks (and also other properties) depend on parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. This information (Covariates) must be collected first. Details are provided above. The properties contained in the covariates can be extracted for each georeferenced sample site and added to the soil property table (Tab. \@ref(tab:site-level)). This table is used for training and validation of the statistical model for predicting the SOC stocks which subsequently can be applied to the full spatial extent.
 
 ## Preparation of a soil property table for spatial statistics
 
 The upscaling procedures (see Chapter \@ref(mappingMethods)) depend on the rationale, that the accumulation of local soil carbon concentrations and stocks (and also other properties) depends on influential parameters for which spatial data are available, such as climate, soil type, parent material, slope, management. Any parameter in the table of local soil properties, for which a spatial layer is available, may be included in the final table. Other covariates will be added in Section \@ref(overlay-soil-covariates).
 
-> In case this table is prepared for different depths, 0-10 cm, 10-30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0-30), then the separate grids have to be added.
+> In case this table is prepared for different depths, 0 cm - 10 cm, 10 cm - 30 cm, and if the host institution intends to develop different spatial models for different depths (e.g. separate spatial prediction model for litter and mineral soil 0 cm - 30cm), then the separate grids have to be added.
 
 ## Technical steps - Overlay covariates and soil points data {#overlay-soil-covariates}
 
@@ -247,7 +252,7 @@ covs <- stack(covs, soilmap.r)
 names(covs)[14] <- "soilmap"
 ```
 
-Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as one file. This will allow us to load this file in the following Chapters of this cookbook.
+Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as `*.RData` file. This will allow us to load this file in the following Chapters of this cookbook.
 
 ```{r, fig.cap="FYROM soil covariates"}
 # Mask the covariates with the country mask from the data repository
@@ -290,13 +295,13 @@ After removing the `NA` values, now there do not appear to be any missing data a
 
 The last step involves exporting a table which is our regression matrix including the soil data and the values of the environmental covariates in the position of the point samples.
 
-The summary of the `dat data.frame` shows 1 point with `NA` values for most of the covariates. And 22 points with `NA` values in the soilmap layer. The regression matrix should not contain `NA` values. There are two options to proceed:
+The summary of the `dat data.frame` shows one point with `NA` values for most of the covariates, and 22 points with `NA` values in the soilmap layer. The regression matrix should not contain `NA` values. There are two options to proceed:
 
 * **Option 1**: In some cases, these `NA` values are from points with bad position data. Therefore, the points area outside the study area. In this case, the solution is to correct the coordinates or eliminate the points. This is the case for the two points with `NA` values for most of the covariates.
 
-* **Option 2**: Another case is when a covariate is incomplete and does not cover all the area. This could produce many NA values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for the soilmap layer and the 30 points. 
+* **Option 2**: Another case is when a covariate is incomplete and does not cover all the area. This could produce many `NA` values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for the soilmap layer and the 30 points. 
 
-**Step 4 - Convert result to data.frame and save as a csv table**
+**Step 4 - Convert result to data.frame and save as a *.csv table**
 
 ```{r}
 dat <- as.data.frame(dat)
