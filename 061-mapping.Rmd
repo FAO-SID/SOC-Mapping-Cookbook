@@ -136,7 +136,7 @@ knitr::include_graphics("images/Conv_upscaling5.png")
 ```
 
 5.  After calculating the field, save the edits and leave the editing mode prior to closing the table. If changes are not saved, the added field will be lost.
-6. Calculate the median SOC stock per soil type. Go to the tab *Vector* and select *Group Stats*. Select the layer from the spatial join you made in Step 2. Add the field SOC and median to the box with *Values* and the field WRB to the *Rows*. Make sure the box with *Use only selected features* is **not** checked. Now calculate the statistics. A table will be given in the left pane (see Figure \@ref(fig:groupstats)). Save this file as CSV and repeat the same for the standard deviation.
+6. Calculate the median SOC stock per soil type. Go to the tab *Vector* and select *Group Stats*. Select the layer from the spatial join you made in Step 2. Add the field SOC and median to the box with *Values* and the field WRB to the *Rows*. Make sure the box with *Use only selected features* is **not** checked. Now calculate the statistics. A table will be given in the left pane (see Figure \@ref(fig:groupstats)). Save this file as `*.csv` and repeat the same for the standard deviation.
 
 ```{r groupstats, fig.cap="Calculate group statistics" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling6.png")
@@ -154,7 +154,7 @@ knitr::include_graphics("images/Conv_upscaling7.png")
 9.  In order to generate a proper layout, go to *Project* and select *New Print Composer* (see Figure \@ref(fig:mapcomp)):
   a. Add map using *Layout* and *Add Map*. Define a square on the canvas and the selected map will be displayed.
   b. Similarly, title, scale bar, legend and a north arrow can be added. Specific properties can be changed in the box *Item properties*.
-  c. When the map is finished, it can be exported as an image or PDF file.
+  c. When the map is finished, it can be exported as an image or `*.pdf` file.
 
 ```{r mapcomp, fig.cap="Example of the Map composer" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling8.png")
@@ -162,19 +162,19 @@ knitr::include_graphics("images/Conv_upscaling8.png")
 
 
 10.  Repeat the Steps 2 to 8 but now for the standard deviation of the SOC stocks.
-11. Save the file as a new shapefile. Go to **Layers Panel**, *Save As* and select ESRI SHP format and make sure that you define the symbology export *Feature Symbology*. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
+11. Save the file as a new shapefile `*.shp`. Go to **Layers Panel**, *Save As* and select ESRI SHP format and make sure that you define the symbology export *Feature Symbology*. Now, a shapefile is generated, with both the median and standard deviation SOC stock per soil type. Redundant fields can be removed after the new file is created.
 
 **Step 2B - Geo-matching SOC with other environmental variables: Land use**
 
 1.    Start a new project and add the soil point data and FYROM soil map layers from the **Browser Panel**.
 2.    Add the land use raster file to the **Layers Panel**. This is a raster file with 1 km resolution and projected in lat-long degrees (WGS84). For more information about this product see the online information from worldgrids: http://worldgrids.org/doku.php/wiki:glcesa3.
-3.    Change the projection to the MGI 1901/Balkans Zone 7. Go to *Raster*, *Projections*, *Warp* and select the proper projection and a suitable file name, e.g. LU_projected_1km. Tick the checkbox for the resampling method and choose *Near*. This is the nearest neighbor and most suitable for a transformation of categorical data, such as land use (see Figure \@ref(fig:changeproj)).
+3.    Change the projection to the MGI 1901/Balkans Zone 7. Go to *Raster*, *Projections*, *Warp* and select the proper projection and a suitable file name, e.g. `LU_projected_1km`. Tick the checkbox for the resampling method and choose *Near*. This is the nearest neighbor and most suitable for a transformation of categorical data, such as land use (see Figure \@ref(fig:changeproj)).
 
 ```{r changeproj, fig.cap="Change the projection of a raster file" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/Conv_upscaling9.png")
 ```
 
-4. In order to geo-match the soil point data with land use data, the raster file needs to be converted into a vector file. Go to *Raster*, *Conversions*, and select *Polygonize*. Set a proper output filename, e.g. LU_polygon_1km, and check the tickbox for *Fieldname*.
+4. In order to geo-match the soil point data with land use data, the raster file needs to be converted into a vector file. Go to *Raster*, *Conversions*, and select *Polygonize*. Set a proper output filename, e.g. `LU_polygon_1km`, and check the tickbox for *Fieldname*.
 5.  Change the legend style into categories (Step 1-5). Now, the steps from the previous Section need to be repeated, using the land use polygon map instead of using the FYROM soil map.
 6. Join attributes by location using the soil point data and the polygon land use map.
 7. Calculate the median and standard deviation of SOC by using the Group Statistics for SOC and the land use classes and save the files as CSV file.
@@ -188,7 +188,7 @@ In this Section, it is outlined how SOC stocks can be mapped following the metho
 
 When using the GIS software, the only thing that needs to be done, is intersecting the vector files and dissolving the newly created polygon features. Depending on the software and the quality of your shapefile, you may experience problems with the geometry of your shapefile. Generally, ArcMap and GRASS correct the geometry when the shapefile is loaded, while QGIS does not do this automatically. There are various ways to correct the geometry, however, correcting the geometry falls outside the scope of this training. Therefore, we give some hints on how to correct your geometry prior to using the functions *Intersect* and *Dissolve*.
 
-1. Change the land use raster map to 5 km resolution: Right-click the Lu_project_1km file, select *Save as*. Change the resolution to 5000 meters. Scroll down, check the *Pyramids* box, and change the resampling method to *Nearest Neighbour*.
+1. Change the land use raster map to 5 km resolution: Right-click the `Lu_project_1km` file, select *Save as*. Change the resolution to 5000 meters. Scroll down, check the *Pyramids* box, and change the resampling method to *Nearest Neighbour*.
 2. Convert the raster map to a polygon map and add the file to the **Layers Panel**.
 3. Check the validity of the soil map and land use map. Go to *Vector*, *Geometry Tools*, and select *Check Validity*.
 Below you find the instructions in case you have no problems with your geometry.
@@ -209,7 +209,7 @@ Geo-matching can also be done in **R**. We will provide a example code following
 
 **Step 1 - Load the soil data and soil map**
 
-Load the shapefile including the soil map. Then load the points, and promote the points to `spatialPointsDataFrame` using the `coordinates()` function. Make sure both are in the same coordinate system. In case they aren't, you can use `spTransform()` to reproject one of the layers.
+Load the shapefile including the soil map. Then load the points, and promote the points to `spatialPointsDataFrame` using the `coordinates()` function. Make sure both are in the same coordinate system. In case they are not, you can use `spTransform()` to reproject one of the layers.
 
 ```{r, fig.cap='Soil map units and soil samples (in red) for the geo-matching exercise'}
 library(raster)
@@ -223,7 +223,7 @@ dat <- read.csv("data/dataproc.csv")
 # Promote to SpatialPointsDataFrame
 coordinates(dat) <- ~ X + Y
 
-# set the CRS for the soil samples. As if the same we will copy the 
+# Set the CRS for the soil samples. As if the same we will copy the 
 # CRS from the soilmap object
 dat@proj4string <- soilmap@proj4string
 
@@ -236,7 +236,7 @@ points(dat, col="red", cex=0.2)
 
 **Step 2 - Geo-matching**
 
-Now, use the `over()` function to estimate the mean value of the `OCSKGM` field for every map unit.
+Now, use the `over()` function to estimate the mean value of the *OCSKGM* field for every map unit.
 
 ```{r}
 soilmap$OCSKGM <- over(soilmap, dat[,"OCSKGM"], fun=mean)[,1]
