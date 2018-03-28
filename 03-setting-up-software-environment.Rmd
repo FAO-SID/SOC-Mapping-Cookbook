@@ -119,7 +119,7 @@ soilmap <- shapefile("MK_soilmap_simple.shp")
 ```
 
 
-We may want to use these data in other GIS environments such as ArcGIS, QGIS, SAGA GIS, etc. This means we need to export the `SpatialPointsDataFrame` to an appropriate spatial data format such as a shapefile. 
+We may want to use these data in other GIS environments such as ArcGIS, QGIS, SAGA GIS, etc. This means we need to export the `SpatialPointsDataFrame` to an appropriate spatial data format such as a shapefile `*.shp`. 
 
 ```{r}
 # For example, we can select the soil units classified as 
@@ -143,7 +143,7 @@ An interface to the PROJ.4 library is available in the **rgdal** package. An alt
 soilmap@proj4string
 ```
 
-The following example shows how a spatial object from a (comma-separated values) CSV file can be created. We can use the `coordinates()` function from the **sp** package to define which columns in the data frame refer to actual spatial coordinates. Here, the coordinates are listed in columns X and Y.
+The following example shows how a spatial object from a (comma-separated values) CSV file (`*.csv`) can be created. We can use the `coordinates()` function from the **sp** package to define which columns in the data frame refer to actual spatial coordinates. Here, the coordinates are listed in columns X and Y.
 
 ```{r}
 # Load the table with the soil observations site information
@@ -179,7 +179,7 @@ DEM <- raster("covs/DEMENV5.tif")
 
 We may want to export this raster to a suitable format to work in a standard GIS environment. See the help file for writing a raster `?writeRaster` to get information regarding the supported grid types that data can be exported into. Here, we will export our raster to ESRI ASCII (American Standard Code for Information Interchange), as it is a common and universal raster format.
 
-We may also want to export our DEM to KML (Keyhole Markup Language) file using the `KML()` function. `KML()` is a handy function from the **raster** package for exporting grids to KML format. Note that we need to re-project the data to the World Geodetic System (WGS) WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for more information.
+We may also want to export our DEM to KML (Keyhole Markup Language) file (`*.kml`) using the `KML()` function. `KML()` is a handy function from the **raster** package for exporting grids to KML format. Note that we need to re-project the data to the World Geodetic System (WGS) WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for more information.
 
 ## Other DSM-related software and tools
 
