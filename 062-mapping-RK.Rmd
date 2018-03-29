@@ -8,17 +8,17 @@ Regression-kriging is a spatial interpolation technique that combines a regressi
 
 A multiple regression analysis models the relationship of multiple predictor variables and one dependent variable, i.e. it models the deterministic trend between the target variable and environmental covariates. The modeled relationship between predictors and target are summarized in the regression equation, which can then be applied to a different data set in which the target values are unknown but the predictor variables are known. The regression equation predicts the value of the dependent variable using a linear function of the independent variables.
 
-In this Section, we review the RK method for DSM. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a RK technique, there is a continuous random variable called the dependent variable (target) $Y$, which is in our case SOC, and a number of independent variables ${x_1, x_2,\dots,x_p}$ which are selected covariates. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities for purposes of prediction, the model is explained in detail.
+In this Section, we review the RK method for DSM. First, the deterministic part of the trend is modeled using a regression model. Next, the prediction residuals are kriged. In the regression phase of a RK technique, there is a continuous random variable called the dependent variable (target) $Y$, which is in our case SOC, and a number of independent variables ${x_1, x_2,\dots,x_p}$ which are selected covariates. Our purpose is to predict the value of the dependent variable using a linear function of the independent variables. The values of the independent variables (environmental covariates) are known quantities to be used for prediction.
 
 ###  Assumptions 
 
 Standard linear regression models with standard estimation techniques make a number of assumptions \index{linear regression model assumptions} about the predictor variables, the response variables, and their relationship. One must review the assumptions made when using the model.
 
-* **Linearity**: The mean value of $Y$ for each specific combination of the $X$’s is a linear function of the $X$’s. In practice this assumption can virtually never be confirmed; fortunately, multiple regression procedures are not greatly affected by minor deviations from this assumption. If curvature in the relationships is evident, one may consider either transforming the variables or explicitly allowing for nonlinear components.\\
+* **Linearity**: The mean value of $Y$ for each specific combination of the $X$’s is a linear function of the $X$’s. In practice this assumption can virtually never be confirmed; fortunately, multiple regression procedures are not greatly affected by minor deviations from this assumption. If curvature in the relationships is evident, one may consider either transforming the variables or explicitly allowing for nonlinear components.\
 
-* **Normality Assumption**: It is assumed in multiple regression that the residuals (predicted minus observed values) are distributed normally (i.e., follow the normal distribution). Again, even though most tests (specifically the F-test) are quite robust with regard to violations of this assumption, it is always a good idea, before drawing final conclusions, to review the distributions of the major variables of interest. You can produce histograms of the residuals as well as normal probability plots, in order to inspect the distribution of the residual values.\\
+* **Normality Assumption**: It is assumed in multiple regression that the residuals (predicted minus observed values) are distributed normally (i.e., follow the normal distribution). Again, even though most tests (specifically the F-test) are quite robust with regard to violations of this assumption, it is always a good idea, before drawing final conclusions, to review the distributions of the major variables of interest. You can produce histograms of the residuals as well as normal probability plots, in order to inspect the distribution of the residual values.\
 
-* **Collinearity**: There is not perfect collinearity in any combination of the $X$’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. Collinearity (also multicollinearity) is a phenomenon in which two or more predictors in a multiple regression models are highly correlated. Collinearity causes increase in variances and relatedly increases inaccuracy.\\
+* **Collinearity**: There is not perfect collinearity in any combination of the $X$’s. A higher degree of collinearity, or overlap, among independent variables, can cause problems in multiple linear regression models. Collinearity (also multicollinearity) is a phenomenon in which two or more predictors in a multiple regression models are highly correlated. Collinearity causes increase in variances and relatedly increases inaccuracy.\
 
 * **Distribution of the Errors**: The error term is normally distributed with a mean of zero and constant variance.\\
 
@@ -34,8 +34,8 @@ Principal components analysis can cope with data containing large numbers of cov
 
 ###  The terminology
 
-* **Dependent variable $Y$**: \index{dependent variable} What we are trying to predict (e.g. SOC content).
-* **Independent variables $X$'s (Predictors)**: Variables that we believe influence or explain the dependent variable (Covariates: environmental covariates, DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter \@ref(covariates).
+* **Dependent variable $Y$**: \index{dependent variable} which is to be predicted from a given set of predictors (e.g. SOC content).
+* **Independent variables $X$'s (Predictors)**: which influence or explain the dependent variable (Covariates: environmental covariates, DEM derived covariates, soil maps, land cover maps, climate maps). The data sources for the environmental predictors are provided in Chapter \@ref(covariates).
 * **Coefficients $\beta$**: Values, computed by the multiple regression tool, reflect the relationship and strength of each independent variable to the dependent variable.
 * **Residuals $\varepsilon$**: The portion of the dependent variable that cannot be explained by the model; the model under/over predictions.
 
@@ -198,8 +198,6 @@ anova(model.MLR.step)
 ```
 
 In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation.
-
-Let's fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
 
 
 ```{r}

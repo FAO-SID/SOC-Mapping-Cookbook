@@ -187,7 +187,7 @@ Data is accessible at the following link: http://agri4cast.jrc.ec.europa.eu/Data
 
 ## GSOCMap - Data repository (ISRIC, 2017) {#GSOCDataRepo}
 
-ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in a DSM exercise.
+ISRIC World Soil Information has established a data repository which contains raster layers of various biophysical earth surface properties for each territory in the world. These layers can be used as covariates in any DSM exercise.
 
 ### Covariates and empty mask
 
@@ -209,7 +209,7 @@ The data is provided as follows:
 
 The data can be accessed at the following links:
 
-ftp://gsp.isric2.org/  (username: gsp, password: gspisric) or ftp://85.214.253.67/  (username: gsp, password: gspisric)
+ftp.isric.org/  (username: gsp, password: gspisric) or ftp://85.214.253.67/  (username: gsp, password: gspisric)
 
 LICENCE and ACKNOWLEDGEMENT
 
@@ -241,7 +241,7 @@ files <- list.files(path = "covs", pattern = "tif$",
 covs <- stack(files)
 ```
 
-**Step 2 - Combine the covariates provided with the raster version of the soil map**
+**Step 2 - Adding raster soilmap to the raster stack**
 
 ```{r}
 # soilmap.r is the rasterization of the soil map and was obtained

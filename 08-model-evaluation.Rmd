@@ -132,7 +132,7 @@ modData <- rbind(modGM, modRK, modRF, modSVM)
 summary(modData)
 ```
 
-**Step 2 - Calucalte statistical evaluation metrics**
+**Step 2 - Calculate statistical evaluation metrics**
 
 Now we will use the `modStats()` function to calculate common numerical model evaluation statistics which are described and mathematically defined in the **openair** package manual [@carslaw2015openair, Ch. 27, pp. 231-233]. These include:
 
