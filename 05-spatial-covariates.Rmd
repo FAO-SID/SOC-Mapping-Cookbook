@@ -266,7 +266,7 @@ plot(covs)
 ```
 
 
-**Step 3 - Overlay covariates and spatial data**
+**Step 3 - Overlay covariates and point data**
 
 In order to carry out DSM in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data.
 
