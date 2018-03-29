@@ -48,7 +48,7 @@ knitr::opts_chunk$set(cache=T)
 
 ## Editorial board{-}
 
-Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Kostiantyn Viatkin, Rainer Baritz, Ronald R. Vargas
+Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Rainer Baritz, Kostiantyn Viatkin, Ronald R. Vargas
 Global Soil Partnership, Food and Agriculture Organization of the United Nations
 
 Cover design: Matteo Sala
@@ -58,7 +58,7 @@ Cover design: Matteo Sala
 
 |               |                                      |
 |-----|--------------------------------------|
-| ![](contrAuthors/Baritz.jpg)   |  Rainer Bartiz - Food and Agriculture Organization of the United Nations |
+| ![](contrAuthors/Baritz.jpg)   |  Rainer Baritz - European Environment Agency |
 | ![](contrAuthors/Brus.jpg)     |  Dick Brus - Department of Plant Sciences, Wageningen University, the Netherlands |
 | ![](contrAuthors/Guevara.jpg)  |  Mario Guevara - University of Delaware, USA |
 | ![](contrAuthors/Hengl.jpg)    |  Tomislav Hengl - ISRIC - World Soil Information, Wageningen, the Netherlands |
@@ -76,6 +76,6 @@ Cover design: Matteo Sala
 
 **Recommended citation:**
 
-> FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y. Yigini, G.F. Olmedo, S. Reiter, K. Viatkin, R. Baritz, and R.R. Vargas, (Eds). 2nd edition, 2018. 
+> FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y. Yigini, G.F. Olmedo, S. Reiter, R. Baritz, K. Viatkin, and R.R. Vargas, (Eds). 2nd Edition, 2018. 
 
 
