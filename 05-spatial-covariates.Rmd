@@ -209,7 +209,7 @@ The data is provided as follows:
 
 The data can be accessed at the following links:
 
-ftp://gsp.isric2.org/  (username: gsp, password: gspisric) or ftp://85.214.253.67/  (username: gsp, password: gspisric)
+ftp.isric.org/  (username: gsp, password: gspisric) or ftp://85.214.253.67/  (username: gsp, password: gspisric)
 
 LICENCE and ACKNOWLEDGEMENT
 
