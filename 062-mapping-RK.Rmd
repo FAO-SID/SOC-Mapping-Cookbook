@@ -199,8 +199,6 @@ anova(model.MLR.step)
 
 In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation.
 
-Let's fit a new model using a random subset of the available data. We will sample 70% of the SOC data for the model calibration data set.
-
 
 ```{r}
 # Graphical diagnosis of the regression analysis
