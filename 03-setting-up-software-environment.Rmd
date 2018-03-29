@@ -1,7 +1,7 @@
 # Setting-up the software environment
 *Y. Yigini*
 
-This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions in this Chapter will guide through installing and manually configuring the software to be used for DSM procedures for Microsoft Windows desktop platform. Instructions for the other platforms (e.g. Linux Flavours, MacOS) can be found through free online resources.
+This cookbook focuses on SOC modeling using open source digital mapping tools. The instructions in this chapter will guide user through installing and manually configuring the software to be used for DSM procedures for Microsoft Windows desktop platform. Instructions for the other platforms (e.g. Linux Flavours, MacOS) can be found through free online resources.
 
 ## Use of R, RStudio and R Packages
 
@@ -16,7 +16,7 @@ Installation files and instructions can be downloaded from the Comprehensive R A
 
 ### Obtaining and installing RStudio
 
-Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools, therefore, in this cookbook we would like to focus on the latter including a GUI. Similar steps need to be followed to install **RStudio**.
+Beginners will find it very hard to start using **R** because it has no Graphical User Interface (GUI). There are some GUIs which offer some of the functionality of **R**. **RStudio** makes **R** easier to use. It includes a code editor, debugging and visualization tools. Similar steps need to be followed to install **RStudio**.
 
 1. Go to https://www.rstudio.com/products/rstudio/download/ to download and install **RStudio**'s open source edition.
 2. On the download page, *RStudio Desktop, Open Source License* option should be selected.
@@ -63,7 +63,7 @@ As was previously mentioned, **R** is extensible through packages. **R** package
 
 [**sp**](https://CRAN.R-project.org/package=sp): The package provides classes and methods for spatial data. The classes document where the spatial location information resides, for 2D or 3D data.
 
-#### Modeling
+#### Modelling
 
 [**automap**](https://CRAN.R-project.org/package=automap): This package performs an automatic interpolation by automatically estimating the variogram and then calling [**gstat**](https://CRAN.R-project.org/package=gstat).
 
@@ -181,7 +181,7 @@ We may want to export this raster to a suitable format to work in a standard GIS
 
 We may also want to export our DEM to KML (Keyhole Markup Language) file (`*.kml`) using the `KML()` function. `KML()` is a handy function from the **raster** package for exporting grids to KML format. Note that we need to re-project the data to the World Geodetic System (WGS) WGS84 geographic. The raster re-projection is performed using the `projectRaster()` function. Look at the help file `?projectRaster` for more information.
 
-## Other DSM-related software and tools
+## Other DSM software and tools
 
 * **GRASS GIS**: Available at https://grass.osgeo.org/ (free and open source).
 * **SAGA GIS**:  Available at https://sourceforge.net/projects/saga-gis/files/ (free and open source).
