@@ -45,7 +45,7 @@ Before we proceed with the regression analysis, it is advisable to inspect the h
 
 Both, the normality tests and data transformations can be easily performed using any commercial or open source statistical tool (**R**, SPSS, MINITAB...).
 
-The main steps for the multiple linear regression analysis are shown in the Figure \@ref(fig:workflowRK).
+The main steps for regression kriging (RK) are shown in the Figure \@ref(fig:workflowRK).
 
 ```{r workflowRK, fig.cap="Workflow for regression-kriging" , out.width='80%', echo=FALSE, fig.align='center'}
 knitr::include_graphics("images/RKworkflow.png")
@@ -316,11 +316,11 @@ RKprediction <- exp(raster(OCS.krige$krige_output[1]))
 RKpredsd <- exp(raster(OCS.krige$krige_output[3]))
 ```
 
-```{r predRK, fig.cap = "SOC prediction map for FYROM using a regression kriging model"}
+```{r predRK, fig.cap = "SOC prediction of FYROM using a regression kriging model"}
 plot(RKprediction)
 ```
 
-```{r predSDRK, fig.cap = "Standard deviation values for FYROM map from regression-kriging model"}
+```{r predSDRK, fig.cap = "Standard deviation map of the regression-kriging model"}
 plot(RKpredsd)
 ```
 

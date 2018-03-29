@@ -1,11 +1,11 @@
-# Compendium of the code examples included in the cookbook {#compendium}
+# Compendium of the code examples  {#compendium}
 *G.F. Olmedo*
 
-The technical manual provided in this Chapter gives relatively simple step-by-step guidance on DSM. Guidance is mainly on mapping and modelling soil organic carbon, but also contains generic sections on soil grid development that can be used to map various soil properties. The document follows the typical DSM work-flow and provides users a complete soil property mapping solution from the ground up (see Fig. \@ref(fig:grworkflow)). 
+This technical manual gives relatively simple step-by-step guidance on DSM. Guidance is mainly on mapping and modelling of soil organic carbon, but also contains generic sections on soil grid development that can be used to map various soil properties. The document follows the typical DSM work-flow and provides users a complete soil property mapping solution from the ground up (see Fig. \@ref(fig:grworkflow)). 
 
-The authors have demonstrated the methods in the previous Chapters using the same dataset which is extracted from the Macedonian Soil Information System MASIS. In this Chapter we present a compendium of the technical steps presented in the practical Chapters.
+The authors have demonstrated the methods in the previous Chapters using a dataset extracted from the Macedonian Soil Information System (MASIS). In this Chapter we present a compendium of the technical steps presented in the practical chapters.
  
-With the help of these examples, the user should be able to produce a soil property map starting from ground data to the validation of the map. There are also optional work-flow steps depending on the nature of the input data. This proposed **framework** to prepare a soil property prediction map includes soil data preparation, preparation of environmental covariates, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
+With the help of these examples, the user should be able to produce a soil property map starting from ground data to the validation of the map. There are also optional work-flow steps depending on the nature of the input data. The **framework** presented in this manual is aiming to help users preparing a soil property prediction map includes soil data preparation, preparation of environmental covariates, overlaying soil data and covariates, fitting a model for the spatial interpolation and validation:
 
 1. Soil data preparation
   - **Option A**: Data preparation - Soil profiles (Code \@ref(cd:PreparationProfiles))
