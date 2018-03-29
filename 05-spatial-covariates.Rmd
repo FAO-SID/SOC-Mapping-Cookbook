@@ -241,7 +241,7 @@ files <- list.files(path = "covs", pattern = "tif$",
 covs <- stack(files)
 ```
 
-**Step 2 - Combine the covariates provided with the raster version of the soil map**
+**Step 2 - Adding raster soilmap to the raster stack**
 
 ```{r}
 # soilmap.r is the rasterization of the soil map and was obtained
