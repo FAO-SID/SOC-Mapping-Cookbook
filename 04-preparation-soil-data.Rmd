@@ -105,7 +105,7 @@ For organic soil material, $BD_x$ can be estimated as follows, considering exist
 
 * Spruce: $BD_{L} = 0.051 g \cdot cm^{-3}$;  $BD_{H}= 0.13 g \cdot cm^{-3}$
 
-**Peat**: Default value: $BD_{P} = 0.31 g \cdot cm^{-3}$. The range of peat BD is generally from 0.02 to 0.3$t \cdot m^{-3}$ depending on maturity and compaction, as well as the ash content [@agus_measuring_2011]. @batjes1996total and @agus_measuring_2011 distinguish different peat decomposition types with different C content:
+**Peat**: Default value: $BD_{P} = 0.31 g \cdot cm^{-3}$ @batjes1996. The range of peat BD is generally from 0.02 to 0.3$t \cdot m^{-3}$ depending on maturity and compaction, as well as the ash content [@agus_measuring_2011]. total and @agus_measuring_2011 distinguish different peat decomposition types with different C content:
 
 * Sapric: $BD_{P,\text{sapric}} = 0.174 g \cdot cm^{-3}$ ($48.90\%$ C)
 
