@@ -28,7 +28,7 @@ Digital soil mapping is based on the development of functions for upscaling poin
 
 > **DSM**: Concept of environmental correlation that explores the quantitative relationship between environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.
 
-The approaches in this technical manual consider the reference framework of the SCORPAN
+The approaches outlined and demonstrated in this technical manual consider the reference framework of the SCORPAN
 model for digital soil mapping (DSM; \cite{McBratney2003}). In the
 SCORPAN reference framework a soil attribute (e.g., SOC) can be
 predicted as a function of the soil forming environment, in
