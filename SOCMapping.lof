@@ -27,17 +27,17 @@
 \contentsline {figure}{\numberline {6.11}{\ignorespaces SOC prediction map for FYROM using geo-matching}}{61}{figure.6.11}
 \contentsline {figure}{\numberline {6.12}{\ignorespaces Linear regression model}}{64}{figure.6.12}
 \contentsline {figure}{\numberline {6.13}{\ignorespaces Workflow for regression-kriging}}{65}{figure.6.13}
-\contentsline {figure}{\numberline {6.14}{\ignorespaces SOC prediction map for FYROM using a regression kriging model}}{77}{figure.6.14}
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Standard deviation values for FYROM map from regression-kriging model}}{78}{figure.6.15}
+\contentsline {figure}{\numberline {6.14}{\ignorespaces SOC prediction of FYROM using a regression kriging model}}{77}{figure.6.14}
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Standard deviation map of the regression-kriging model}}{77}{figure.6.15}
 \contentsline {figure}{\numberline {6.16}{\ignorespaces Schematical representation of data splitting to generate the random subsets used to train regression trees within a random forest model (ensemble of regression trees)}}{80}{figure.6.16}
 \contentsline {figure}{\numberline {6.17}{\ignorespaces Model Decreasing Error and Node Purity for the RF model}}{87}{figure.6.17}
 \contentsline {figure}{\numberline {6.18}{\ignorespaces Select ntree}}{88}{figure.6.18}
 \contentsline {figure}{\numberline {6.19}{\ignorespaces SOC prediction map for FYROM using a random forest model}}{89}{figure.6.19}
-\contentsline {figure}{\numberline {6.20}{\ignorespaces Sensitivity based on 10 realizations using 25\% samples}}{91}{figure.6.20}
+\contentsline {figure}{\numberline {6.20}{\ignorespaces Sensitivity based on 10 realizations using 25\% samples}}{90}{figure.6.20}
 \contentsline {figure}{\numberline {6.21}{\ignorespaces OCSKGM quantregForest prediction}}{93}{figure.6.21}
 \contentsline {figure}{\numberline {6.22}{\ignorespaces Total uncertainty}}{93}{figure.6.22}
-\contentsline {figure}{\numberline {6.23}{\ignorespaces Performance of the different SVM models in the parameter tuning procedure}}{102}{figure.6.23}
-\contentsline {figure}{\numberline {6.24}{\ignorespaces SOC prediction map for FYROM using a support vector machines model}}{104}{figure.6.24}
+\contentsline {figure}{\numberline {6.23}{\ignorespaces Performance of the different SVM models in the parameter tuning procedure}}{101}{figure.6.23}
+\contentsline {figure}{\numberline {6.24}{\ignorespaces SOC prediction map for FYROM using a support vector machines model}}{102}{figure.6.24}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {7.1}{\ignorespaces Scatterplot of predicted versus observed SOM content for Rwanda (left) and spatial bubble plot of cross-validation error for SOM (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values}}{112}{figure.7.1}
 \contentsline {figure}{\numberline {7.2}{\ignorespaces Sample error matrix}}{116}{figure.7.2}

@@ -202,18 +202,6 @@
 
 % no title page
 \AtBeginDocument{\let\maketitle\relax}
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage[table]{xcolor}
-\usepackage{wrapfig}
-\usepackage{float}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage[normalem]{ulem}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
@@ -345,7 +333,7 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 \nomenclature{WRB}{World Reference Base}
 
 \frontmatter
-\addtocontents{toc}{\protect\hypersetup{hidelinks}}
+\addtocontents{toc}{\protect\hypersetup{hidelinks}}   
 \addtocontents{lot}{\protect\hypersetup{hidelinks}}
 \addtocontents{lof}{\protect\hypersetup{hidelinks}}
 \tableofcontents
@@ -361,9 +349,9 @@ FAO information products are available on the [FAO website](www.fao.org/publicat
 \section*{Editorial board}\label{editorial-board}}
 \addcontentsline{toc}{section}{Editorial board}
 
-Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Kostiantyn
-Viatkin, Rainer Baritz, Ronald R. Vargas Global Soil Partnership, Food
-and Agriculture Organization of the United Nations
+Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Rainer
+Baritz, Kostiantyn Viatkin, Ronald R. Vargas Global Soil Partnership,
+Food and Agriculture Organization of the United Nations
 
 Cover design: Matteo Sala
 
@@ -377,8 +365,7 @@ Cover design: Matteo Sala
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
 \includegraphics{contrAuthors/Baritz.jpg}\strut
 \end{minipage} & \begin{minipage}[t]{0.83\columnwidth}\raggedright
-Rainer Bartiz - Food and Agriculture Organization of the United
-Nations\strut
+Rainer Baritz - European Environment Agency\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
 \includegraphics{contrAuthors/Brus.jpg}\strut
@@ -412,7 +399,7 @@ Netherlands\strut
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
 \includegraphics{contrAuthors/Mulder.jpeg}\strut
 \end{minipage} & \begin{minipage}[t]{0.83\columnwidth}\raggedright
-Titia VL Mulder - Wageningen University, Department of Environmental
+Titia V.L. Mulder - Wageningen University, Department of Environmental
 Sciences, the Netherlands\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
@@ -430,7 +417,7 @@ Scotland UK\strut
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
 \includegraphics{contrAuthors/Ribeiro.jpg}\strut
 \end{minipage} & \begin{minipage}[t]{0.83\columnwidth}\raggedright
-Eloi Ribeiro - ISRIC , World Soil Information, Wageningen, the
+Eloi Ribeiro - ISRIC, World Soil Information, Wageningen, the
 Netherlands\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
@@ -448,7 +435,7 @@ Nations\strut
 \begin{minipage}[t]{0.11\columnwidth}\raggedright
 \includegraphics{contrAuthors/Vargas.jpg}\strut
 \end{minipage} & \begin{minipage}[t]{0.83\columnwidth}\raggedright
-Ronald R Vargas - Food and Agriculture Organization of the United
+Ronald R. Vargas - Food and Agriculture Organization of the United
 Nations\strut
 \end{minipage}\tabularnewline
 \bottomrule
@@ -460,8 +447,8 @@ Nations\strut
 
 \begin{quote}
 FAO. 2018. Soil Organic Carbon Mapping Cookbook. Y. Yigini, G.F. Olmedo,
-S. Reiter, K. Viatkin, R. Baritz, and R.R. Vargas, (Eds). 2nd edition,
-2018.
+S. Reiter, R. Baritz, K. Viatkin, and R.R. Vargas, (Eds). 2nd Edition,
+Rome.
 \end{quote}
 
 \mainmatter
@@ -500,11 +487,11 @@ responding to a request for support in addressing the Sustainable
 Development Goal Indicators, especially indicator 15.3 which includes
 the restoration of degraded soils, the GSP Plenary Assembly in 2016
 instructed the Intergovernmental Technical Panel on Soils (ITPS) and the
-GSP Secretariat to develop the first-ever Global Soil Organic Carbon Map
-(GSOCMap) \index{Global Soil Organic Carbon Map (GSOCMap)} following the
+GSP Secretariat to develop the first-ever Global Soil Organic Carbon map
+(GSOCmap) \index{Global Soil Organic Carbon Map (GSOCMap)} following the
 same bottom-up approach as GLOSIS. To this end, members under the INSII
 umbrella developed guidelines and technical specifications for the
-preparation of the \href{http://www.fao.org/3/a-bp164e.pdf}{GSOCMap}
+preparation of the \href{http://www.fao.org/3/a-bp164e.pdf}{GSOCmap}
 \index{Global Soil Organic Carbon Map (GSOCMap)} and countries were
 invited to prepare their national soil organic carbon maps according to
 these specifications.
@@ -535,7 +522,7 @@ generic Sections on soil grid development it can be applicable to map
 various soil properties.
 
 The guidance is focusing on the upscaling of national SOC stocks in
-order to produce the GSOCMap
+order to produce the GSOCmap
 \index{Global Soil Organic Carbon Map (GSOCMap)}. Therefore, the
 cookbook supplements the
 \href{http://www.fao.org/3/a-bp164e.pdf}{\emph{GSP Guidelines for
@@ -579,8 +566,8 @@ decision making on soil management.
 \section{How to use this book}\label{how-to-use-this-book}}
 
 In the second edition of this cookbook, we want to introduce five
-different approaches for obtaining a SOC map, using an example soil data
-set from the Former Yugoslav Republic of Macedonia (FYROM).
+different approaches for obtaining a SOC map, using sample data set from
+the Former Yugoslav Republic of Macedonia (FYROM).
 
 The first two mapping methods presented are classified as conventional
 upscaling using soil maps. The first one is class-matching
@@ -592,12 +579,12 @@ approach is used in the absence of spatial coordinates of the source
 data. The second one is geo-matching \index{Geo-matching}, were
 upscaling is based on averaged SOC values per mapping unit.
 
-In addition to that, we present three methods from digital soil mapping
+In addition to that, we present three digital soil mapping methods
 \index{Digital Soil Mapping (DSM)}. Regression-kriging
 \index{Regression-kriging (RK)} is a hybrid model with both, a
 deterministic and a stochastic component \citep{hengl2007regression}.
-Next method is called random forest \index{Random forest (RF)}. This one
-is an ensemble of regression trees based on bagging. This machine
+Next method is called random forest \index{Random forest (RF)}. Random
+forest is an ensemble of regression trees based on bagging. This machine
 learning algorithm uses a different combination of prediction factors to
 train multiple regression trees \citep{Breiman1996}. The last method is
 called support vector machines \index{Support Vector Machines (SVM)}.
@@ -619,13 +606,12 @@ done for every data scenario \citep{guevara_2018}.
 \caption{Proposed graphical workflow for producing a SOC map from data preparation to final result publishing}\label{fig:grworkflow}
 \end{figure}
 
-\begin{quote}
 This cookbook is a step-by-step manual starting with the soil data
 preparation, producing the map, and finishing with map validation and
-data sharing (Fig \ref{fig:grworkflow}). In the different chapters, we
-present a continuing example using the FYROM soil database and some
-environmental covariates. On every chapter we start with the input data
-and produce the proposed output, which is usually the input for the
+data sharing (see Fig. \ref{fig:grworkflow}). In the different chapters,
+we present a continuing example using the FYROM soil database and some
+environmental covariates. In every chapter, we start with the input data
+and produce the proposed output, which is usually used as input for the
 following chapter. The soil data needed can be downloaded from the
 \href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/data}{data
 repository}, and the same applies to the
@@ -637,12 +623,11 @@ folder}. Finally, all the needed code is summarized in Chapter
 \ref{compendium} and can be downloaded from the
 \href{https://github.com/FAO-GSP/SOC-Mapping-Cookbook/tree/master/code}{code
 folder}.
-\end{quote}
 
 The authors use the Github development environment to build this
-document. We produced also an online version to be able to implement
-minor changes/improvements without reprinting. We encourage users to
-follow the online version on the Global Soil partnership Website.
+document. We produced also an online version of the cookbook to be able
+to implement minor changes/improvements without reprinting. We encourage
+users to follow the online version which is provided on the GSP Website.
 
 \hypertarget{the-fyrom-soil-database}{%
 \section{The FYROM soil database}\label{the-fyrom-soil-database}}
@@ -725,15 +710,15 @@ applicable to map various soil properties.
 
 \index{Soil property maps|textbf|(} Soil property maps represent spatial
 information about soil properties to a certain depth or for soil
-horizons \index{Soil horizons}. Conventionally, soil property maps are
+horizons\index{Soil horizons}. Conventionally, soil property maps are
 generated as polygon maps, with properties from typical soil profiles
 representing soil mapping units. Digital Soil Mapping (DSM)
 \index{Digital Soil Mapping (DSM)} allows more accurate spatial mapping
 of soil properties, including the spatial quantification of the
 prediction error \index{Prediction!error}. The quality of such
 predictions improves with increasing number of local observations
-(e.g.~soil profiles) available to build the prediction model
-\index{Prediction!model}. Whenever possible, DSM is recommended.
+(e.g.~soil profiles) available to build the prediction
+model\index{Prediction!model}. Whenever possible, DSM is recommended.
 
 The development of soil property maps via DSM is spatially flexible. For
 different soil properties (e.g.~concentration and stocks of nutrients in
@@ -819,10 +804,11 @@ environment}\label{setting-up-the-software-environment}}
 \emph{Y. Yigini}
 
 This cookbook focuses on SOC modeling using open source digital mapping
-tools. The instructions in this Chapter will guide through installing
-and manually configuring the software to be used for DSM procedures for
-Microsoft Windows desktop platform. Instructions for the other platforms
-(e.g.~Linux Flavours, MacOS) can be found through free online resources.
+tools. The instructions in this chapter will guide user through
+installing and manually configuring the software to be used for DSM
+procedures for Microsoft Windows desktop platform. Instructions for the
+other platforms (e.g.~Linux Flavours, MacOS) can be found through free
+online resources.
 
 \hypertarget{use-of-r-rstudio-and-r-packages}{%
 \section{Use of R, RStudio and R
@@ -858,9 +844,8 @@ Beginners will find it very hard to start using \textbf{R} because it
 has no Graphical User Interface (GUI). There are some GUIs which offer
 some of the functionality of \textbf{R}. \textbf{RStudio} makes
 \textbf{R} easier to use. It includes a code editor, debugging and
-visualization tools, therefore, in this cookbook we would like to focus
-on the latter including a GUI. Similar steps need to be followed to
-install \textbf{RStudio}.
+visualization tools. Similar steps need to be followed to install
+\textbf{RStudio}.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -985,8 +970,8 @@ web standards such as GeoJSON (\url{http://geojson.org/}).
 provides classes and methods for spatial data. The classes document
 where the spatial location information resides, for 2D or 3D data.
 
-\hypertarget{modeling}{%
-\subsubsection{Modeling}\label{modeling}}
+\hypertarget{modelling}{%
+\subsubsection{Modelling}\label{modelling}}
 
 \href{https://CRAN.R-project.org/package=automap}{\textbf{automap}}:
 This package performs an automatic interpolation by automatically
@@ -1101,7 +1086,7 @@ writing shapefiles.
 We may want to use these data in other GIS environments such as ArcGIS,
 QGIS, SAGA GIS, etc. This means we need to export the
 \texttt{SpatialPointsDataFrame} to an appropriate spatial data format
-such as a shapefile.
+such as a shapefile \texttt{*.shp}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1147,10 +1132,10 @@ assistance.
 \end{verbatim}
 
 The following example shows how a spatial object from a (comma-separated
-values) CSV file can be created. We can use the \texttt{coordinates()}
-function from the \textbf{sp} package to define which columns in the
-data frame refer to actual spatial coordinates. Here, the coordinates
-are listed in columns X and Y.
+values) CSV file (\texttt{*.csv}) can be created. We can use the
+\texttt{coordinates()} function from the \textbf{sp} package to define
+which columns in the data frame refer to actual spatial coordinates.
+Here, the coordinates are listed in columns X and Y.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1216,16 +1201,16 @@ ESRI ASCII (American Standard Code for Information Interchange), as it
 is a common and universal raster format.
 
 We may also want to export our DEM to KML (Keyhole Markup Language) file
-using the \texttt{KML()} function. \texttt{KML()} is a handy function
-from the \textbf{raster} package for exporting grids to KML format. Note
-that we need to re-project the data to the World Geodetic System (WGS)
-WGS84 geographic. The raster re-projection is performed using the
-\texttt{projectRaster()} function. Look at the help file
-\texttt{?projectRaster} for more information.
+(\texttt{*.kml}) using the \texttt{KML()} function. \texttt{KML()} is a
+handy function from the \textbf{raster} package for exporting grids to
+KML format. Note that we need to re-project the data to the World
+Geodetic System (WGS) WGS84 geographic. The raster re-projection is
+performed using the \texttt{projectRaster()} function. Look at the help
+file \texttt{?projectRaster} for more information.
 
-\hypertarget{other-dsm-related-software-and-tools}{%
-\section{Other DSM-related software and
-tools}\label{other-dsm-related-software-and-tools}}
+\hypertarget{other-dsm-software-and-tools}{%
+\section{Other DSM software and
+tools}\label{other-dsm-software-and-tools}}
 
 \begin{itemize}
 \tightlist
@@ -1567,10 +1552,10 @@ and \citet{ottmar_litter_2007}:
   \(BD_{H}= 0.13 g \cdot cm^{-3}\)
 \end{itemize}
 
-\textbf{Peat}: Default value: \(BD_{P} = 0.31 g \cdot cm^{-3}\). The
-range of peat BD is generally from 0.02 to 0.3\(t \cdot m^{-3}\)
-depending on maturity and compaction, as well as the ash content
-\citep{agus_measuring_2011}. \citet{batjes1996total} and
+\textbf{Peat}: Default value: \(BD_{P} = 0.31 g \cdot cm^{-3}\)
+\citet{batjes1996}. The range of peat BD is generally from 0.02 to
+0.3\(t \cdot m^{-3}\) depending on maturity and compaction, as well as
+the ash content \citep{agus_measuring_2011}. total and
 \citet{agus_measuring_2011} distinguish different peat decomposition
 types with different C content:
 
@@ -2471,75 +2456,99 @@ included in the climate covariates}
 CGMS database contains meteorological parameters from weather stations
 interpolated on a 25×25 km grid. Meteorological data are available on a
 daily basis from 1975 to the last calendar year completed, covering the
-EU Member States, neighboring European countries.
+EU member states, and neighboring European countries.
 
 The following parameters are available at 1-day time resolution:
 
 \begin{itemize}
 \tightlist
 \item
-  maximum air temperature (°C)
+  Maximum air temperature (°C)
 \item
-  minimum air temperature (°C)
+  Minimum air temperature (°C)
 \item
-  mean air temperature (°C)
+  Mean air temperature (°C)
 \item
-  mean daily wind speed at 10m (m/s)
+  Mean daily wind speed at 10m (m/s)
 \item
-  mean daily vapor pressure (hPa)
+  Mean daily vapor pressure (hPa)
 \item
-  sum of precipitation (mm/day)
+  Sum of precipitation (mm/day)
 \item
-  potential evaporation from a free water surface (mm/day)
+  Potential evaporation from a free water surface (mm/day)
 \item
-  potential evapotranspiration from a crop canopy (mm/day)
+  Potential evapotranspiration from a crop canopy (mm/day)
 \item
-  potential evaporation from a moist bare soil surface (mm/day)
+  Potential evaporation from a moist bare soil surface (mm/day)
 \item
-  total global radiation (KJ/m2/day)
+  Total global radiation (KJ/m2/day)
 \item
-  Snow Depth
+  Snow depth
 \end{itemize}
 
-Data Access:
-\url{http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx}
+Data is accessible at the following link:
+\url{http://agri4cast.jrc.ec.europa.eu/DataPortal/Index.aspx}.
 
 \hypertarget{GSOCDataRepo}{%
-\section{GSOCMap - data repository (ISRIC, 2017)}\label{GSOCDataRepo}}
+\section{GSOCMap - Data repository (ISRIC, 2017)}\label{GSOCDataRepo}}
 
 ISRIC World Soil Information has established a data repository which
 contains raster layers of various biophysical earth surface properties
 for each territory in the world. These layers can be used as covariates
-in a digital soil mapping exercise.
+in any DSM exercise.
 
 \hypertarget{covariates-and-empty-mask}{%
 \subsection{Covariates and empty mask}\label{covariates-and-empty-mask}}
 
 The territories and their boundaries are obtained from the Global
-Administrative Unit Layers (GAUL)dataset: each folder contains three
-subfolders; covs: GIS layers of various biophysical earth surface
-properties mask: an `empty' grid file of the territory with territory
-boundary according to GAUL. This grid to be used for the final delivery.
-. soilgrids: all SoilGrids250m soil class and property layers as
-available through www.soilgrids.org. Layers are aggregated to 1 km.
+Administrative Unit Layers (GAUL) dataset. Each folder contains three
+subfolders:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Covs}: GIS layers of various biophysical earth surface
+  properties.
+\item
+  \textbf{Mask}: One \emph{empty} grid file of the territory with
+  territory boundary according to GAUL This grid to be used for the
+  final delivery.
+\item
+  \textbf{Soilgrids}: All \texttt{SoilGrids250m} soil class and property
+  layers as available through www.soilgrids.org. Layers are aggregated
+  to 1 km.
+\end{itemize}
 
 \hypertarget{data-specifications}{%
 \subsection{Data specifications}\label{data-specifications}}
 
-File format: GeoTiff Coordinate system: WGS84, latitude-longitude in
-decimal degrees Spatial resolution: 1km
+The data is provided as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{File format}: GeoTIFF
+\item
+  \textbf{Coordinate system}: WGS84, latitude-longitude in decimal
+  degrees
+\item
+  \textbf{Spatial resolution}: 1 km
+\end{itemize}
 
 \hypertarget{data-access}{%
 \subsection{Data access}\label{data-access}}
 
-\url{ftp://gsp.isric2.org/} (username: gsp, password: gspisric) or
+The data can be accessed at the following links:
+
+ftp.isric.org/ (username: gsp, password: gspisric) or
 \url{ftp://85.214.253.67/} (username: gsp, password: gspisric)
 
-LICENCE and ACKNOWLEDGEMENT \emph{The GIS layers can be freely used
-under the condition that proper credit should be given to the original
-data source in each publication or product derived from these layers.
-Licences, data sources, data citations are indicated the data
-description table.}
+LICENCE and ACKNOWLEDGEMENT
+
+\textbf{The GIS layers can be freely used under the condition that
+proper credit should be given to the original data source in each
+publication or product derived from these layers. Licences, data
+sources, data citations are indicated the data description table.}
 
 \hypertarget{extending-the-soil-property-table-for-spatial-statistics}{%
 \section{Extending the soil property table for spatial
@@ -2551,10 +2560,10 @@ also other properties) depend on parameters for which spatial data are
 available, such as climate, soil type, parent material, slope,
 management. This information (Covariates) must be collected first.
 Details are provided above. The properties contained in the covariates
-can be extracted to each georeferenced sample site and added to the soil
-property table (Table 3.1). This table is used for training and
-validation of the statistical model for predicting the SOC stocks which
-subsequently can be applied to the full spatial extent.
+can be extracted for each georeferenced sample site and added to the
+soil property table (Tab. \ref{tab:site-level}). This table is used for
+training and validation of the statistical model for predicting the SOC
+stocks which subsequently can be applied to the full spatial extent.
 
 \hypertarget{preparation-of-a-soil-property-table-for-spatial-statistics}{%
 \section{Preparation of a soil property table for spatial
@@ -2570,10 +2579,11 @@ the final table. Other covariates will be added in Section
 \ref{overlay-soil-covariates}.
 
 \begin{quote}
-In case this table is prepared for different depths, 0-10 cm, 10-30 cm,
-and if the host institution intends to develop different spatial models
-for different depths (e.g.~separate spatial prediction model for litter
-and mineral soil 0-30), then the separate grids have to be added.
+In case this table is prepared for different depths, 0 cm - 10 cm, 10 cm
+- 30 cm, and if the host institution intends to develop different
+spatial models for different depths (e.g.~separate spatial prediction
+model for litter and mineral soil 0 cm - 30cm), then the separate grids
+have to be added.
 \end{quote}
 
 \hypertarget{overlay-soil-covariates}{%
@@ -2596,8 +2606,7 @@ data}\label{overlay-soil-covariates}}
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{Step 2 - Combine the covariates provided with the raster version
-of the soil map}
+\textbf{Step 2 - Adding raster soilmap to the raster stack}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2611,9 +2620,9 @@ of the soil map}
 \end{Shaded}
 
 Finally, we will mask the covariates with a mask developed using the
-country limits. Next, we will export all the covariates as one file.
-This will allow us to load this file in the following Chapters of this
-cookbook.
+country limits. Next, we will export all the covariates as
+\texttt{*.RData} file. This will allow us to load this file in the
+following Chapters of this cookbook.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2634,7 +2643,7 @@ cookbook.
 \caption{\label{fig:unnamed-chunk-26}FYROM soil covariates}
 \end{figure}
 
-\textbf{Step 3 - Overlay covariates and spatial data}
+\textbf{Step 3 - Overlay covariates and point data}
 
 In order to carry out DSM in terms of examining the statistical
 significance of environmental predictors for explaining the spatial
@@ -2738,8 +2747,8 @@ The last step involves exporting a table which is our regression matrix
 including the soil data and the values of the environmental covariates
 in the position of the point samples.
 
-The summary of the \texttt{dat\ data.frame} shows 1 point with
-\texttt{NA} values for most of the covariates. And 22 points with
+The summary of the \texttt{dat\ data.frame} shows one point with
+\texttt{NA} values for most of the covariates, and 22 points with
 \texttt{NA} values in the soilmap layer. The regression matrix should
 not contain \texttt{NA} values. There are two options to proceed:
 
@@ -2752,13 +2761,13 @@ not contain \texttt{NA} values. There are two options to proceed:
   \texttt{NA} values for most of the covariates.
 \item
   \textbf{Option 2}: Another case is when a covariate is incomplete and
-  does not cover all the area. This could produce many NA values. There
-  are two different solutions, either to eliminate the covariate or to
-  eliminate the point data. This is the case for the soilmap layer and
-  the 30 points.
+  does not cover all the area. This could produce many \texttt{NA}
+  values. There are two different solutions, either to eliminate the
+  covariate or to eliminate the point data. This is the case for the
+  soilmap layer and the 30 points.
 \end{itemize}
 
-\textbf{Step 4 - Convert result to data.frame and save as a csv table}
+**Step 4 - Convert result to data.frame and save as a *.csv table**
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3197,8 +3206,8 @@ soil map units. The steps are described in detail below.
   box with \emph{Values} and the field WRB to the \emph{Rows}. Make sure
   the box with \emph{Use only selected features} is \textbf{not}
   checked. Now calculate the statistics. A table will be given in the
-  left pane (see Figure \ref{fig:groupstats}). Save this file as CSV and
-  repeat the same for the standard deviation.
+  left pane (see Figure \ref{fig:groupstats}). Save this file as
+  \texttt{*.csv} and repeat the same for the standard deviation.
 \end{enumerate}
 
 \begin{figure}
@@ -3261,7 +3270,8 @@ soil map units. The steps are described in detail below.
   Similarly, title, scale bar, legend and a north arrow can be added.
   Specific properties can be changed in the box \emph{Item properties}.
 \item
-  When the map is finished, it can be exported as an image or PDF file.
+  When the map is finished, it can be exported as an image or
+  \texttt{*.pdf} file.
 \end{enumerate}
 
 \begin{figure}
@@ -3281,12 +3291,12 @@ soil map units. The steps are described in detail below.
   Repeat the Steps 2 to 8 but now for the standard deviation of the SOC
   stocks.
 \item
-  Save the file as a new shapefile. Go to \textbf{Layers Panel},
-  \emph{Save As} and select ESRI SHP format and make sure that you
-  define the symbology export \emph{Feature Symbology}. Now, a shapefile
-  is generated, with both the median and standard deviation SOC stock
-  per soil type. Redundant fields can be removed after the new file is
-  created.
+  Save the file as a new shapefile \texttt{*.shp}. Go to \textbf{Layers
+  Panel}, \emph{Save As} and select ESRI SHP format and make sure that
+  you define the symbology export \emph{Feature Symbology}. Now, a
+  shapefile is generated, with both the median and standard deviation
+  SOC stock per soil type. Redundant fields can be removed after the new
+  file is created.
 \end{enumerate}
 
 \textbf{Step 2B - Geo-matching SOC with other environmental variables:
@@ -3307,10 +3317,10 @@ Land use}
 \item
   Change the projection to the MGI 1901/Balkans Zone 7. Go to
   \emph{Raster}, \emph{Projections}, \emph{Warp} and select the proper
-  projection and a suitable file name, e.g.~LU\_projected\_1km. Tick the
-  checkbox for the resampling method and choose \emph{Near}. This is the
-  nearest neighbor and most suitable for a transformation of categorical
-  data, such as land use (see Figure \ref{fig:changeproj}).
+  projection and a suitable file name, e.g. \texttt{LU\_projected\_1km}.
+  Tick the checkbox for the resampling method and choose \emph{Near}.
+  This is the nearest neighbor and most suitable for a transformation of
+  categorical data, such as land use (see Figure \ref{fig:changeproj}).
 \end{enumerate}
 
 \begin{figure}
@@ -3330,8 +3340,8 @@ Land use}
   In order to geo-match the soil point data with land use data, the
   raster file needs to be converted into a vector file. Go to
   \emph{Raster}, \emph{Conversions}, and select \emph{Polygonize}. Set a
-  proper output filename, e.g.~LU\_polygon\_1km, and check the tickbox
-  for \emph{Fieldname}.
+  proper output filename, e.g. \texttt{LU\_polygon\_1km}, and check the
+  tickbox for \emph{Fieldname}.
 \item
   Change the legend style into categories (Step 1-5). Now, the steps
   from the previous Section need to be repeated, using the land use
@@ -3384,9 +3394,9 @@ and \emph{Dissolve}.
 \tightlist
 \item
   Change the land use raster map to 5 km resolution: Right-click the
-  Lu\_project\_1km file, select \emph{Save as}. Change the resolution to
-  5000 meters. Scroll down, check the \emph{Pyramids} box, and change
-  the resampling method to \emph{Nearest Neighbour}.
+  \texttt{Lu\_project\_1km} file, select \emph{Save as}. Change the
+  resolution to 5000 meters. Scroll down, check the \emph{Pyramids} box,
+  and change the resampling method to \emph{Nearest Neighbour}.
 \item
   Convert the raster map to a polygon map and add the file to the
   \textbf{Layers Panel}.
@@ -3440,7 +3450,7 @@ the WRB soil map.
 Load the shapefile including the soil map. Then load the points, and
 promote the points to \texttt{spatialPointsDataFrame} using the
 \texttt{coordinates()} function. Make sure both are in the same
-coordinate system. In case they aren't, you can use
+coordinate system. In case they are not, you can use
 \texttt{spTransform()} to reproject one of the layers.
 
 \begin{Shaded}
@@ -3456,7 +3466,7 @@ coordinate system. In case they aren't, you can use
 \CommentTok{# Promote to SpatialPointsDataFrame}
 \KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
 
-\CommentTok{# set the CRS for the soil samples. As if the same we will copy the }
+\CommentTok{# Set the CRS for the soil samples. As if the same we will copy the }
 \CommentTok{# CRS from the soilmap object}
 \NormalTok{dat}\OperatorTok{@}\NormalTok{proj4string <-}\StringTok{ }\NormalTok{soilmap}\OperatorTok{@}\NormalTok{proj4string}
 
@@ -3488,7 +3498,7 @@ red) for the geo-matching exercise}
 \textbf{Step 2 - Geo-matching}
 
 Now, use the \texttt{over()} function to estimate the mean value of the
-\texttt{OCSKGM} field for every map unit.
+\emph{OCSKGM} field for every map unit.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3559,7 +3569,7 @@ independent variables \({x_1, x_2,\dots,x_p}\) which are selected
 covariates. Our purpose is to predict the value of the dependent
 variable using a linear function of the independent variables. The
 values of the independent variables (environmental covariates) are known
-quantities for purposes of prediction, the model is explained in detail.
+quantities to be used for prediction.
 
 \hypertarget{assumptions}{%
 \subsection{Assumptions}\label{assumptions}}
@@ -3577,8 +3587,7 @@ relationship. One must review the assumptions made when using the model.
   fortunately, multiple regression procedures are not greatly affected
   by minor deviations from this assumption. If curvature in the
   relationships is evident, one may consider either transforming the
-  variables or explicitly allowing for nonlinear
-  components.\textbackslash{}
+  variables or explicitly allowing for nonlinear components.\\
 \item
   \textbf{Normality Assumption}: It is assumed in multiple regression
   that the residuals (predicted minus observed values) are distributed
@@ -3588,7 +3597,7 @@ relationship. One must review the assumptions made when using the model.
   drawing final conclusions, to review the distributions of the major
   variables of interest. You can produce histograms of the residuals as
   well as normal probability plots, in order to inspect the distribution
-  of the residual values.\textbackslash{}
+  of the residual values.\\
 \item
   \textbf{Collinearity}: There is not perfect collinearity in any
   combination of the \(X\)'s. A higher degree of collinearity, or
@@ -3596,7 +3605,7 @@ relationship. One must review the assumptions made when using the model.
   linear regression models. Collinearity (also multicollinearity) is a
   phenomenon in which two or more predictors in a multiple regression
   models are highly correlated. Collinearity causes increase in
-  variances and relatedly increases inaccuracy.\textbackslash{}
+  variances and relatedly increases inaccuracy.\\
 \item
   \textbf{Distribution of the Errors}: The error term is normally
   distributed with a mean of zero and constant variance.\textbackslash{}
@@ -3632,39 +3641,20 @@ variances are selected as regressors. However, for the purpose of
 predicting the outcome, the principal components with low variances may
 also be important, in some cases even more important.
 
-The PCA and the linear regression (PCR) method may be coarsely divided
-into three main steps:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Run PCA on the data matrix for the predictors to obtain the principal
-  components, and then select a subset of the principal components for
-  further use.
-\item
-  Regress the dependent variable on the selected principal components as
-  covariates, linear regression to get estimated regression
-  coefficients.
-\item
-  Transforming the data back to the scale of the actual covariates,
-  using the selected PCA loadings.
-\end{enumerate}
-
 \hypertarget{the-terminology}{%
 \subsection{The terminology}\label{the-terminology}}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Dependent variable \(Y\)}: \index{dependent variable} What we
-  are trying to predict (e.g.~SOC content).
+  \textbf{Dependent variable \(Y\)}: \index{dependent variable} which is
+  to be predicted from a given set of predictors (e.g.~SOC content).
 \item
-  \textbf{Independent variables \(X\)'s (Predictors)}: Variables that we
-  believe influence or explain the dependent variable (Covariates:
-  environmental covariates, DEM derived covariates, soil maps, land
-  cover maps, climate maps). The data sources for the environmental
-  predictors are provided in Chapter \ref{covariates}.
+  \textbf{Independent variables \(X\)'s (Predictors)}: which influence
+  or explain the dependent variable (Covariates: environmental
+  covariates, DEM derived covariates, soil maps, land cover maps,
+  climate maps). The data sources for the environmental predictors are
+  provided in Chapter \ref{covariates}.
 \item
   \textbf{Coefficients \(\beta\)}: Values, computed by the multiple
   regression tool, reflect the relationship and strength of each
@@ -3686,17 +3676,17 @@ inspect the histogram of the dependent/target variable, in order to see
 if it needs to be transformed before fitting the regression model. The
 data for the selected soil property is normal when the frequency
 distribution of the values follow a bell-shaped curve (Gaussian
-distribution) which is symmetric around its mean. Normality tests may be
+Distribution) which is symmetric around its mean. Normality tests may be
 used to assess normality. If a normality test indicates that data are
 not normally distributed, it may be necessary to transform the data to
 meet the normality assumption.
 
-Both, the normality tests and the data transformation can be easily
+Both, the normality tests and data transformations can be easily
 performed using any commercial or open source statistical tool
 (\textbf{R}, SPSS, MINITAB\ldots{}).
 
-The main steps for the multiple linear regression analysis are shown in
-the Figure \ref{fig:workflowRK}.
+The main steps for regression kriging (RK) are shown in the Figure
+\ref{fig:workflowRK}.
 
 \begin{figure}
 
@@ -3860,20 +3850,8 @@ directory has been correctly set by using the \texttt{getwd()} function:
 
 \textbf{Point dataset}
 
-We previously applied spline function to produce continuous soil
-information to a given soil depth (0 cm - 30 cm) in the Section
-\ref{EqualAreaSplines}. Spline function basically imports soil profile
-data (including instances where layers are not contiguous), fits it to a
-mass-preserving spline and outputs attribute means for a given depth.
-The output file should contain the profile ID \texttt{id}, upper
-(surface) and lower depth (30 cm), estimated value for the selected soil
-attribute (Value) and tmse (estimated mean squared error of the spline).
-
-If you used the Spline Tool V2, the coordinates were not kept in the
-output file. The coordinates should be added back in the data table. You
-can use profile IDs to add the \texttt{X} and \texttt{Y} columns back.
-Once your point dataset is ready, copy this table into your working
-directory as a .csv file.
+We previously prepared the point dataset in \ref{preperation} chapter.
+We will be using this data file (.csv) in this section.
 
 \textbf{Environmental predictors (covariates)}
 
@@ -4159,9 +4137,6 @@ the step model.
 In those two models above, we used all available points. It is important
 to test the performance of a model based upon an external validation.
 
-Let's fit a new model using a random subset of the available data. We
-will sample 70\% of the SOC data for the model calibration data set.
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Graphical diagnosis of the regression analysis}
@@ -4192,6 +4167,15 @@ will sample 70\% of the SOC data for the model calibration data set.
 \begin{Highlighting}[]
 \CommentTok{# Collinearity test using variance inflation factors}
 \KeywordTok{library}\NormalTok{(car)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: carData
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{vif}\NormalTok{(model.MLR.step)}
 \end{Highlighting}
 \end{Shaded}
@@ -4452,7 +4436,7 @@ raster stack as we created in the Step 3.
 \begin{figure}
 \centering
 \includegraphics{SOCMapping_files/figure-latex/predRK-1.pdf}
-\caption{\label{fig:predRK}SOC prediction map for FYROM using a regression
+\caption{\label{fig:predRK}SOC prediction of FYROM using a regression
 kriging model}
 \end{figure}
 
@@ -4465,7 +4449,7 @@ kriging model}
 \begin{figure}
 \centering
 \includegraphics{SOCMapping_files/figure-latex/predSDRK-1.pdf}
-\caption{\label{fig:predSDRK}Standard deviation values for FYROM map from
+\caption{\label{fig:predSDRK}Standard deviation map of the
 regression-kriging model}
 \end{figure}
 
@@ -4740,25 +4724,6 @@ and load in \textbf{R} all our libraries of interest.
 
 \textbf{Step 1 - Data preparation}
 
-\textbf{Point dataset}
-
-We previously applied spline function to produce continuous soil
-information to a given soil depth (0 cm - 30 cm) in the Section
-\ref{EqualAreaSplines}. Spline function basically imports soil profile
-data (including instances where layers are not contiguous), fits it to a
-mass-preserving spline and outputs attribute means for a given depth.
-The output file should contain the profile ID \texttt{id}, upper
-(surface) and lower depth (30 cm), estimated value for the selected soil
-attribute (Value) and tmse (estimated mean squared error of the spline).
-
-If you used the Spline Tool V2, the coordinates were not kept in the
-output file. The coordinates should be added back in the data table. You
-can use profile IDs to add the \texttt{X} and \texttt{Y} columns back.
-Once your point dataset is ready, copy this table into your working
-directory as a .csv file.
-
-\textbf{Environmental predictors (covariates)}
-
 In the Chapter \ref{covariates}, we presented and prepared several
 global and continental datasets. In addition to these datasets, numerous
 covariate layers have been prepared by ISRIC for the GSOCmap project.
@@ -4999,7 +4964,7 @@ overfitting.
 \end{Shaded}
 
 \begin{verbatim}
-## randomForest 4.6-12
+## randomForest 4.6-14
 \end{verbatim}
 
 \begin{verbatim}
@@ -5226,12 +5191,12 @@ sensitivity to available data.
 
 \begin{verbatim}
 ##       rmse              r2        
-##  Min.   :0.4721   Min.   :0.2240  
-##  1st Qu.:0.4747   1st Qu.:0.2324  
-##  Median :0.4772   Median :0.2446  
-##  Mean   :0.4789   Mean   :0.2414  
-##  3rd Qu.:0.4827   3rd Qu.:0.2503  
-##  Max.   :0.4895   Max.   :0.2555
+##  Min.   :0.4736   Min.   :0.2317  
+##  1st Qu.:0.4761   1st Qu.:0.2385  
+##  Median :0.4787   Median :0.2435  
+##  Mean   :0.4790   Mean   :0.2454  
+##  3rd Qu.:0.4804   3rd Qu.:0.2535  
+##  Max.   :0.4910   Max.   :0.2611
 \end{verbatim}
 
 \textbf{Step 3 - Analyze the sensitivity of the map}
@@ -5298,7 +5263,7 @@ created.
 \end{Shaded}
 
 \begin{verbatim}
-## 16 cores detected, using 15
+## 8 cores detected, using 7
 \end{verbatim}
 
 \begin{Shaded}
@@ -5480,25 +5445,6 @@ directory has been correctly set by using the \texttt{getwd()} function:
 \end{Shaded}
 
 \textbf{Step 2 - Data preparation}
-
-\textbf{Point dataset}
-
-We previously applied spline function to produce continuous soil
-information to a given soil depth (0 cm - 30 cm) in the Section
-\ref{EqualAreaSplines}. Spline function basically imports soil profile
-data (including instances where layers are not contiguous), fits it to a
-mass-preserving spline and outputs attribute means for a given depth.
-The output file should contain the profile ID \texttt{id}, upper
-(surface) and lower depth (30 cm), estimated value for the selected soil
-attribute (Value) and tmse (estimated mean squared error of the spline).
-
-If you used the Spline Tool V2, the coordinates were not kept in the
-output file. The coordinates should be added back in the data table. You
-can use profile IDs to add the \texttt{X} and \texttt{Y} columns back.
-Once your point dataset is ready, copy this table into your working
-directory as a .csv file.
-
-\textbf{Environmental predictors (covariates)}
 
 In the Chapter \ref{covariates}, we presented and prepared several
 global and continental datasets. In addition to these datasets, numerous
@@ -5914,12 +5860,12 @@ cross-validation using 10 folds.
 ## Parameters:
 ##    SVM-Type:  eps-regression 
 ##  SVM-Kernel:  radial 
-##        cost:  5 
+##        cost:  7 
 ##       gamma:  0.03448276 
 ##     epsilon:  0.2 
 ## 
 ## 
-## Number of Support Vectors:  2193
+## Number of Support Vectors:  2189
 \end{verbatim}
 
 \textbf{Step 7 - Predict the OCS using the model}
@@ -5964,18 +5910,18 @@ Finally, we can evaluate the contribution of each covariate to the model
 \end{Shaded}
 
 \begin{verbatim}
-##      B04CHE3     soilmap6      TMDMOD3     soilmap7     soilmap1 
-## 6.712914e+01 4.443748e+01 4.010740e+01 3.928593e+01 3.882377e+01 
-##      DEMENV5      PRSCHE3      B07CHE3      LCEE103     soilmap2 
-## 3.824383e+01 3.350877e+01 3.107515e+01 2.646657e+01 2.478332e+01 
-##    soilmap19      LCEE104    soilmap16      LCEE101     soilmap5 
-## 2.441025e+01 1.529174e+01 1.448675e+01 1.324205e+01 1.309922e+01 
-##    soilmap15      LCEE102     soilmap4    soilmap20     soilmap9 
-## 1.295171e+01 1.175225e+01 8.849019e+00 8.166970e+00 6.701250e+00 
-##    soilmap10     soilmap3    soilmap17    soilmap12     soilmap8 
-## 6.046196e+00 5.059617e+00 4.705567e+00 3.552720e+00 2.691221e+00 
+##      B04CHE3     soilmap6      TMDMOD3     soilmap1     soilmap7 
+## 7.562482e+01 4.741345e+01 4.438758e+01 4.097177e+01 3.770267e+01 
+##      DEMENV5      B07CHE3      PRSCHE3      LCEE103     soilmap2 
+## 3.442923e+01 3.092630e+01 2.902640e+01 2.711066e+01 2.575601e+01 
+##    soilmap19     soilmap5      LCEE104    soilmap16      LCEE101 
+## 2.496913e+01 1.733616e+01 1.664618e+01 1.590055e+01 1.231509e+01 
+##    soilmap15      LCEE102     soilmap4    soilmap20    soilmap17 
+## 1.204309e+01 1.118658e+01 9.247627e+00 9.229459e+00 7.526749e+00 
+##     soilmap3    soilmap10     soilmap9    soilmap12     soilmap8 
+## 7.487471e+00 6.294465e+00 6.017019e+00 3.637515e+00 2.564390e+00 
 ##    soilmap18    soilmap14    soilmap11    soilmap13 
-## 5.275093e-01 1.498048e-01 7.365523e-02 1.110223e-15
+## 1.262072e+00 1.046765e+00 7.097243e-01 2.398082e-14
 \end{verbatim}
 
 SVM is a powerful technique which represent another welcome possibility
@@ -6884,13 +6830,13 @@ then, estimate the prediction error.
 \toprule
   & GM & RK & randomForest & svm\\
 \midrule
-Min. & -4.03 & -4.09 & -4.33 & -4.78\\
-1st Qu. & -0.24 & -0.31 & -0.29 & -0.25\\
+Min. & -4.03 & -4.09 & -4.25 & -4.75\\
+1st Qu. & -0.24 & -0.31 & -0.29 & -0.26\\
 Median & 0.00 & 0.00 & 0.02 & 0.04\\
 Mean & 0.01 & -0.08 & -0.08 & -0.03\\
-3rd Qu. & 0.29 & 0.23 & 0.24 & 0.32\\
+3rd Qu. & 0.29 & 0.23 & 0.24 & 0.33\\
 \addlinespace
-Max. & 2.81 & 2.01 & 2.21 & 1.78\\
+Max. & 2.81 & 2.01 & 2.22 & 1.72\\
 NA's & 40.00 & 10.00 & 12.00 & 12.00\\
 \bottomrule
 \end{tabular}
@@ -6955,10 +6901,10 @@ measures for quantitative soil maps.
   & GM & RK & randomForest & svm\\
 \midrule
 ME & 0.014 & -0.077 & -0.081 & -0.026\\
-MAE & 0.409 & 0.359 & 0.369 & 0.392\\
-MSE & 0.395 & 0.293 & 0.314 & 0.333\\
-RMSE & 0.615 & 0.538 & 0.557 & 0.574\\
-AVE & -0.033 & -1.054 & -1.630 & -1.426\\
+MAE & 0.409 & 0.359 & 0.368 & 0.391\\
+MSE & 0.395 & 0.293 & 0.312 & 0.332\\
+RMSE & 0.615 & 0.538 & 0.555 & 0.573\\
+AVE & -0.033 & -1.054 & -1.572 & -1.360\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -7410,15 +7356,15 @@ the predicted value and the model.
 \begin{verbatim}
 ##       obs              mod         model    
 ##  Min.   :0.0111   Min.   :0.0111   GM :970  
-##  1st Qu.:0.6681   1st Qu.:0.8013   RK :970  
-##  Median :0.9518   Median :0.9584   RF :970  
-##  Mean   :1.1076   Mean   :1.0601   SVM:970  
-##  3rd Qu.:1.3744   3rd Qu.:1.1811            
+##  1st Qu.:0.6681   1st Qu.:0.8012   RK :970  
+##  Median :0.9518   Median :0.9612   RF :970  
+##  Mean   :1.1076   Mean   :1.0605   SVM:970  
+##  3rd Qu.:1.3744   3rd Qu.:1.1894            
 ##  Max.   :6.1827   Max.   :5.3183            
 ##                   NA's   :74
 \end{verbatim}
 
-\textbf{Step 2 - Calucalte statistical evaluation metrics}
+\textbf{Step 2 - Calculate statistical evaluation metrics}
 
 Now we will use the \texttt{modStats()} function to calculate common
 numerical model evaluation statistics which are described and
@@ -7499,7 +7445,7 @@ model & FAC2 & MB & MGE & NMB & NMGE & RMSE & r & COE & IOA\\
 GM & 0.80 & 0.01 & 0.41 & 0.01 & 0.37 & 0.63 & 0.54 & 0.15 & 0.57\\
 RK & 0.89 & -0.08 & 0.36 & -0.07 & 0.32 & 0.54 & 0.63 & 0.25 & 0.63\\
 RF & 0.88 & -0.08 & 0.37 & -0.07 & 0.33 & 0.56 & 0.59 & 0.23 & 0.62\\
-SVM & 0.86 & -0.03 & 0.39 & -0.02 & 0.36 & 0.58 & 0.53 & 0.18 & 0.59\\
+SVM & 0.86 & -0.03 & 0.39 & -0.02 & 0.35 & 0.58 & 0.53 & 0.18 & 0.59\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -8162,7 +8108,7 @@ Before we start reviewing soil data formats, it is useful to understand
 which types of soil variables, soil maps, and soil DBs are most commonly
 generated and used, and what are their specific advantages and
 limitations. Soil science works with many variables common to ecology
-and/or physical geography (e.g., soil temperature), but it also works
+and/or physical geography (e.g.~soil temperature), but it also works
 with several variables specific to soil science only. Some soil
 factor-type variables specific to soil science only are for example:
 
@@ -8212,7 +8158,7 @@ soil science only.
 
 Most of the soil data is in fact spatial. \emph{Spatial} implies that
 spatial (and temporal) reference is attached to each measured/estimated
-value, i.e., it is location specific. Spatio-temporal references
+value, i.e.~it is location specific. Spatio-temporal references
 typically include for example:
 
 \begin{itemize}
@@ -8224,10 +8170,10 @@ typically include for example:
   Depth interval expressed in cm from land surface (upper and lower
   depth);
 \item
-  Support size or referent soil volume (or voxel) i.e., the horizontal
+  Support size or referent soil volume (or voxel) i.e.~the horizontal
   sampling area multiplied by the thickness of the sampling block;
 \item
-  Temporal reference i.e., begin and end date/time of the period of
+  Temporal reference i.e.~begin and end date/time of the period of
   measurements/estimations.
 \end{itemize}
 
@@ -8266,7 +8212,7 @@ predicted soil data:
 \item
   \textbf{Predicted soil data}: Spatial predictions of soil variables
   (soil maps) are spatially complete. They are used for decision making
-  and further modeling, i.e., they are used to construct a Soil
+  and further modeling, i.e.~they are used to construct a Soil
   Information System (SIS).
 \end{itemize}
 
@@ -8284,7 +8230,7 @@ properties (physical and chemical soil properties, soil water, soil
 classification, etc.) make a SIS. SIS are often complemented with soil
 sample data and serve both data formats. A SIS should preferably be a
 database (DB), so that users can access and query data using some
-standard DB languages (e.g., SQL). Steps to export soil data into a DB
+standard DB languages (e.g.~SQL). Steps to export soil data into a DB
 format are explained in later Sections.
 
 \hypertarget{general-gis-data-formats-vector-raster-table}{%
@@ -8304,10 +8250,10 @@ distributed using one of the two basic GIS formats of data:
   for exporting spatial predictions of soil variables.
 \end{itemize}
 
-Data in vector format can be converted to raster (see e.g.,
+Data in vector format can be converted to raster (see e.g.
 \texttt{rasterize()} function in the \textbf{raster} \textbf{R} package
 ) and vice versa, raster data can be converted to vector formats. For
-example, rasters can be converted to polygons (see e.g.,
+example, rasters can be converted to polygons (see e.g.
 \texttt{rast2vect()} function in the \textbf{plotKML} \textbf{R} package
 ). If the conversion is done carefully and if all the relations between
 scale and pixel size have been considered \citep[see][ for more
@@ -8459,7 +8405,7 @@ following reasons:
   (e.g.~COMPRESS=DEFLATE).
 \item
   Extensive overlay, subset, index, translate functionality is available
-  via GDAL and other open source software. Basically, GeoTiff functions
+  via GDAL and other open source software. Basically, GeoTIFF functions
   as a raster DB.
 \end{itemize}
 
@@ -8487,7 +8433,7 @@ recommend, however, that you always use integers inside GeoTIFF formats
 because floating point formats can lead to up to more than four times
 larger sizes (without any gains in accuracy). This might mean you have
 to multiply the values of the soil property of interest by 10 or 100, in
-order not to lose accuracy (e.g., multiply pH values by 10 before
+order not to lose accuracy (e.g.~multiply pH values by 10 before
 exporting your raster in GeoTIFF format).
 
 \hypertarget{webService}{%
@@ -8652,7 +8598,7 @@ Typical metadata should (at least) contain:
   Explanation of measurement methods and units used;
 \item
   Mention of the reference support size including referent depth
-  intervals to which the soil data refers to (e.g., 0 cm -- 30 cm depth
+  intervals to which the soil data refers to (e.g.~0 cm -- 30 cm depth
   interval);
 \item
   Mention of the referent time period in which the calibration data was
@@ -8664,7 +8610,7 @@ Typical metadata should (at least) contain:
   since it also shows that the data production process has been
   evaluated by independent researchers; and
 \item
-  Project homepage, i.e., URL containing more information and especially
+  Project homepage, i.e.~URL containing more information and especially
   up-to-date contacts where users can find original data producers and
   request support.
 \end{itemize}
@@ -8694,7 +8640,7 @@ explanation of the data and a URL to find more info about the GeoTIFF in
 \end{Shaded}
 
 Similarly, all necessary metadata can be added into GeoTIFF so that
-future users have all information at one place, i.e., inside the data
+future users have all information at one place, i.e.~inside the data
 file.
 
 \hypertarget{exporting-data-final-tips}{%
@@ -8738,8 +8684,8 @@ boost the usability of your data are.
 \setcounter{enumi}{1}
 \tightlist
 \item
-  Make data accessible from multiple systems, e.g., both via WCS, FTP
-  and through a mirror site. This might be inefficient considering there
+  Make data accessible from multiple systems, e.g, both via WCS, FTP and
+  through a mirror site. This might be inefficient considering there
   will be multiple copies of the same data, but sometimes it quadruples
   data usage.
 \item
@@ -8803,13 +8749,14 @@ recorded. Metadata can be edited with most GIS software and directly
 with GDAL tools (\url{http://www.gdal.org/gdal_edit.html}).
 
 \begin{quote}
-Tips for \textbf{GDAL}: gdalwarp -t\_srs `xxx' input.tif output.tif
-where t\_srs is the target spatial reference set, i.e., the coordinate
-systems that can be passed are anything supported by the
-GRSpatialReference.SetFromUserInput() call, which includes EPSG PCS and
-GCSes (i.e.~EPSG:4326), PROJ.4 declarations or the name of a
-\texttt{*.prj} file containing well known text. For further information
-see the link: \url{http://www.gdal.org/gdalwarp.html}.
+Tips for \textbf{GDAL}: \emph{gdalwarp -t\_srs} `xxx' \texttt{input.tif}
+\texttt{output.tif} where \emph{t\_srs} is the target spatial reference
+set, i.e.~the coordinate systems that can be passed are anything
+supported by the \texttt{GRSpatialReference.SetFromUserInput()} call,
+which includes EPSG PCS and GCSes (i.e.~EPSG:4326), PROJ.4 declarations
+or the name of a \texttt{*.prj} file containing well known text. For
+further information see the link:
+\url{http://www.gdal.org/gdalwarp.html}.
 \end{quote}
 
 \hypertarget{technical-overview-and-the-checklist}{%
@@ -8852,14 +8799,15 @@ checklist}\label{technical-overview-and-the-checklist}}
   nearest neighbor resampling for the categorical variables and
   IDW/cubic spline for continuous data?
 \item
-  Did you correctly set the NoData values as NoData, i.e.~not a standard
-  assigned values such as -9999, 256 etc.
+  Did you correctly set the \texttt{NoData} values as not available
+  data, i.e.~not a standard assigned values such as -9999, 256, etc. or
+  \texttt{NA}value.
 \item
   Did you check for outliers or any unusual values, especially in your
-  DEM Layer(s)?
+  DEM layer(s)?
 \item
-  Did you set any categorical dataset as `factor' instead of being
-  `numeric' or `integer'?
+  Did you set any categorical dataset as \texttt{factor} instead of
+  being \texttt{numeric} or \texttt{integer}?
 \end{itemize}
 
 \hypertarget{statistical-inference}{%
@@ -8869,16 +8817,16 @@ checklist}\label{technical-overview-and-the-checklist}}
 \tightlist
 \item
   Did you choose a proper model which is capable to model the
-  variability in your SOC point data best? (multiple regression or data
+  variability in your SOC point data best (multiple regression or data
   mining with or without interpolation of the residuals using kriging)?
 \item
-  Did you make sure that the Random Forest did not over fit your data?
+  Did you make sure that the random forest did not over fit your data?
 \item
   Did you apply a validation scheme, e.g.~k-fold cross-validation or an
-  independent validation if so report the R2 and RMSE as accuracy
-  measures
+  independent validation if so report the \(R^2\) and RMSE as accuracy
+  measures?
 \item
-  Do the model summaries make sense? i.e.~most important predictor
+  Do the model summaries make sense, i.e.~did most important predictor
   variables and model fit?
 \item
   Is there spatial structure left in your residuals, if so make sure you
@@ -8892,27 +8840,32 @@ checklist}\label{technical-overview-and-the-checklist}}
 \tightlist
 \item
   Did you obtain an exhaustive map or are there still gaps? If so, check
-  if your raster has the correct `factor' values, if the model was
-  calibrated on fewer classes than the extrapolation may not work for
-  those pixels?
+  if your raster has the correct \texttt{factor} values, if the model
+  was calibrated on fewer classes than the extrapolation may not work
+  for those pixels?
 \item
   Do the patterns make sense or is there a covariate that causes an
   unrealistic pattern, based on expert judgment. If so, consider
   removing this covariate?
 \item
-  In case you did kriging, don't forget to look at the kriging variance.
-  This is a very important indicator of the accuracy. Otherwise,
-  consider modeling the 90\% confidence intervals of the predictions!
+  In case you did kriging, do not forget to look at the kriging
+  variance. This is a very important indicator of the accuracy.
+  Otherwise, consider modeling the 90\% confidence intervals of the
+  predictions!
 \item
-  Don't forget to back-transform your predicted values!
+  Do not forget to back-transform your predicted values!
 \end{itemize}
 
 \hypertarget{calculation-of-stocks}{%
 \section{Calculation of stocks}\label{calculation-of-stocks}}
 
-You might want to calculate stocks per LU type, management type or by
-municipality. If you do that make sure you give an informed number,
-i.e.~an estimate plus an estimate of the uncertainty
+\begin{itemize}
+\tightlist
+\item
+  If you might want to calculate stocks per land use type, management
+  type or by municipality, make sure you give an informed number,
+  i.e.~an estimate plus an estimate of the uncertainty!
+\end{itemize}
 
 \hypertarget{evaluation-of-output-and-quality-assessment}{%
 \section{Evaluation of output and quality
@@ -8940,7 +8893,7 @@ assessment}\label{evaluation-of-output-and-quality-assessment}}
 In 2016, the the need of the development of a tool to assess global SOC
 stocks was identified by the GSP Plenary Assembly. As a contribution to
 the Sustainable Development Goal indicator 15.3.1 which aims at
-estimating the total degraded land area, the prepartory work to develop
+estimating the total degraded land area, the preparatory work to develop
 a GSOCmap was completed by the end of 2016.
 
 During 2017, the first ever GSOCmap was realized using a country driven
@@ -9021,31 +8974,30 @@ for integrating new and updated national SOC maps to produce GSOCmap
 V2.0. as a step towards establishing a global SOC monitoring system.
 
 \hypertarget{compendium}{%
-\chapter{Compendium of the code examples included in the
-cookbook}\label{compendium}}
+\chapter{Compendium of the code examples}\label{compendium}}
 
 \emph{G.F. Olmedo}
 
-The technical manual provided in this Chapter gives relatively simple
-step-by-step guidance on DSM. Guidance is mainly on mapping and
-modelling soil organic carbon, but also contains generic sections on
-soil grid development that can be used to map various soil properties.
-The document follows the typical DSM work-flow and provides users a
-complete soil property mapping solution from the ground up (see Fig.
-\ref{fig:grworkflow}).
+This technical manual gives relatively simple step-by-step guidance on
+DSM. Guidance is mainly on mapping and modelling of soil organic carbon,
+but also contains generic sections on soil grid development that can be
+used to map various soil properties. The document follows the typical
+DSM work-flow and provides users a complete soil property mapping
+solution from the ground up (see Fig. \ref{fig:grworkflow}).
 
 The authors have demonstrated the methods in the previous Chapters using
-the same dataset which is extracted from the Macedonian Soil Information
-System MASIS. In this Chapter we present a compendium of the technical
-steps presented in the practical Chapters.
+a dataset extracted from the Macedonian Soil Information System (MASIS).
+In this Chapter we present a compendium of the technical steps presented
+in the practical chapters.
 
 With the help of these examples, the user should be able to produce a
 soil property map starting from ground data to the validation of the
 map. There are also optional work-flow steps depending on the nature of
-the input data. This proposed \textbf{framework} to prepare a soil
-property prediction map includes soil data preparation, preparation of
-environmental covariates, overlaying soil data and covariates, fitting a
-model for the spatial interpolation and validation:
+the input data. The \textbf{framework} presented in this manual is
+aiming to help users preparing a soil property prediction map includes
+soil data preparation, preparation of environmental covariates,
+overlaying soil data and covariates, fitting a model for the spatial
+interpolation and validation:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
