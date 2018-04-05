@@ -797,6 +797,53 @@ properties and could be used to predict the latter with multivariate
 prediction techniques.
 \end{quote}
 
+The approaches outlined and demonstrated in this technical manual
+consider the reference framework of the SCORPAN model for digital soil
+mapping (DSM; \cite{McBratney2003}). In the SCORPAN reference framework
+a soil attribute (e.g., SOC) can be predicted as a function of the soil
+forming environment, in correspondence with soil forming factors from
+the Dokuchaev hypothesis and Jenny's soil forming equation based on
+climate, organisms, relief, parent material and elapsed time of soil
+formation \citep{Florinsky2012}. The SCORPAN
+\textcolor{red}{(Soils, Climate,
+Organisms, Parent material, Age and (N) space or spatial position, see
+\cite{McBratney2003})} reference framework is a empirical approach that
+can be expressed as in Eq. (1):
+
+\begin{equation}
+\resizebox{0.48\textwidth}{!}{$Sa_{\textcolor{red}{[x; y ~ t]}}
+=f(S_{[x; y ~ t]},C_{[x; y ~ t]},O_{[x; y ~ t]},R_{[x; y ~ t]},P_{[x;
+y ~ t]},A_{[x; y ~ t]})$}
+\end{equation}
+
+where \(Sa\) is the soil attribute of interest at a specific location
+\textcolor{red}{N (represented by the spatial coordinates of field
+observations $x$; $y$) and representative for a specific time frame
+($t$)}; \(S\) is the soil or other soil properties \textcolor{red}{that
+are correlated with $Sa$}; \(C\) is the climate or climatic properties
+of the environment; \(O\) are the organisms, vegetation, fauna or human
+activity; \(R\) is topography or landscape attributes; \(P\) is parent
+material or lithology; and \(A\) is the substrate age or the time
+factor. \textcolor{red}{To generate predictions of $Sa$ across places
+where no soil data is available, $N$ should be explicit for the
+information layers representing the soil forming factors. These
+predictions will be representative of the time period ($t$) when soil
+available data was collected. Therefore, the prediction factors
+ideally should represent, the conditions of the soil forming
+environment for the same period of time (as much as possible) when
+soil available data was collected. In Eq. (1)} the left side is usually
+represented by the available geo-spatial soil observational data (e.g.,
+from legacy soil profile collections) and the right side of the equation
+is represented by the soil prediction factors. These prediction factors
+are normally derived from four main sources of information: a) thematic
+maps (i.e., soil type, rock type, land use type); b) remote sensing
+(i.e., active and passive); c) climate surfaces and meteorological data;
+and d) digital terrain analysis or geomorphometry. The SCORPAN reference
+framework is widely used, but one critical challenge is to quantify the
+relative importance of the soil forming factors (i.e., prediction
+factors) that could explain the underlying soil processes controlling
+the spatial variability of a specific soil attribute (i.e., SOC).
+
 \hypertarget{setting-up-the-software-environment}{%
 \chapter{Setting-up the software
 environment}\label{setting-up-the-software-environment}}
@@ -8884,94 +8931,6 @@ assessment}\label{evaluation-of-output-and-quality-assessment}}
   Describe the spatial patterns and relate them to the landscape
   characteristics!
 \end{itemize}
-
-\hypertarget{deliverables}{%
-\chapter{Deliverables}\label{deliverables}}
-
-\emph{Y. Yigini}
-
-In 2016, the the need of the development of a tool to assess global SOC
-stocks was identified by the GSP Plenary Assembly. As a contribution to
-the Sustainable Development Goal indicator 15.3.1 which aims at
-estimating the total degraded land area, the preparatory work to develop
-a GSOCmap was completed by the end of 2016.
-
-During 2017, the first ever GSOCmap was realized using a country driven
-bottom-up approach. The soil data from contributing countries were
-collected by the GSP Secretariat. The
-\href{http://www.fao.org/3/a-bs975e.pdf}{\emph{GSP Soil Data Policy}}
-\citep[see][Chapter 8.5]{gsp_data_2017}, ensured that the national terms
-of condition are fully respected during the whole process of data
-sharing. National soil data was compiled and harmonized with regard to
-differences in laboratory methodologies and sampling units. Furthermore,
-a global soil database was created using recovered soil data legacy from
-archives, institutions and projects. Finally, a global data
-harmonization was conducted by the GSP Secretariat including quality
-control, mosaicking, border harmoization and gap filling.
-
-The GSOCmap V1.0 has been launched on the 5\textsuperscript{th} of
-December 2017 during World Soil Day. At the launching, the map is based
-on more than 1 million sampling points. The product is hosted by GLOSIS
-and constantly updated. It is available as an online application,
-accessible at the link:
-\url{http://www.fao.org/global-soil-partnership/pillars-action/4-information-and-data/global-soil-organic-carbon-gsoc-map/en/}.
-
-The following \textbf{deliverables} are comprised with GSOCmap V1.0:
-
-\begin{itemize}
-\tightlist
-\item
-  GSOCmap V1.0 is digitally delivered in grid (GeoTIFF) format with a 30
-  arc-second resolution. The global data can be downloaded as
-  \texttt{GSOCmap.tif}.
-\item
-  The associated uncertainty layers and prediction quality figures,
-  including qualitative assessment from conventional upscaling, and
-  quantitative assessment from DSM methods. The prediction uncertainty
-  is provided with the estimated map quality measures such as mean
-  error, mean absolute error, (root) mean squared error.
-\item
-  The metadata providing standardized information about a data set, for
-  example, the maintaining institution through which the data can be
-  accessed. In the case of the GSOCmap, a project-specific metadata
-  template has been prepared. It deviates from the metadata elements
-  listed in common standards such as ISO 19115. The template is
-  following the \href{http://www.fao.org/3/a-bp164e.pdf}{\emph{GSP
-  Guidelines for Sharing National Data/Information to Compile a Global
-  Soil Organic Carbon (GSOC) Map}} \citep{gsp_guidelines_2017} which
-  provide technical guidelines to prepare and evaluate spatial soil data
-  sets. Soil-specific methodical elements are considered including
-  metadata describing the data sources used for SOC mapping and the
-  upscaling method.
-\item
-  A GSOCmap information leaflet is provided in three different
-  languages, giving an overview of the objectives and the development
-  process. Summarized quantitative results obtained from GSOCmap V1.0
-  are given, e.g.~estimated SOC stocks for different soil types, land
-  covers or climate zones.
-\item
-  This cookbook on SOC mapping was built using the Github development
-  environment. An updated online version of the cookbook which will
-  include improvements from the continuous work process of the GSOCmap
-  project is provided for users on the
-  \href{http://www.fao.org/global-soil-partnership/pillars-action/4-information-and-data/global-soil-organic-carbon-gsoc-map/en/}{GSP
-  official website}.
-\end{itemize}
-
-The GSOCmap provides users and relevant stakeholders such as policy
-makers with useful information to monitor soil condition, identify
-degraded land and soil areas, set restoration targets, explore SOC
-sequestration potentials, support the greenhouse gas emission reporting
-under the United Nations Framework Convention on Climate Change (UNFCCC)
-and make evidence based decisions to mitigate and adapt to a changing
-climate on a national and global level.
-
-In the future, the GSP aims to adopt feasible guidelines for measuring,
-mapping, monitoring and reporting SOC stocks locally. This objective
-well as the continuing capacity development process through the global
-SOC mapping programme and DSM training on national level are the basis
-for integrating new and updated national SOC maps to produce GSOCmap
-V2.0. as a step towards establishing a global SOC monitoring system.
 
 \hypertarget{compendium}{%
 \chapter{Compendium of the code examples}\label{compendium}}

@@ -4,63 +4,62 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Histogram of coarse fragments values}}{22}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Histogram of bulk density values}}{25}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Statistical distribution of original values vs.\nobreakspace {}log-transformed values for OCS}}{30}{figure.4.3}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Histogram of coarse fragments values}}{24}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Histogram of bulk density values}}{27}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Statistical distribution of original values vs.\nobreakspace {}log-transformed values for OCS}}{32}{figure.4.3}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces SRTM 90 m resampled to 1 km for FYROM}}{33}{figure.5.1}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Soil map of FYROM}}{34}{figure.5.2}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Rasterized soil map of FYROM from DEM raster layer}}{35}{figure.5.3}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Two different temperature layers included in the climate covariates}}{39}{figure.5.4}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces FYROM soil covariates}}{42}{figure.5.5}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces SRTM 90 m resampled to 1 km for FYROM}}{35}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Soil map of FYROM}}{36}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Rasterized soil map of FYROM from DEM raster layer}}{37}{figure.5.3}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Two different temperature layers included in the climate covariates}}{41}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces FYROM soil covariates}}{44}{figure.5.5}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces QGIS Desktop with the Browser Panel, the Layers Panel and the display of layers}}{51}{figure.6.1}
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Changing layer properties for the FYROM soil map}}{51}{figure.6.2}
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Project properties and projection settings}}{52}{figure.6.3}
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Join attributes by location}}{53}{figure.6.4}
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Example field calculator}}{54}{figure.6.5}
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Calculate group statistics}}{55}{figure.6.6}
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Change the legend style to display the SOC values}}{55}{figure.6.7}
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Example of the Map composer}}{56}{figure.6.8}
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Change the projection of a raster file}}{57}{figure.6.9}
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Soil map units and soil samples (in red) for the geo-matching exercise}}{60}{figure.6.10}
-\contentsline {figure}{\numberline {6.11}{\ignorespaces SOC prediction map for FYROM using geo-matching}}{61}{figure.6.11}
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Linear regression model}}{64}{figure.6.12}
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Workflow for regression-kriging}}{65}{figure.6.13}
-\contentsline {figure}{\numberline {6.14}{\ignorespaces SOC prediction of FYROM using a regression kriging model}}{77}{figure.6.14}
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Standard deviation map of the regression-kriging model}}{77}{figure.6.15}
-\contentsline {figure}{\numberline {6.16}{\ignorespaces Schematical representation of data splitting to generate the random subsets used to train regression trees within a random forest model (ensemble of regression trees)}}{80}{figure.6.16}
-\contentsline {figure}{\numberline {6.17}{\ignorespaces Model Decreasing Error and Node Purity for the RF model}}{87}{figure.6.17}
-\contentsline {figure}{\numberline {6.18}{\ignorespaces Select ntree}}{88}{figure.6.18}
-\contentsline {figure}{\numberline {6.19}{\ignorespaces SOC prediction map for FYROM using a random forest model}}{89}{figure.6.19}
-\contentsline {figure}{\numberline {6.20}{\ignorespaces Sensitivity based on 10 realizations using 25\% samples}}{90}{figure.6.20}
-\contentsline {figure}{\numberline {6.21}{\ignorespaces OCSKGM quantregForest prediction}}{93}{figure.6.21}
-\contentsline {figure}{\numberline {6.22}{\ignorespaces Total uncertainty}}{93}{figure.6.22}
-\contentsline {figure}{\numberline {6.23}{\ignorespaces Performance of the different SVM models in the parameter tuning procedure}}{101}{figure.6.23}
-\contentsline {figure}{\numberline {6.24}{\ignorespaces SOC prediction map for FYROM using a support vector machines model}}{102}{figure.6.24}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces QGIS Desktop with the Browser Panel, the Layers Panel and the display of layers}}{53}{figure.6.1}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Changing layer properties for the FYROM soil map}}{53}{figure.6.2}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Project properties and projection settings}}{54}{figure.6.3}
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Join attributes by location}}{55}{figure.6.4}
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Example field calculator}}{56}{figure.6.5}
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Calculate group statistics}}{57}{figure.6.6}
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Change the legend style to display the SOC values}}{57}{figure.6.7}
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Example of the Map composer}}{58}{figure.6.8}
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Change the projection of a raster file}}{59}{figure.6.9}
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Soil map units and soil samples (in red) for the geo-matching exercise}}{62}{figure.6.10}
+\contentsline {figure}{\numberline {6.11}{\ignorespaces SOC prediction map for FYROM using geo-matching}}{63}{figure.6.11}
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Linear regression model}}{66}{figure.6.12}
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Workflow for regression-kriging}}{67}{figure.6.13}
+\contentsline {figure}{\numberline {6.14}{\ignorespaces SOC prediction of FYROM using a regression kriging model}}{79}{figure.6.14}
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Standard deviation map of the regression-kriging model}}{79}{figure.6.15}
+\contentsline {figure}{\numberline {6.16}{\ignorespaces Schematical representation of data splitting to generate the random subsets used to train regression trees within a random forest model (ensemble of regression trees)}}{82}{figure.6.16}
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Model Decreasing Error and Node Purity for the RF model}}{89}{figure.6.17}
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Select ntree}}{90}{figure.6.18}
+\contentsline {figure}{\numberline {6.19}{\ignorespaces SOC prediction map for FYROM using a random forest model}}{91}{figure.6.19}
+\contentsline {figure}{\numberline {6.20}{\ignorespaces Sensitivity based on 10 realizations using 25\% samples}}{92}{figure.6.20}
+\contentsline {figure}{\numberline {6.21}{\ignorespaces OCSKGM quantregForest prediction}}{95}{figure.6.21}
+\contentsline {figure}{\numberline {6.22}{\ignorespaces Total uncertainty}}{95}{figure.6.22}
+\contentsline {figure}{\numberline {6.23}{\ignorespaces Performance of the different SVM models in the parameter tuning procedure}}{103}{figure.6.23}
+\contentsline {figure}{\numberline {6.24}{\ignorespaces SOC prediction map for FYROM using a support vector machines model}}{104}{figure.6.24}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Scatterplot of predicted versus observed SOM content for Rwanda (left) and spatial bubble plot of cross-validation error for SOM (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values}}{112}{figure.7.1}
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Sample error matrix}}{116}{figure.7.2}
-\contentsline {figure}{\numberline {7.3}{\ignorespaces Sample error matrix for a hypothetical soil class map}}{117}{figure.7.3}
-\contentsline {figure}{\numberline {7.4}{\ignorespaces Scatter plots of predicted against observed values}}{124}{figure.7.4}
-\contentsline {figure}{\numberline {7.5}{\ignorespaces Spatial bubble of the prediction errors for GM}}{125}{figure.7.5}
-\contentsline {figure}{\numberline {7.6}{\ignorespaces Spatial bubble of the prediction errors for RK}}{125}{figure.7.6}
-\contentsline {figure}{\numberline {7.7}{\ignorespaces Spatial bubble of the prediction errors for RF}}{125}{figure.7.7}
-\contentsline {figure}{\numberline {7.8}{\ignorespaces Spatial bubble of the prediction errors for SVM}}{126}{figure.7.8}
-\contentsline {figure}{\numberline {7.9}{\ignorespaces Statistical distribution of train and test datasets}}{127}{figure.7.9}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Scatterplot of predicted versus observed SOM content for Rwanda (left) and spatial bubble plot of cross-validation error for SOM (right) (Kempen et al., 2015). The black line in the scatter plot represents the 1:1 line of prediction versus observed, the blue line represents the regression between observed and predicted values}}{114}{figure.7.1}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Sample error matrix}}{118}{figure.7.2}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Sample error matrix for a hypothetical soil class map}}{119}{figure.7.3}
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Scatter plots of predicted against observed values}}{126}{figure.7.4}
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Spatial bubble of the prediction errors for GM}}{127}{figure.7.5}
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Spatial bubble of the prediction errors for RK}}{127}{figure.7.6}
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Spatial bubble of the prediction errors for RF}}{127}{figure.7.7}
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Spatial bubble of the prediction errors for SVM}}{128}{figure.7.8}
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Statistical distribution of train and test datasets}}{129}{figure.7.9}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8.1}{\ignorespaces Comparision of DSM model correlations (GM, RK, RF, SVM) and statical distributions}}{131}{figure.8.1}
-\contentsline {figure}{\numberline {8.2}{\ignorespaces Density plot of the prediction for three DSM models}}{132}{figure.8.2}
-\contentsline {figure}{\numberline {8.3}{\ignorespaces Taylor diagram used in the evaluation of the three selected DSM models}}{136}{figure.8.3}
-\contentsline {figure}{\numberline {8.4}{\ignorespaces Effectiveness of the different DSM models across the full distribution of SOC observed values}}{137}{figure.8.4}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Comparision of DSM model correlations (GM, RK, RF, SVM) and statical distributions}}{133}{figure.8.1}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Density plot of the prediction for three DSM models}}{134}{figure.8.2}
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Taylor diagram used in the evaluation of the three selected DSM models}}{138}{figure.8.3}
+\contentsline {figure}{\numberline {8.4}{\ignorespaces Effectiveness of the different DSM models across the full distribution of SOC observed values}}{139}{figure.8.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {9.1}{\ignorespaces Scatter plots of 500 paired soil property values drawn from a two-dimensional normal distribution}}{144}{figure.9.1}
+\contentsline {figure}{\numberline {9.1}{\ignorespaces Scatter plots of 500 paired soil property values drawn from a two-dimensional normal distribution}}{146}{figure.9.1}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {10.1}{\ignorespaces Soil texture triangle plot as an example of soil science specific data}}{151}{figure.10.1}
-\contentsline {figure}{\numberline {10.2}{\ignorespaces Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data}}{152}{figure.10.2}
-\contentsline {figure}{\numberline {10.3}{\ignorespaces Displaying point dataset eberg (used in the previous example) in Google Fusion Tables.}}{156}{figure.10.3}
-\contentsline {figure}{\numberline {10.4}{\ignorespaces SoilGrids (Hengl et al.\nobreakspace {}2017) WCS opened in QGIS}}{158}{figure.10.4}
-\contentsline {figure}{\numberline {10.5}{\ignorespaces Sampled locations and produced predictions visualized using Leaflet package}}{159}{figure.10.5}
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Soil texture triangle plot as an example of soil science specific data}}{153}{figure.10.1}
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Some frequently required soil variables (sorted by number of studies) based on the study by Keller et al. (2014). This list is probably country/project specific but illustrates the differences considering the interest in soil data}}{154}{figure.10.2}
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Displaying point dataset eberg (used in the previous example) in Google Fusion Tables.}}{158}{figure.10.3}
+\contentsline {figure}{\numberline {10.4}{\ignorespaces SoilGrids (Hengl et al.\nobreakspace {}2017) WCS opened in QGIS}}{160}{figure.10.4}
+\contentsline {figure}{\numberline {10.5}{\ignorespaces Sampled locations and produced predictions visualized using Leaflet package}}{161}{figure.10.5}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
