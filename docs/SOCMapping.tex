@@ -799,50 +799,49 @@ prediction techniques.
 
 The approaches outlined and demonstrated in this technical manual
 consider the reference framework of the SCORPAN model for digital soil
-mapping (DSM; \cite{McBratney2003}). In the SCORPAN reference framework
+mapping (DSM; \citet{McBratney2003}). In the SCORPAN reference framework
 a soil attribute (e.g., SOC) can be predicted as a function of the soil
 forming environment, in correspondence with soil forming factors from
 the Dokuchaev hypothesis and Jenny's soil forming equation based on
 climate, organisms, relief, parent material and elapsed time of soil
-formation \citep{Florinsky2012}. The SCORPAN
-\textcolor{red}{(Soils, Climate,
-Organisms, Parent material, Age and (N) space or spatial position, see
-\cite{McBratney2003})} reference framework is a empirical approach that
+formation \citep{Florinsky2012}. The SCORPAN (Soils, Climate, Organisms,
+Parent material, Age and (N) space or spatial position, see
+\cite{McBratney2003}) reference framework is a empirical approach that
 can be expressed as in Eq. (1):
 
 \begin{equation}
-\resizebox{0.48\textwidth}{!}{$Sa_{\textcolor{red}{[x; y ~ t]}}
+Sa_{[x; y ~ t]}
 =f(S_{[x; y ~ t]},C_{[x; y ~ t]},O_{[x; y ~ t]},R_{[x; y ~ t]},P_{[x;
-y ~ t]},A_{[x; y ~ t]})$}
+y ~ t]},A_{[x; y ~ t]})
 \end{equation}
 
 where \(Sa\) is the soil attribute of interest at a specific location
 \textcolor{red}{N (represented by the spatial coordinates of field
 observations $x$; $y$) and representative for a specific time frame
-($t$)}; \(S\) is the soil or other soil properties \textcolor{red}{that
-are correlated with $Sa$}; \(C\) is the climate or climatic properties
-of the environment; \(O\) are the organisms, vegetation, fauna or human
+($t$)}; \(S\) is the soil or other soil properties that are correlated
+with \(Sa\); \(C\) is the climate or climatic properties of the
+environment; \(O\) are the organisms, vegetation, fauna or human
 activity; \(R\) is topography or landscape attributes; \(P\) is parent
 material or lithology; and \(A\) is the substrate age or the time
-factor. \textcolor{red}{To generate predictions of $Sa$ across places
-where no soil data is available, $N$ should be explicit for the
-information layers representing the soil forming factors. These
-predictions will be representative of the time period ($t$) when soil
-available data was collected. Therefore, the prediction factors
-ideally should represent, the conditions of the soil forming
-environment for the same period of time (as much as possible) when
-soil available data was collected. In Eq. (1)} the left side is usually
-represented by the available geo-spatial soil observational data (e.g.,
-from legacy soil profile collections) and the right side of the equation
-is represented by the soil prediction factors. These prediction factors
-are normally derived from four main sources of information: a) thematic
-maps (i.e., soil type, rock type, land use type); b) remote sensing
-(i.e., active and passive); c) climate surfaces and meteorological data;
-and d) digital terrain analysis or geomorphometry. The SCORPAN reference
-framework is widely used, but one critical challenge is to quantify the
-relative importance of the soil forming factors (i.e., prediction
-factors) that could explain the underlying soil processes controlling
-the spatial variability of a specific soil attribute (i.e., SOC).
+factor. To generate predictions of \(Sa\) across places where no soil
+data is available, \(N\) should be explicit for the information layers
+representing the soil forming factors. These predictions will be
+representative of the time period (\(t\)) when soil available data was
+collected. Therefore, the prediction factors ideally should represent,
+the conditions of the soil forming environment for the same period of
+time (as much as possible) when soil available data was collected. In
+Eq. (1) the left side is usually represented by the available
+geo-spatial soil observational data (e.g., from legacy soil profile
+collections) and the right side of the equation is represented by the
+soil prediction factors. These prediction factors are normally derived
+from four main sources of information: a) thematic maps (i.e., soil
+type, rock type, land use type); b) remote sensing (i.e., active and
+passive); c) climate surfaces and meteorological data; and d) digital
+terrain analysis or geomorphometry. The SCORPAN reference framework is
+widely used, but one critical challenge is to quantify the relative
+importance of the soil forming factors (i.e., prediction factors) that
+could explain the underlying soil processes controlling the spatial
+variability of a specific soil attribute (i.e., SOC).
 
 \hypertarget{setting-up-the-software-environment}{%
 \chapter{Setting-up the software

@@ -375,25 +375,35 @@ Digital Soil Mapping (DSM)  allows more accurate spatial mapping of soil propert
 <p><strong>DSM</strong>: Concept of environmental correlation that explores the quantitative relationship between environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.</p>
 </blockquote>
 <p>The approaches outlined and demonstrated in this technical manual consider the reference framework of the SCORPAN
-model for digital soil mapping (DSM; ). In the
+model for digital soil mapping (DSM; <span class="citation">(<span class="citeproc-not-found" data-reference-id="McBratney2003"><strong>???</strong></span>)</span>). In the
 SCORPAN reference framework a soil attribute (e.g., SOC) can be
 predicted as a function of the soil forming environment, in
 correspondence with soil forming factors from the Dokuchaev hypothesis
 and Jenny’s soil forming equation based on climate, organisms, relief,
 parent material and elapsed time of soil formation
-. The SCORPAN  reference framework is a empirical approach
+. The SCORPAN (Soils, Climate,
+Organisms, Parent material, Age and (N) space or spatial position, see
+) reference framework is a empirical approach
 that can be expressed as in Eq. (1):</p>
 <span class="math display">\[\begin{equation}
-\resizebox{0.48\textwidth}{!}{$Sa_{\textcolor{red}{[x; y ~ t]}}
+Sa_{[x; y ~ t]}
 =f(S_{[x; y ~ t]},C_{[x; y ~ t]},O_{[x; y ~ t]},R_{[x; y ~ t]},P_{[x;
-y ~ t]},A_{[x; y ~ t]})$}
+y ~ t]},A_{[x; y ~ t]})
 \end{equation}\]</span>
 <p>where <span class="math inline">\(Sa\)</span> is the soil attribute of interest at a specific location
-; <span class="math inline">\(S\)</span> is the soil or other soil properties ; <span class="math inline">\(C\)</span> is the climate or climatic properties
+; <span class="math inline">\(S\)</span> is the soil or other soil properties that
+are correlated with <span class="math inline">\(Sa\)</span>; <span class="math inline">\(C\)</span> is the climate or climatic properties
 of the environment; <span class="math inline">\(O\)</span> are the organisms, vegetation, fauna or human
 activity; <span class="math inline">\(R\)</span> is topography or landscape attributes; <span class="math inline">\(P\)</span> is parent
 material or lithology; and <span class="math inline">\(A\)</span> is the substrate age or the time
-factor.  the left side is
+factor. To generate predictions of <span class="math inline">\(Sa\)</span> across places
+where no soil data is available, <span class="math inline">\(N\)</span> should be explicit for the
+information layers representing the soil forming factors. These
+predictions will be representative of the time period (<span class="math inline">\(t\)</span>) when soil
+available data was collected. Therefore, the prediction factors
+ideally should represent, the conditions of the soil forming
+environment for the same period of time (as much as possible) when
+soil available data was collected. In Eq. (1) the left side is
 usually represented by the available geo-spatial soil observational
 data (e.g., from legacy soil profile collections) and the right side
 of the equation is represented by the soil prediction factors. These
