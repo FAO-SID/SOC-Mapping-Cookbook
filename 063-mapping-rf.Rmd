@@ -237,7 +237,7 @@ summary(validation)
 
 **Step 3 - Analyze the sensitivity of the map**
 
-```{r, eval=FALSE, fig.cap='OCSKGM prediction based on 75% of data', echo=FALSE}
+```{r, eval=TRUE, fig.cap='OCSKGM prediction based on 75% of data', echo=TRUE}
 # Plot of the map based on 75% of data and the sensitivity to data 
 # variations
 prediction75 <- exp(pred[[1]])
