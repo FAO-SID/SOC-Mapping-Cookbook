@@ -218,8 +218,6 @@ for (i in 1:10){
 
 **Step 2 - Build a sensitivity map**
 
-The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realizations, each with a different random combination of data for training and validating the models. 
-
 ```{r, eval=TRUE, fig.cap='Sensitivity based on 10 realizations using 25% samples'}
 # The sensitivity map is the dispersion of all individual models
 sensitivity <- calc(pred[[-1]], sd)
