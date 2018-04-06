@@ -29,7 +29,7 @@ Digital soil mapping is based on the development of functions for upscaling poin
 > **DSM**: Concept of environmental correlation that explores the quantitative relationship between environmental variables and soil properties and could be used to predict the latter with multivariate prediction techniques.
 
 The approaches outlined and demonstrated in this technical manual consider the reference framework of the SCORPAN
-model for digital soil mapping (DSM; @McBratney2003). In the
+model for digital soil mapping (DSM; @mcbratney2003digital). In the
 SCORPAN reference framework a soil attribute (e.g., SOC) can be
 predicted as a function of the soil forming environment, in
 correspondence with soil forming factors from the Dokuchaev hypothesis
@@ -37,7 +37,7 @@ and Jenny's soil forming equation based on climate, organisms, relief,
 parent material and elapsed time of soil formation
 \citep{Florinsky2012}. The SCORPAN (Soils, Climate,
 Organisms, Parent material, Age and (N) space or spatial position, see
-\cite{McBratney2003}) reference framework is a empirical approach
+\cite{mcbratney2003digital}) reference framework is a empirical approach
 that can be expressed as in Eq. (1):
 
 \begin{equation}
