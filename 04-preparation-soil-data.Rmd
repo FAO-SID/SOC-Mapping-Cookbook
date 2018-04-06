@@ -229,7 +229,13 @@ Soil properties are commonly collected from field inventories (see Table \@ref(t
 * **Option 2**: Horizons or layers/depth classes are sampled but aggregation is needed over the 0cm to 30cm.
 * **Option 3**: The target depth (0cm to 30cm) was not completely covered by sampling, e.g. only the A horizon or a topsoil layer (e.g. 0cm to 20cm) has been sampled.
 
-For both **Options 2** and **Option 3**, the transformation is needed, using e.g. equal-area splines. In the case of **Option 2**, the use of equal-area splines was first proposed by \cite{ponce1986improved}, and later tested against real data \citep{bishop1999modelling}. This technique is based on fitting continuous depth functions for modeling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, whereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. In case of **Option 3**, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by \cite{bernoux1998modeling}.
+For both **Options 2** and **Option 3**, the transformation is needed, using e.g. equal-area splines. In the case of **Option 2**, the use of equal-area splines was first proposed by \cite{ponce1986improved}, and later tested against real data \citep{bishop1999modelling}. This technique is based on fitting continuous depth functions for modeling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, whereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. 
+
+```{r grworkflow, fig.cap="An equal-area quadratic spline from Ponce-Hernandez et al. (1986)" (Cited by Bishop et al., 1999), out.width='80%', echo=FALSE, fig.align='center'}
+knitr::include_graphics("images/spline.png")
+```
+
+In case of **Option 3**, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by \cite{bernoux1998modeling}.
 
 ### Technical steps - Equal-area splines using R {#EqualAreaSplines}
 
