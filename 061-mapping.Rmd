@@ -244,7 +244,7 @@ soilmap$OCSKGM <- over(soilmap, dat[,"OCSKGM"], fun=mean)[,1]
 
 **Step 3 - Rasterize and export the results as geotiff**
 
-Finally, convert the layer to raster, to comply with the deliverables specifications (see Chapter \@ref(deliverables)). 
+Finally, convert the layer to raster, to comply with the deliverables specifications. 
 
 ```{r, fig.cap='SOC prediction map for FYROM using geo-matching'}
 pred <- rasterize(soilmap, DEM, "OCSKGM")

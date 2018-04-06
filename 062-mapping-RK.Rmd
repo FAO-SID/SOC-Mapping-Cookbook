@@ -110,7 +110,7 @@ getwd()
 
 **Point dataset**
 
-We previously prepared the point dataset in \@ref(preperation) chapter. We will be using this data file (.csv) in this section.
+We previously prepared the point dataset in \@ref(preparation) chapter. We will be using this data file (.csv) in this section.
 
 **Environmental predictors (covariates)**
 
