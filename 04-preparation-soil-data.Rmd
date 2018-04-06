@@ -42,7 +42,10 @@ knitr::kable(dat, caption = "Example for profile-description table", booktabs = 
 
 This Chapter includes two examples for soil data preparation. As each step for the soil data preparation is explained in detail, the given code is mixed with text. A copy of the bare code is presented in Section \@ref(cd:PreparationProfiles) for using soil profiles data, and for using topsoil or auger data the code can be found in Section \@ref(cd:PreparationAuger).
 
-**Option 1 - Soil profiles data**
+The following code shows the necessary steps for loading 
+soil profiles data.
+
+**Step 1 - Loading soil horizons data**
 
 ```{r, results='hold'}
 dat <- read.csv(file = "data/horizons.csv")
@@ -52,7 +55,7 @@ str(dat)
 summary(dat)
 ```
 
-**Option 2 - Topsoil or auger data**
+**Step 2 - Loading site-level data**
 
 ```{r}
 dat_sites <- read.csv(file = "data/site-level.csv")
