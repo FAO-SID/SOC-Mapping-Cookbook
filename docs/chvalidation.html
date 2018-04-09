@@ -335,8 +335,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 7</span> Validation</h1>
 <p><em>B. Kempen, D.J. Brus &amp; G.B.M. Heuvelink</em></p>
 <p>The authors of this Chapter used <strong>R</strong> packages. To run the code provided in this Chapter, the following packages need to be installed in the <strong>R</strong> user library. If the packages are not yet installed, the <code>install.packages()</code> function can be used.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Validation&#39;</span></a>
-<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;sp&quot;</span>, <span class="st">&quot;raster&quot;</span>, <span class="st">&quot;caret&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Validation&#39;</span></a>
+<a class="sourceLine" id="cb165-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;sp&quot;</span>, <span class="st">&quot;raster&quot;</span>, <span class="st">&quot;caret&quot;</span>))</a></code></pre></div>
 <div id="what-is-validation" class="section level2">
 <h2><span class="header-section-number">7.1</span> What is validation?</h2>
 <p>No map is perfect. All maps, including soil maps, are representations of reality that are often based on an underlying model. This means that there will always be a deviation between the phenomenon depicted on the map and the phenomenon observed in the real world, i.e. each map will contain errors. The magnitude of the errors determines the quality of the map. If a map matches reality well (the error is small), the quality or accuracy of the map is high. On the other hand, if a map does not match reality well, map accuracy is low.</p>
@@ -606,34 +606,34 @@ Figure 7.3: Sample error matrix for a hypothetical soil class map
 <p><em>G.F. Olmedo</em></p>
 <p><strong>Step 1 - Prediction error</strong></p>
 <p>First, we will load the validation dataset. This dataset was measured at the same time as the modeling dataset. After data preparation in Chapter <a href="preparation.html#preparation">4</a>, we used the code in Section <a href="chvalidation.html#dataSplit">7.6</a> to split the database: 75% of the points were used in the models from Chapter <a href="mappingMethods.html#mappingMethods">6</a> and now we will use the remaining 25% of the points to test those results.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb171-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb171-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dat_test.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb171-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb171-5" data-line-number="5"><span class="co"># Promote to spatialPointsDataFrame </span></a>
-<a class="sourceLine" id="cb171-6" data-line-number="6"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb171-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb171-8" data-line-number="8">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb166-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb166-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dat_test.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb166-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb166-5" data-line-number="5"><span class="co"># Promote to spatialPointsDataFrame </span></a>
+<a class="sourceLine" id="cb166-6" data-line-number="6"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb166-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb166-8" data-line-number="8">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a></code></pre></div>
 <p>Now, we will load the predicted layers from Chapter <a href="mappingMethods.html#mappingMethods">6</a>, extract the predicted value for every point and then, estimate the prediction error.</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb172-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb172-3" data-line-number="3">OCSKGM_GM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_GM.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb172-4" data-line-number="4">OCSKGM_RK &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_RK.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb172-5" data-line-number="5">OCSKGM_rf &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_rf.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb172-6" data-line-number="6">OCSKGM_svm &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_svm.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb172-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb172-8" data-line-number="8">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_GM, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb172-9" data-line-number="9">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_RK, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb172-10" data-line-number="10">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_rf, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb172-11" data-line-number="11">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_svm, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb172-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb172-13" data-line-number="13">dat<span class="op">$</span>PE_GM &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_GM <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
-<a class="sourceLine" id="cb172-14" data-line-number="14">dat<span class="op">$</span>PE_RK &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_RK <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
-<a class="sourceLine" id="cb172-15" data-line-number="15">dat<span class="op">$</span>PE_rf &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_rf <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
-<a class="sourceLine" id="cb172-16" data-line-number="16">dat<span class="op">$</span>PE_svm &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_svm <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
-<a class="sourceLine" id="cb172-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb172-18" data-line-number="18"><span class="co"># Save the validation results</span></a>
-<a class="sourceLine" id="cb172-19" data-line-number="19"><span class="kw">write.csv</span>(dat, <span class="st">&quot;results/validation.csv&quot;</span>, <span class="dt">row.names =</span> F)</a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb167-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb167-3" data-line-number="3">OCSKGM_GM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_GM.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb167-4" data-line-number="4">OCSKGM_RK &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_RK.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb167-5" data-line-number="5">OCSKGM_rf &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_rf.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb167-6" data-line-number="6">OCSKGM_svm &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;results/MKD_OCSKGM_svm.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb167-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb167-8" data-line-number="8">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_GM, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb167-9" data-line-number="9">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_RK, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb167-10" data-line-number="10">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_rf, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb167-11" data-line-number="11">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> OCSKGM_svm, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb167-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb167-13" data-line-number="13">dat<span class="op">$</span>PE_GM &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_GM <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb167-14" data-line-number="14">dat<span class="op">$</span>PE_RK &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_RK <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb167-15" data-line-number="15">dat<span class="op">$</span>PE_rf &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_rf <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb167-16" data-line-number="16">dat<span class="op">$</span>PE_svm &lt;-<span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_svm <span class="op">-</span><span class="st"> </span>dat<span class="op">$</span>OCSKGM</a>
+<a class="sourceLine" id="cb167-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb167-18" data-line-number="18"><span class="co"># Save the validation results</span></a>
+<a class="sourceLine" id="cb167-19" data-line-number="19"><span class="kw">write.csv</span>(dat, <span class="st">&quot;results/validation.csv&quot;</span>, <span class="dt">row.names =</span> F)</a></code></pre></div>
 <table>
 <caption><span id="tab:prederrors">Table 7.2: </span>Summary of prediction errors for three different mapping methods</caption>
 <thead>
@@ -699,48 +699,48 @@ Figure 7.3: Sample error matrix for a hypothetical soil class map
 </table>
 <p><strong>Step 2 - Estimating the map quality measures</strong></p>
 <p>In this Section, we present the code needed to estimate the map quality measures for quantitative soil maps.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="co"># Mean Error</span></a>
-<a class="sourceLine" id="cb173-2" data-line-number="2">ME_GM &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_GM, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-3" data-line-number="3">ME_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_RK, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-4" data-line-number="4">ME_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_rf, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-5" data-line-number="5">ME_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_svm, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb173-7" data-line-number="7"><span class="co"># Mean Absolute Error (MAE)</span></a>
-<a class="sourceLine" id="cb173-8" data-line-number="8">MAE_GM &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_GM), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-9" data-line-number="9">MAE_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_RK), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-10" data-line-number="10">MAE_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_rf), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-11" data-line-number="11">MAE_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_svm), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb173-13" data-line-number="13"><span class="co"># Mean Squared Error (MSE)</span></a>
-<a class="sourceLine" id="cb173-14" data-line-number="14">MSE_GM &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_GM<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-15" data-line-number="15">MSE_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-16" data-line-number="16">MSE_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-17" data-line-number="17">MSE_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb173-19" data-line-number="19"><span class="co"># Root Mean Squared Error (RMSE)</span></a>
-<a class="sourceLine" id="cb173-20" data-line-number="20">RMSE_GM &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_GM<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_GM))</a>
-<a class="sourceLine" id="cb173-21" data-line-number="21">RMSE_RK &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_RK))</a>
-<a class="sourceLine" id="cb173-22" data-line-number="22">RMSE_rf &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_rf))</a>
-<a class="sourceLine" id="cb173-23" data-line-number="23">RMSE_svm &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_svm))</a>
-<a class="sourceLine" id="cb173-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb173-25" data-line-number="25"><span class="co"># Amount of Variance Explained (AVE)</span></a>
-<a class="sourceLine" id="cb173-26" data-line-number="26">AVE_GM &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_GM<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb173-27" data-line-number="27"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_GM <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb173-28" data-line-number="28">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb173-30" data-line-number="30">AVE_RK &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb173-31" data-line-number="31"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_RK <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb173-32" data-line-number="32">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb173-34" data-line-number="34">AVE_rf &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb173-35" data-line-number="35"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_rf <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb173-36" data-line-number="36">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb173-37" data-line-number="37"></a>
-<a class="sourceLine" id="cb173-38" data-line-number="38">AVE_svm &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb173-39" data-line-number="39"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_svm <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb173-40" data-line-number="40">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="co"># Mean Error</span></a>
+<a class="sourceLine" id="cb168-2" data-line-number="2">ME_GM &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_GM, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-3" data-line-number="3">ME_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_RK, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-4" data-line-number="4">ME_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_rf, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-5" data-line-number="5">ME_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_svm, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb168-7" data-line-number="7"><span class="co"># Mean Absolute Error (MAE)</span></a>
+<a class="sourceLine" id="cb168-8" data-line-number="8">MAE_GM &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_GM), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-9" data-line-number="9">MAE_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_RK), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-10" data-line-number="10">MAE_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_rf), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-11" data-line-number="11">MAE_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(dat<span class="op">$</span>PE_svm), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb168-13" data-line-number="13"><span class="co"># Mean Squared Error (MSE)</span></a>
+<a class="sourceLine" id="cb168-14" data-line-number="14">MSE_GM &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_GM<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-15" data-line-number="15">MSE_RK &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-16" data-line-number="16">MSE_rf &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-17" data-line-number="17">MSE_svm &lt;-<span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb168-19" data-line-number="19"><span class="co"># Root Mean Squared Error (RMSE)</span></a>
+<a class="sourceLine" id="cb168-20" data-line-number="20">RMSE_GM &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_GM<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_GM))</a>
+<a class="sourceLine" id="cb168-21" data-line-number="21">RMSE_RK &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_RK))</a>
+<a class="sourceLine" id="cb168-22" data-line-number="22">RMSE_rf &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_rf))</a>
+<a class="sourceLine" id="cb168-23" data-line-number="23">RMSE_svm &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(dat<span class="op">$</span>PE_svm))</a>
+<a class="sourceLine" id="cb168-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb168-25" data-line-number="25"><span class="co"># Amount of Variance Explained (AVE)</span></a>
+<a class="sourceLine" id="cb168-26" data-line-number="26">AVE_GM &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_GM<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb168-27" data-line-number="27"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_GM <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb168-28" data-line-number="28">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb168-30" data-line-number="30">AVE_RK &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_RK<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb168-31" data-line-number="31"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_RK <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb168-32" data-line-number="32">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb168-34" data-line-number="34">AVE_rf &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_rf<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb168-35" data-line-number="35"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_rf <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb168-36" data-line-number="36">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb168-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb168-38" data-line-number="38">AVE_svm &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dat<span class="op">$</span>PE_svm<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">/</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb168-39" data-line-number="39"><span class="st">  </span><span class="kw">sum</span>( (dat<span class="op">$</span>MKD_OCSKGM_svm <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(dat<span class="op">$</span>OCSKGM, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))<span class="op">^</span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb168-40" data-line-number="40">       <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-85">Table 7.3: </span>Summary of map quality measures for three different mapping methods</caption>
+<caption><span id="tab:unnamed-chunk-86">Table 7.3: </span>Summary of map quality measures for three different mapping methods</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -790,87 +790,87 @@ Figure 7.3: Sample error matrix for a hypothetical soil class map
 </table>
 <p><strong>Step 3 - Graphical map quality measures</strong></p>
 <p>In this Section, we will apply the proposed graphical quality measures to the results of Chapter <a href="mappingMethods.html#mappingMethods">6</a>.</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="co"># Two plots in one plot</span></a>
-<a class="sourceLine" id="cb174-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb174-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb174-4" data-line-number="4"><span class="co"># Scatter plot</span></a>
-<a class="sourceLine" id="cb174-5" data-line-number="5"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_GM, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;GM&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
-<a class="sourceLine" id="cb174-6" data-line-number="6">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
-<a class="sourceLine" id="cb174-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb174-8" data-line-number="8"><span class="co"># 1:1 line in black</span></a>
-<a class="sourceLine" id="cb174-9" data-line-number="9"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
-<a class="sourceLine" id="cb174-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb174-11" data-line-number="11"><span class="co"># Regression line between predicted and observed in blue</span></a>
-<a class="sourceLine" id="cb174-12" data-line-number="12"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_GM), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb174-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb174-14" data-line-number="14"><span class="co"># Scatter plot</span></a>
-<a class="sourceLine" id="cb174-15" data-line-number="15"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_RK, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;RK&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
-<a class="sourceLine" id="cb174-16" data-line-number="16">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
-<a class="sourceLine" id="cb174-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb174-18" data-line-number="18"><span class="co"># 1:1 line in black</span></a>
-<a class="sourceLine" id="cb174-19" data-line-number="19"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
-<a class="sourceLine" id="cb174-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb174-21" data-line-number="21"><span class="co"># Regression line between predicted and observed in blue</span></a>
-<a class="sourceLine" id="cb174-22" data-line-number="22"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_RK), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb174-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb174-24" data-line-number="24"><span class="co"># Scatter plot</span></a>
-<a class="sourceLine" id="cb174-25" data-line-number="25"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_rf, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;rf&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
-<a class="sourceLine" id="cb174-26" data-line-number="26">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
-<a class="sourceLine" id="cb174-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb174-28" data-line-number="28"><span class="co"># 1:1 line in black</span></a>
-<a class="sourceLine" id="cb174-29" data-line-number="29"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
-<a class="sourceLine" id="cb174-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb174-31" data-line-number="31"><span class="co"># Regression line between predicted and observed in blue</span></a>
-<a class="sourceLine" id="cb174-32" data-line-number="32"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_rf), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb174-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb174-34" data-line-number="34"><span class="co"># Scatter plot</span></a>
-<a class="sourceLine" id="cb174-35" data-line-number="35"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_svm, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;svm&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
-<a class="sourceLine" id="cb174-36" data-line-number="36">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
-<a class="sourceLine" id="cb174-37" data-line-number="37"></a>
-<a class="sourceLine" id="cb174-38" data-line-number="38"><span class="co"># 1:1 line in black</span></a>
-<a class="sourceLine" id="cb174-39" data-line-number="39"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
-<a class="sourceLine" id="cb174-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb174-41" data-line-number="41"><span class="co"># Regression line between predicted and observed in blue</span></a>
-<a class="sourceLine" id="cb174-42" data-line-number="42"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_svm), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-86"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-86-1.png" alt="Scatter plots of predicted against observed values" width="672" />
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="co"># Two plots in one plot</span></a>
+<a class="sourceLine" id="cb169-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb169-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb169-4" data-line-number="4"><span class="co"># Scatter plot</span></a>
+<a class="sourceLine" id="cb169-5" data-line-number="5"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_GM, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;GM&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb169-6" data-line-number="6">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb169-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb169-8" data-line-number="8"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb169-9" data-line-number="9"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb169-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb169-11" data-line-number="11"><span class="co"># Regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb169-12" data-line-number="12"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_GM), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb169-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb169-14" data-line-number="14"><span class="co"># Scatter plot</span></a>
+<a class="sourceLine" id="cb169-15" data-line-number="15"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_RK, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;RK&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb169-16" data-line-number="16">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb169-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb169-18" data-line-number="18"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb169-19" data-line-number="19"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb169-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb169-21" data-line-number="21"><span class="co"># Regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb169-22" data-line-number="22"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_RK), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb169-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb169-24" data-line-number="24"><span class="co"># Scatter plot</span></a>
+<a class="sourceLine" id="cb169-25" data-line-number="25"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_rf, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;rf&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb169-26" data-line-number="26">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb169-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb169-28" data-line-number="28"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb169-29" data-line-number="29"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb169-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb169-31" data-line-number="31"><span class="co"># Regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb169-32" data-line-number="32"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_rf), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb169-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb169-34" data-line-number="34"><span class="co"># Scatter plot</span></a>
+<a class="sourceLine" id="cb169-35" data-line-number="35"><span class="kw">plot</span>(dat<span class="op">$</span>MKD_OCSKGM_svm, dat<span class="op">$</span>OCSKGM, <span class="dt">main=</span><span class="st">&quot;svm&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;predicted&quot;</span>, </a>
+<a class="sourceLine" id="cb169-36" data-line-number="36">     <span class="dt">ylab=</span><span class="st">&#39;observed&#39;</span>)</a>
+<a class="sourceLine" id="cb169-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb169-38" data-line-number="38"><span class="co"># 1:1 line in black</span></a>
+<a class="sourceLine" id="cb169-39" data-line-number="39"><span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;black&#39;</span>)</a>
+<a class="sourceLine" id="cb169-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb169-41" data-line-number="41"><span class="co"># Regression line between predicted and observed in blue</span></a>
+<a class="sourceLine" id="cb169-42" data-line-number="42"><span class="kw">abline</span>(<span class="kw">lm</span>(dat<span class="op">$</span>OCSKGM <span class="op">~</span><span class="st"> </span>dat<span class="op">$</span>MKD_OCSKGM_svm), <span class="dt">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-87"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-87-1.png" alt="Scatter plots of predicted against observed values" width="672" />
 <p class="caption">
 Figure 7.4: Scatter plots of predicted against observed values
 </p>
 </div>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
-<a class="sourceLine" id="cb176-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_GM),], <span class="st">&quot;PE_GM&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
-<a class="sourceLine" id="cb176-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-87"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-87-1.png" alt="Spatial bubble of the prediction errors for GM" width="60%" />
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_GM),], <span class="st">&quot;PE_GM&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb171-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-88"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-88-1.png" alt="Spatial bubble of the prediction errors for GM" width="60%" />
 <p class="caption">
 Figure 7.5: Spatial bubble of the prediction errors for GM
 </p>
 </div>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
-<a class="sourceLine" id="cb177-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_RK),], <span class="st">&quot;PE_RK&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
-<a class="sourceLine" id="cb177-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-88"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-88-1.png" alt="Spatial bubble of the prediction errors for RK" width="60%" />
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb172-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_RK),], <span class="st">&quot;PE_RK&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb172-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-89"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-89-1.png" alt="Spatial bubble of the prediction errors for RK" width="60%" />
 <p class="caption">
 Figure 7.6: Spatial bubble of the prediction errors for RK
 </p>
 </div>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
-<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_rf),], <span class="st">&quot;PE_rf&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
-<a class="sourceLine" id="cb178-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-89"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-89-1.png" alt="Spatial bubble of the prediction errors for RF" width="60%" />
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb173-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_rf),], <span class="st">&quot;PE_rf&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb173-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-90"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-90-1.png" alt="Spatial bubble of the prediction errors for RF" width="60%" />
 <p class="caption">
 Figure 7.7: Spatial bubble of the prediction errors for RF
 </p>
 </div>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
-<a class="sourceLine" id="cb179-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_svm),], <span class="st">&quot;PE_svm&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
-<a class="sourceLine" id="cb179-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-90"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-90-1.png" alt="Spatial bubble of the prediction errors for SVM" width="60%" />
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="co"># Spatial bubbles for prediction errors</span></a>
+<a class="sourceLine" id="cb174-2" data-line-number="2"><span class="kw">bubble</span>(dat[<span class="op">!</span><span class="kw">is.na</span>(dat<span class="op">$</span>PE_svm),], <span class="st">&quot;PE_svm&quot;</span>, <span class="dt">pch =</span> <span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb174-3" data-line-number="3">       <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;green&#39;</span>))</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-91"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-91-1.png" alt="Spatial bubble of the prediction errors for SVM" width="60%" />
 <p class="caption">
 Figure 7.8: Spatial bubble of the prediction errors for SVM
 </p>
@@ -879,26 +879,26 @@ Figure 7.8: Spatial bubble of the prediction errors for SVM
 <div id="dataSplit" class="section level2">
 <h2><span class="header-section-number">7.6</span> Technical steps - Data-splitting</h2>
 <p>As explained before, many times for running validation analysis, we split the data before fitting the models. In this Section, we present the code needed to achieve this using <strong>caret</strong> package.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb180-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb180-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dataproc.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb180-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb180-5" data-line-number="5">train.ind &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dat), <span class="dt">p =</span> <span class="fl">.75</span>, <span class="dt">list =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb180-6" data-line-number="6">train &lt;-<span class="st"> </span>dat[ train.ind,]</a>
-<a class="sourceLine" id="cb180-7" data-line-number="7">test  &lt;-<span class="st"> </span>dat[<span class="op">-</span>train.ind,]</a>
-<a class="sourceLine" id="cb180-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb180-9" data-line-number="9"><span class="kw">plot</span>(<span class="kw">density</span> (<span class="kw">log</span>(train<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb180-10" data-line-number="10"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">log</span>(test<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;blue&#39;</span>)</a>
-<a class="sourceLine" id="cb180-11" data-line-number="11"><span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;train&quot;</span>, <span class="st">&quot;test&quot;</span>),</a>
-<a class="sourceLine" id="cb180-12" data-line-number="12">      <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">cex=</span><span class="fl">1.5</span>)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-92"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-92-1.png" alt="Statistical distribution of train and test datasets" width="672" />
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb175-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb175-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dataproc.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb175-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb175-5" data-line-number="5">train.ind &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(dat), <span class="dt">p =</span> <span class="fl">.75</span>, <span class="dt">list =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb175-6" data-line-number="6">train &lt;-<span class="st"> </span>dat[ train.ind,]</a>
+<a class="sourceLine" id="cb175-7" data-line-number="7">test  &lt;-<span class="st"> </span>dat[<span class="op">-</span>train.ind,]</a>
+<a class="sourceLine" id="cb175-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb175-9" data-line-number="9"><span class="kw">plot</span>(<span class="kw">density</span> (<span class="kw">log</span>(train<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>, <span class="dt">main=</span><span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb175-10" data-line-number="10"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">log</span>(test<span class="op">$</span>OCSKGM)), <span class="dt">col=</span><span class="st">&#39;blue&#39;</span>)</a>
+<a class="sourceLine" id="cb175-11" data-line-number="11"><span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;train&quot;</span>, <span class="st">&quot;test&quot;</span>),</a>
+<a class="sourceLine" id="cb175-12" data-line-number="12">      <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">cex=</span><span class="fl">1.5</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-93"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-93-1.png" alt="Statistical distribution of train and test datasets" width="672" />
 <p class="caption">
 Figure 7.9: Statistical distribution of train and test datasets
 </p>
 </div>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1"><span class="kw">write.csv</span>(train, <span class="dt">file=</span><span class="st">&quot;data/dat_train.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb181-2" data-line-number="2"><span class="kw">write.csv</span>(test, <span class="dt">file=</span><span class="st">&quot;data/dat_test.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="kw">write.csv</span>(train, <span class="dt">file=</span><span class="st">&quot;data/dat_train.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb176-2" data-line-number="2"><span class="kw">write.csv</span>(test, <span class="dt">file=</span><span class="st">&quot;data/dat_test.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 
 </div>
 </div>

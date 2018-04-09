@@ -338,11 +338,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The first method is class-matching. In this approach, we derive average SOC stocks per class either from the soil type for which a national map exists, or through the combination with other spatial covariates such as land use category, climate type, biome, etc. This approach is used in the absence of spatial coordinates of the source data. The second conventional upscaling method is geo-matching, were upscaling is based on averaged SOC values per mapping unit.</p>
 <p>Furthermore, we present three methods from DSM. Regression-kriging (RK) is a hybrid model with both, a deterministic and a stochastic component <span class="citation">(Hengl, Heuvelink, and Rossiter <a href="#ref-hengl2007regression">2007</a>)</span>. Next method is called random forest (RF). This one is an ensemble of regression trees based on bagging. This machine learning algorithm uses a different combination of prediction factors to train multiple regression trees <span class="citation">(Breiman <a href="#ref-Breiman1996">1996</a>)</span>. The last method is called support vector machines (SVM). This method applies a simple linear method to the data but in a high-dimensional feature space, non-linearly related to the input space <span class="citation">(Karatzoglou, Meyer, and Hornik <a href="#ref-Karatzoglou2006">2006</a>)</span>. We present this diversity of methods because there is no <em>best</em> mapping method for DSM, and testing and selection has to be done for every data scenario <span class="citation">(Guevara et al. <a href="#ref-guevara_2018">2018</a>)</span>.</p>
 <p>The authors of this Chapter used <strong>R</strong> packages. To run the code provided in this Chapter, the following packages need to be installed in the <strong>R</strong> user library. If the packages are not yet installed, the <code>install.packages()</code> function can be used.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Mapping Methods&#39;</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;sp&quot;</span>, <span class="st">&quot;car&quot;</span>, <span class="st">&quot;automap&quot;</span>,</a>
-<a class="sourceLine" id="cb55-3" data-line-number="3">                   <span class="st">&quot;randomForest&quot;</span>, <span class="st">&quot;caret&quot;</span>, <span class="st">&quot;Metrics&quot;</span>,</a>
-<a class="sourceLine" id="cb55-4" data-line-number="4">                   <span class="st">&quot;quantregForest&quot;</span>, <span class="st">&quot;snow&quot;</span>, <span class="st">&quot;reshape&quot;</span>,</a>
-<a class="sourceLine" id="cb55-5" data-line-number="5">                   <span class="st">&quot;e1071&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Mapping Methods&#39;</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;sp&quot;</span>, <span class="st">&quot;car&quot;</span>, <span class="st">&quot;automap&quot;</span>,</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">                   <span class="st">&quot;randomForest&quot;</span>, <span class="st">&quot;caret&quot;</span>, <span class="st">&quot;Metrics&quot;</span>,</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">                   <span class="st">&quot;quantregForest&quot;</span>, <span class="st">&quot;snow&quot;</span>, <span class="st">&quot;reshape&quot;</span>,</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">                   <span class="st">&quot;e1071&quot;</span>))</a></code></pre></div>
 <div id="convUpscaling" class="section level2">
 <h2><span class="header-section-number">6.1</span> Conventional upscaling using soil maps</h2>
 <p><em>R. Baritz, V.L. Mulder</em></p>
@@ -554,50 +554,50 @@ Below you find the instructions in case you have no problems with your geometry.
 <p>Geo-matching can also be done in <strong>R</strong>. We will provide a example code following the steps from Section <a href="mappingMethods.html#geomQGIS">6.1.4</a> - Step 2A, using the WRB soil map.</p>
 <p><strong>Step 1 - Load the soil data and soil map</strong></p>
 <p>Load the shapefile including the soil map. Then load the points, and promote the points to <code>spatialPointsDataFrame</code> using the <code>coordinates()</code> function. Make sure both are in the same coordinate system. In case they are not, you can use <code>spTransform()</code> to reproject one of the layers.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="co"># Load the soil map from a shapefile *.shp file</span></a>
-<a class="sourceLine" id="cb56-3" data-line-number="3">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a>
-<a class="sourceLine" id="cb56-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb56-5" data-line-number="5"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb56-6" data-line-number="6"><span class="co"># Load soil data</span></a>
-<a class="sourceLine" id="cb56-7" data-line-number="7">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dataproc.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb56-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb56-9" data-line-number="9"><span class="co"># Promote to SpatialPointsDataFrame</span></a>
-<a class="sourceLine" id="cb56-10" data-line-number="10"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb56-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb56-12" data-line-number="12"><span class="co"># Set the CRS for the soil samples. As if the same we will copy the </span></a>
-<a class="sourceLine" id="cb56-13" data-line-number="13"><span class="co"># CRS from the soilmap object</span></a>
-<a class="sourceLine" id="cb56-14" data-line-number="14">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span>soilmap<span class="op">@</span>proj4string</a>
-<a class="sourceLine" id="cb56-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb56-16" data-line-number="16"><span class="kw">class</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="co"># Load the soil map from a shapefile *.shp file</span></a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb52-6" data-line-number="6"><span class="co"># Load soil data</span></a>
+<a class="sourceLine" id="cb52-7" data-line-number="7">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dataproc.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb52-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb52-9" data-line-number="9"><span class="co"># Promote to SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb52-10" data-line-number="10"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb52-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb52-12" data-line-number="12"><span class="co"># Set the CRS for the soil samples. As if the same we will copy the </span></a>
+<a class="sourceLine" id="cb52-13" data-line-number="13"><span class="co"># CRS from the soilmap object</span></a>
+<a class="sourceLine" id="cb52-14" data-line-number="14">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span>soilmap<span class="op">@</span>proj4string</a>
+<a class="sourceLine" id="cb52-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb52-16" data-line-number="16"><span class="kw">class</span>(dat)</a></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="co"># We can plot the soil map units with ths soil samples data over</span></a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw">plot</span>(soilmap, <span class="dt">lwd=</span><span class="fl">0.3</span>)</a>
-<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="kw">points</span>(dat, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.2</span>)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-30"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-30-1.png" alt="Soil map units and soil samples (in red) for the geo-matching exercise" width="672" />
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co"># We can plot the soil map units with ths soil samples data over</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">plot</span>(soilmap, <span class="dt">lwd=</span><span class="fl">0.3</span>)</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="kw">points</span>(dat, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.2</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-31"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-31-1.png" alt="Soil map units and soil samples (in red) for the geo-matching exercise" width="672" />
 <p class="caption">
 Figure 6.10: Soil map units and soil samples (in red) for the geo-matching exercise
 </p>
 </div>
 <p><strong>Step 2 - Geo-matching</strong></p>
 <p>Now, use the <code>over()</code> function to estimate the mean value of the <em>OCSKGM</em> field for every map unit.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">soilmap<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span><span class="kw">over</span>(soilmap, dat[,<span class="st">&quot;OCSKGM&quot;</span>], <span class="dt">fun=</span>mean)[,<span class="dv">1</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">soilmap<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span><span class="kw">over</span>(soilmap, dat[,<span class="st">&quot;OCSKGM&quot;</span>], <span class="dt">fun=</span>mean)[,<span class="dv">1</span>]</a></code></pre></div>
 <p><strong>Step 3 - Rasterize and export the results as geotiff</strong></p>
-<p>Finally, convert the layer to raster, to comply with the deliverables specifications (see Chapter <a href="#deliverables"><strong>??</strong></a>).</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">pred &lt;-<span class="st"> </span><span class="kw">rasterize</span>(soilmap, DEM, <span class="st">&quot;OCSKGM&quot;</span>)</a>
-<a class="sourceLine" id="cb60-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="kw">plot</span>(pred)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-32"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-32-1.png" alt="SOC prediction map for FYROM using geo-matching" width="672" />
+<p>Finally, convert the layer to raster, to comply with the deliverables specifications.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">pred &lt;-<span class="st"> </span><span class="kw">rasterize</span>(soilmap, DEM, <span class="st">&quot;OCSKGM&quot;</span>)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="kw">plot</span>(pred)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-33"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-33-1.png" alt="SOC prediction map for FYROM using geo-matching" width="672" />
 <p class="caption">
 Figure 6.11: SOC prediction map for FYROM using geo-matching
 </p>
 </div>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">writeRaster</span>(pred, <span class="st">&quot;results/MKD_OCSKGM_GM.tif&quot;</span>,</a>
-<a class="sourceLine" id="cb61-2" data-line-number="2">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">writeRaster</span>(pred, <span class="st">&quot;results/MKD_OCSKGM_GM.tif&quot;</span>,</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 
 
 </div>
@@ -695,22 +695,22 @@ Figure 6.12: Workflow for regression-kriging
 <p><strong>Step 1 - Setting working space and initial steps</strong></p>
 <p>One of the first steps should be setting our working directory. If you read/write files from/to disk, this takes place in the working directory. If we do not set the working directory, we could easily write files to an undesirable file location. The following example shows how to set the working directory in <strong>R</strong> to our folder which contains data for the study area (point data, covariates).</p>
 <p>Note that we must use the forward slash / or double backslash \\ in <strong>R</strong>! Single backslash \ will not work. Now we can check if the working directory has been correctly set by using the <code>getwd()</code> function:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">getwd</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">getwd</span>()</a></code></pre></div>
 <p><strong>Step 2 - Data preparation</strong></p>
 <p><strong>Point dataset</strong></p>
-<p>We previously prepared the point dataset in <a href="#preperation"><strong>??</strong></a> chapter. We will be using this data file (.csv) in this section.</p>
+<p>We previously prepared the point dataset in <a href="preparation.html#preparation">4</a> chapter. We will be using this data file (.csv) in this section.</p>
 <p><strong>Environmental predictors (covariates)</strong></p>
 <p>In the Chapter <a href="covariates.html#covariates">5</a>, we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section <a href="covariates.html#GSOCDataRepo">5.6</a>.</p>
 <p>In Section <a href="covariates.html#overlay-soil-covariates">5.9</a>, a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.</p>
 <p>Now we will import our point dataset using <code>read.csv()</code> function. The easiest way to create a data frame is to read in data from a file. This is done using the function <code>read.csv()</code>, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but <code>read.csv()</code> is the most commonly used approach. <strong>R</strong> is very flexible in how it reads in data from text files (<code>read.table()</code>, <code>read.csv()</code>, <code>read.csv2()</code>, <code>read.delim()</code>, <code>read.delim2()</code>). Please type <code>?read.table()</code> for help.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># Load data</span></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb63-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb63-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
-<a class="sourceLine" id="cb63-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb63-7" data-line-number="7"><span class="co"># Explore the data structure</span></a>
-<a class="sourceLine" id="cb63-8" data-line-number="8"><span class="kw">str</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># Load data</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb59-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb59-7" data-line-number="7"><span class="co"># Explore the data structure</span></a>
+<a class="sourceLine" id="cb59-8" data-line-number="8"><span class="kw">str</span>(dat)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    2897 obs. of  23 variables:
 ##  $ id       : Factor w/ 2897 levels &quot;P0003&quot;,&quot;P0007&quot;,..: 1 2 3 4..
 ##  $ Y        : num  42 42 42.1 42 42 ...
@@ -736,12 +736,12 @@ Figure 6.12: Workflow for regression-kriging
 ##  $ VDPMRG5  : int  311 823 10048 1963 -173 -400 -9 -692 -1139 2..
 ##  $ soilmap  : Factor w/ 20 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 6 14 14 3..</code></pre>
 <p>Since we will be working with spatial data we need to define the coordinates for the imported data. Using the <code>coordinates()</code> function from the <strong>sp</strong>  package we can define the columns in the data frame to refer to spatial coordinates. Here the coordinates are listed in columns <code>X</code> and <code>Y</code>.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="co"># Promote to SpatialPointsDataFrame</span></a>
-<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb65-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="kw">class</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb61-3" data-line-number="3"><span class="co"># Promote to SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb61-4" data-line-number="4"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb61-6" data-line-number="6"><span class="kw">class</span>(dat)</a></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
@@ -750,36 +750,36 @@ Figure 6.12: Workflow for regression-kriging
 <blockquote>
 <p><strong>CRS</strong>: Please note that, when working with spatial data, it is very important that the CRS of the point data and covariates are the same.</p>
 </blockquote>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
-<a class="sourceLine" id="cb67-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb67-3" data-line-number="3">dat<span class="op">@</span>proj4string</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
+<a class="sourceLine" id="cb63-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">dat<span class="op">@</span>proj4string</a></code></pre></div>
 <pre><code>## CRS arguments:
 ##  +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs
 ## +ellps=WGS84 +towgs84=0,0,0</code></pre>
 <p>Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single <strong>R</strong> object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in <a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r">Technical Steps - Rasterizing a vector layer in R</a>. The file containing all the covariates was prepared at the end of Chapter <a href="covariates.html#covariates">5</a>.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb69-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb69-3" data-line-number="3"><span class="kw">names</span>(covs)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="kw">names</span>(covs)</a></code></pre></div>
 <pre><code>##  [1] &quot;B04CHE3&quot; &quot;B07CHE3&quot; &quot;B13CHE3&quot; &quot;B14CHE3&quot; &quot;DEMENV5&quot; &quot;LCEE10&quot; 
 ##  [7] &quot;PRSCHE3&quot; &quot;SLPMRG5&quot; &quot;TMDMOD3&quot; &quot;TMNMOD3&quot; &quot;TWIMRG5&quot; &quot;VBFMRG5&quot;
 ## [13] &quot;VDPMRG5&quot; &quot;soilmap&quot;</code></pre>
 <p><strong>Step 3 - Fitting the MLR model</strong></p>
 <p>It would be better to progress with a data frame of just the data and covariates required for the modeling. In this case, we will subset the columns SOC, the covariates and the spatial coordinates (<code>X</code> and <code>Y</code>).</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">datdf &lt;-<span class="st"> </span>dat<span class="op">@</span>data</a>
-<a class="sourceLine" id="cb71-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb71-3" data-line-number="3">datdf &lt;-<span class="st"> </span>datdf[, <span class="kw">c</span>(<span class="st">&quot;OCSKGM&quot;</span>, <span class="kw">names</span>(covs))]</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">datdf &lt;-<span class="st"> </span>dat<span class="op">@</span>data</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb67-3" data-line-number="3">datdf &lt;-<span class="st"> </span>datdf[, <span class="kw">c</span>(<span class="st">&quot;OCSKGM&quot;</span>, <span class="kw">names</span>(covs))]</a></code></pre></div>
 <p>Let’s fit a linear model with all available covariates.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="co"># Fit a multiple linear regression model between the log-transformed</span></a>
-<a class="sourceLine" id="cb72-2" data-line-number="2"><span class="co"># values of OCS and the top 20 covariates</span></a>
-<a class="sourceLine" id="cb72-3" data-line-number="3">model.MLR &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(OCSKGM) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> datdf)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="co"># Fit a multiple linear regression model between the log-transformed</span></a>
+<a class="sourceLine" id="cb68-2" data-line-number="2"><span class="co"># values of OCS and the top 20 covariates</span></a>
+<a class="sourceLine" id="cb68-3" data-line-number="3">model.MLR &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">log</span>(OCSKGM) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> datdf)</a></code></pre></div>
 <p>From the summary of our fitted model (<code>model.MLR</code>) above, it seems only a few of the covariates are significant in describing the spatial variation of the target variable. To determine the most predictive model we can run a stepwise regression  using the <code>step()</code> function. With this function, we can also specify the mode of stepwise search, can be one of <em>both</em>, <em>backward</em>, or <em>foreward</em>.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="co"># Stepwise variable selection</span></a>
-<a class="sourceLine" id="cb73-2" data-line-number="2">model.MLR.step &lt;-<span class="st"> </span><span class="kw">step</span>(model.MLR, <span class="dt">direction=</span><span class="st">&quot;both&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="co"># Stepwise variable selection</span></a>
+<a class="sourceLine" id="cb69-2" data-line-number="2">model.MLR.step &lt;-<span class="st"> </span><span class="kw">step</span>(model.MLR, <span class="dt">direction=</span><span class="st">&quot;both&quot;</span>)</a></code></pre></div>
 <p>Comparing the summary of both the full and stepwise linear models, there is very little difference between the models such as the <span class="math inline">\(R^2\)</span>. Both models explain about 23% of variation of the target variable. Obviously, the full model is more complex as it has more parameters than the step model.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="co"># Summary and ANOVA of the new model using stepwise covariates</span></a>
-<a class="sourceLine" id="cb74-2" data-line-number="2"><span class="co"># selection</span></a>
-<a class="sourceLine" id="cb74-3" data-line-number="3"><span class="kw">summary</span>(model.MLR.step)</a>
-<a class="sourceLine" id="cb74-4" data-line-number="4"><span class="kw">anova</span>(model.MLR.step)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="co"># Summary and ANOVA of the new model using stepwise covariates</span></a>
+<a class="sourceLine" id="cb70-2" data-line-number="2"><span class="co"># selection</span></a>
+<a class="sourceLine" id="cb70-3" data-line-number="3"><span class="kw">summary</span>(model.MLR.step)</a>
+<a class="sourceLine" id="cb70-4" data-line-number="4"><span class="kw">anova</span>(model.MLR.step)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(OCSKGM) ~ B04CHE3 + B07CHE3 + B13CHE3 + DEMENV5 + 
@@ -852,22 +852,21 @@ Figure 6.12: Workflow for regression-kriging
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>In those two models above, we used all available points. It is important to test the performance of a model based upon an external validation.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="co"># Graphical diagnosis of the regression analysis</span></a>
-<a class="sourceLine" id="cb76-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb76-3" data-line-number="3"><span class="kw">plot</span>(model.MLR.step)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="co"># Graphical diagnosis of the regression analysis</span></a>
+<a class="sourceLine" id="cb72-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb72-3" data-line-number="3"><span class="kw">plot</span>(model.MLR.step)</a></code></pre></div>
 <pre><code>## Warning: not plotting observations with leverage one:
 ##   340
 
 ## Warning: not plotting observations with leverage one:
 ##   340</code></pre>
-<p><img src="SOCMapping_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<p><img src="SOCMapping_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
 <p>
 </p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="co"># Collinearity test using variance inflation factors</span></a>
-<a class="sourceLine" id="cb79-2" data-line-number="2"><span class="kw">library</span>(car)</a></code></pre></div>
-<pre><code>## Loading required package: carData</code></pre>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">vif</span>(model.MLR.step)</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="co"># Collinearity test using variance inflation factors</span></a>
+<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="kw">library</span>(car)</a>
+<a class="sourceLine" id="cb75-3" data-line-number="3"><span class="kw">vif</span>(model.MLR.step)</a></code></pre></div>
 <pre><code>##              GVIF Df GVIF^(1/(2*Df))
 ## B04CHE3 17.352988  1        4.165692
 ## B07CHE3 17.580993  1        4.192969
@@ -881,8 +880,8 @@ Figure 6.12: Workflow for regression-kriging
 ## VBFMRG5  4.182605  1        2.045142
 ## VDPMRG5  1.933334  1        1.390444
 ## soilmap 16.784795 19        1.077047</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="co"># Problematic covariates should have sqrt (VIF) &gt; 2</span></a>
-<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">sqrt</span>(<span class="kw">vif</span>(model.MLR.step))</a></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="co"># Problematic covariates should have sqrt (VIF) &gt; 2</span></a>
+<a class="sourceLine" id="cb77-2" data-line-number="2"><span class="kw">sqrt</span>(<span class="kw">vif</span>(model.MLR.step))</a></code></pre></div>
 <pre><code>##             GVIF       Df GVIF^(1/(2*Df))
 ## B04CHE3 4.165692 1.000000        2.041003
 ## B07CHE3 4.192969 1.000000        2.047674
@@ -897,11 +896,11 @@ Figure 6.12: Workflow for regression-kriging
 ## VDPMRG5 1.390444 1.000000        1.179171
 ## soilmap 4.096925 4.358899        1.037809</code></pre>
 <p>Colinear: Temperature seasonality at 1 km (B04CHE3) and Temperature Annual Range [°C] at 1 km (B07CHE3).</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># Removing B07CHE3 from the stepwise model</span></a>
-<a class="sourceLine" id="cb85-2" data-line-number="2">model.MLR.step &lt;-<span class="st"> </span><span class="kw">update</span>(model.MLR.step, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>B07CHE3)</a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="co"># Test the vif again</span></a>
-<a class="sourceLine" id="cb85-5" data-line-number="5"><span class="kw">sqrt</span>(<span class="kw">vif</span>(model.MLR.step))</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="co"># Removing B07CHE3 from the stepwise model</span></a>
+<a class="sourceLine" id="cb79-2" data-line-number="2">model.MLR.step &lt;-<span class="st"> </span><span class="kw">update</span>(model.MLR.step, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>B07CHE3)</a>
+<a class="sourceLine" id="cb79-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb79-4" data-line-number="4"><span class="co"># Test the vif again</span></a>
+<a class="sourceLine" id="cb79-5" data-line-number="5"><span class="kw">sqrt</span>(<span class="kw">vif</span>(model.MLR.step))</a></code></pre></div>
 <pre><code>##             GVIF       Df GVIF^(1/(2*Df))
 ## B04CHE3 2.268418 1.000000        1.506127
 ## B13CHE3 3.624615 1.000000        1.903842
@@ -914,8 +913,8 @@ Figure 6.12: Workflow for regression-kriging
 ## VBFMRG5 2.015123 1.000000        1.419550
 ## VDPMRG5 1.387165 1.000000        1.177780
 ## soilmap 3.840284 4.358899        1.036043</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="co"># Summary of the new model using stepwise covariates selection</span></a>
-<a class="sourceLine" id="cb87-2" data-line-number="2"><span class="kw">summary</span>(model.MLR.step)</a></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="co"># Summary of the new model using stepwise covariates selection</span></a>
+<a class="sourceLine" id="cb81-2" data-line-number="2"><span class="kw">summary</span>(model.MLR.step)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(OCSKGM) ~ B04CHE3 + B13CHE3 + DEMENV5 + LCEE10 + 
@@ -966,8 +965,8 @@ Figure 6.12: Workflow for regression-kriging
 ## Residual standard error: 0.4814 on 2865 degrees of freedom
 ## Multiple R-squared:  0.2445, Adjusted R-squared:  0.2363 
 ## F-statistic:  29.9 on 31 and 2865 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="co"># Outlier test using the Bonferroni test</span></a>
-<a class="sourceLine" id="cb89-2" data-line-number="2"><span class="kw">outlierTest</span>(model.MLR.step)</a></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="co"># Outlier test using the Bonferroni test</span></a>
+<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">outlierTest</span>(model.MLR.step)</a></code></pre></div>
 <pre><code>##       rstudent unadjusted p-value Bonferonni p
 ## 1967 -7.114604         1.4122e-12   4.0897e-09
 ## 705  -6.795188         1.3108e-11   3.7959e-08
@@ -978,20 +977,20 @@ Figure 6.12: Workflow for regression-kriging
 ## 1136 -4.468410         8.1860e-06   2.3707e-02</code></pre>
 <p><strong>Step 4 - Prediction and residual kriging</strong></p>
 <p>Now we can make the predictions and plot the map. We can use either our DSM data table for covariate values or <code>covs</code> object for making our prediction. Using stack avoids the step of arranging all covariates into a table format. If multiple rasters are being used, it is necessary to have them arranged as a rasterStack object. This is useful as it also ensures all the rasters are of the same extent and resolution. Here we can use the raster predict function such as below using the covStack raster stack as we created in the Step 3.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="co"># Project point data</span></a>
-<a class="sourceLine" id="cb91-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">spTransform</span>(dat, <span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:6204&quot;</span>))</a>
-<a class="sourceLine" id="cb91-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb91-4" data-line-number="4"><span class="co"># Project covariates to VN-2000 UTM 48N</span></a>
-<a class="sourceLine" id="cb91-5" data-line-number="5">covs &lt;-<span class="st"> </span><span class="kw">projectRaster</span>(covs, <span class="dt">crs =</span> <span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:6204&quot;</span>),</a>
-<a class="sourceLine" id="cb91-6" data-line-number="6">                      <span class="dt">method=</span><span class="st">&#39;ngb&#39;</span>)</a>
-<a class="sourceLine" id="cb91-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb91-8" data-line-number="8">covs<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb91-9" data-line-number="9">covs<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs<span class="op">$</span>soilmap)</a></code></pre></div>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># Promote covariates to spatial grid dataframe.</span></a>
-<a class="sourceLine" id="cb92-2" data-line-number="2"><span class="co"># Takes some time and a lot of memory!</span></a>
-<a class="sourceLine" id="cb92-3" data-line-number="3">covs.sp &lt;-<span class="st"> </span><span class="kw">as</span>(covs, <span class="st">&quot;SpatialGridDataFrame&quot;</span>)</a>
-<a class="sourceLine" id="cb92-4" data-line-number="4">covs.sp<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs.sp<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb92-5" data-line-number="5">covs.sp<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs.sp<span class="op">$</span>soilmap)</a></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># Project point data</span></a>
+<a class="sourceLine" id="cb85-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">spTransform</span>(dat, <span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:6204&quot;</span>))</a>
+<a class="sourceLine" id="cb85-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="co"># Project covariates to VN-2000 UTM 48N</span></a>
+<a class="sourceLine" id="cb85-5" data-line-number="5">covs &lt;-<span class="st"> </span><span class="kw">projectRaster</span>(covs, <span class="dt">crs =</span> <span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:6204&quot;</span>),</a>
+<a class="sourceLine" id="cb85-6" data-line-number="6">                      <span class="dt">method=</span><span class="st">&#39;ngb&#39;</span>)</a>
+<a class="sourceLine" id="cb85-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb85-8" data-line-number="8">covs<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb85-9" data-line-number="9">covs<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs<span class="op">$</span>soilmap)</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># Promote covariates to spatial grid dataframe.</span></a>
+<a class="sourceLine" id="cb86-2" data-line-number="2"><span class="co"># Takes some time and a lot of memory!</span></a>
+<a class="sourceLine" id="cb86-3" data-line-number="3">covs.sp &lt;-<span class="st"> </span><span class="kw">as</span>(covs, <span class="st">&quot;SpatialGridDataFrame&quot;</span>)</a>
+<a class="sourceLine" id="cb86-4" data-line-number="4">covs.sp<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs.sp<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb86-5" data-line-number="5">covs.sp<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(covs.sp<span class="op">$</span>soilmap)</a></code></pre></div>
 <p> </p>
 <pre><code>## Checking if any bins have less than 5 points, merging bins when necessary...
 ## 
@@ -1028,57 +1027,57 @@ Figure 6.12: Workflow for regression-kriging
 ## 5            Ste   0.2 5.336428e-07
 ## 4            Ste  0.05 1.148336e-06
 ## [using universal kriging]</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># RK model</span></a>
-<a class="sourceLine" id="cb94-2" data-line-number="2"><span class="kw">library</span>(automap)</a>
-<a class="sourceLine" id="cb94-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb94-4" data-line-number="4"><span class="co"># Run regression-kriging prediction.</span></a>
-<a class="sourceLine" id="cb94-5" data-line-number="5"><span class="co"># This step can take hours!</span></a>
-<a class="sourceLine" id="cb94-6" data-line-number="6">OCS.krige &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(<span class="dt">formula =</span></a>
-<a class="sourceLine" id="cb94-7" data-line-number="7">                         <span class="kw">as.formula</span>(model.MLR.step<span class="op">$</span>call<span class="op">$</span>formula),</a>
-<a class="sourceLine" id="cb94-8" data-line-number="8">                       <span class="dt">input_data =</span> dat,</a>
-<a class="sourceLine" id="cb94-9" data-line-number="9">                       <span class="dt">new_data =</span> covs.sp,</a>
-<a class="sourceLine" id="cb94-10" data-line-number="10">                       <span class="dt">verbose =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb94-11" data-line-number="11">                       <span class="dt">block =</span> <span class="kw">c</span>(<span class="dv">1000</span>, <span class="dv">1000</span>))</a>
-<a class="sourceLine" id="cb94-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb94-13" data-line-number="13">OCS.krige</a></code></pre></div>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co"># Convert prediction and standard deviation to rasters</span></a>
-<a class="sourceLine" id="cb95-2" data-line-number="2"><span class="co"># and back-tansform the vlaues</span></a>
-<a class="sourceLine" id="cb95-3" data-line-number="3">RKprediction &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">raster</span>(OCS.krige<span class="op">$</span>krige_output[<span class="dv">1</span>]))</a>
-<a class="sourceLine" id="cb95-4" data-line-number="4">RKpredsd &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">raster</span>(OCS.krige<span class="op">$</span>krige_output[<span class="dv">3</span>]))</a></code></pre></div>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="kw">plot</span>(RKprediction)</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="co"># RK model</span></a>
+<a class="sourceLine" id="cb88-2" data-line-number="2"><span class="kw">library</span>(automap)</a>
+<a class="sourceLine" id="cb88-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb88-4" data-line-number="4"><span class="co"># Run regression-kriging prediction.</span></a>
+<a class="sourceLine" id="cb88-5" data-line-number="5"><span class="co"># This step can take hours!</span></a>
+<a class="sourceLine" id="cb88-6" data-line-number="6">OCS.krige &lt;-<span class="st"> </span><span class="kw">autoKrige</span>(<span class="dt">formula =</span></a>
+<a class="sourceLine" id="cb88-7" data-line-number="7">                         <span class="kw">as.formula</span>(model.MLR.step<span class="op">$</span>call<span class="op">$</span>formula),</a>
+<a class="sourceLine" id="cb88-8" data-line-number="8">                       <span class="dt">input_data =</span> dat,</a>
+<a class="sourceLine" id="cb88-9" data-line-number="9">                       <span class="dt">new_data =</span> covs.sp,</a>
+<a class="sourceLine" id="cb88-10" data-line-number="10">                       <span class="dt">verbose =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb88-11" data-line-number="11">                       <span class="dt">block =</span> <span class="kw">c</span>(<span class="dv">1000</span>, <span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb88-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb88-13" data-line-number="13">OCS.krige</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="co"># Convert prediction and standard deviation to rasters</span></a>
+<a class="sourceLine" id="cb89-2" data-line-number="2"><span class="co"># and back-tansform the vlaues</span></a>
+<a class="sourceLine" id="cb89-3" data-line-number="3">RKprediction &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">raster</span>(OCS.krige<span class="op">$</span>krige_output[<span class="dv">1</span>]))</a>
+<a class="sourceLine" id="cb89-4" data-line-number="4">RKpredsd &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">raster</span>(OCS.krige<span class="op">$</span>krige_output[<span class="dv">3</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">plot</span>(RKprediction)</a></code></pre></div>
 <div class="figure"><span id="fig:predRK"></span>
 <img src="SOCMapping_files/figure-html/predRK-1.png" alt="SOC prediction of FYROM using a regression kriging model" width="672" />
 <p class="caption">
 Figure 6.13: SOC prediction of FYROM using a regression kriging model
 </p>
 </div>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="kw">plot</span>(RKpredsd)</a></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">plot</span>(RKpredsd)</a></code></pre></div>
 <div class="figure"><span id="fig:predSDRK"></span>
 <img src="SOCMapping_files/figure-html/predSDRK-1.png" alt="Standard deviation map of the regression-kriging model" width="672" />
 <p class="caption">
 Figure 6.14: Standard deviation map of the regression-kriging model
 </p>
 </div>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="co"># Save results as *.tif files</span></a>
-<a class="sourceLine" id="cb98-2" data-line-number="2"><span class="kw">writeRaster</span>(RKprediction, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_RK.tif&quot;</span>,</a>
-<a class="sourceLine" id="cb98-3" data-line-number="3">            <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb98-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb98-5" data-line-number="5"><span class="kw">writeRaster</span>(RKpredsd, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_RKpredsd.tif&quot;</span>,</a>
-<a class="sourceLine" id="cb98-6" data-line-number="6">            <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="co"># Save the model</span></a>
-<a class="sourceLine" id="cb99-2" data-line-number="2"><span class="kw">saveRDS</span>(model.MLR.step, <span class="dt">file=</span><span class="st">&quot;results/RKmodel.Rds&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># Save results as *.tif files</span></a>
+<a class="sourceLine" id="cb92-2" data-line-number="2"><span class="kw">writeRaster</span>(RKprediction, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_RK.tif&quot;</span>,</a>
+<a class="sourceLine" id="cb92-3" data-line-number="3">            <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb92-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb92-5" data-line-number="5"><span class="kw">writeRaster</span>(RKpredsd, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_RKpredsd.tif&quot;</span>,</a>
+<a class="sourceLine" id="cb92-6" data-line-number="6">            <span class="dt">overwrite =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="co"># Save the model</span></a>
+<a class="sourceLine" id="cb93-2" data-line-number="2"><span class="kw">saveRDS</span>(model.MLR.step, <span class="dt">file=</span><span class="st">&quot;results/RKmodel.Rds&quot;</span>)</a></code></pre></div>
 </div>
 <div id="technical-steps---cross-validation-of-regression-kriging-models" class="section level3">
 <h3><span class="header-section-number">6.2.8</span> Technical steps - Cross-validation of regression-kriging models</h3>
 <p>Cross-validation  is introduced in Section <a href="chvalidation.html#xval">7.4.3</a>. In RK models, <span class="math inline">\(n\)</span>-fold cross-validation and leave-one-out cross-validation can be run using the <code>krige.cv()</code> included in <strong>gstat</strong> <strong>R</strong> package. In this example, we will apply 10 fold cross-validation to our RK model.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="co"># autoKrige.cv() does not removes the duplicated points</span></a>
-<a class="sourceLine" id="cb100-2" data-line-number="2"><span class="co"># We have to do it manually before running the cross-validation</span></a>
-<a class="sourceLine" id="cb100-3" data-line-number="3">dat =<span class="st"> </span>dat[<span class="kw">which</span>(<span class="op">!</span><span class="kw">duplicated</span>(dat<span class="op">@</span>coords)), ]</a>
-<a class="sourceLine" id="cb100-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb100-5" data-line-number="5">OCS.krige.cv &lt;-<span class="st"> </span><span class="kw">autoKrige.cv</span>(<span class="dt">formula =</span> </a>
-<a class="sourceLine" id="cb100-6" data-line-number="6">                            <span class="kw">as.formula</span>(model.MLR.step<span class="op">$</span>call<span class="op">$</span>formula), </a>
-<a class="sourceLine" id="cb100-7" data-line-number="7">                            <span class="dt">input_data =</span> dat, <span class="dt">nfold =</span> <span class="dv">10</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">summary</span>(OCS.krige.cv)</a></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># autoKrige.cv() does not removes the duplicated points</span></a>
+<a class="sourceLine" id="cb94-2" data-line-number="2"><span class="co"># We have to do it manually before running the cross-validation</span></a>
+<a class="sourceLine" id="cb94-3" data-line-number="3">dat =<span class="st"> </span>dat[<span class="kw">which</span>(<span class="op">!</span><span class="kw">duplicated</span>(dat<span class="op">@</span>coords)), ]</a>
+<a class="sourceLine" id="cb94-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb94-5" data-line-number="5">OCS.krige.cv &lt;-<span class="st"> </span><span class="kw">autoKrige.cv</span>(<span class="dt">formula =</span> </a>
+<a class="sourceLine" id="cb94-6" data-line-number="6">                            <span class="kw">as.formula</span>(model.MLR.step<span class="op">$</span>call<span class="op">$</span>formula), </a>
+<a class="sourceLine" id="cb94-7" data-line-number="7">                            <span class="dt">input_data =</span> dat, <span class="dt">nfold =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">summary</span>(OCS.krige.cv)</a></code></pre></div>
 <pre><code>##             [,1]    
 ## mean_error  0.003371
 ## me_mean     -0.2795 
@@ -1142,14 +1141,14 @@ Figure 6.15: Schematical representation of data splitting to generate the random
 <p>In the Chapter <a href="covariates.html#covariates">5</a>, we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section <a href="covariates.html#GSOCDataRepo">5.6</a>.</p>
 <p>In Section <a href="covariates.html#overlay-soil-covariates">5.9</a>, a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.</p>
 <p>Now we will import our point dataset using <code>read.csv()</code> function. The easiest way to create a data frame is to read in data from a file. This is done using the function <code>read.csv()</code>, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but <code>read.csv()</code> is the most commonly used approach. <strong>R</strong> is very flexible in how it reads in data from text files (<code>read.table()</code>, <code>read.csv()</code>, <code>read.csv2()</code>, <code>read.delim()</code>, <code>read.delim2()</code>). Please type <code>?read.table()</code> for help.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="co"># Load data</span></a>
-<a class="sourceLine" id="cb103-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb103-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb103-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb103-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
-<a class="sourceLine" id="cb103-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb103-7" data-line-number="7"><span class="co"># Explore the data structure</span></a>
-<a class="sourceLine" id="cb103-8" data-line-number="8"><span class="kw">str</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="co"># Load data</span></a>
+<a class="sourceLine" id="cb97-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb97-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb97-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb97-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb97-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb97-7" data-line-number="7"><span class="co"># Explore the data structure</span></a>
+<a class="sourceLine" id="cb97-8" data-line-number="8"><span class="kw">str</span>(dat)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    2897 obs. of  23 variables:
 ##  $ id       : Factor w/ 2897 levels &quot;P0003&quot;,&quot;P0007&quot;,..: 1 2 3 4..
 ##  $ Y        : num  42 42 42.1 42 42 ...
@@ -1175,12 +1174,12 @@ Figure 6.15: Schematical representation of data splitting to generate the random
 ##  $ VDPMRG5  : int  311 823 10048 1963 -173 -400 -9 -692 -1139 2..
 ##  $ soilmap  : Factor w/ 20 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 6 14 14 3..</code></pre>
 <p>Since we will be working with spatial data we need to define the coordinates for the imported data. Using the <code>coordinates()</code> function from the <strong>sp</strong> package we can define the columns in the data frame to refer to spatial coordinates. Here the coordinates are listed in columns <code>X</code> and <code>Y</code>.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb105-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb105-3" data-line-number="3"><span class="co"># Promote to spatialPointsDataFrame</span></a>
-<a class="sourceLine" id="cb105-4" data-line-number="4"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb105-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb105-6" data-line-number="6"><span class="kw">class</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb99-3" data-line-number="3"><span class="co"># Promote to spatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb99-4" data-line-number="4"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb99-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb99-6" data-line-number="6"><span class="kw">class</span>(dat)</a></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
@@ -1189,16 +1188,16 @@ Figure 6.15: Schematical representation of data splitting to generate the random
 <blockquote>
 <p><strong>CRS</strong>: Please note that, when working with spatial data, it is very important that the CRS of the point data and covariates are the same.</p>
 </blockquote>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
-<a class="sourceLine" id="cb107-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb107-3" data-line-number="3">dat<span class="op">@</span>proj4string</a></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
+<a class="sourceLine" id="cb101-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb101-3" data-line-number="3">dat<span class="op">@</span>proj4string</a></code></pre></div>
 <pre><code>## CRS arguments:
 ##  +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs
 ## +ellps=WGS84 +towgs84=0,0,0</code></pre>
 <p>Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single <strong>R</strong> object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in <a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r">Technical Steps - Rasterizing a vector layer in R</a>. The file containing all the covariates was prepared at the end of Chapter <a href="covariates.html#covariates">5</a>.</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb109-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb109-3" data-line-number="3"><span class="kw">names</span>(covs)</a></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb103-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb103-3" data-line-number="3"><span class="kw">names</span>(covs)</a></code></pre></div>
 <pre><code>##  [1] &quot;B04CHE3&quot; &quot;B07CHE3&quot; &quot;B13CHE3&quot; &quot;B14CHE3&quot; &quot;DEMENV5&quot; &quot;LCEE10&quot; 
 ##  [7] &quot;PRSCHE3&quot; &quot;SLPMRG5&quot; &quot;TMDMOD3&quot; &quot;TMNMOD3&quot; &quot;TWIMRG5&quot; &quot;VBFMRG5&quot;
 ## [13] &quot;VDPMRG5&quot; &quot;soilmap&quot;</code></pre>
@@ -1207,18 +1206,18 @@ Figure 6.15: Schematical representation of data splitting to generate the random
 <p>Keep in mind that selecting the most appropriate prediction factors is required to generate an interpretable model and high accuracy of prediction in places where no information is available. Variable selection ideally should incorporate expert soil knowledge about the study area and statistical criteria (e.g., just to use the best-correlated predictors). Multivariate analysis (e.g., principal component analysis) is a widely used approach to identify informative predictors. Here we use this combination of prediction factors to be consistent with other Chapters of this book and because they were previously selected for this exercise using expert knowledge about the spatial variability of soil organic carbon.</p>
 <p>Now, we will build a working hypothesis from our conceptual model, using all the continuous prediction factors for <em>OCSKGMlog</em>:</p>
 <p><em>OCSKGMlog</em> ~ randomForest <em>B04CHE3 + B07CHE3 + B13CHE3 + B14CHE3 + DEMENV5 + LCEE10 + PRSCHE3 + SLPMRG5 + TMDMOD3 + TMNMOD3 + TWIMRG5 + VBFMRG5 + VDPMRG5</em></p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="co"># For its use on R we need to define a model formula</span></a>
-<a class="sourceLine" id="cb111-2" data-line-number="2">fm =<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&quot;log(OCSKGM) ~&quot;</span>, <span class="kw">paste0</span>(<span class="kw">names</span>(covs[[<span class="op">-</span><span class="dv">14</span>]]),</a>
-<a class="sourceLine" id="cb111-3" data-line-number="3">                                            <span class="dt">collapse =</span> <span class="st">&quot;+&quot;</span>))) </a></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="co"># For its use on R we need to define a model formula</span></a>
+<a class="sourceLine" id="cb105-2" data-line-number="2">fm =<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&quot;log(OCSKGM) ~&quot;</span>, <span class="kw">paste0</span>(<span class="kw">names</span>(covs[[<span class="op">-</span><span class="dv">14</span>]]),</a>
+<a class="sourceLine" id="cb105-3" data-line-number="3">                                            <span class="dt">collapse =</span> <span class="st">&quot;+&quot;</span>))) </a></code></pre></div>
 <p>This is the <strong>R</strong> syntax to define a model formula required for the model structure, where soil organic carbon transformed to its natural logarithm (<em>OCSKGMlog</em>) can be predicted as a function of the available prediction factors, each explained in Chapter <a href="covariates.html#covariates">5</a> of this book, e.g., B04CHE3, B07CHE3, B13CHE3, B14CHE3, DEMENV5 , LCEE10, PRSCHE3, SLPMRG5, TMDMOD3, TMNMOD3, TWIMRG5, VBFMRG5, VDPMRG5.</p>
 <p>Note that the variable soil map is categorical, so is not included in the correlation analysis. In fact, although soil type polygon maps are in theory powerful predictors for <em>OCSKGM</em> we will not use this map for this exercise, because not all categories in the map are represented by available <em>OCSKGM</em> estimates, therefore this map requires a generalization of soil type units in function of the classes represented by the sites of <em>OCSKGM</em> estimates, which is beyond the scope of this Chapter.</p>
 <p>Ideally, the number of observations across all the categories of soil type or any other factorial variable should be balanced. Another alternative to using an unbalanced categorical map is by generating dummy variables, where each category in the map becomes an independent binomial predictor variable (e.g., only 0 and 1 values) as is explained in the following Chapter. The risk of doing so rely upon the potential underestimation of the spatial variability of the target variable under each category with a low density of available data.</p>
 <p><strong>Step 2 - Tuning parameters</strong></p>
 <p>Now we will use the cross-validation strategy implemented in the train function of the <strong>caret</strong> package <span class="citation">(Kuhn et al. <a href="#ref-kuhn2017caret">2017</a>)</span>, which default is 10-fold. The result of this function includes information to select the best <em>mtry</em> parameter and to decide the appropriate number of trees. The out-of-bag RMSE will be used to select the optimal <em>mtry</em> model. To analyze the <em>ntree</em> parameter we will plot the number of trees against the out-of-bag RMSE, an optimal <em>ntree</em> can be selected with the number of trees when these relationships stabilizes at the minimum possible RMSE (in the y axis). Reduncing the number of trees will reduce the computational demand, which is specially important when dealing with large databases. In the presence of multidimensional and highly correlated prediction factors, avoiding an excessive number of trees will also reduce the risk of model overfitting.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw">library</span>(randomForest)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">library</span>(randomForest)</a></code></pre></div>
 <pre><code>## randomForest 4.6-14</code></pre>
 <pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">library</span>(caret)</a></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw">library</span>(caret)</a></code></pre></div>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
 <pre><code>## 
@@ -1226,49 +1225,49 @@ Figure 6.15: Schematical representation of data splitting to generate the random
 <pre><code>## The following object is masked from &#39;package:randomForest&#39;:
 ## 
 ##     margin</code></pre>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="co"># Default 10-fold cross-validation</span></a>
-<a class="sourceLine" id="cb120-2" data-line-number="2">ctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">savePred=</span>T)</a>
-<a class="sourceLine" id="cb120-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb120-4" data-line-number="4"><span class="co"># Search for the best mtry parameter</span></a>
-<a class="sourceLine" id="cb120-5" data-line-number="5">rfmodel &lt;-<span class="st"> </span><span class="kw">train</span>(fm, <span class="dt">data=</span>dat<span class="op">@</span>data, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> ctrl, </a>
-<a class="sourceLine" id="cb120-6" data-line-number="6">             <span class="dt">importance=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb120-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb120-8" data-line-number="8"><span class="co"># This is a very useful function to compare and test different </span></a>
-<a class="sourceLine" id="cb120-9" data-line-number="9"><span class="co"># prediction algorithms.</span></a>
-<a class="sourceLine" id="cb120-10" data-line-number="10"><span class="co"># Type names(getModelInfo()) to see all the </span></a>
-<a class="sourceLine" id="cb120-11" data-line-number="11"><span class="co"># possibilitites implemented on this function.</span></a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="co"># Default 10-fold cross-validation</span></a>
+<a class="sourceLine" id="cb114-2" data-line-number="2">ctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">savePred=</span>T)</a>
+<a class="sourceLine" id="cb114-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb114-4" data-line-number="4"><span class="co"># Search for the best mtry parameter</span></a>
+<a class="sourceLine" id="cb114-5" data-line-number="5">rfmodel &lt;-<span class="st"> </span><span class="kw">train</span>(fm, <span class="dt">data=</span>dat<span class="op">@</span>data, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> ctrl, </a>
+<a class="sourceLine" id="cb114-6" data-line-number="6">             <span class="dt">importance=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb114-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb114-8" data-line-number="8"><span class="co"># This is a very useful function to compare and test different </span></a>
+<a class="sourceLine" id="cb114-9" data-line-number="9"><span class="co"># prediction algorithms.</span></a>
+<a class="sourceLine" id="cb114-10" data-line-number="10"><span class="co"># Type names(getModelInfo()) to see all the </span></a>
+<a class="sourceLine" id="cb114-11" data-line-number="11"><span class="co"># possibilitites implemented on this function.</span></a></code></pre></div>
 <p>The object derived from the train function can be used to generate predictions of <em>OCSKGMlog</em> at the spatial resolution of the prediction factors. Before generating predictions, we will plot the most important predictors sorted in decreasing order of importance. From the variable importance plot, MSE represent an informative measure for variable selection. It is the increase in error (mean squared error, MSE) of predictions which was estimated with out-of-bag-cross validation as a result of prediction factor being permuted with values randomly shuffled. This is one of the strategies that RF uses to reduce overfitting.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="co"># Variable importance plot, compare with the correlation matrix</span></a>
-<a class="sourceLine" id="cb121-2" data-line-number="2"><span class="co"># Select the best prediction factors and repeat  </span></a>
-<a class="sourceLine" id="cb121-3" data-line-number="3"><span class="kw">varImpPlot</span>(rfmodel[<span class="dv">11</span>][[<span class="dv">1</span>]])</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-59"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-59-1.png" alt="Model Decreasing Error and Node Purity for the RF model" width="672" />
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="co"># Variable importance plot, compare with the correlation matrix</span></a>
+<a class="sourceLine" id="cb115-2" data-line-number="2"><span class="co"># Select the best prediction factors and repeat  </span></a>
+<a class="sourceLine" id="cb115-3" data-line-number="3"><span class="kw">varImpPlot</span>(rfmodel[<span class="dv">11</span>][[<span class="dv">1</span>]])</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-60"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-60-1.png" alt="Model Decreasing Error and Node Purity for the RF model" width="672" />
 <p class="caption">
 Figure 6.16: Model Decreasing Error and Node Purity for the RF model
 </p>
 </div>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="co"># Check if the error stabilizes </span></a>
-<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="kw">plot</span>(rfmodel[<span class="dv">11</span>][[<span class="dv">1</span>]])</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-60"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-60-1.png" alt="Select ntree" width="672" />
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="co"># Check if the error stabilizes </span></a>
+<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="kw">plot</span>(rfmodel[<span class="dv">11</span>][[<span class="dv">1</span>]])</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-61"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-61-1.png" alt="Select ntree" width="672" />
 <p class="caption">
 Figure 6.17: Select ntree
 </p>
 </div>
 <p>Random forest users are encouraged to compare and test the prediction capacity of different combinations of prediction factors in order to reduce the complexity of the model and the statistical redundancy of environmental information on further applications of predicted OCSKGM maps (e.g., quantifying the carbon dynamics). The resulting map of our RF model needs to be validated using the independent dataset to complement the results of the cross-validation (e.g., RMSE and explained variance) derived using the train function and to have a more comprehensive interpretation of accuracy and bias. Note how the RMSE and the explained variance derived from the independent validations are slightly lower than the values obtained using cross-validation.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="co"># Make a prediction across all FYROM</span></a>
-<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="co"># Note that the units are still in log</span></a>
-<a class="sourceLine" id="cb123-3" data-line-number="3">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(covs, rfmodel)</a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="co"># Make a prediction across all FYROM</span></a>
+<a class="sourceLine" id="cb117-2" data-line-number="2"><span class="co"># Note that the units are still in log</span></a>
+<a class="sourceLine" id="cb117-3" data-line-number="3">pred &lt;-<span class="st"> </span><span class="kw">predict</span>(covs, rfmodel)</a></code></pre></div>
 <pre><code>## Warning in .local(object, ...): not sure if the correct factor
 ## levels are used here</code></pre>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="co"># Back transform predictions log transformed</span></a>
-<a class="sourceLine" id="cb125-2" data-line-number="2">pred &lt;-<span class="st"> </span><span class="kw">exp</span>(pred)</a>
-<a class="sourceLine" id="cb125-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb125-4" data-line-number="4"><span class="co"># Save the result as a tiff file</span></a>
-<a class="sourceLine" id="cb125-5" data-line-number="5"><span class="kw">writeRaster</span>(pred, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_rf.tif&quot;</span>,</a>
-<a class="sourceLine" id="cb125-6" data-line-number="6">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb125-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb125-8" data-line-number="8"><span class="kw">plot</span>(pred)</a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="co"># Back transform predictions log transformed</span></a>
+<a class="sourceLine" id="cb119-2" data-line-number="2">pred &lt;-<span class="st"> </span><span class="kw">exp</span>(pred)</a>
+<a class="sourceLine" id="cb119-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb119-4" data-line-number="4"><span class="co"># Save the result as a tiff file</span></a>
+<a class="sourceLine" id="cb119-5" data-line-number="5"><span class="kw">writeRaster</span>(pred, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_rf.tif&quot;</span>,</a>
+<a class="sourceLine" id="cb119-6" data-line-number="6">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb119-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb119-8" data-line-number="8"><span class="kw">plot</span>(pred)</a></code></pre></div>
 <div class="figure"><span id="fig:rf-pred"></span>
 <img src="SOCMapping_files/figure-html/rf-pred-1.png" alt="SOC prediction map for FYROM using a random forest model" width="672" />
 <p class="caption">
@@ -1282,43 +1281,42 @@ Figure 6.18: SOC prediction map for FYROM using a random forest model
 <p><strong>Step 1 - Split the data in into training and testing subsets</strong></p>
 <p>To analyze the sensitivity of the model to available data we need to randomly split the data several times (e.g., 10 or more, is possible until the variance stabilizes) in training and testing subsets. A model generation and prediction are made on each split, in a way that the dispersion of the predicted values at the pixel level will represent the uncertainty and the sensitivity of the model to variations in available data.</p>
 <p>This process increases computational demand and memory since it will repeat n times (10 in this example) the model and the prediction using each time a different random combination of data for training and testing the models. As larger the sample and the number of realizations the more robust our validation strategy. For this example, we will use only 10 realizations and random splits of 25% of available data.</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">library</span>(Metrics)</a>
-<a class="sourceLine" id="cb126-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb126-3" data-line-number="3"><span class="co"># Generate an empty dataframe</span></a>
-<a class="sourceLine" id="cb126-4" data-line-number="4">validation &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">rmse=</span><span class="kw">numeric</span>(), <span class="dt">r2=</span><span class="kw">numeric</span>())</a>
-<a class="sourceLine" id="cb126-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb126-6" data-line-number="6"><span class="co"># Sensitivity to the dataset</span></a>
-<a class="sourceLine" id="cb126-7" data-line-number="7"><span class="co"># Start a loop with 10 model realizations</span></a>
-<a class="sourceLine" id="cb126-8" data-line-number="8"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){</a>
-<a class="sourceLine" id="cb126-9" data-line-number="9">  <span class="co"># We will build 10 models using random samples of 25%  </span></a>
-<a class="sourceLine" id="cb126-10" data-line-number="10">  smp_size &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="kw">nrow</span>(dat))</a>
-<a class="sourceLine" id="cb126-11" data-line-number="11">  train_ind &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq_len</span>(<span class="kw">nrow</span>(dat)), <span class="dt">size =</span> smp_size)</a>
-<a class="sourceLine" id="cb126-12" data-line-number="12">  train &lt;-<span class="st"> </span>dat[train_ind, ]</a>
-<a class="sourceLine" id="cb126-13" data-line-number="13">  test &lt;-<span class="st"> </span>dat[<span class="op">-</span>train_ind, ]</a>
-<a class="sourceLine" id="cb126-14" data-line-number="14">  modn &lt;-<span class="st"> </span><span class="kw">train</span>(fm, <span class="dt">data=</span>train<span class="op">@</span>data, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, </a>
-<a class="sourceLine" id="cb126-15" data-line-number="15">                <span class="dt">trControl =</span> ctrl)</a>
-<a class="sourceLine" id="cb126-16" data-line-number="16">  pred &lt;-<span class="st"> </span><span class="kw">stack</span>(pred, <span class="kw">predict</span>(covs, modn))</a>
-<a class="sourceLine" id="cb126-17" data-line-number="17">  test<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">extract</span>(pred[[i<span class="op">+</span><span class="dv">1</span>]], test)</a>
-<a class="sourceLine" id="cb126-18" data-line-number="18">  <span class="co"># Store the results in a dataframe</span></a>
-<a class="sourceLine" id="cb126-19" data-line-number="19">  validation[i, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmse</span>(test<span class="op">$</span>OCSKGMlog, test<span class="op">$</span>pred)</a>
-<a class="sourceLine" id="cb126-20" data-line-number="20">  validation[i, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">cor</span>(test<span class="op">$</span>OCSKGMlog, test<span class="op">$</span>pred)<span class="op">^</span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb126-21" data-line-number="21">}</a></code></pre></div>
-<p><strong>Step 2 - Build a snsitivity map</strong></p>
-<p>The validation plot shows the regression line between observed and predicted of a model that uses 75% (black line) and the regression lines of 10 model realizations, each with a different random combination of data for training and validating the models.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="co"># The sensitivity map is the dispersion of all individual models</span></a>
-<a class="sourceLine" id="cb127-2" data-line-number="2">sensitivity &lt;-<span class="st"> </span><span class="kw">calc</span>(pred[[<span class="op">-</span><span class="dv">1</span>]], sd)</a>
-<a class="sourceLine" id="cb127-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb127-4" data-line-number="4"><span class="kw">plot</span>(sensitivity, <span class="dt">col=</span><span class="kw">rev</span>(<span class="kw">topo.colors</span>(<span class="dv">10</span>)), </a>
-<a class="sourceLine" id="cb127-5" data-line-number="5">     <span class="dt">main=</span><span class="st">&#39;Sensitivity based on 10 realizations using 25% samples&#39;</span>)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-62"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-62-1.png" alt="Sensitivity based on 10 realizations using 25% samples" width="672" />
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">library</span>(Metrics)</a>
+<a class="sourceLine" id="cb120-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb120-3" data-line-number="3"><span class="co"># Generate an empty dataframe</span></a>
+<a class="sourceLine" id="cb120-4" data-line-number="4">validation &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">rmse=</span><span class="kw">numeric</span>(), <span class="dt">r2=</span><span class="kw">numeric</span>())</a>
+<a class="sourceLine" id="cb120-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb120-6" data-line-number="6"><span class="co"># Sensitivity to the dataset</span></a>
+<a class="sourceLine" id="cb120-7" data-line-number="7"><span class="co"># Start a loop with 10 model realizations</span></a>
+<a class="sourceLine" id="cb120-8" data-line-number="8"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){</a>
+<a class="sourceLine" id="cb120-9" data-line-number="9">  <span class="co"># We will build 10 models using random samples of 25%  </span></a>
+<a class="sourceLine" id="cb120-10" data-line-number="10">  smp_size &lt;-<span class="st"> </span><span class="kw">floor</span>(<span class="fl">0.25</span> <span class="op">*</span><span class="st"> </span><span class="kw">nrow</span>(dat))</a>
+<a class="sourceLine" id="cb120-11" data-line-number="11">  train_ind &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">seq_len</span>(<span class="kw">nrow</span>(dat)), <span class="dt">size =</span> smp_size)</a>
+<a class="sourceLine" id="cb120-12" data-line-number="12">  train &lt;-<span class="st"> </span>dat[train_ind, ]</a>
+<a class="sourceLine" id="cb120-13" data-line-number="13">  test &lt;-<span class="st"> </span>dat[<span class="op">-</span>train_ind, ]</a>
+<a class="sourceLine" id="cb120-14" data-line-number="14">  modn &lt;-<span class="st"> </span><span class="kw">train</span>(fm, <span class="dt">data=</span>train<span class="op">@</span>data, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, </a>
+<a class="sourceLine" id="cb120-15" data-line-number="15">                <span class="dt">trControl =</span> ctrl)</a>
+<a class="sourceLine" id="cb120-16" data-line-number="16">  pred &lt;-<span class="st"> </span><span class="kw">stack</span>(pred, <span class="kw">predict</span>(covs, modn))</a>
+<a class="sourceLine" id="cb120-17" data-line-number="17">  test<span class="op">$</span>pred &lt;-<span class="st"> </span><span class="kw">extract</span>(pred[[i<span class="op">+</span><span class="dv">1</span>]], test)</a>
+<a class="sourceLine" id="cb120-18" data-line-number="18">  <span class="co"># Store the results in a dataframe</span></a>
+<a class="sourceLine" id="cb120-19" data-line-number="19">  validation[i, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">rmse</span>(test<span class="op">$</span>OCSKGMlog, test<span class="op">$</span>pred)</a>
+<a class="sourceLine" id="cb120-20" data-line-number="20">  validation[i, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">cor</span>(test<span class="op">$</span>OCSKGMlog, test<span class="op">$</span>pred)<span class="op">^</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb120-21" data-line-number="21">}</a></code></pre></div>
+<p><strong>Step 2 - Build a sensitivity map</strong></p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="co"># The sensitivity map is the dispersion of all individual models</span></a>
+<a class="sourceLine" id="cb121-2" data-line-number="2">sensitivity &lt;-<span class="st"> </span><span class="kw">calc</span>(pred[[<span class="op">-</span><span class="dv">1</span>]], sd)</a>
+<a class="sourceLine" id="cb121-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="kw">plot</span>(sensitivity, <span class="dt">col=</span><span class="kw">rev</span>(<span class="kw">topo.colors</span>(<span class="dv">10</span>)), </a>
+<a class="sourceLine" id="cb121-5" data-line-number="5">     <span class="dt">main=</span><span class="st">&#39;Sensitivity based on 10 realizations using 25% samples&#39;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-63"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-63-1.png" alt="Sensitivity based on 10 realizations using 25% samples" width="672" />
 <p class="caption">
 Figure 6.19: Sensitivity based on 10 realizations using 25% samples
 </p>
 </div>
 <p>The RMSE and the explained variance of the models is stored in the object validation (type <code>summary(validation)</code>). The standard deviation of all the ten predictions allows generating a map of model sensitivity to available data.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="co"># Sensitivity of validation metrics</span></a>
-<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw">summary</span>(validation)</a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="co"># Sensitivity of validation metrics</span></a>
+<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="kw">summary</span>(validation)</a></code></pre></div>
 <pre><code>##       rmse              r2        
 ##  Min.   :0.4736   Min.   :0.2317  
 ##  1st Qu.:0.4761   1st Qu.:0.2385  
@@ -1327,67 +1325,79 @@ Figure 6.19: Sensitivity based on 10 realizations using 25% samples
 ##  3rd Qu.:0.4804   3rd Qu.:0.2535  
 ##  Max.   :0.4910   Max.   :0.2611</code></pre>
 <p><strong>Step 3 - Analyze the sensitivity of the map</strong></p>
-<p><strong>Step 4 - Estimate the full conditional distribution of OCSKGMlog</strong></p>
-<p>Finally, we will estimate the model uncertainty, represented by the full conditional distribution of the response variable (<em>OCSKGMlog</em>) as a function of the selected prediction factors using the quantile regression forest package <strong>quantregForest</strong> of <strong>R</strong>. This approach has proven to be efficient for DSM across large areas <span class="citation">(Vaysse and Lagacherie <a href="#ref-vaysse2017using">2017</a>)</span>.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="co"># Use quantile regression forest to estimate the full conditional </span></a>
-<a class="sourceLine" id="cb130-2" data-line-number="2"><span class="co"># distribution of OCSKGMlog, note that we are using the mtry </span></a>
-<a class="sourceLine" id="cb130-3" data-line-number="3"><span class="co"># parameter that was selected by the train function of the caret </span></a>
-<a class="sourceLine" id="cb130-4" data-line-number="4"><span class="co"># package, assuming that the 75% of data previously used well </span></a>
-<a class="sourceLine" id="cb130-5" data-line-number="5"><span class="co"># resembles the statistical distribution of the entire data </span></a>
-<a class="sourceLine" id="cb130-6" data-line-number="6"><span class="co"># population. Otherwise, repeat the train function with all </span></a>
-<a class="sourceLine" id="cb130-7" data-line-number="7"><span class="co"># available data (using the object dat that instead of train) </span></a>
-<a class="sourceLine" id="cb130-8" data-line-number="8"><span class="co"># to select mtry.</span></a>
-<a class="sourceLine" id="cb130-9" data-line-number="9"><span class="kw">library</span>(quantregForest)</a></code></pre></div>
-<pre><code>## Loading required package: RColorBrewer</code></pre>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">quantregForest</span>(<span class="dt">y=</span>dat<span class="op">@</span>data<span class="op">$</span>OCSKGMlog, <span class="dt">x=</span>dat<span class="op">@</span>data[,<span class="dv">8</span><span class="op">:</span><span class="dv">20</span>], </a>
-<a class="sourceLine" id="cb132-2" data-line-number="2">                        <span class="dt">ntree=</span><span class="dv">500</span>, <span class="dt">keep.inbag=</span><span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb132-3" data-line-number="3">                        <span class="dt">mtry =</span> <span class="kw">as.numeric</span>(rfmodel<span class="op">$</span>bestTune))                        </a></code></pre></div>
-<p><strong>Step 5 - Estimate the probability distribution function for each pixel</strong></p>
-<p>This method will calculate a probability distribution function for each pixel and therefore can be time-consuming. Therefore we will run it using parallel computing. Note that the code to run in parallel this analysis can also be passed to the previous predictions (predict function). The result will be a map of the standard deviation of the distribution calculated for each pixel, which represents the extreme values that a prediction can take for a specific site (e.g., pixel) given available data and predictors. Note that this analysis is performed using all available data and a second map of OCSKGM is created.</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw">library</span>(snow)</a>
-<a class="sourceLine" id="cb133-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb133-3" data-line-number="3"><span class="co"># Estimate model uncertainty at the pixel level using parallel </span></a>
-<a class="sourceLine" id="cb133-4" data-line-number="4"><span class="co"># computing</span></a>
-<a class="sourceLine" id="cb133-5" data-line-number="5"><span class="co"># Define number of cores to use</span></a>
-<a class="sourceLine" id="cb133-6" data-line-number="6"><span class="kw">beginCluster</span>()</a></code></pre></div>
-<pre><code>## 8 cores detected, using 7</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="co"># Estimate model uncertainty</span></a>
-<a class="sourceLine" id="cb135-2" data-line-number="2">unc &lt;-<span class="st"> </span><span class="kw">clusterR</span>(covs, predict, <span class="dt">args=</span><span class="kw">list</span>(<span class="dt">model=</span>model,<span class="dt">what=</span>sd))</a>
-<a class="sourceLine" id="cb135-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb135-4" data-line-number="4"><span class="co"># OCSKGMlog prediction based in all available data</span></a>
-<a class="sourceLine" id="cb135-5" data-line-number="5">mean &lt;-<span class="st"> </span><span class="kw">clusterR</span>(covs, predict, </a>
-<a class="sourceLine" id="cb135-6" data-line-number="6">                 <span class="dt">args=</span><span class="kw">list</span>(<span class="dt">model=</span>model, <span class="dt">what=</span>mean))</a>
-<a class="sourceLine" id="cb135-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb135-8" data-line-number="8"><span class="co"># The total uncertainty is the sum of sensitivity and model </span></a>
-<a class="sourceLine" id="cb135-9" data-line-number="9"><span class="co"># uncertainty</span></a>
-<a class="sourceLine" id="cb135-10" data-line-number="10">unc &lt;-<span class="st"> </span>unc <span class="op">+</span><span class="st"> </span>sensitivity</a>
-<a class="sourceLine" id="cb135-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb135-12" data-line-number="12"><span class="co"># Express the uncertainty in percent % (divide by the mean)</span></a>
-<a class="sourceLine" id="cb135-13" data-line-number="13">Total_unc_Percent &lt;-<span class="st"> </span><span class="kw">exp</span>(unc)<span class="op">/</span><span class="kw">exp</span>(mean)</a>
-<a class="sourceLine" id="cb135-14" data-line-number="14"><span class="kw">endCluster</span>()</a></code></pre></div>
-<p>Our final prediction uses all available data, while the total uncertainty (in percent) is represented by the sum of the quantile regression forest standard deviation and the sensitivity map from the previous Section. The total uncertainty is then divided by the prediction to obtain a percent map, which is easier to interpret.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="co"># Plot both maps (the predicted OCSKGM and associated uncertainty)</span></a>
-<a class="sourceLine" id="cb136-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">exp</span>(mean), <span class="dt">main=</span><span class="st">&#39;OCSKGM based in all data&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="co"># Plot of the map based on 75% of data and the sensitivity to data </span></a>
+<a class="sourceLine" id="cb124-2" data-line-number="2"><span class="co"># variations</span></a>
+<a class="sourceLine" id="cb124-3" data-line-number="3">prediction75 &lt;-<span class="st"> </span><span class="kw">exp</span>(pred[[<span class="dv">1</span>]])</a>
+<a class="sourceLine" id="cb124-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb124-5" data-line-number="5"><span class="kw">plot</span>(prediction75, <span class="dt">main=</span><span class="st">&#39;OCSKGM prediction based on 75% of data&#39;</span>, </a>
+<a class="sourceLine" id="cb124-6" data-line-number="6">     <span class="dt">col=</span><span class="kw">rev</span>(<span class="kw">topo.colors</span>(<span class="dv">10</span>)))</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-65"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-65-1.png" alt="OCSKGM quantregForest prediction" width="672" />
+<img src="SOCMapping_files/figure-html/unnamed-chunk-65-1.png" alt="OCSKGM prediction based on 75% of data" width="672" />
 <p class="caption">
-Figure 6.20: OCSKGM quantregForest prediction
+Figure 6.20: OCSKGM prediction based on 75% of data
 </p>
 </div>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">plot</span>(Total_unc_Percent, <span class="dt">zlim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">main=</span><span class="st">&#39;Total uncertainty&#39;</span>)</a></code></pre></div>
+<p><strong>Step 4 - Estimate the full conditional distribution of OCSKGMlog</strong></p>
+<p>Finally, we will estimate the model uncertainty, represented by the full conditional distribution of the response variable (<em>OCSKGMlog</em>) as a function of the selected prediction factors using the quantile regression forest package <strong>quantregForest</strong> of <strong>R</strong>. This approach has proven to be efficient for DSM across large areas <span class="citation">(Vaysse and Lagacherie <a href="#ref-vaysse2017using">2017</a>)</span>.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="co"># Use quantile regression forest to estimate the full conditional </span></a>
+<a class="sourceLine" id="cb125-2" data-line-number="2"><span class="co"># distribution of OCSKGMlog, note that we are using the mtry </span></a>
+<a class="sourceLine" id="cb125-3" data-line-number="3"><span class="co"># parameter that was selected by the train function of the caret </span></a>
+<a class="sourceLine" id="cb125-4" data-line-number="4"><span class="co"># package, assuming that the 75% of data previously used well </span></a>
+<a class="sourceLine" id="cb125-5" data-line-number="5"><span class="co"># resembles the statistical distribution of the entire data </span></a>
+<a class="sourceLine" id="cb125-6" data-line-number="6"><span class="co"># population. Otherwise, repeat the train function with all </span></a>
+<a class="sourceLine" id="cb125-7" data-line-number="7"><span class="co"># available data (using the object dat that instead of train) </span></a>
+<a class="sourceLine" id="cb125-8" data-line-number="8"><span class="co"># to select mtry.</span></a>
+<a class="sourceLine" id="cb125-9" data-line-number="9"><span class="kw">library</span>(quantregForest)</a></code></pre></div>
+<pre><code>## Loading required package: RColorBrewer</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">quantregForest</span>(<span class="dt">y=</span>dat<span class="op">@</span>data<span class="op">$</span>OCSKGMlog, <span class="dt">x=</span>dat<span class="op">@</span>data[,<span class="dv">8</span><span class="op">:</span><span class="dv">20</span>], </a>
+<a class="sourceLine" id="cb127-2" data-line-number="2">                        <span class="dt">ntree=</span><span class="dv">500</span>, <span class="dt">keep.inbag=</span><span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb127-3" data-line-number="3">                        <span class="dt">mtry =</span> <span class="kw">as.numeric</span>(rfmodel<span class="op">$</span>bestTune))                        </a></code></pre></div>
+<p><strong>Step 5 - Estimate the probability distribution function for each pixel</strong></p>
+<p>This method will calculate a probability distribution function for each pixel and therefore can be time-consuming. Therefore we will run it using parallel computing. Note that the code to run in parallel this analysis can also be passed to the previous predictions (predict function). The result will be a map of the standard deviation of the distribution calculated for each pixel, which represents the extreme values that a prediction can take for a specific site (e.g., pixel) given available data and predictors. Note that this analysis is performed using all available data and a second map of OCSKGM is created.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">library</span>(snow)</a>
+<a class="sourceLine" id="cb128-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb128-3" data-line-number="3"><span class="co"># Estimate model uncertainty at the pixel level using parallel </span></a>
+<a class="sourceLine" id="cb128-4" data-line-number="4"><span class="co"># computing</span></a>
+<a class="sourceLine" id="cb128-5" data-line-number="5"><span class="co"># Define number of cores to use</span></a>
+<a class="sourceLine" id="cb128-6" data-line-number="6"><span class="kw">beginCluster</span>()</a></code></pre></div>
+<pre><code>## 8 cores detected, using 7</code></pre>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="co"># Estimate model uncertainty</span></a>
+<a class="sourceLine" id="cb130-2" data-line-number="2">unc &lt;-<span class="st"> </span><span class="kw">clusterR</span>(covs, predict, <span class="dt">args=</span><span class="kw">list</span>(<span class="dt">model=</span>model,<span class="dt">what=</span>sd))</a>
+<a class="sourceLine" id="cb130-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb130-4" data-line-number="4"><span class="co"># OCSKGMlog prediction based in all available data</span></a>
+<a class="sourceLine" id="cb130-5" data-line-number="5">mean &lt;-<span class="st"> </span><span class="kw">clusterR</span>(covs, predict, </a>
+<a class="sourceLine" id="cb130-6" data-line-number="6">                 <span class="dt">args=</span><span class="kw">list</span>(<span class="dt">model=</span>model, <span class="dt">what=</span>mean))</a>
+<a class="sourceLine" id="cb130-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb130-8" data-line-number="8"><span class="co"># The total uncertainty is the sum of sensitivity and model </span></a>
+<a class="sourceLine" id="cb130-9" data-line-number="9"><span class="co"># uncertainty</span></a>
+<a class="sourceLine" id="cb130-10" data-line-number="10">unc &lt;-<span class="st"> </span>unc <span class="op">+</span><span class="st"> </span>sensitivity</a>
+<a class="sourceLine" id="cb130-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb130-12" data-line-number="12"><span class="co"># Express the uncertainty in percent % (divide by the mean)</span></a>
+<a class="sourceLine" id="cb130-13" data-line-number="13">Total_unc_Percent &lt;-<span class="st"> </span><span class="kw">exp</span>(unc)<span class="op">/</span><span class="kw">exp</span>(mean)</a>
+<a class="sourceLine" id="cb130-14" data-line-number="14"><span class="kw">endCluster</span>()</a></code></pre></div>
+<p>Our final prediction uses all available data, while the total uncertainty (in percent) is represented by the sum of the quantile regression forest standard deviation and the sensitivity map from the previous Section. The total uncertainty is then divided by the prediction to obtain a percent map, which is easier to interpret.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="co"># Plot both maps (the predicted OCSKGM and associated uncertainty)</span></a>
+<a class="sourceLine" id="cb131-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">exp</span>(mean), <span class="dt">main=</span><span class="st">&#39;OCSKGM based in all data&#39;</span>)</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-66"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-66-1.png" alt="Total uncertainty" width="672" />
+<img src="SOCMapping_files/figure-html/unnamed-chunk-66-1.png" alt="OCSKGM quantregForest prediction" width="672" />
 <p class="caption">
-Figure 6.21: Total uncertainty
+Figure 6.21: OCSKGM quantregForest prediction
+</p>
+</div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">plot</span>(Total_unc_Percent, <span class="dt">zlim=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">main=</span><span class="st">&#39;Total uncertainty&#39;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-67"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-67-1.png" alt="Total uncertainty" width="672" />
+<p class="caption">
+Figure 6.22: Total uncertainty
 </p>
 </div>
 <p><strong>Step 6 - Save the results as raster format</strong></p>
 <p>Finally, the predicted OCSKGM and the total uncertainty can be saved in the working directory in a generic (*.tif) raster format.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="co"># Save the resulting maps in separated *.tif files</span></a>
-<a class="sourceLine" id="cb138-2" data-line-number="2"><span class="kw">writeRaster</span>(<span class="kw">exp</span>(mean), <span class="dt">file=</span><span class="st">&#39;results/MKD_OCSKGM_quantrf.tif&#39;</span>, </a>
-<a class="sourceLine" id="cb138-3" data-line-number="3">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb138-4" data-line-number="4"><span class="kw">writeRaster</span>(Total_unc_Percent, <span class="dt">file=</span><span class="st">&#39;results/MKD_OCSKGM_rf_unc.tif&#39;</span>,</a>
-<a class="sourceLine" id="cb138-5" data-line-number="5">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="co"># Save the resulting maps in separated *.tif files</span></a>
+<a class="sourceLine" id="cb133-2" data-line-number="2"><span class="kw">writeRaster</span>(<span class="kw">exp</span>(mean), <span class="dt">file=</span><span class="st">&#39;results/MKD_OCSKGM_quantrf.tif&#39;</span>, </a>
+<a class="sourceLine" id="cb133-3" data-line-number="3">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb133-4" data-line-number="4"><span class="kw">writeRaster</span>(Total_unc_Percent, <span class="dt">file=</span><span class="st">&#39;results/MKD_OCSKGM_rf_unc.tif&#39;</span>,</a>
+<a class="sourceLine" id="cb133-5" data-line-number="5">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 <p>We have created two maps in the working directory, one represents the predicted OCSKGM and the second one its uncertainty, which is the sum of the model sensitivity to data variations and the full conditional distribution of the response variable as a function of available prediction factors. The following Chapters of this book will show you how to prepare a stock report based on this soil carbon digital soil maps.</p>
 
 
@@ -1423,19 +1433,19 @@ Figure 6.21: Total uncertainty
 <p><strong>Step 1 - Setting working space and initial steps</strong></p>
 <p>One of the first steps should be setting our working directory. If you read/write files from/to disk, this takes place in the working directory. If we do not set the working directory, we could easily write files to an undesirable file location. The following example shows how to set the working directory in <strong>R</strong> to our folder which contains data for the study area (point data, covariates).</p>
 <p>Note that we must use the forward slash / or double backslash \\ in <strong>R</strong>! Single backslash \ will not work. Now we can check if the working directory has been correctly set by using the <code>getwd()</code> function:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="kw">getwd</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw">getwd</span>()</a></code></pre></div>
 <p><strong>Step 2 - Data preparation</strong></p>
 <p>In the Chapter <a href="covariates.html#covariates">5</a>, we presented and prepared several global and continental datasets. In addition to these datasets, numerous covariate layers have been prepared by ISRIC for the GSOCmap project. These are GIS raster layers of various biophysical earth surface properties for each country in the world. Some of these layers will be used as predictors in this Section. Please download the covariates for your own study area from GSOCmap Data Repository as explained in Section <a href="covariates.html#GSOCDataRepo">5.6</a>.</p>
 <p>In Section <a href="covariates.html#overlay-soil-covariates">5.9</a>, a table with the points values after data preparation and the values of our spatial predictors was prepared. This step involves loading this table.</p>
 <p>Now we will import our point dataset using <code>read.csv()</code> function. The easiest way to create a data frame is to read in data from a file. This is done using the function <code>read.csv()</code>, which works with comma delimited files. Data can be read in from other file formats as well, using different functions, but <code>read.csv()</code> is the most commonly used approach. <strong>R</strong> is very flexible in how it reads in data from text files (<code>read.table()</code>, <code>read.csv()</code>, <code>read.csv2()</code>, <code>read.delim()</code>, <code>read.delim2()</code>). Please type <code>?read.table()</code> for help.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="co"># Load data</span></a>
-<a class="sourceLine" id="cb140-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb140-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb140-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb140-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
-<a class="sourceLine" id="cb140-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb140-7" data-line-number="7"><span class="co"># Explore the data structure</span></a>
-<a class="sourceLine" id="cb140-8" data-line-number="8"><span class="kw">str</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="co"># Load data</span></a>
+<a class="sourceLine" id="cb135-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb135-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb135-4" data-line-number="4">dat<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb135-5" data-line-number="5">dat<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb135-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb135-7" data-line-number="7"><span class="co"># Explore the data structure</span></a>
+<a class="sourceLine" id="cb135-8" data-line-number="8"><span class="kw">str</span>(dat)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    2897 obs. of  23 variables:
 ##  $ id       : Factor w/ 2897 levels &quot;P0003&quot;,&quot;P0007&quot;,..: 1 2 3 4..
 ##  $ Y        : num  42 42 42.1 42 42 ...
@@ -1461,12 +1471,12 @@ Figure 6.21: Total uncertainty
 ##  $ VDPMRG5  : int  311 823 10048 1963 -173 -400 -9 -692 -1139 2..
 ##  $ soilmap  : Factor w/ 20 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 6 14 14 3..</code></pre>
 <p>Since we will be working with spatial data we need to define the coordinates for the imported data. Using the <code>coordinates()</code> function from the <strong>sp</strong> package we can define the columns in the data frame to refer to spatial coordinates. Here the coordinates are listed in columns <code>X</code> and <code>Y</code>.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb142-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb142-3" data-line-number="3"><span class="co"># Promote to spatialPointsDataFrame</span></a>
-<a class="sourceLine" id="cb142-4" data-line-number="4"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb142-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb142-6" data-line-number="6"><span class="kw">class</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">library</span>(sp)</a>
+<a class="sourceLine" id="cb137-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb137-3" data-line-number="3"><span class="co"># Promote to spatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb137-4" data-line-number="4"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb137-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb137-6" data-line-number="6"><span class="kw">class</span>(dat)</a></code></pre></div>
 <pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;sp&quot;</code></pre>
@@ -1475,34 +1485,34 @@ Figure 6.21: Total uncertainty
 <blockquote>
 <p><strong>CRS</strong>: Please note that, when working with spatial data, it is very important that the CRS of the point data and covariates are the same.</p>
 </blockquote>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="co"># Now, we will define our CRS</span></a>
-<a class="sourceLine" id="cb144-2" data-line-number="2">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
-<a class="sourceLine" id="cb144-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb144-4" data-line-number="4">dat<span class="op">@</span>proj4string</a></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="co"># Now, we will define our CRS</span></a>
+<a class="sourceLine" id="cb139-2" data-line-number="2">dat<span class="op">@</span>proj4string &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="dt">projargs =</span> <span class="st">&quot;+init=epsg:4326&quot;</span>)</a>
+<a class="sourceLine" id="cb139-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb139-4" data-line-number="4">dat<span class="op">@</span>proj4string</a></code></pre></div>
 <pre><code>## CRS arguments:
 ##  +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs
 ## +ellps=WGS84 +towgs84=0,0,0</code></pre>
 <p>Now we will import the covariates. When the covariate layers are in common resolution and extent, rather than working with individual rasters it is better to stack them all into a single <strong>R</strong> object. In this example, we use 13 covariates from the GSOCmap Data Repository and a rasterized version of the soil type map. The rasterization of vectorial data was covered in <a href="covariates.html#technical-steps---rasterizing-a-vector-layer-in-r">Technical Steps - Rasterizing a vector layer in R</a>. The file containing all the covariates was prepared at the end of Chapter <a href="covariates.html#covariates">5</a>.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb146-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb146-3" data-line-number="3"><span class="kw">names</span>(covs)</a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb141-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb141-3" data-line-number="3"><span class="kw">names</span>(covs)</a></code></pre></div>
 <pre><code>##  [1] &quot;B04CHE3&quot; &quot;B07CHE3&quot; &quot;B13CHE3&quot; &quot;B14CHE3&quot; &quot;DEMENV5&quot; &quot;LCEE10&quot; 
 ##  [7] &quot;PRSCHE3&quot; &quot;SLPMRG5&quot; &quot;TMDMOD3&quot; &quot;TMNMOD3&quot; &quot;TWIMRG5&quot; &quot;VBFMRG5&quot;
 ## [13] &quot;VDPMRG5&quot; &quot;soilmap&quot;</code></pre>
 <p><strong>Step 3 - Variable selection using correlation analysis</strong></p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="co"># Plot the names of the covariates</span></a>
-<a class="sourceLine" id="cb148-2" data-line-number="2"><span class="kw">names</span>(dat<span class="op">@</span>data)</a></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1"><span class="co"># Plot the names of the covariates</span></a>
+<a class="sourceLine" id="cb143-2" data-line-number="2"><span class="kw">names</span>(dat<span class="op">@</span>data)</a></code></pre></div>
 <pre><code>##  [1] &quot;id&quot;        &quot;SOC&quot;       &quot;BLD&quot;       &quot;CRFVOL&quot;    &quot;OCSKGM&quot;   
 ##  [6] &quot;meaERROR&quot;  &quot;OCSKGMlog&quot; &quot;B04CHE3&quot;   &quot;B07CHE3&quot;   &quot;B13CHE3&quot;  
 ## [11] &quot;B14CHE3&quot;   &quot;DEMENV5&quot;   &quot;LCEE10&quot;    &quot;PRSCHE3&quot;   &quot;SLPMRG5&quot;  
 ## [16] &quot;TMDMOD3&quot;   &quot;TMNMOD3&quot;   &quot;TWIMRG5&quot;   &quot;VBFMRG5&quot;   &quot;VDPMRG5&quot;  
 ## [21] &quot;soilmap&quot;</code></pre>
 <p>For the variable selection we will use <code>cor()</code> function. <code>x</code> must be a table including only the column with the response variable, and <code>y</code> must be a table including <strong>only</strong> the covariates. Besides, remember <code>dat@data</code> in the <code>data.frame</code> included in the <code>SpatialPointsDataFrame</code>. For <code>y</code>, columns 1 to 7 are out, because they are not covariates. At the same time, correlation analysis cannot be applied to categorical covariates, this means that columns 13 and 21 have to be removed too.</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">selectedCovs &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="dt">x =</span> <span class="kw">as.matrix</span>(dat<span class="op">@</span>data[,<span class="dv">5</span>]),</a>
-<a class="sourceLine" id="cb150-2" data-line-number="2">           <span class="dt">y =</span> <span class="kw">as.matrix</span>(dat<span class="op">@</span>data[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">13</span>,<span class="dv">21</span>)]))</a>
-<a class="sourceLine" id="cb150-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb150-4" data-line-number="4"><span class="co"># Print correlation results</span></a>
-<a class="sourceLine" id="cb150-5" data-line-number="5">selectedCovs</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1">selectedCovs &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="dt">x =</span> <span class="kw">as.matrix</span>(dat<span class="op">@</span>data[,<span class="dv">5</span>]),</a>
+<a class="sourceLine" id="cb145-2" data-line-number="2">           <span class="dt">y =</span> <span class="kw">as.matrix</span>(dat<span class="op">@</span>data[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>,<span class="dv">13</span>,<span class="dv">21</span>)]))</a>
+<a class="sourceLine" id="cb145-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb145-4" data-line-number="4"><span class="co"># Print correlation results</span></a>
+<a class="sourceLine" id="cb145-5" data-line-number="5">selectedCovs</a></code></pre></div>
 <pre><code>##         B04CHE3    B07CHE3  B13CHE3   B14CHE3   DEMENV5
 ## [1,] -0.4199537 -0.3926615 0.330696 0.3481847 0.3926275
 ##        PRSCHE3   SLPMRG5    TMDMOD3    TMNMOD3    TWIMRG5
@@ -1510,46 +1520,46 @@ Figure 6.21: Total uncertainty
 ##         VBFMRG5    VDPMRG5
 ## [1,] -0.1156285 -0.3001934</code></pre>
 <p>Now we used the correlation results to select the top five covariates.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="kw">library</span>(reshape)</a>
-<a class="sourceLine" id="cb152-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb152-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="kw">subset</span>(<span class="kw">melt</span>(selectedCovs), value <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>value <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb152-4" data-line-number="4">x &lt;-<span class="st"> </span>x[<span class="kw">with</span>(x, <span class="kw">order</span>(<span class="op">-</span><span class="kw">abs</span>(x<span class="op">$</span>value))),]</a>
-<a class="sourceLine" id="cb152-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb152-6" data-line-number="6">idx &lt;-<span class="st"> </span><span class="kw">as.character</span>(x<span class="op">$</span>X2[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb152-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb152-8" data-line-number="8">dat2 &lt;-<span class="st"> </span>dat[<span class="kw">c</span>(<span class="st">&#39;OCSKGM&#39;</span>, idx)]</a>
-<a class="sourceLine" id="cb152-9" data-line-number="9"><span class="kw">names</span>(dat2)</a></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">library</span>(reshape)</a>
+<a class="sourceLine" id="cb147-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb147-3" data-line-number="3">x &lt;-<span class="st"> </span><span class="kw">subset</span>(<span class="kw">melt</span>(selectedCovs), value <span class="op">!=</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>value <span class="op">!=</span><span class="st"> </span><span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb147-4" data-line-number="4">x &lt;-<span class="st"> </span>x[<span class="kw">with</span>(x, <span class="kw">order</span>(<span class="op">-</span><span class="kw">abs</span>(x<span class="op">$</span>value))),]</a>
+<a class="sourceLine" id="cb147-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb147-6" data-line-number="6">idx &lt;-<span class="st"> </span><span class="kw">as.character</span>(x<span class="op">$</span>X2[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb147-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb147-8" data-line-number="8">dat2 &lt;-<span class="st"> </span>dat[<span class="kw">c</span>(<span class="st">&#39;OCSKGM&#39;</span>, idx)]</a>
+<a class="sourceLine" id="cb147-9" data-line-number="9"><span class="kw">names</span>(dat2)</a></code></pre></div>
 <pre><code>## [1] &quot;OCSKGM&quot;  &quot;B04CHE3&quot; &quot;TMDMOD3&quot; &quot;PRSCHE3&quot; &quot;B07CHE3&quot; &quot;DEMENV5&quot;</code></pre>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">COV &lt;-<span class="st"> </span>covs[[idx]]</a>
-<a class="sourceLine" id="cb154-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb154-3" data-line-number="3"><span class="co"># Selected covariates</span></a>
-<a class="sourceLine" id="cb154-4" data-line-number="4"><span class="kw">names</span>(COV)</a></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">COV &lt;-<span class="st"> </span>covs[[idx]]</a>
+<a class="sourceLine" id="cb149-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb149-3" data-line-number="3"><span class="co"># Selected covariates</span></a>
+<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="kw">names</span>(COV)</a></code></pre></div>
 <pre><code>## [1] &quot;B04CHE3&quot; &quot;TMDMOD3&quot; &quot;PRSCHE3&quot; &quot;B07CHE3&quot; &quot;DEMENV5&quot;</code></pre>
 <p><strong>Step 4 - Categorical variables in svm models</strong></p>
 <p>According to <span class="citation">Hsu et al. (<a href="#ref-hsu2003practical">2003</a>)</span>, SVM requires each variable to be represented by a vector of real numbers. This means that factor variables, like <code>covs$LCEE10</code> and <code>covs$soilmap</code>has to be converted into numeric data. In statistics, this kind of variables are called Boolean indicators or <em>dummy variables</em>.</p>
 <p>Dummy variables take a value of 0 or 1 indicating the presence or absence of a specific value/category in our factor covariate, i.e. if we have five categories like in <code>covs$LCEE10</code>, we will have five dummy variables indicating the presence/absence of every category. For converting our covariates to dummies we will have to create a new function that returns the dummy raster stack <code>dummyRaster</code> from the factor version of the raster layer.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">dummyRaster &lt;-<span class="st"> </span><span class="cf">function</span>(rast){</a>
-<a class="sourceLine" id="cb156-2" data-line-number="2">  rast &lt;-<span class="st"> </span><span class="kw">as.factor</span>(rast)</a>
-<a class="sourceLine" id="cb156-3" data-line-number="3">  result &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
-<a class="sourceLine" id="cb156-4" data-line-number="4">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">levels</span>(rast)[[<span class="dv">1</span>]][[<span class="dv">1</span>]])){</a>
-<a class="sourceLine" id="cb156-5" data-line-number="5">    result[[i]] &lt;-<span class="st"> </span>rast <span class="op">==</span><span class="st"> </span><span class="kw">levels</span>(rast)[[<span class="dv">1</span>]][[<span class="dv">1</span>]][i]</a>
-<a class="sourceLine" id="cb156-6" data-line-number="6">    <span class="kw">names</span>(result[[i]]) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">names</span>(rast), </a>
-<a class="sourceLine" id="cb156-7" data-line-number="7">                                 <span class="kw">levels</span>(rast)[[<span class="dv">1</span>]][[<span class="dv">1</span>]][i])</a>
-<a class="sourceLine" id="cb156-8" data-line-number="8">  }</a>
-<a class="sourceLine" id="cb156-9" data-line-number="9">  <span class="kw">return</span>(<span class="kw">stack</span>(result))</a>
-<a class="sourceLine" id="cb156-10" data-line-number="10">}</a></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">dummyRaster &lt;-<span class="st"> </span><span class="cf">function</span>(rast){</a>
+<a class="sourceLine" id="cb151-2" data-line-number="2">  rast &lt;-<span class="st"> </span><span class="kw">as.factor</span>(rast)</a>
+<a class="sourceLine" id="cb151-3" data-line-number="3">  result &lt;-<span class="st"> </span><span class="kw">list</span>()</a>
+<a class="sourceLine" id="cb151-4" data-line-number="4">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">levels</span>(rast)[[<span class="dv">1</span>]][[<span class="dv">1</span>]])){</a>
+<a class="sourceLine" id="cb151-5" data-line-number="5">    result[[i]] &lt;-<span class="st"> </span>rast <span class="op">==</span><span class="st"> </span><span class="kw">levels</span>(rast)[[<span class="dv">1</span>]][[<span class="dv">1</span>]][i]</a>
+<a class="sourceLine" id="cb151-6" data-line-number="6">    <span class="kw">names</span>(result[[i]]) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">names</span>(rast), </a>
+<a class="sourceLine" id="cb151-7" data-line-number="7">                                 <span class="kw">levels</span>(rast)[[<span class="dv">1</span>]][[<span class="dv">1</span>]][i])</a>
+<a class="sourceLine" id="cb151-8" data-line-number="8">  }</a>
+<a class="sourceLine" id="cb151-9" data-line-number="9">  <span class="kw">return</span>(<span class="kw">stack</span>(result))</a>
+<a class="sourceLine" id="cb151-10" data-line-number="10">}</a></code></pre></div>
 <p>We can use the function we just created to convert our categorical covariates to dummies and then stack all the layers together.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="co"># Convert soilmap from factor to dummy</span></a>
-<a class="sourceLine" id="cb157-2" data-line-number="2">soilmap_dummy &lt;-<span class="st"> </span><span class="kw">dummyRaster</span>(covs<span class="op">$</span>soilmap)</a>
-<a class="sourceLine" id="cb157-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb157-4" data-line-number="4"><span class="co"># Convert LCEE10 from factor to dummy</span></a>
-<a class="sourceLine" id="cb157-5" data-line-number="5">LCEE10_dummy &lt;-<span class="st"> </span><span class="kw">dummyRaster</span>(covs<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb157-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb157-7" data-line-number="7"><span class="co"># Stack the 5 COV layers with the 2 dummies</span></a>
-<a class="sourceLine" id="cb157-8" data-line-number="8">COV &lt;-<span class="st"> </span><span class="kw">stack</span>(COV, soilmap_dummy, LCEE10_dummy)</a>
-<a class="sourceLine" id="cb157-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb157-10" data-line-number="10"><span class="co"># Print the final layer names</span></a>
-<a class="sourceLine" id="cb157-11" data-line-number="11"><span class="kw">names</span>(COV)</a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="co"># Convert soilmap from factor to dummy</span></a>
+<a class="sourceLine" id="cb152-2" data-line-number="2">soilmap_dummy &lt;-<span class="st"> </span><span class="kw">dummyRaster</span>(covs<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb152-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb152-4" data-line-number="4"><span class="co"># Convert LCEE10 from factor to dummy</span></a>
+<a class="sourceLine" id="cb152-5" data-line-number="5">LCEE10_dummy &lt;-<span class="st"> </span><span class="kw">dummyRaster</span>(covs<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb152-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb152-7" data-line-number="7"><span class="co"># Stack the 5 COV layers with the 2 dummies</span></a>
+<a class="sourceLine" id="cb152-8" data-line-number="8">COV &lt;-<span class="st"> </span><span class="kw">stack</span>(COV, soilmap_dummy, LCEE10_dummy)</a>
+<a class="sourceLine" id="cb152-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb152-10" data-line-number="10"><span class="co"># Print the final layer names</span></a>
+<a class="sourceLine" id="cb152-11" data-line-number="11"><span class="kw">names</span>(COV)</a></code></pre></div>
 <pre><code>##  [1] &quot;B04CHE3&quot;   &quot;TMDMOD3&quot;   &quot;PRSCHE3&quot;   &quot;B07CHE3&quot;   &quot;DEMENV5&quot;  
 ##  [6] &quot;soilmap1&quot;  &quot;soilmap2&quot;  &quot;soilmap3&quot;  &quot;soilmap4&quot;  &quot;soilmap5&quot; 
 ## [11] &quot;soilmap6&quot;  &quot;soilmap7&quot;  &quot;soilmap8&quot;  &quot;soilmap9&quot;  &quot;soilmap10&quot;
@@ -1557,23 +1567,23 @@ Figure 6.21: Total uncertainty
 ## [21] &quot;soilmap16&quot; &quot;soilmap17&quot; &quot;soilmap18&quot; &quot;soilmap19&quot; &quot;soilmap20&quot;
 ## [26] &quot;LCEE101&quot;   &quot;LCEE102&quot;   &quot;LCEE103&quot;   &quot;LCEE104&quot;</code></pre>
 <p>We have to convert the columns with categorical variables in the soil samples <code>data.frame</code> to dummies as well. For doing this we can use function <code>model.matrix()</code>. After this, we use <code>cbind()</code> to merge the resulting <code>data.frame</code>.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="co"># Convert soilmap column to dummy, the result is a matrix</span></a>
-<a class="sourceLine" id="cb159-2" data-line-number="2"><span class="co"># To have one column per category we have to add -1 to the formula</span></a>
-<a class="sourceLine" id="cb159-3" data-line-number="3">dat_soilmap_dummy &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span>soilmap <span class="dv">-1</span>, <span class="dt">data =</span> dat<span class="op">@</span>data)</a>
-<a class="sourceLine" id="cb159-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb159-5" data-line-number="5"><span class="co"># Convert the matrix to a data.frame</span></a>
-<a class="sourceLine" id="cb159-6" data-line-number="6">dat_soilmap_dummy &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat_soilmap_dummy)</a>
-<a class="sourceLine" id="cb159-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb159-8" data-line-number="8"><span class="co"># Convert LCEE10 column to dummy, the result is a matrix</span></a>
-<a class="sourceLine" id="cb159-9" data-line-number="9"><span class="co"># To have one column per category we have to add -1 to the formula</span></a>
-<a class="sourceLine" id="cb159-10" data-line-number="10">dat_LCEE10_dummy &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span>LCEE10 <span class="dv">-1</span>, <span class="dt">data =</span> dat<span class="op">@</span>data)</a>
-<a class="sourceLine" id="cb159-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb159-12" data-line-number="12"><span class="co"># Convert the matrix to a data.frame</span></a>
-<a class="sourceLine" id="cb159-13" data-line-number="13">dat_LCEE10_dummy &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat_LCEE10_dummy)</a>
-<a class="sourceLine" id="cb159-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb159-15" data-line-number="15">dat<span class="op">@</span>data &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat<span class="op">@</span>data, dat_LCEE10_dummy, dat_soilmap_dummy)</a>
-<a class="sourceLine" id="cb159-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb159-17" data-line-number="17"><span class="kw">names</span>(dat<span class="op">@</span>data)</a></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1"><span class="co"># Convert soilmap column to dummy, the result is a matrix</span></a>
+<a class="sourceLine" id="cb154-2" data-line-number="2"><span class="co"># To have one column per category we have to add -1 to the formula</span></a>
+<a class="sourceLine" id="cb154-3" data-line-number="3">dat_soilmap_dummy &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span>soilmap <span class="dv">-1</span>, <span class="dt">data =</span> dat<span class="op">@</span>data)</a>
+<a class="sourceLine" id="cb154-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb154-5" data-line-number="5"><span class="co"># Convert the matrix to a data.frame</span></a>
+<a class="sourceLine" id="cb154-6" data-line-number="6">dat_soilmap_dummy &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat_soilmap_dummy)</a>
+<a class="sourceLine" id="cb154-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb154-8" data-line-number="8"><span class="co"># Convert LCEE10 column to dummy, the result is a matrix</span></a>
+<a class="sourceLine" id="cb154-9" data-line-number="9"><span class="co"># To have one column per category we have to add -1 to the formula</span></a>
+<a class="sourceLine" id="cb154-10" data-line-number="10">dat_LCEE10_dummy &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span>LCEE10 <span class="dv">-1</span>, <span class="dt">data =</span> dat<span class="op">@</span>data)</a>
+<a class="sourceLine" id="cb154-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb154-12" data-line-number="12"><span class="co"># Convert the matrix to a data.frame</span></a>
+<a class="sourceLine" id="cb154-13" data-line-number="13">dat_LCEE10_dummy &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat_LCEE10_dummy)</a>
+<a class="sourceLine" id="cb154-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb154-15" data-line-number="15">dat<span class="op">@</span>data &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat<span class="op">@</span>data, dat_LCEE10_dummy, dat_soilmap_dummy)</a>
+<a class="sourceLine" id="cb154-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb154-17" data-line-number="17"><span class="kw">names</span>(dat<span class="op">@</span>data)</a></code></pre></div>
 <pre><code>##  [1] &quot;id&quot;        &quot;SOC&quot;       &quot;BLD&quot;       &quot;CRFVOL&quot;    &quot;OCSKGM&quot;   
 ##  [6] &quot;meaERROR&quot;  &quot;OCSKGMlog&quot; &quot;B04CHE3&quot;   &quot;B07CHE3&quot;   &quot;B13CHE3&quot;  
 ## [11] &quot;B14CHE3&quot;   &quot;DEMENV5&quot;   &quot;LCEE10&quot;    &quot;PRSCHE3&quot;   &quot;SLPMRG5&quot;  
@@ -1591,28 +1601,28 @@ Figure 6.21: Total uncertainty
 <pre><code>## The following object is masked from &#39;package:raster&#39;:
 ## 
 ##     interpolate</code></pre>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="kw">library</span>(e1071)</a>
-<a class="sourceLine" id="cb163-2" data-line-number="2"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb163-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb163-4" data-line-number="4"><span class="co"># Test different values of epsilon and cost</span></a>
-<a class="sourceLine" id="cb163-5" data-line-number="5">  tuneResult &lt;-<span class="st"> </span><span class="kw">tune</span>(svm, OCSKGM <span class="op">~</span>.,  <span class="dt">data =</span> dat<span class="op">@</span>data[,<span class="kw">c</span>(<span class="st">&quot;OCSKGM&quot;</span>,</a>
-<a class="sourceLine" id="cb163-6" data-line-number="6">                                                         <span class="kw">names</span>(COV))],</a>
-<a class="sourceLine" id="cb163-7" data-line-number="7">                     <span class="dt">ranges =</span> <span class="kw">list</span>(<span class="dt">epsilon =</span> <span class="kw">seq</span>(<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.02</span>),</a>
-<a class="sourceLine" id="cb163-8" data-line-number="8">                                   <span class="dt">cost =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">20</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="kw">library</span>(e1071)</a>
+<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb158-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb158-4" data-line-number="4"><span class="co"># Test different values of epsilon and cost</span></a>
+<a class="sourceLine" id="cb158-5" data-line-number="5">  tuneResult &lt;-<span class="st"> </span><span class="kw">tune</span>(svm, OCSKGM <span class="op">~</span>.,  <span class="dt">data =</span> dat<span class="op">@</span>data[,<span class="kw">c</span>(<span class="st">&quot;OCSKGM&quot;</span>,</a>
+<a class="sourceLine" id="cb158-6" data-line-number="6">                                                         <span class="kw">names</span>(COV))],</a>
+<a class="sourceLine" id="cb158-7" data-line-number="7">                     <span class="dt">ranges =</span> <span class="kw">list</span>(<span class="dt">epsilon =</span> <span class="kw">seq</span>(<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.02</span>),</a>
+<a class="sourceLine" id="cb158-8" data-line-number="8">                                   <span class="dt">cost =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">15</span>,<span class="dv">20</span>)))</a></code></pre></div>
 <p>We can plot the performance of the different models. When the region is darker, the RMSE is closer to zero.</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">plot</span>(tuneResult)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-77"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-77-1.png" alt="Performance of the different SVM models in the parameter tuning procedure" width="672" />
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="kw">plot</span>(tuneResult)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-78"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-78-1.png" alt="Performance of the different SVM models in the parameter tuning procedure" width="672" />
 <p class="caption">
-Figure 6.22: Performance of the different SVM models in the parameter tuning procedure
+Figure 6.23: Performance of the different SVM models in the parameter tuning procedure
 </p>
 </div>
 <p><strong>Step 6 - Select the model with the best combination of epsilon and cost</strong></p>
 <p>The best model is the one with the lowest mean squared error derived by cross-validation. The parameters for the cross-validation can be defined in the <code>tune.control()</code> function. By default, it uses cross-validation using 10 folds.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="co"># Choose the model with the best combination of epsilon and cost</span></a>
-<a class="sourceLine" id="cb165-2" data-line-number="2">tunedModel &lt;-<span class="st"> </span>tuneResult<span class="op">$</span>best.model</a>
-<a class="sourceLine" id="cb165-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb165-4" data-line-number="4"><span class="kw">print</span>(tunedModel)</a></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="co"># Choose the model with the best combination of epsilon and cost</span></a>
+<a class="sourceLine" id="cb160-2" data-line-number="2">tunedModel &lt;-<span class="st"> </span>tuneResult<span class="op">$</span>best.model</a>
+<a class="sourceLine" id="cb160-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb160-4" data-line-number="4"><span class="kw">print</span>(tunedModel)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## best.tune(method = svm, train.x = OCSKGM ~ ., data = dat@data[, 
@@ -1630,32 +1640,32 @@ Figure 6.22: Performance of the different SVM models in the parameter tuning pro
 ## 
 ## Number of Support Vectors:  2189</code></pre>
 <p><strong>Step 7 - Predict the OCS using the model</strong></p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="co"># Use the model to predict the SOC in the covariates space</span></a>
-<a class="sourceLine" id="cb167-2" data-line-number="2">OCSsvm &lt;-<span class="st"> </span><span class="kw">predict</span>(COV, tunedModel)</a>
-<a class="sourceLine" id="cb167-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb167-4" data-line-number="4"><span class="co"># Save the result</span></a>
-<a class="sourceLine" id="cb167-5" data-line-number="5"><span class="kw">writeRaster</span>(OCSsvm, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_svm.tif&quot;</span>,</a>
-<a class="sourceLine" id="cb167-6" data-line-number="6">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb167-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb167-8" data-line-number="8"><span class="kw">plot</span>(OCSsvm)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-79"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-79-1.png" alt="SOC prediction map for FYROM using a support vector machines model" width="672" />
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="co"># Use the model to predict the SOC in the covariates space</span></a>
+<a class="sourceLine" id="cb162-2" data-line-number="2">OCSsvm &lt;-<span class="st"> </span><span class="kw">predict</span>(COV, tunedModel)</a>
+<a class="sourceLine" id="cb162-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb162-4" data-line-number="4"><span class="co"># Save the result</span></a>
+<a class="sourceLine" id="cb162-5" data-line-number="5"><span class="kw">writeRaster</span>(OCSsvm, <span class="dt">filename =</span> <span class="st">&quot;results/MKD_OCSKGM_svm.tif&quot;</span>,</a>
+<a class="sourceLine" id="cb162-6" data-line-number="6">            <span class="dt">overwrite=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb162-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb162-8" data-line-number="8"><span class="kw">plot</span>(OCSsvm)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-80"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-80-1.png" alt="SOC prediction map for FYROM using a support vector machines model" width="672" />
 <p class="caption">
-Figure 6.23: SOC prediction map for FYROM using a support vector machines model
+Figure 6.24: SOC prediction map for FYROM using a support vector machines model
 </p>
 </div>
 <p>Finally, we can evaluate the contribution of each covariate to the model <span class="citation">(Guyon and Elisseeff <a href="#ref-guyon2003introduction">2003</a>)</span>.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="co"># Variable importance in svm</span></a>
-<a class="sourceLine" id="cb168-2" data-line-number="2"><span class="co"># Code by: stackoverflow.com/questions/34781495</span></a>
-<a class="sourceLine" id="cb168-3" data-line-number="3"><span class="co"># Weight vectors</span></a>
-<a class="sourceLine" id="cb168-4" data-line-number="4">w &lt;-<span class="st"> </span><span class="kw">t</span>(tunedModel<span class="op">$</span>coefs) <span class="op">%*%</span><span class="st"> </span>tunedModel<span class="op">$</span>SV</a>
-<a class="sourceLine" id="cb168-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb168-6" data-line-number="6"><span class="co"># Weight</span></a>
-<a class="sourceLine" id="cb168-7" data-line-number="7">w &lt;-<span class="st"> </span><span class="kw">apply</span>(w, <span class="dv">2</span>, <span class="cf">function</span>(v){<span class="kw">sqrt</span>(<span class="kw">sum</span>(v<span class="op">^</span><span class="dv">2</span>))})  </a>
-<a class="sourceLine" id="cb168-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb168-9" data-line-number="9">w &lt;-<span class="st"> </span><span class="kw">sort</span>(w, <span class="dt">decreasing =</span> T)</a>
-<a class="sourceLine" id="cb168-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb168-11" data-line-number="11"><span class="kw">print</span>(w)</a></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="co"># Variable importance in svm</span></a>
+<a class="sourceLine" id="cb163-2" data-line-number="2"><span class="co"># Code by: stackoverflow.com/questions/34781495</span></a>
+<a class="sourceLine" id="cb163-3" data-line-number="3"><span class="co"># Weight vectors</span></a>
+<a class="sourceLine" id="cb163-4" data-line-number="4">w &lt;-<span class="st"> </span><span class="kw">t</span>(tunedModel<span class="op">$</span>coefs) <span class="op">%*%</span><span class="st"> </span>tunedModel<span class="op">$</span>SV</a>
+<a class="sourceLine" id="cb163-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb163-6" data-line-number="6"><span class="co"># Weight</span></a>
+<a class="sourceLine" id="cb163-7" data-line-number="7">w &lt;-<span class="st"> </span><span class="kw">apply</span>(w, <span class="dv">2</span>, <span class="cf">function</span>(v){<span class="kw">sqrt</span>(<span class="kw">sum</span>(v<span class="op">^</span><span class="dv">2</span>))})  </a>
+<a class="sourceLine" id="cb163-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb163-9" data-line-number="9">w &lt;-<span class="st"> </span><span class="kw">sort</span>(w, <span class="dt">decreasing =</span> T)</a>
+<a class="sourceLine" id="cb163-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb163-11" data-line-number="11"><span class="kw">print</span>(w)</a></code></pre></div>
 <pre><code>##      B04CHE3     soilmap6      TMDMOD3     soilmap1     soilmap7 
 ## 7.562482e+01 4.741345e+01 4.438758e+01 4.097177e+01 3.770267e+01 
 ##      DEMENV5      B07CHE3      PRSCHE3      LCEE103     soilmap2 

@@ -712,10 +712,10 @@ applicable to map various soil properties.
 information about soil properties to a certain depth or for soil
 horizons\index{Soil horizons}. Conventionally, soil property maps are
 generated as polygon maps, with properties from typical soil profiles
-representing soil mapping units. Digital Soil Mapping (DSM)
-\index{Digital Soil Mapping (DSM)} allows more accurate spatial mapping
-of soil properties, including the spatial quantification of the
-prediction error \index{Prediction!error}. The quality of such
+representing soil mapping units. Digital Soil Mapping
+(DSM)\index{Digital Soil Mapping (DSM)} allows more accurate spatial
+mapping of soil properties, including the spatial quantification of the
+prediction error\index{Prediction!error}. The quality of such
 predictions improves with increasing number of local observations
 (e.g.~soil profiles) available to build the prediction
 model\index{Prediction!model}. Whenever possible, DSM is recommended.
@@ -725,14 +725,14 @@ different soil properties (e.g.~concentration and stocks of nutrients in
 the soil, carbon, heavy metals, pH, cation exchange capacity, physical
 soil properties such as particle sizes and bulk density, etc.), various
 depth classes and spatial resolution can be modeled depending on project
-and mapping objectives and available input data. For GSOCmap
-\index{Global Soil Organic Carbon Map (GSOCMap)}, a 1 km grid is
+and mapping objectives and available input data. For
+GSOCmap\index{Global Soil Organic Carbon Map (GSOCMap)}, a 1 km grid is
 pursued. The same methodology and input data can also be used to produce
 higher resolution soil grids.
 
 The mapping of global soil organic carbon (GSOC) stocks will be the
 first implementation of a series of other soil property grids to be
-developed for GLOSIS \index{Soil Information System (SIS)!global}, based
+developed for GLOSIS\index{Soil Information System (SIS)!global}, based
 on the typical GSP country-driven system. GSOCmap will demonstrate the
 capacity of countries all around the globe to compile and manage
 national soil information systems and to utilize and evaluate these data
@@ -799,15 +799,15 @@ prediction techniques.
 
 The approaches outlined and demonstrated in this technical manual
 consider the reference framework of the SCORPAN model for digital soil
-mapping (DSM; \citet{McBratney2003}). In the SCORPAN reference framework
-a soil attribute (e.g., SOC) can be predicted as a function of the soil
-forming environment, in correspondence with soil forming factors from
-the Dokuchaev hypothesis and Jenny's soil forming equation based on
-climate, organisms, relief, parent material and elapsed time of soil
-formation \citep{Florinsky2012}. The SCORPAN (Soils, Climate, Organisms,
-Parent material, Age and (N) space or spatial position, see
-\cite{McBratney2003}) reference framework is a empirical approach that
-can be expressed as in Eq. (1):
+mapping (DSM; \citet{mcbratney2003digital}). In the SCORPAN reference
+framework a soil attribute (e.g., SOC) can be predicted as a function of
+the soil forming environment, in correspondence with soil forming
+factors from the Dokuchaev hypothesis and Jenny's soil forming equation
+based on climate, organisms, relief, parent material and elapsed time of
+soil formation \citep{Florinsky2012}. The SCORPAN (Soils, Climate,
+Organisms, Parent material, Age and (N) space or spatial position, see
+\cite{mcbratney2003digital}) reference framework is a empirical approach
+that can be expressed as in Eq. (1):
 
 \begin{equation}
 Sa_{[x; y ~ t]}
@@ -1405,7 +1405,10 @@ code is mixed with text. A copy of the bare code is presented in Section
 topsoil or auger data the code can be found in Section
 \ref{cd:PreparationAuger}.
 
-\textbf{Option 1 - Soil profiles data}
+The following code shows the necessary steps for loading soil profiles
+data.
+
+\textbf{Step 1 - Loading soil horizons data}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1463,7 +1466,7 @@ topsoil or auger data the code can be found in Section
 ##  NA's   :927
 \end{verbatim}
 
-\textbf{Option 2 - Topsoil or auger data}
+\textbf{Step 2 - Loading site-level data}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1598,8 +1601,7 @@ and \citet{ottmar_litter_2007}:
   \(BD_{H}= 0.13 g \cdot cm^{-3}\)
 \end{itemize}
 
-\textbf{Peat}: Default value: \(BD_{P} = 0.31 g \cdot cm^{-3}\)
-\citet{batjes1996}. The range of peat BD is generally from 0.02 to
+\textbf{Peat}: The range of peat BD is generally from 0.02 to
 0.3\(t \cdot m^{-3}\) depending on maturity and compaction, as well as
 the ash content \citep{agus_measuring_2011}. total and
 \citet{agus_measuring_2011} distinguish different peat decomposition
@@ -1829,11 +1831,21 @@ consists of a series of local quadratic polynomials that join at
 so-called knots, located at the horizon boundaries, whereby the mean
 value of each horizon is maintained by the spline fit. They are called
 equal-area splines because the area to the left of the fitted spline
-curve is equal to the area to the right of the curve. In case of
-\textbf{Option 3}, additional information on the vertical distribution
-of carbon in the soils is required for accurate recalculation from the
-sampling depth to target depth, e.g.~as was shown by
-\cite{bernoux1998modeling}.
+curve is equal to the area to the right of the curve.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{images/spline} 
+
+}
+
+\caption{An equal-area quadratic spline from Ponce-Hernandez et al. (1986) (Cited by Bishop et al., 1999)}\label{fig:unnamed-chunk-13}
+\end{figure}
+
+In case of \textbf{Option 3}, additional information on the vertical
+distribution of carbon in the soils is required for accurate
+recalculation from the sampling depth to target depth, e.g.~as was shown
+by \cite{bernoux1998modeling}.
 
 \hypertarget{EqualAreaSplines}{%
 \subsection{Technical steps - Equal-area splines using
@@ -1864,26 +1876,7 @@ The following technical steps require \textbf{R} and the named packages.
 \begin{Highlighting}[]
 \CommentTok{# Load aqp package}
 \KeywordTok{library}\NormalTok{(aqp)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## This is aqp 1.15
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'aqp'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:raster':
-## 
-##     metadata, metadata<-
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{# Promote to SoilProfileCollection }
 \CommentTok{# The SoilProfileCollection is a object class in R designed to }
 \CommentTok{# handle soil profiles}
@@ -2071,8 +2064,8 @@ will test:
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-16-1.pdf}
-\caption{\label{fig:unnamed-chunk-16}Statistical distribution of original
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-17-1.pdf}
+\caption{\label{fig:unnamed-chunk-17}Statistical distribution of original
 values vs.~log-transformed values for OCS}
 \end{figure}
 
@@ -2174,8 +2167,8 @@ terrain, which are very difficult to remove through filtering.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-18-1.pdf}
-\caption{\label{fig:unnamed-chunk-18}SRTM 90 m resampled to 1 km for FYROM}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-19-1.pdf}
+\caption{\label{fig:unnamed-chunk-19}SRTM 90 m resampled to 1 km for FYROM}
 \end{figure}
 
 \begin{quote}
@@ -2273,8 +2266,8 @@ the following link
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-19-1.pdf}
-\caption{\label{fig:unnamed-chunk-19}Soil map of FYROM}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-20-1.pdf}
+\caption{\label{fig:unnamed-chunk-20}Soil map of FYROM}
 \end{figure}
 
 \begin{quote}
@@ -2310,8 +2303,8 @@ R}\label{technical-steps---rasterizing-a-vector-layer-in-r}}
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-20-1.pdf}
-\caption{\label{fig:unnamed-chunk-20}Rasterized soil map of FYROM from DEM
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-21-1.pdf}
+\caption{\label{fig:unnamed-chunk-21}Rasterized soil map of FYROM from DEM
 raster layer}
 \end{figure}
 
@@ -2490,8 +2483,8 @@ International License).
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-23-1.pdf}
-\caption{\label{fig:unnamed-chunk-23}Two different temperature layers
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-24-1.pdf}
+\caption{\label{fig:unnamed-chunk-24}Two different temperature layers
 included in the climate covariates}
 \end{figure}
 
@@ -2685,8 +2678,8 @@ following Chapters of this cookbook.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-26-1.pdf}
-\caption{\label{fig:unnamed-chunk-26}FYROM soil covariates}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-27-1.pdf}
+\caption{\label{fig:unnamed-chunk-27}FYROM soil covariates}
 \end{figure}
 
 \textbf{Step 3 - Overlay covariates and point data}
@@ -3536,8 +3529,8 @@ coordinate system. In case they are not, you can use
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-30-1.pdf}
-\caption{\label{fig:unnamed-chunk-30}Soil map units and soil samples (in
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-31-1.pdf}
+\caption{\label{fig:unnamed-chunk-31}Soil map units and soil samples (in
 red) for the geo-matching exercise}
 \end{figure}
 
@@ -3555,7 +3548,7 @@ Now, use the \texttt{over()} function to estimate the mean value of the
 \textbf{Step 3 - Rasterize and export the results as geotiff}
 
 Finally, convert the layer to raster, to comply with the deliverables
-specifications (see Chapter \ref{deliverables}).
+specifications.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3567,8 +3560,8 @@ specifications (see Chapter \ref{deliverables}).
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-32-1.pdf}
-\caption{\label{fig:unnamed-chunk-32}SOC prediction map for FYROM using
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-33-1.pdf}
+\caption{\label{fig:unnamed-chunk-33}SOC prediction map for FYROM using
 geo-matching}
 \end{figure}
 
@@ -3896,7 +3889,7 @@ directory has been correctly set by using the \texttt{getwd()} function:
 
 \textbf{Point dataset}
 
-We previously prepared the point dataset in \ref{preperation} chapter.
+We previously prepared the point dataset in \ref{preparation} chapter.
 We will be using this data file (.csv) in this section.
 
 \textbf{Environmental predictors (covariates)}
@@ -4199,7 +4192,7 @@ to test the performance of a model based upon an external validation.
 ##   340
 \end{verbatim}
 
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-42-1.pdf}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-43-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4213,15 +4206,6 @@ to test the performance of a model based upon an external validation.
 \begin{Highlighting}[]
 \CommentTok{# Collinearity test using variance inflation factors}
 \KeywordTok{library}\NormalTok{(car)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Loading required package: carData
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{vif}\NormalTok{(model.MLR.step)}
 \end{Highlighting}
 \end{Shaded}
@@ -5079,8 +5063,8 @@ overfitting.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-59-1.pdf}
-\caption{\label{fig:unnamed-chunk-59}Model Decreasing Error and Node Purity
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-60-1.pdf}
+\caption{\label{fig:unnamed-chunk-60}Model Decreasing Error and Node Purity
 for the RF model}
 \end{figure}
 
@@ -5093,8 +5077,8 @@ for the RF model}
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-60-1.pdf}
-\caption{\label{fig:unnamed-chunk-60}Select ntree}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-61-1.pdf}
+\caption{\label{fig:unnamed-chunk-61}Select ntree}
 \end{figure}
 
 Random forest users are encouraged to compare and test the prediction
@@ -5199,12 +5183,7 @@ only 10 realizations and random splits of 25\% of available data.
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{Step 2 - Build a snsitivity map}
-
-The validation plot shows the regression line between observed and
-predicted of a model that uses 75\% (black line) and the regression
-lines of 10 model realizations, each with a different random combination
-of data for training and validating the models.
+\textbf{Step 2 - Build a sensitivity map}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5218,8 +5197,8 @@ of data for training and validating the models.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-62-1.pdf}
-\caption{\label{fig:unnamed-chunk-62}Sensitivity based on 10 realizations
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-63-1.pdf}
+\caption{\label{fig:unnamed-chunk-63}Sensitivity based on 10 realizations
 using 25\% samples}
 \end{figure}
 
@@ -5246,6 +5225,24 @@ sensitivity to available data.
 \end{verbatim}
 
 \textbf{Step 3 - Analyze the sensitivity of the map}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Plot of the map based on 75% of data and the sensitivity to data }
+\CommentTok{# variations}
+\NormalTok{prediction75 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pred[[}\DecValTok{1}\NormalTok{]])}
+
+\KeywordTok{plot}\NormalTok{(prediction75, }\DataTypeTok{main=}\StringTok{'OCSKGM prediction based on 75% of data'}\NormalTok{, }
+     \DataTypeTok{col=}\KeywordTok{rev}\NormalTok{(}\KeywordTok{topo.colors}\NormalTok{(}\DecValTok{10}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-65-1.pdf}
+\caption{\label{fig:unnamed-chunk-65}OCSKGM prediction based on 75\% of
+data}
+\end{figure}
 
 \textbf{Step 4 - Estimate the full conditional distribution of
 OCSKGMlog}
@@ -5346,8 +5343,8 @@ prediction to obtain a percent map, which is easier to interpret.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-65-1.pdf}
-\caption{\label{fig:unnamed-chunk-65}OCSKGM quantregForest prediction}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-66-1.pdf}
+\caption{\label{fig:unnamed-chunk-66}OCSKGM quantregForest prediction}
 \end{figure}
 
 \begin{Shaded}
@@ -5358,8 +5355,8 @@ prediction to obtain a percent map, which is easier to interpret.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-66-1.pdf}
-\caption{\label{fig:unnamed-chunk-66}Total uncertainty}
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-67-1.pdf}
+\caption{\label{fig:unnamed-chunk-67}Total uncertainty}
 \end{figure}
 
 \textbf{Step 6 - Save the results as raster format}
@@ -5873,8 +5870,8 @@ darker, the RMSE is closer to zero.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-77-1.pdf}
-\caption{\label{fig:unnamed-chunk-77}Performance of the different SVM models
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-78-1.pdf}
+\caption{\label{fig:unnamed-chunk-78}Performance of the different SVM models
 in the parameter tuning procedure}
 \end{figure}
 
@@ -5931,8 +5928,8 @@ cross-validation using 10 folds.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-79-1.pdf}
-\caption{\label{fig:unnamed-chunk-79}SOC prediction map for FYROM using a
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-80-1.pdf}
+\caption{\label{fig:unnamed-chunk-80}SOC prediction map for FYROM using a
 support vector machines model}
 \end{figure}
 
@@ -6940,7 +6937,7 @@ measures for quantitative soil maps.
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-85}Summary of map quality measures for three different mapping methods}
+\caption{\label{tab:unnamed-chunk-86}Summary of map quality measures for three different mapping methods}
 \centering
 \begin{tabular}[t]{lrrrrrrrrrrrr}
 \toprule
@@ -7009,8 +7006,8 @@ to the results of Chapter \ref{mappingMethods}.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-86-1.pdf}
-\caption{\label{fig:unnamed-chunk-86}Scatter plots of predicted against
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-87-1.pdf}
+\caption{\label{fig:unnamed-chunk-87}Scatter plots of predicted against
 observed values}
 \end{figure}
 
@@ -7029,7 +7026,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-87-1} \caption{Spatial bubble of the prediction errors for GM}\label{fig:unnamed-chunk-87}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-88-1} \caption{Spatial bubble of the prediction errors for GM}\label{fig:unnamed-chunk-88}
 \end{figure}
 
 \begin{Shaded}
@@ -7041,7 +7038,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-88-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-88}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-89-1} \caption{Spatial bubble of the prediction errors for RK}\label{fig:unnamed-chunk-89}
 \end{figure}
 
 \begin{Shaded}
@@ -7053,7 +7050,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-89-1} \caption{Spatial bubble of the prediction errors for RF}\label{fig:unnamed-chunk-89}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-90-1} \caption{Spatial bubble of the prediction errors for RF}\label{fig:unnamed-chunk-90}
 \end{figure}
 
 \begin{Shaded}
@@ -7065,7 +7062,7 @@ observed values}
 \end{Shaded}
 
 \begin{figure}
-\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-90-1} \caption{Spatial bubble of the prediction errors for SVM}\label{fig:unnamed-chunk-90}
+\includegraphics[width=0.6\linewidth]{SOCMapping_files/figure-latex/unnamed-chunk-91-1} \caption{Spatial bubble of the prediction errors for SVM}\label{fig:unnamed-chunk-91}
 \end{figure}
 
 \hypertarget{dataSplit}{%
@@ -7094,8 +7091,8 @@ the code needed to achieve this using \textbf{caret} package.
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-92-1.pdf}
-\caption{\label{fig:unnamed-chunk-92}Statistical distribution of train and
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-93-1.pdf}
+\caption{\label{fig:unnamed-chunk-93}Statistical distribution of train and
 test datasets}
 \end{figure}
 
@@ -7191,46 +7188,7 @@ between the three different methods (RK, RF, SVM).
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(psych)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## 
-## Attaching package: 'psych'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:randomForest':
-## 
-##     outlier
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:car':
-## 
-##     logit
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:GSIF':
-## 
-##     describe
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:aqp':
-## 
-##     sim
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{pairs.panels}\NormalTok{(}\KeywordTok{na.omit}\NormalTok{(}\KeywordTok{as.data.frame}\NormalTok{(models)),}
              \CommentTok{# Correlation method}
              \DataTypeTok{method =} \StringTok{"pearson"}\NormalTok{, }
@@ -7245,8 +7203,8 @@ between the three different methods (RK, RF, SVM).
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-96-1.pdf}
-\caption{\label{fig:unnamed-chunk-96}Comparision of DSM model correlations
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-97-1.pdf}
+\caption{\label{fig:unnamed-chunk-97}Comparision of DSM model correlations
 (GM, RK, RF, SVM) and statical distributions}
 \end{figure}
 
@@ -7264,34 +7222,15 @@ across the full data distribution of values.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(rasterVis)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Loading required package: latticeExtra
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'latticeExtra'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:ggplot2':
-## 
-##     layer
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{densityplot}\NormalTok{(models)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
 \centering
-\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-97-1.pdf}
-\caption{\label{fig:unnamed-chunk-97}Density plot of the prediction for
+\includegraphics{SOCMapping_files/figure-latex/unnamed-chunk-98-1.pdf}
+\caption{\label{fig:unnamed-chunk-98}Density plot of the prediction for
 three DSM models}
 \end{figure}
 
@@ -7460,22 +7399,7 @@ to use a combination of the performance measures \citep{chang2004air}.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(openair)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## 
-## Attaching package: 'openair'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:psych':
-## 
-##     corPlot
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{modsts <-}\StringTok{ }\KeywordTok{modStats}\NormalTok{(modData,}\DataTypeTok{obs =} \StringTok{"obs"}\NormalTok{, }\DataTypeTok{mod =} \StringTok{"mod"}\NormalTok{, }\DataTypeTok{type =} \StringTok{"model"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}

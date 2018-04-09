@@ -536,7 +536,9 @@ Sampling locations can be representative of a certain location, project, field, 
 <div id="technical-steps-loading-soil-data-from-tables-in-r" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Technical steps – Loading soil data from tables in R</h3>
 <p>This Chapter includes two examples for soil data preparation. As each step for the soil data preparation is explained in detail, the given code is mixed with text. A copy of the bare code is presented in Section <a href="compendium.html#cd:PreparationProfiles">12.1</a> for using soil profiles data, and for using topsoil or auger data the code can be found in Section <a href="compendium.html#cd:PreparationAuger">12.2</a>.</p>
-<p><strong>Option 1 - Soil profiles data</strong></p>
+<p>The following code shows the necessary steps for loading
+soil profiles data.</p>
+<p><strong>Step 1 - Loading soil horizons data</strong></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/horizons.csv&quot;</span>)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co"># Explore the data</span></a>
@@ -585,7 +587,7 @@ Sampling locations can be representative of a certain location, project, field, 
 ##  3rd Qu.:24.00  
 ##  Max.   :83.00  
 ##  NA&#39;s   :927</code></pre>
-<p><strong>Option 2 - Topsoil or auger data</strong></p>
+<p><strong>Step 2 - Loading site-level data</strong></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">dat_sites &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/site-level.csv&quot;</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co"># Explore the data</span></a>
@@ -635,7 +637,7 @@ Figure 4.1: Histogram of coarse fragments values
 <li><p>Birch: <span class="math inline">\(BD_{F,H} = 0.17 g \cdot cm^{-3}\)</span></p></li>
 <li><p>Spruce: <span class="math inline">\(BD_{L} = 0.051 g \cdot cm^{-3}\)</span>; <span class="math inline">\(BD_{H}= 0.13 g \cdot cm^{-3}\)</span></p></li>
 </ul>
-<p><strong>Peat</strong>: Default value: <span class="math inline">\(BD_{P} = 0.31 g \cdot cm^{-3}\)</span> <span class="citation">(<span class="citeproc-not-found" data-reference-id="batjes1996"><strong>???</strong></span>)</span>. The range of peat BD is generally from 0.02 to 0.3<span class="math inline">\(t \cdot m^{-3}\)</span> depending on maturity and compaction, as well as the ash content <span class="citation">(Agus, Hairiah, and Mulyani <a href="#ref-agus_measuring_2011">2011</a>)</span>. total and <span class="citation">Agus, Hairiah, and Mulyani (<a href="#ref-agus_measuring_2011">2011</a>)</span> distinguish different peat decomposition types with different C content:</p>
+<p><strong>Peat</strong>: The range of peat BD is generally from 0.02 to 0.3<span class="math inline">\(t \cdot m^{-3}\)</span> depending on maturity and compaction, as well as the ash content <span class="citation">(Agus, Hairiah, and Mulyani <a href="#ref-agus_measuring_2011">2011</a>)</span>. total and <span class="citation">Agus, Hairiah, and Mulyani (<a href="#ref-agus_measuring_2011">2011</a>)</span> distinguish different peat decomposition types with different C content:</p>
 <ul>
 <li><p>Sapric: <span class="math inline">\(BD_{P,\text{sapric}} = 0.174 g \cdot cm^{-3}\)</span> (<span class="math inline">\(48.90\%\)</span> C)</p></li>
 <li><p>Hemic: <span class="math inline">\(BD_{P,\text{hemic}} = 0.117 g \cdot cm^{-3}\)</span> (<span class="math inline">\(52.27\%\)</span> C)</p></li>
@@ -736,7 +738,14 @@ Figure 4.2: Histogram of bulk density values
 <li><strong>Option 2</strong>: Horizons or layers/depth classes are sampled but aggregation is needed over the 0cm to 30cm.</li>
 <li><strong>Option 3</strong>: The target depth (0cm to 30cm) was not completely covered by sampling, e.g. only the A horizon or a topsoil layer (e.g. 0cm to 20cm) has been sampled.</li>
 </ul>
-<p>For both <strong>Options 2</strong> and <strong>Option 3</strong>, the transformation is needed, using e.g. equal-area splines. In the case of <strong>Option 2</strong>, the use of equal-area splines was first proposed by , and later tested against real data . This technique is based on fitting continuous depth functions for modeling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, whereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve. In case of <strong>Option 3</strong>, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by .</p>
+<p>For both <strong>Options 2</strong> and <strong>Option 3</strong>, the transformation is needed, using e.g. equal-area splines. In the case of <strong>Option 2</strong>, the use of equal-area splines was first proposed by , and later tested against real data . This technique is based on fitting continuous depth functions for modeling the variability of soil properties with depth. Thus, it is possible to convert soil profiles to standard depths, but also to fill gaps. The equal-area spline function consists of a series of local quadratic polynomials that join at so-called knots, located at the horizon boundaries, whereby the mean value of each horizon is maintained by the spline fit. They are called equal-area splines because the area to the left of the fitted spline curve is equal to the area to the right of the curve.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
+<img src="images/spline.png" alt="An equal-area quadratic spline from Ponce-Hernandez et al. (1986) (Cited by Bishop et al., 1999)" width="80%" />
+<p class="caption">
+Figure 4.3: An equal-area quadratic spline from Ponce-Hernandez et al. (1986) (Cited by Bishop et al., 1999)
+</p>
+</div>
+<p>In case of <strong>Option 3</strong>, additional information on the vertical distribution of carbon in the soils is required for accurate recalculation from the sampling depth to target depth, e.g. as was shown by .</p>
 </div>
 <div id="EqualAreaSplines" class="section level3">
 <h3><span class="header-section-number">4.4.2</span> Technical steps - Equal-area splines using R</h3>
@@ -745,28 +754,23 @@ Figure 4.2: Histogram of bulk density values
 <p>The following technical steps require <strong>R</strong> and the named packages.</p>
 <p><strong>Step 1 - Promote data table to SPC</strong></p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Load aqp package</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">library</span>(aqp)</a></code></pre></div>
-<pre><code>## This is aqp 1.15</code></pre>
-<pre><code>## 
-## Attaching package: &#39;aqp&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:raster&#39;:
-## 
-##     metadata, metadata&lt;-</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># Promote to SoilProfileCollection </span></a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># The SoilProfileCollection is a object class in R designed to </span></a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co"># handle soil profiles</span></a>
-<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="kw">depths</span>(dat) &lt;-<span class="st"> </span>ProfID <span class="op">~</span><span class="st"> </span>top <span class="op">+</span><span class="st"> </span>bottom</a></code></pre></div>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">library</span>(aqp)</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="co"># Promote to SoilProfileCollection </span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co"># The SoilProfileCollection is a object class in R designed to </span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6"><span class="co"># handle soil profiles</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="kw">depths</span>(dat) &lt;-<span class="st"> </span>ProfID <span class="op">~</span><span class="st"> </span>top <span class="op">+</span><span class="st"> </span>bottom</a></code></pre></div>
 <pre><code>## Warning: converting IDs from factor to character</code></pre>
 <p><strong>Step 2 - Add site-level data and coordinates</strong></p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># Merge the soil horizons information with the site-level </span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co"># information from dat_sites</span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">site</span>(dat) &lt;-<span class="st"> </span>dat_sites</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="co"># Set spatial coordinates</span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb33-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="co"># A summary of our SoilProfileCollection</span></a>
-<a class="sourceLine" id="cb33-9" data-line-number="9">dat</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># Merge the soil horizons information with the site-level </span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co"># information from dat_sites</span></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="kw">site</span>(dat) &lt;-<span class="st"> </span>dat_sites</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="co"># Set spatial coordinates</span></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="co"># A summary of our SoilProfileCollection</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9">dat</a></code></pre></div>
 <pre><code>## Object of class SoilProfileCollection
 ## Number of profiles: 4118
 ## Depth range: 5-295 cm
@@ -795,26 +799,26 @@ Figure 4.2: Histogram of bulk density values
 ## Y 40.68543 42.35932
 ## [1] NA</code></pre>
 <p><strong>Step 3 - Run mass preserving splines for all the needed properties</strong></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">library</span>(GSIF)</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="co"># Estimate 0 cm - 30 cm standard horizons</span></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># using mass preserving splines</span></a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">try</span>(SOC &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;SOC&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
-<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="kw">try</span>(BLD &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;BLD&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="kw">try</span>(CRFVOL &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;CRF&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(GSIF)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co"># Estimate 0 cm - 30 cm standard horizons</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co"># using mass preserving splines</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="kw">try</span>(SOC &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;SOC&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="kw">try</span>(BLD &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;BLD&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="kw">try</span>(CRFVOL &lt;-<span class="st"> </span><span class="kw">mpspline</span>(dat, <span class="st">&#39;CRF&#39;</span>, <span class="dt">d =</span> <span class="kw">t</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">30</span>))))</a></code></pre></div>
 <p><strong>Step 4 - Convert back to table</strong></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># Prepare final data frame</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> dat<span class="op">@</span>site<span class="op">$</span>ProfID,</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">                  <span class="dt">Y =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4">                  <span class="dt">X =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">1</span>],</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5">                  <span class="dt">SOC =</span> SOC<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
-<a class="sourceLine" id="cb36-6" data-line-number="6">                  <span class="dt">BLD =</span> BLD<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
-<a class="sourceLine" id="cb36-7" data-line-number="7">                  <span class="dt">CRFVOL =</span> CRFVOL<span class="op">$</span>var.std[,<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb36-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb36-9" data-line-number="9">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
-<a class="sourceLine" id="cb36-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb36-11" data-line-number="11"><span class="co"># Take a look at the results</span></a>
-<a class="sourceLine" id="cb36-12" data-line-number="12"><span class="kw">head</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># Prepare final data frame</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> dat<span class="op">@</span>site<span class="op">$</span>ProfID,</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">                  <span class="dt">Y =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4">                  <span class="dt">X =</span> dat<span class="op">@</span>sp<span class="op">@</span>coords[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">                  <span class="dt">SOC =</span> SOC<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">                  <span class="dt">BLD =</span> BLD<span class="op">$</span>var.std[,<span class="dv">1</span>],</a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">                  <span class="dt">CRFVOL =</span> CRFVOL<span class="op">$</span>var.std[,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb32-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb32-9" data-line-number="9">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb32-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb32-11" data-line-number="11"><span class="co"># Take a look at the results</span></a>
+<a class="sourceLine" id="cb32-12" data-line-number="12"><span class="kw">head</span>(dat)</a></code></pre></div>
 <pre><code>##       id        Y        X       SOC       BLD    CRFVOL
 ## 4  P0003 42.02828 20.81819 26.380000 0.7304483  8.000000
 ## 5  P0004 42.02747 20.81464 24.561667 0.8955320  6.305316
@@ -824,20 +828,20 @@ Figure 4.2: Histogram of bulk density values
 ## 10 P0009 42.02047 20.93529  3.258545 1.3446297 21.714059</code></pre>
 <p><strong>Step 5 - Estimate the soil organic carbon stock using the virtual horizons</strong></p>
 <p>Finally, the estimation of the soil organic carbon stock (OCS) can be done using the <strong>GSIF</strong> package.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">library</span>(GSIF)</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co"># Estimate organic carbon stock (OCS)</span></a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="co"># SOC must be in g/kg</span></a>
-<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co"># BLD in kg/m3</span></a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co"># CRF in percentage %</span></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7">OCSKGM &lt;-<span class="st"> </span><span class="kw">OCSKGM</span>(<span class="dt">ORCDRC =</span> dat<span class="op">$</span>SOC, <span class="dt">BLD =</span> dat<span class="op">$</span>BLD<span class="op">*</span><span class="dv">1000</span>, </a>
-<a class="sourceLine" id="cb38-8" data-line-number="8">                 <span class="dt">CRFVOL =</span> dat<span class="op">$</span>CRFVOL, <span class="dt">HSIZE =</span> <span class="dv">30</span>)</a>
-<a class="sourceLine" id="cb38-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb38-10" data-line-number="10">dat<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span>OCSKGM</a>
-<a class="sourceLine" id="cb38-11" data-line-number="11">dat<span class="op">$</span>meaERROR &lt;-<span class="st"> </span><span class="kw">attr</span>(OCSKGM,<span class="st">&quot;measurementError&quot;</span>)</a>
-<a class="sourceLine" id="cb38-12" data-line-number="12">dat &lt;-<span class="st"> </span>dat[dat<span class="op">$</span>OCSKGM<span class="op">&gt;</span><span class="dv">0</span>,]</a>
-<a class="sourceLine" id="cb38-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="kw">summary</span>(dat)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">library</span>(GSIF)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="co"># Estimate organic carbon stock (OCS)</span></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co"># SOC must be in g/kg</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="co"># BLD in kg/m3</span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="co"># CRF in percentage %</span></a>
+<a class="sourceLine" id="cb34-7" data-line-number="7">OCSKGM &lt;-<span class="st"> </span><span class="kw">OCSKGM</span>(<span class="dt">ORCDRC =</span> dat<span class="op">$</span>SOC, <span class="dt">BLD =</span> dat<span class="op">$</span>BLD<span class="op">*</span><span class="dv">1000</span>, </a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">                 <span class="dt">CRFVOL =</span> dat<span class="op">$</span>CRFVOL, <span class="dt">HSIZE =</span> <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb34-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb34-10" data-line-number="10">dat<span class="op">$</span>OCSKGM &lt;-<span class="st"> </span>OCSKGM</a>
+<a class="sourceLine" id="cb34-11" data-line-number="11">dat<span class="op">$</span>meaERROR &lt;-<span class="st"> </span><span class="kw">attr</span>(OCSKGM,<span class="st">&quot;measurementError&quot;</span>)</a>
+<a class="sourceLine" id="cb34-12" data-line-number="12">dat &lt;-<span class="st"> </span>dat[dat<span class="op">$</span>OCSKGM<span class="op">&gt;</span><span class="dv">0</span>,]</a>
+<a class="sourceLine" id="cb34-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb34-14" data-line-number="14"><span class="kw">summary</span>(dat)</a></code></pre></div>
 <pre><code>##        id             Y               X              SOC        
 ##  P0003  :   1   Min.   :40.69   Min.   :20.46   Min.   : 0.080  
 ##  P0004  :   1   1st Qu.:41.19   1st Qu.:21.35   1st Qu.: 1.750  
@@ -867,27 +871,27 @@ Figure 4.2: Histogram of bulk density values
 <li>If the log-transformation of the response variable (SOC) tends to normality; and</li>
 <li>If this transformation increases the simple correlation of SOC and its prediction factors.</li>
 </ol>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># Generate a new column with the transformed OCSKGM to its natural </span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="co"># logarithm</span></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3">dat<span class="op">$</span>OCSKGMlog &lt;-<span class="st"> </span><span class="kw">log</span>(dat<span class="op">$</span>OCSKGM)</a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="co"># Plot the next two plots as one</span></a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb40-7" data-line-number="7"><span class="kw">plot</span>(<span class="kw">density</span>(dat<span class="op">$</span>OCSKGM),</a>
-<a class="sourceLine" id="cb40-8" data-line-number="8">     <span class="dt">main=</span><span class="st">&#39;Original values&#39;</span>)</a>
-<a class="sourceLine" id="cb40-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb40-10" data-line-number="10"><span class="kw">plot</span>(<span class="kw">density</span>(dat<span class="op">$</span>OCSKGMlog),</a>
-<a class="sourceLine" id="cb40-11" data-line-number="11">     <span class="dt">main=</span><span class="st">&#39;Log-transformed values&#39;</span>)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-16"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-16-1.png" alt="Statistical distribution of original values vs. log-transformed values for OCS " width="672" />
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># Generate a new column with the transformed OCSKGM to its natural </span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="co"># logarithm</span></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">dat<span class="op">$</span>OCSKGMlog &lt;-<span class="st"> </span><span class="kw">log</span>(dat<span class="op">$</span>OCSKGM)</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="co"># Plot the next two plots as one</span></a>
+<a class="sourceLine" id="cb36-6" data-line-number="6"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb36-7" data-line-number="7"><span class="kw">plot</span>(<span class="kw">density</span>(dat<span class="op">$</span>OCSKGM),</a>
+<a class="sourceLine" id="cb36-8" data-line-number="8">     <span class="dt">main=</span><span class="st">&#39;Original values&#39;</span>)</a>
+<a class="sourceLine" id="cb36-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb36-10" data-line-number="10"><span class="kw">plot</span>(<span class="kw">density</span>(dat<span class="op">$</span>OCSKGMlog),</a>
+<a class="sourceLine" id="cb36-11" data-line-number="11">     <span class="dt">main=</span><span class="st">&#39;Log-transformed values&#39;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-17"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-17-1.png" alt="Statistical distribution of original values vs. log-transformed values for OCS " width="672" />
 <p class="caption">
-Figure 4.3: Statistical distribution of original values vs. log-transformed values for OCS
+Figure 4.4: Statistical distribution of original values vs. log-transformed values for OCS
 </p>
 </div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="co"># We can save our processed data as a *.csv table</span></a>
-<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/dataproc.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co"># We can save our processed data as a *.csv table</span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/dataproc.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 
 </div>
 </div>
