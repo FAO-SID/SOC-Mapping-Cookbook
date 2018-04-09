@@ -175,11 +175,21 @@ estimateBD <- function(SOC, method="Saini1996"){
 ```
 
 
-
 ```{r, fig.cap="Histogram of bulk density values"}
 # Summary of BLD (bulk density) in the example data base
 summary(dat$BLD)
+```
 
+TODO: Explanation about removing 'bad' values
+
+```{r}
+# remove bad values
+dat$BLD[dat$BLD > 2] <- NA
+```
+
+
+
+```{r}
 # See the summary of values produced using the pedo-transfer 
 # function with one of the proposed methods
 summary(estimateBD(dat$SOC[is.na(dat$BLD)], 
@@ -187,11 +197,12 @@ summary(estimateBD(dat$SOC[is.na(dat$BLD)],
 
 # Fill NA's using the pedo-transfer function
 dat$BLD[is.na(dat$BLD)] <- estimateBD(dat$SOC[is.na(dat$BLD)], 
-                                      method="Grigal1989")
+                                      method="Honeyset_Ratkowsky1989")
 
 # Explore the results
 hist(dat$BLD, col = 'light gray', breaks = 32)
 ```
+
 
 
 ### Soil carbon analysis
