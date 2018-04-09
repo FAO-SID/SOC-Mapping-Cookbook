@@ -5,6 +5,12 @@
 profiles <- read.csv("data/dataproc_profiles.csv")
 topsoils <- read.csv("data/dataproc.csv")
 
+
+# column names could be different, but the units and order has
+# to be the same! Because we are going to add the rows from 1
+# table to the other table
+# e.g. OC_percent from table 1 and SOC frmo table 2 both have
+# the soil organic carbon expressed in percent
 topsoils <- topsoils[, c("ID", "X", "Y", "OC_percent", "BLD",
                          "OCSKGM", "meaERROR")]
 
