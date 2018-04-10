@@ -178,13 +178,16 @@ estimateBD <- function(SOC, method="Saini1996"){
 ```{r, fig.cap="Histogram of bulk density values"}
 # Summary of BLD (bulk density) in the example data base
 summary(dat$BLD)
+hist(dat$BLD, col = 'light gray', breaks = 32)
 ```
 
-TODO: Explanation about removing 'bad' values
+Exploring SOC and bulk density values in the database is an important step for ensuring quality of the map. Digital soil mapping framework is a data-driven approach to modelling spatial distribution of soil properties, therefore any irregularities or errors in the input data may significantly influence modelling results. In the current example database  we can observe bulk density values as low as 0 kg/m3 and as high as 2.93 g/cm3. Having 0 g/сm3 bulk density values is physically impossible, and the values higher than 2 g/сm3 are not typical for fine earth \citep{@USDA_2018} and most likely correspond to coarse fragments. The irregularities in the data may occur due to errors in field measurement procedures, wrong unit conversion or simply typing mistakes. In case there is doubt in the quality of the input data, the questionable values should be thoroughly checked and, if found erroneous, removed from the database.
 
 ```{r}
 # remove bad values
+dat$BLD[dat$BLD = 0] <- NA
 dat$BLD[dat$BLD > 2] <- NA
+summary(dat$BLD)
 ```
 
 
