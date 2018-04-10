@@ -3,7 +3,7 @@
 ## @knitr 3A-1-RegressionKriging
 
 # load data
-dat <- read.csv("data/KHM_RegMatrix.csv")
+dat <- read.csv("data/MKD_RegMatrix.csv")
 
 # explore the data structure
 str(dat)
