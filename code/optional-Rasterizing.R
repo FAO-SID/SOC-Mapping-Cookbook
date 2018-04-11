@@ -2,6 +2,10 @@
 ## in the "Soil Organic Carbon Mapping Cookbook"
 ## @knitr optional-Rasterizing
 
+library (raster)
+soilmap <- shapefile("MK_soilmap_simple.shp")
+DEM <- raster("covs/DEMENV5.tif")
+
 # the "Symbol" attribute from the vector layer will be used for the
 # rasterization process. It has to be a factor
 soilmap@data$Symbol <- as.factor(soilmap@data$Symbol)

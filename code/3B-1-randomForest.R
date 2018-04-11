@@ -5,7 +5,7 @@
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
 dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
+#dat$soilmap <- as.factor(dat$soilmap)
 
 # explore the data structure
 str(dat)

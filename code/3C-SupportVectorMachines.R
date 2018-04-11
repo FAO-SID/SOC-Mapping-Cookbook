@@ -6,7 +6,7 @@
 dat <- read.csv("data/MKD_RegMatrix.csv")
 
 dat$LCEE10 <- as.factor(dat$LCEE10)
-dat$soilmap <- as.factor(dat$soilmap)
+# dat$soilmap <- as.factor(dat$soilmap)
 
 # explore the data structure
 str(dat)
@@ -64,22 +64,23 @@ dummyRaster <- function(rast){
 }
 
 # convert soilmap from factor to dummy
-soilmap_dummy <- dummyRaster(covs$soilmap)
+# soilmap_dummy <- dummyRaster(covs$soilmap)
 
 # convert LCEE10 from factor to dummy
 LCEE10_dummy <- dummyRaster(covs$LCEE10)
 
 # Stack the 5 COV layers with the 2 dummies
-COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
+COV <- stack(COV, LCEE10_dummy)
+# COV <- stack(COV, soilmap_dummy, LCEE10_dummy)
 
 # print the final layer names
 names(COV)
 
 # convert soilmap column to dummy, the result is a matrix
 # to have one column per category we had to add -1 to the formula
-dat_soilmap_dummy <- model.matrix(~soilmap -1, data = dat@data)
+# dat_soilmap_dummy <- model.matrix(~soilmap -1, data = dat@data)
 # convert the matrix to a data.frame
-dat_soilmap_dummy <- as.data.frame(dat_soilmap_dummy)
+# dat_soilmap_dummy <- as.data.frame(dat_soilmap_dummy)
 
 
 # convert LCEE10 column to dummy, the result is a matrix
@@ -88,7 +89,8 @@ dat_LCEE10_dummy <- model.matrix(~LCEE10 -1, data = dat@data)
 # convert the matrix to a data.frame
 dat_LCEE10_dummy <- as.data.frame(dat_LCEE10_dummy)
 
-dat@data <- cbind(dat@data, dat_LCEE10_dummy, dat_soilmap_dummy)
+dat@data <- cbind(dat@data, dat_LCEE10_dummy)
+# dat@data <- cbind(dat@data, dat_LCEE10_dummy, dat_soilmap_dummy)
 
 names(dat@data)
 

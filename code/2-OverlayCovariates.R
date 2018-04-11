@@ -11,10 +11,12 @@ files <- list.files(path = "covs", pattern = "tif$",
 
 covs <- stack(files)
 
-covs <- stack(covs, soilmap.r)
+#covs <- stack(covs, soilmap.r)
 
 # correct the name for layer 14
-names(covs)[14] <- "soilmap"
+#names(covs)[14] <- "soilmap"
+
+library (raster)
 
 #mask the covariates with the country mask from the data repository
 mask <- raster("data/mask.tif")
@@ -34,8 +36,8 @@ dat <- extract(x = covs, y = dat, sp = TRUE)
 
 # LCEE10 and soilmap are categorical variables
 dat@data$LCEE10 <- as.factor(dat@data$LCEE10)
-dat@data$soilmap <- as.factor(dat@data$soilmap)
 
+#dat@data$soilmap <- as.factor(dat@data$soilmap)
 #levels(soilmap) <- Symbol.levels
 
 summary(dat@data)
