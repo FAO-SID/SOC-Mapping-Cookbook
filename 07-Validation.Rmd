@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Validation {#chvalidation}
 *B. Kempen, D.J. Brus & G.B.M. Heuvelink*
 
@@ -430,19 +435,19 @@ RMSE_svm <- sqrt(sum(dat$PE_svm^2, na.rm=TRUE) / length(dat$PE_svm))
 
 # Amount of Variance Explained (AVE)
 AVE_GM <- 1 - sum(dat$PE_GM^2, na.rm=TRUE) / 
-  sum( (dat$MKD_OCSKGM_GM - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+  sum( (dat$OCSKGM - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
 
 AVE_RK <- 1 - sum(dat$PE_RK^2, na.rm=TRUE) / 
-  sum( (dat$MKD_OCSKGM_RK - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+  sum( (dat$OCSKGM - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
 
 AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) / 
-  sum( (dat$MKD_OCSKGM_rf - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+  sum( (dat$OCSKGM - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
 
 AVE_svm <- 1 - sum(dat$PE_svm^2, na.rm=TRUE) / 
-  sum( (dat$MKD_OCSKGM_svm - mean(dat$OCSKGM, na.rm = TRUE))^2, 
+  sum( (dat$OCSKGM - mean(dat$OCSKGM, na.rm = TRUE))^2, 
        na.rm = TRUE)
 ```
 

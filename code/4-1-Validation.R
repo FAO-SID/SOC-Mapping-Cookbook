@@ -32,5 +32,5 @@ RMSE_rf <- sqrt(sum(dat$PE_rf^2, na.rm=TRUE) / length(dat$PE_rf))
 
 # Amount of Variance Explained (AVE)
 AVE_rf <- 1 - sum(dat$PE_rf^2, na.rm=TRUE) /
-  sum( (dat$MKD_OCSKGM_rf - mean(dat$OCSKGM, na.rm = TRUE))^2,
+  sum( (dat$OCSKGM - mean(dat$OCSKGM, na.rm = TRUE))^2,
        na.rm = TRUE)
