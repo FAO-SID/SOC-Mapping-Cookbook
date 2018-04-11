@@ -8,13 +8,12 @@ topsoils <- read.csv("data/dataproc.csv")
 
 # column names could be different, but the units and order has
 # to be the same! Because we are going to add the rows from 1
-# table to the other table
-# e.g. OC_percent from table 1 and SOC frmo table 2 both have
-# the soil organic carbon expressed in percent
-topsoils <- topsoils[, c("ID", "X", "Y", "OC_percent", "BLD",
+# table to the other table.
+
+topsoils <- topsoils[, c("ID", "X", "Y", "SOC", "BLD",
                          "OCSKGM", "meaERROR")]
 
-profiles <- profiles[, c("ID", "X", "Y", "SOC", "BLD",
+profiles <- profiles[, c("id", "X", "Y", "SOC", "BLD",
                          "OCSKGM", "meaERROR")]
 
 names(profiles) <- names(topsoils)
