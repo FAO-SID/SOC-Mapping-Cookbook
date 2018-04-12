@@ -2,6 +2,8 @@
 ## in the "Soil Organic Carbon Mapping Cookbook"
 ## @knitr 3B-2-QuantileRegressionForest
 
+library(Metrics)
+
 #Generate an empty dataframe
 validation <- data.frame(rmse=numeric(), r2=numeric())
 #Sensitivity to the dataset
@@ -12,12 +14,12 @@ for (i in 1:10){
   train_ind <- sample(seq_len(nrow(dat)), size = smp_size)
   train <- dat[train_ind, ]
   test <- dat[-train_ind, ]
-  modn <- train(fm, data=train, method = "rf", trControl = ctrl)
-  pred <- stack(pred, predict(covariates, modn))
-  test$pred <- predict(modn[11][[1]], test)
+  modn <- train(fm, data=train@data, method = "rf", trControl = ctrl)
+  pred <- stack(pred, predict(covs, modn))
+  test$pred <- extract(pred[[i+1]], test)
   # Store the results in a dataframe
-  validation[i, 1] <- rmse(test$OCSKGMlog, test$pred)
-  validation[i, 2] <- cor(test$OCSKGMlog, test$pred)^2
+  validation[i, 1] <- rmse(log(test$OCSKGM), test$pred)
+  validation[i, 2] <- cor(log(test$OCSKGM), test$pred)^2
 }
 
 #The sensitivity map is the dispersion of all individual models
@@ -44,19 +46,20 @@ plot(prediction75, main='OCSKGM prediction based on 75% of data',
 # population. Otherwise repeat the train function with all available
 #data (using the object dat that instead of train) to select mtry.
 
+library(quantregForest)
 
-model <- quantregForest(y=dat$OCSKGMlog, x=dat[,1:13], ntree=500,
+model <- quantregForest(y=log(dat@data$OCSKGM), x=dat@data[,8:20], ntree=500,
                         keep.inbag=TRUE,
-                        mtry = as.numeric(mod$bestTune))
+                        mtry = as.numeric(modn$bestTune))
 
 library(snow)
 # Estimate model uncertainty at the pixel level using parallel
 # computing
 beginCluster() #define number of cores to use
 # Estimate model uncertainty
-unc <- clusterR(covariates, predict, args=list(model=model,what=sd))
+unc <- clusterR(covs, predict, args=list(model=model,what=sd))
 # OCSKGMlog prediction based in all available data
-mean <- clusterR(covariates, predict,
+mean <- clusterR(covs, predict,
                  args=list(model=model, what=mean))
 # The total uncertainty is the sum of sensitivity and model
 # uncertainty
