@@ -171,7 +171,8 @@ These conclusion can be verified by plotting a Taylor Diagram (see Figure \@ref(
 
 ```{r taylor, fig.cap="Taylor diagram used in the evaluation of the three selected DSM models"}
 TaylorDiagram(modData, obs = "obs", mod = "mod", group = "model",
-cols = c("green", "yellow", "red","blue"), cor.col='brown',rms.col='black')
+              cols = c("green", "yellow", "red","blue"), 
+              cor.col='brown', rms.col='black')
 ```
 
 However, we need also to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (see Figure \@ref(fig:condquant)). 

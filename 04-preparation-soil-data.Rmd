@@ -185,7 +185,7 @@ Exploring SOC and bulk density values in the database is an important step for e
 
 ```{r}
 # remove bad values
-dat$BLD[dat$BLD = 0] <- NA
+dat$BLD[dat$BLD == 0] <- NA
 dat$BLD[dat$BLD > 2] <- NA
 summary(dat$BLD)
 ```
