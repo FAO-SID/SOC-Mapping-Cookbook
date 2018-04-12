@@ -335,8 +335,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 5</span> Preparation of spatial covariates</h1>
 <p><em>R. Baritz &amp; Y. Yigini</em></p>
 <p>The authors of this Chapter used <strong>R</strong> packages. To run the code provided in this Chapter, the following package need to be installed in the <strong>R</strong> user library. If the package is not yet installed, the <code>install.packages()</code> function can be used.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># Installing package for Chapter &#39;Preparation of Spatial Covariates&#39;</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&quot;raster&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># Installing package for Chapter &#39;Preparation of Spatial Covariates&#39;</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&quot;raster&quot;</span>)</a></code></pre></div>
 <p>The example covariates from this Chapter were prepared by ISRIC. The access and use limitations are presented in Section <a href="covariates.html#GSOCDataRepo">5.6</a>. A small subset of these covariates, comprising most of the soil forming factors, will be used for the code examples. This subset is presented in the following table.</p>
 <table>
 <caption><span id="tab:covariates">Table 5.1: </span>Code and name of example covariates provided with the cookbook</caption>
@@ -409,13 +409,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Recommended for <strong>global level</strong> applications: SRTM with 90 m resolution, resampled to 1 km.</li>
 </ul>
 <p>In both cases, noise and artefacts need to be filtered out. ASTER GDEM seems to contain more large artifacts (e.g. peaks), particularly in flat terrain, which are very difficult to remove through filtering.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co"># Load DEM from raster *.tif file</span></a>
-<a class="sourceLine" id="cb39-4" data-line-number="4">DEM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/DEMENV5.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="kw">plot</span>(DEM)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-19"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-19-1.png" alt="SRTM 90 m resampled to 1 km for FYROM" width="672" />
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="co"># Load DEM from raster *.tif file</span></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4">DEM &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/DEMENV5.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="kw">plot</span>(DEM)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-21"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-21-1.png" alt="SRTM 90 m resampled to 1 km for FYROM" width="672" />
 <p class="caption">
 Figure 5.1: SRTM 90 m resampled to 1 km for FYROM
 </p>
@@ -442,14 +442,14 @@ Figure 5.1: SRTM 90 m resampled to 1 km for FYROM
 <div id="global-hwsd-soil-property-maps" class="section level3">
 <h3><span class="header-section-number">5.3.1</span> Global HWSD soil property maps</h3>
 <p>FAO, ISRIC, the International Institute for Applied Systems Analysis (IIASA), the Institute of Soil Science, Chinese Academy of Sciences (ISS CAS), and the Joint Research Center of the European Commision (JRC) together produced a gridded 1 km soil class map (HWSD). Global HWSD-derived soil property maps can be downloaded as GeoTIFF files at the following link <a href="http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km" class="uri">http://worldgrids.org/doku.php/wiki:layers#harmonized_world_soil_database_images_5_km</a> (see Section <a href="covariates.html#GSOCDataRepo">5.6</a>).</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># Load the soil map from a shapefile *.shp file</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co"># Plot the DEM together with the soil types</span></a>
-<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="kw">plot</span>(DEM)</a>
-<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="kw">lines</span>(soilmap)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-20"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-20-1.png" alt="Soil map of FYROM" width="768" />
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co"># Load the soil map from a shapefile *.shp file</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">soilmap &lt;-<span class="st"> </span><span class="kw">shapefile</span>(<span class="st">&quot;MK_soilmap_simple.shp&quot;</span>)</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="co"># Plot the DEM together with the soil types</span></a>
+<a class="sourceLine" id="cb43-5" data-line-number="5"><span class="kw">plot</span>(DEM)</a>
+<a class="sourceLine" id="cb43-6" data-line-number="6"><span class="kw">lines</span>(soilmap)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-22"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-22-1.png" alt="Soil map of FYROM" width="768" />
 <p class="caption">
 Figure 5.2: Soil map of FYROM
 </p>
@@ -460,23 +460,23 @@ Figure 5.2: Soil map of FYROM
 </div>
 <div id="technical-steps---rasterizing-a-vector-layer-in-r" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Technical steps - Rasterizing a vector layer in R</h3>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># The Symbol attribute from the vector layer will be used for the</span></a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="co"># rasterization process. It has to be a factor</span></a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">soilmap<span class="op">@</span>data<span class="op">$</span>Symbol &lt;-<span class="st"> </span><span class="kw">as.factor</span>(soilmap<span class="op">@</span>data<span class="op">$</span>Symbol)</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="co"># Save the levels names in a character vector</span></a>
-<a class="sourceLine" id="cb41-6" data-line-number="6">Symbol.levels &lt;-<span class="st"> </span><span class="kw">levels</span>(soilmap<span class="op">$</span>Symbol)</a>
-<a class="sourceLine" id="cb41-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb41-8" data-line-number="8"><span class="co"># The rasterization process needs a layer with the target grid </span></a>
-<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="co"># system: spatial extent and cell size</span></a>
-<a class="sourceLine" id="cb41-10" data-line-number="10"><span class="co"># The DEM raster layer could be used for this</span></a>
-<a class="sourceLine" id="cb41-11" data-line-number="11">soilmap.r &lt;-<span class="st"> </span><span class="kw">rasterize</span>(<span class="dt">x =</span> soilmap, <span class="dt">y =</span> DEM, <span class="dt">field =</span> <span class="st">&quot;Symbol&quot;</span>)</a>
-<a class="sourceLine" id="cb41-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb41-13" data-line-number="13"><span class="kw">plot</span>(soilmap.r, <span class="dt">col=</span><span class="kw">rainbow</span>(<span class="dv">21</span>))</a>
-<a class="sourceLine" id="cb41-14" data-line-number="14"><span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>,<span class="dt">legend =</span> Symbol.levels, <span class="dt">fill=</span><span class="kw">rainbow</span>(<span class="dv">21</span>), </a>
-<a class="sourceLine" id="cb41-15" data-line-number="15">       <span class="dt">cex=</span><span class="fl">0.5</span>)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-21"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-21-1.png" alt="Rasterized soil map of FYROM from DEM raster layer" width="672" />
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># The Symbol attribute from the vector layer will be used for the</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="co"># rasterization process. It has to be a factor</span></a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">soilmap<span class="op">@</span>data<span class="op">$</span>Symbol &lt;-<span class="st"> </span><span class="kw">as.factor</span>(soilmap<span class="op">@</span>data<span class="op">$</span>Symbol)</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="co"># Save the levels names in a character vector</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">Symbol.levels &lt;-<span class="st"> </span><span class="kw">levels</span>(soilmap<span class="op">$</span>Symbol)</a>
+<a class="sourceLine" id="cb44-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb44-8" data-line-number="8"><span class="co"># The rasterization process needs a layer with the target grid </span></a>
+<a class="sourceLine" id="cb44-9" data-line-number="9"><span class="co"># system: spatial extent and cell size</span></a>
+<a class="sourceLine" id="cb44-10" data-line-number="10"><span class="co"># The DEM raster layer could be used for this</span></a>
+<a class="sourceLine" id="cb44-11" data-line-number="11">soilmap.r &lt;-<span class="st"> </span><span class="kw">rasterize</span>(<span class="dt">x =</span> soilmap, <span class="dt">y =</span> DEM, <span class="dt">field =</span> <span class="st">&quot;Symbol&quot;</span>)</a>
+<a class="sourceLine" id="cb44-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb44-13" data-line-number="13"><span class="kw">plot</span>(soilmap.r, <span class="dt">col=</span><span class="kw">rainbow</span>(<span class="dv">21</span>))</a>
+<a class="sourceLine" id="cb44-14" data-line-number="14"><span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>,<span class="dt">legend =</span> Symbol.levels, <span class="dt">fill=</span><span class="kw">rainbow</span>(<span class="dv">21</span>), </a>
+<a class="sourceLine" id="cb44-15" data-line-number="15">       <span class="dt">cex=</span><span class="fl">0.5</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-23"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-23-1.png" alt="Rasterized soil map of FYROM from DEM raster layer" width="672" />
 <p class="caption">
 Figure 5.3: Rasterized soil map of FYROM from DEM raster layer
 </p>
@@ -487,12 +487,12 @@ Figure 5.3: Rasterized soil map of FYROM from DEM raster layer
 <h2><span class="header-section-number">5.4</span> Land cover and land use</h2>
 <p>Besides soil, geology, and climate, land use and/or land cover data are unarguably vital data for any statistical effort to map soil properties. There are many of various sources of data on the land cover including global and continental products, such as GlobCover, GeoCover, GlobeLand30, CORINE Land Cover.</p>
 <p>For further reading and other global data sources not listed below, see the information following this link: <a href="http://worldgrids.org/doku.php/wiki:land_cover_and_land_use" class="uri">http://worldgrids.org/doku.php/wiki:land_cover_and_land_use</a>.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co"># Load the landcover from the raster *.tif file</span></a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">landcover &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/LCEE10.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co"># Land cover is a categorical covariate, this has to be made </span></a>
-<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="co"># explicit using function as.factor()</span></a>
-<a class="sourceLine" id="cb42-6" data-line-number="6">landcover &lt;-<span class="st"> </span><span class="kw">as.factor</span>(landcover)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># Load the landcover from the raster *.tif file</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">landcover &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;covs/LCEE10.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="co"># Land cover is a categorical covariate, this has to be made </span></a>
+<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="co"># explicit using function as.factor()</span></a>
+<a class="sourceLine" id="cb45-6" data-line-number="6">landcover &lt;-<span class="st"> </span><span class="kw">as.factor</span>(landcover)</a></code></pre></div>
 <div id="globcover-global" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> GlobCover (Global)</h3>
 <p>GlobCover is a European Space Agency (ESA) initiative which began in 2005 in partnership with JRC, FAO, the European Environmental Agency (EEA), the United Nations Environment Programme (UNEP), the Global Observation for Forest Cover and Land Dynamics (GOFC-GOLD), and the International Geosphere-Biosphere Programme (IGBP).</p>
@@ -526,16 +526,16 @@ Figure 5.3: Rasterized soil map of FYROM from DEM raster layer
 <p>The WorldClim data layers were generated by interpolation of average monthly climate data from weather stations on a 30 arc-second resolution grid. In V1.4, variables included are monthly total precipitation, and monthly mean, minimum and maximum temperatures, and 19 derived bioclimatic variables. The WorldClim precipitation data were obtained from a network of 1,473 stations, mean temperature from 24,542 stations, and minimum and maximum temperatures from 14,835 stations <span class="citation">(Hijmans et al. <a href="#ref-hijmans2005very">2005</a>)</span>.</p>
 <p>The Bioclimatic parameters are: annual mean temperature, mean diurnal range, iso-thermality, temperature seasonality, max temperature of warmest month, minimum temperature of coldest month, temperature annual range , mean temperature of wettest quarter, mean temperature of driest quarter, mean temperature of warmest quarter, mean temperature of coldest quarter, annual precipitation, precipitation of wettest month, precipitation of driest month, precipitation seasonality (coefficient of variation), precipitation of wettest quarter, precipitation of driest quarter, precipitation of warmest quarter, precipitation of coldest quarter.</p>
 <p>WorldClim Climate Data are available at: www.worldclim.org (WorldClim 1.4 (current conditions) by www.worldclim.org; <span class="citation">Hijmans et al. (<a href="#ref-hijmans2005very">2005</a>)</span>. Is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License).</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co"># Load the climate covariates from the raster *.tif files</span></a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs/&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;CHE3.tif&quot;</span>, </a>
-<a class="sourceLine" id="cb43-3" data-line-number="3">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb43-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb43-5" data-line-number="5"><span class="co"># Stack all the files in one RasterStack</span></a>
-<a class="sourceLine" id="cb43-6" data-line-number="6">climate &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a></code></pre></div>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># Plot the first two layers</span></a>
-<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="kw">plot</span>(climate[[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]])</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-24"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-24-1.png" alt="Two different temperature layers included in the climate covariates" width="672" />
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co"># Load the climate covariates from the raster *.tif files</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs/&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;CHE3.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="co"># Stack all the files in one RasterStack</span></a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">climate &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># Plot the first two layers</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">plot</span>(climate[[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]])</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-26"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-26-1.png" alt="Two different temperature layers included in the climate covariates" width="672" />
 <p class="caption">
 Figure 5.4: Two different temperature layers included in the climate covariates
 </p>
@@ -604,33 +604,33 @@ Figure 5.4: Two different temperature layers included in the climate covariates
 <div id="overlay-soil-covariates" class="section level2">
 <h2><span class="header-section-number">5.9</span> Technical steps - Overlay covariates and soil points data</h2>
 <p><strong>Step 1 - Load soil sample data and covariates</strong></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># Load the processed data</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="co"># This table was prepared in the previous Chapter</span></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dat_train.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="co"># Read covariates from raster *.tif files</span></a>
-<a class="sourceLine" id="cb45-6" data-line-number="6">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;tif$&quot;</span>, </a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb45-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb45-9" data-line-number="9">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># Load the processed data</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="co"># This table was prepared in the previous Chapter</span></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/dat_train.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="co"># Read covariates from raster *.tif files</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;covs&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;tif$&quot;</span>, </a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">                    <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb48-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb48-9" data-line-number="9">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(files)</a></code></pre></div>
 <p><strong>Step 2 - Adding raster soilmap to the raster stack</strong></p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="co"># soilmap.r is the rasterization of the soil map and was obtained</span></a>
-<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="co"># in a previous step</span></a>
-<a class="sourceLine" id="cb46-3" data-line-number="3">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(covs, soilmap.r)</a>
-<a class="sourceLine" id="cb46-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb46-5" data-line-number="5"><span class="co"># Correct the name for layer 14</span></a>
-<a class="sourceLine" id="cb46-6" data-line-number="6"><span class="kw">names</span>(covs)[<span class="dv">14</span>] &lt;-<span class="st"> &quot;soilmap&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co"># soilmap.r is the rasterization of the soil map and was obtained</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co"># in a previous step</span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">covs &lt;-<span class="st"> </span><span class="kw">stack</span>(covs, soilmap.r)</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="co"># Correct the name for layer 14</span></a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="kw">names</span>(covs)[<span class="dv">14</span>] &lt;-<span class="st"> &quot;soilmap&quot;</span></a></code></pre></div>
 <p>Finally, we will mask the covariates with a mask developed using the country limits. Next, we will export all the covariates as <code>*.RData</code> file. This will allow us to load this file in the following Chapters of this cookbook.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># Mask the covariates with the country mask from the data repository</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">mask &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/mask.tif&quot;</span>)</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">covs &lt;-<span class="st"> </span><span class="kw">mask</span>(<span class="dt">x =</span> covs, <span class="dt">mask =</span> mask)</a>
-<a class="sourceLine" id="cb47-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="co"># Export all the covariates </span></a>
-<a class="sourceLine" id="cb47-6" data-line-number="6"><span class="kw">save</span>(covs, <span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
-<a class="sourceLine" id="cb47-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="kw">plot</span>(covs)</a></code></pre></div>
-<div class="figure"><span id="fig:unnamed-chunk-27"></span>
-<img src="SOCMapping_files/figure-html/unnamed-chunk-27-1.png" alt="FYROM soil covariates" width="672" />
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co"># Mask the covariates with the country mask from the data repository</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">mask &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/mask.tif&quot;</span>)</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">covs &lt;-<span class="st"> </span><span class="kw">mask</span>(<span class="dt">x =</span> covs, <span class="dt">mask =</span> mask)</a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="co"># Export all the covariates </span></a>
+<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="kw">save</span>(covs, <span class="dt">file =</span> <span class="st">&quot;covariates.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb50-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb50-8" data-line-number="8"><span class="kw">plot</span>(covs)</a></code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-29"></span>
+<img src="SOCMapping_files/figure-html/unnamed-chunk-29-1.png" alt="FYROM soil covariates" width="672" />
 <p class="caption">
 Figure 5.5: FYROM soil covariates
 </p>
@@ -638,19 +638,19 @@ Figure 5.5: FYROM soil covariates
 <p><strong>Step 3 - Overlay covariates and point data</strong></p>
 <p>In order to carry out DSM in terms of examining the statistical significance of environmental predictors for explaining the spatial variation of SOC, we should link both sets of data together and extract the values of the covariates at the locations of the soil point data.</p>
 <p>Note that the stacking of rasters can only be possible if they are in the same resolution and extent. If they are not, <strong>raster</strong> package resample and <code>projectRaster()</code> functions are for harmonizing all your different raster layers. With the stacked rasters of environmental covariates, we can now perform the intersection and extraction.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># Upgrade points data frame to SpatialPointsDataFrame</span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
-<a class="sourceLine" id="cb48-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="co"># Extract values from covariates to the soil points</span></a>
-<a class="sourceLine" id="cb48-5" data-line-number="5">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> covs, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb48-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb48-7" data-line-number="7"><span class="co"># LCEE10 and soilmap are categorical variables</span></a>
-<a class="sourceLine" id="cb48-8" data-line-number="8">dat<span class="op">@</span>data<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>LCEE10)</a>
-<a class="sourceLine" id="cb48-9" data-line-number="9">dat<span class="op">@</span>data<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>soilmap)</a>
-<a class="sourceLine" id="cb48-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb48-11" data-line-number="11"><span class="kw">levels</span>(soilmap) &lt;-<span class="st"> </span>Symbol.levels</a>
-<a class="sourceLine" id="cb48-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb48-13" data-line-number="13"><span class="kw">summary</span>(dat<span class="op">@</span>data)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># Upgrade points data frame to SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">coordinates</span>(dat) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Y</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co"># Extract values from covariates to the soil points</span></a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">dat &lt;-<span class="st"> </span><span class="kw">extract</span>(<span class="dt">x =</span> covs, <span class="dt">y =</span> dat, <span class="dt">sp =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb51-7" data-line-number="7"><span class="co"># LCEE10 and soilmap are categorical variables</span></a>
+<a class="sourceLine" id="cb51-8" data-line-number="8">dat<span class="op">@</span>data<span class="op">$</span>LCEE10 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>LCEE10)</a>
+<a class="sourceLine" id="cb51-9" data-line-number="9">dat<span class="op">@</span>data<span class="op">$</span>soilmap &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dat<span class="op">@</span>data<span class="op">$</span>soilmap)</a>
+<a class="sourceLine" id="cb51-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="kw">levels</span>(soilmap) &lt;-<span class="st"> </span>Symbol.levels</a>
+<a class="sourceLine" id="cb51-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb51-13" data-line-number="13"><span class="kw">summary</span>(dat<span class="op">@</span>data)</a></code></pre></div>
 <pre><code>##        id            SOC              BLD         
 ##  P0003  :   1   Min.   : 0.080   Min.   :0.05353  
 ##  P0007  :   1   1st Qu.: 1.772   1st Qu.:1.27881  
@@ -716,13 +716,13 @@ Figure 5.5: FYROM soil covariates
 <li><p><strong>Option 2</strong>: Another case is when a covariate is incomplete and does not cover all the area. This could produce many <code>NA</code> values. There are two different solutions, either to eliminate the covariate or to eliminate the point data. This is the case for the soilmap layer and the 30 points.</p></li>
 </ul>
 <p>**Step 4 - Convert result to data.frame and save as a *.csv table**</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat)</a>
-<a class="sourceLine" id="cb50-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="co"># The points with NA values have to be removed </span></a>
-<a class="sourceLine" id="cb50-4" data-line-number="4">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
-<a class="sourceLine" id="cb50-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb50-6" data-line-number="6"><span class="co"># Export as a *.csv table</span></a>
-<a class="sourceLine" id="cb50-7" data-line-number="7"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(dat)</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="co"># The points with NA values have to be removed </span></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">dat &lt;-<span class="st"> </span>dat[<span class="kw">complete.cases</span>(dat),]</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb53-6" data-line-number="6"><span class="co"># Export as a *.csv table</span></a>
+<a class="sourceLine" id="cb53-7" data-line-number="7"><span class="kw">write.csv</span>(dat, <span class="st">&quot;data/MKD_RegMatrix.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 
 </div>
 </div>
