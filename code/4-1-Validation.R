@@ -4,6 +4,8 @@
 
 dat <- read.csv("data/dat_test.csv")
 
+library(sp)
+
 # Promote to spatialPointsDataFrame
 coordinates(dat) <- ~ X + Y
 
