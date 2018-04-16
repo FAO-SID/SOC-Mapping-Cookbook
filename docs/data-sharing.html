@@ -337,10 +337,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This Chapter reviews possibilities and <em>good practices</em> of exchanging produced soil data. Once the analysis, spatial prediction and quality control have been all completed, it is useful to follow some minimum steps and export and prepare the data for distribution so that its potential users can easily access it, use it, and make a correct interpretation of data. We consider geo-publishing options for soil data either based on using third-party web services or by using one’s own installation of the software. We put a clear focus on using the Open Source software solutions: GDAL, GeoServer, Leaflet, OpenLayers and <strong>R</strong>, and public domain data and metadata standards.</p>
 <p>The authors have more than 15 years of experience in producing, publishing and sharing soil maps and have been involved in large soil mapping projects where data volumes often exceed standard desktop GIS capacities. For information on specific software please refer to the provided links. Even more information on using GDAL and similar GIS tools through a command line can be found via the Global Soil Information Facilities (GSIF) tutorials of ISRIC at <a href="http://gsif.isric.org" class="uri">http://gsif.isric.org</a>. The text is illustrated with example scripts of the statistical software <strong>R</strong> in combination with GDAL.</p>
 <p>The authors of this Chapter used <strong>R</strong> packages. To run the code provided in this Chapter, the following packages need to be installed in the <strong>R</strong> user library. If the packages are not yet installed, the <code>install.packages()</code> function can be used.</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Data Sharing&#39;</span></a>
-<a class="sourceLine" id="cb192-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;soiltexture&quot;</span>, <span class="st">&quot;rgdal&quot;</span>, <span class="st">&quot;plotKML&quot;</span>,</a>
-<a class="sourceLine" id="cb192-3" data-line-number="3">                   <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;RSQLite&quot;</span>, <span class="st">&quot;leaflet&quot;</span>,</a>
-<a class="sourceLine" id="cb192-4" data-line-number="4">                   <span class="st">&quot;htmlwidgets&quot;</span>, <span class="st">&quot;GSIF&quot;</span>, <span class="st">&quot;raster&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Data Sharing&#39;</span></a>
+<a class="sourceLine" id="cb212-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;soiltexture&quot;</span>, <span class="st">&quot;rgdal&quot;</span>, <span class="st">&quot;plotKML&quot;</span>,</a>
+<a class="sourceLine" id="cb212-3" data-line-number="3">                   <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;RSQLite&quot;</span>, <span class="st">&quot;leaflet&quot;</span>,</a>
+<a class="sourceLine" id="cb212-4" data-line-number="4">                   <span class="st">&quot;htmlwidgets&quot;</span>, <span class="st">&quot;GSIF&quot;</span>, <span class="st">&quot;raster&quot;</span>))</a></code></pre></div>
 <div id="export-formats" class="section level2">
 <h2><span class="header-section-number">10.1</span> Export formats</h2>
 <div id="type-of-soil-data-and-their-formatting" class="section level3">
@@ -354,16 +354,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Soil diagnostic horizons.</li>
 </ul>
 <p>Consider for example the following soil texture data:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="kw">library</span>(soiltexture)</a>
-<a class="sourceLine" id="cb193-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb193-3" data-line-number="3">tex &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb193-4" data-line-number="4">  <span class="dt">CLAY =</span> <span class="kw">c</span>(<span class="dv">05</span>,<span class="dv">60</span>,<span class="dv">15</span>,<span class="dv">05</span>,<span class="dv">25</span>,<span class="dv">05</span>,<span class="dv">25</span>,<span class="dv">45</span>,<span class="dv">65</span>,<span class="dv">75</span>,<span class="dv">13</span>,<span class="dv">47</span>),</a>
-<a class="sourceLine" id="cb193-5" data-line-number="5">  <span class="dt">SILT =</span> <span class="kw">c</span>(<span class="dv">05</span>,<span class="dv">08</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">55</span>,<span class="dv">85</span>,<span class="dv">65</span>,<span class="dv">45</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">17</span>,<span class="dv">43</span>),</a>
-<a class="sourceLine" id="cb193-6" data-line-number="6">  <span class="dt">SAND =</span> <span class="kw">c</span>(<span class="dv">90</span>,<span class="dv">32</span>,<span class="dv">70</span>,<span class="dv">70</span>,<span class="dv">20</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">10</span>,<span class="dv">70</span>,<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb193-7" data-line-number="7"> )</a>
-<a class="sourceLine" id="cb193-8" data-line-number="8"> </a>
-<a class="sourceLine" id="cb193-9" data-line-number="9"><span class="kw">TT.plot</span>(<span class="dt">class.sys =</span> <span class="st">&quot;USDA.TT&quot;</span>, <span class="dt">tri.data =</span> tex, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </a>
-<a class="sourceLine" id="cb193-10" data-line-number="10">        <span class="dt">cex.axis=</span>.<span class="dv">7</span>, <span class="dt">cex.lab=</span>.<span class="dv">7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">library</span>(soiltexture)</a>
+<a class="sourceLine" id="cb213-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb213-3" data-line-number="3">tex &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb213-4" data-line-number="4">  <span class="dt">CLAY =</span> <span class="kw">c</span>(<span class="dv">05</span>,<span class="dv">60</span>,<span class="dv">15</span>,<span class="dv">05</span>,<span class="dv">25</span>,<span class="dv">05</span>,<span class="dv">25</span>,<span class="dv">45</span>,<span class="dv">65</span>,<span class="dv">75</span>,<span class="dv">13</span>,<span class="dv">47</span>),</a>
+<a class="sourceLine" id="cb213-5" data-line-number="5">  <span class="dt">SILT =</span> <span class="kw">c</span>(<span class="dv">05</span>,<span class="dv">08</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">55</span>,<span class="dv">85</span>,<span class="dv">65</span>,<span class="dv">45</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">17</span>,<span class="dv">43</span>),</a>
+<a class="sourceLine" id="cb213-6" data-line-number="6">  <span class="dt">SAND =</span> <span class="kw">c</span>(<span class="dv">90</span>,<span class="dv">32</span>,<span class="dv">70</span>,<span class="dv">70</span>,<span class="dv">20</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">10</span>,<span class="dv">70</span>,<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb213-7" data-line-number="7"> )</a>
+<a class="sourceLine" id="cb213-8" data-line-number="8"> </a>
+<a class="sourceLine" id="cb213-9" data-line-number="9"><span class="kw">TT.plot</span>(<span class="dt">class.sys =</span> <span class="st">&quot;USDA.TT&quot;</span>, <span class="dt">tri.data =</span> tex, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, </a>
+<a class="sourceLine" id="cb213-10" data-line-number="10">        <span class="dt">cex.axis=</span>.<span class="dv">7</span>, <span class="dt">cex.lab=</span>.<span class="dv">7</span>)</a></code></pre></div>
 <div class="figure">
 <img src="images/Data_sharing_triangle.png" alt="Soil texture triangle plot as an example of soil science specific data" />
 <p class="caption">Soil texture triangle plot as an example of soil science specific data</p>
@@ -404,23 +404,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Data in vector format can be converted to raster (see e.g. <code>rasterize()</code> function in the <strong>raster</strong> <strong>R</strong> package ) and vice versa, raster data can be converted to vector formats. For example, rasters can be converted to polygons (see e.g. <code>rast2vect()</code> function in the <strong>plotKML</strong> <strong>R</strong> package ). If the conversion is done carefully and if all the relations between scale and pixel size have been considered <span class="citation">(see Hengl <a href="#ref-hengl2006finding">2006</a> for more details)</span>, then information loss due to conversion from raster to vector and vice versa should be minimal.</p>
 <p>Both vector and raster GIS data can also be converted to tabular data formats. By converting a GIS layer to a table, spatial geometry and spatial relations will be <em>stripped off</em>, so that only limited spatial analysis operations can be applied. To convert raster layers to tabular data, consider using the <code>SpatialPixelsDataFrame</code> class in the <strong>sp</strong> package and/or the <code>RasterLayer</code> class from the <strong>raster</strong> package in combination with the <strong>rgdal</strong> package <span class="citation">(Bivand, Pebesma, and Gómez-Rubio <a href="#ref-bivand2013classes">2013</a>)</span>.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="kw">library</span>(rgdal)</a>
-<a class="sourceLine" id="cb194-2" data-line-number="2"><span class="kw">library</span>(plotKML)</a>
-<a class="sourceLine" id="cb194-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb194-4" data-line-number="4">?readGDAL</a>
-<a class="sourceLine" id="cb194-5" data-line-number="5">spnad83 &lt;-<span class="st"> </span><span class="kw">readGDAL</span>(<span class="kw">system.file</span>(<span class="st">&quot;pictures/erdas_spnad83.tif&quot;</span>, </a>
-<a class="sourceLine" id="cb194-6" data-line-number="6">                                <span class="dt">package =</span> <span class="st">&quot;rgdal&quot;</span>)[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb194-7" data-line-number="7">spnad83.tbl &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(spnad83)</a>
-<a class="sourceLine" id="cb194-8" data-line-number="8"><span class="kw">str</span>(spnad83.tbl)</a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="kw">library</span>(rgdal)</a>
+<a class="sourceLine" id="cb214-2" data-line-number="2"><span class="kw">library</span>(plotKML)</a>
+<a class="sourceLine" id="cb214-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb214-4" data-line-number="4">?readGDAL</a>
+<a class="sourceLine" id="cb214-5" data-line-number="5">spnad83 &lt;-<span class="st"> </span><span class="kw">readGDAL</span>(<span class="kw">system.file</span>(<span class="st">&quot;pictures/erdas_spnad83.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb214-6" data-line-number="6">                                <span class="dt">package =</span> <span class="st">&quot;rgdal&quot;</span>)[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb214-7" data-line-number="7">spnad83.tbl &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(spnad83)</a>
+<a class="sourceLine" id="cb214-8" data-line-number="8"><span class="kw">str</span>(spnad83.tbl)</a></code></pre></div>
 <p>In this example, <code>as.data.frame()</code> is a function converting a raster object to a table. Note that the output table now contains coordinates for each cell (center of the grid node), which is in fact memory inefficient as coordinates are provided for each row in the table.</p>
 <p>Likewise, to convert a vector layer to tabular formats one can use the Simple Features (SF) functionality of the <strong>sf</strong> package . The SF standard is widely implemented in spatial databases (PostGIS, ESRI ArcGIS) and forms the vector data basis for libraries such as GDAL and web standards such as GeoJSON (<a href="http://geojson.org/" class="uri">http://geojson.org/</a>). To convert for example spatial polygons layer to a tabular format we would use:</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb195-2" data-line-number="2"><span class="kw">library</span>(plotKML)</a>
-<a class="sourceLine" id="cb195-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb195-4" data-line-number="4"><span class="kw">data</span>(eberg_zones)</a>
-<a class="sourceLine" id="cb195-5" data-line-number="5"><span class="kw">class</span>(eberg_zones)</a>
-<a class="sourceLine" id="cb195-6" data-line-number="6">eberg_zones.tbl &lt;-<span class="st"> </span><span class="kw">as</span>(eberg_zones, <span class="st">&quot;sf&quot;</span>)</a>
-<a class="sourceLine" id="cb195-7" data-line-number="7"><span class="kw">str</span>(eberg_zones.tbl)</a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb215-2" data-line-number="2"><span class="kw">library</span>(plotKML)</a>
+<a class="sourceLine" id="cb215-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb215-4" data-line-number="4"><span class="kw">data</span>(eberg_zones)</a>
+<a class="sourceLine" id="cb215-5" data-line-number="5"><span class="kw">class</span>(eberg_zones)</a>
+<a class="sourceLine" id="cb215-6" data-line-number="6">eberg_zones.tbl &lt;-<span class="st"> </span><span class="kw">as</span>(eberg_zones, <span class="st">&quot;sf&quot;</span>)</a>
+<a class="sourceLine" id="cb215-7" data-line-number="7"><span class="kw">str</span>(eberg_zones.tbl)</a></code></pre></div>
 <p>Note that using spatial layers in simple tabular formats can be cumbersome because many spatial relationships and properties are likely lost (although these can be assigned reversibly). In addition, the size of tabular objects is much bigger than if we use data in the original GIS data formats, especially if those formats support compression. On the other hand, having data in tabular format can be often the only way to exchange the data from spatial to non-spatial databases or from software without any data communication bridge. Also, tabular data is human-readable which means that it can be opened in text editors, spreadsheet programs or similar.</p>
 </div>
 <div id="recommended-gis-data-exchange-formats" class="section level3">
@@ -431,20 +431,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>GeoTIFF</strong> (for rasters): A <code>*.tiff</code> or <code>*.tif</code> (image) file that allows embedding spatial reference information, metadata and color legends. It also supports internal compression algorithms and hierarchical indexing.</li>
 </ul>
 <p>Both formats can be read easily in <strong>R</strong> or similar data processing software. Vectors are also commonly exported and shared in ESRI shapefile format (as <code>*.shp</code> file). The advantage of GPKG format versus somewhat more common ESRI shapefile format is that <code>*.gpkg</code> files are basically a portable database (SQLite container) so that the user does not have to import the whole data into a program but also fetch parts of data by using SQL queries and it can handle vector and raster data in it. The following example demonstrates how to create a <code>*.gpkg</code> file and how to query it:</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="kw">library</span>(RSQLite)</a>
-<a class="sourceLine" id="cb196-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb196-3" data-line-number="3"><span class="kw">data</span>(eberg)</a>
-<a class="sourceLine" id="cb196-4" data-line-number="4"><span class="kw">coordinates</span>(eberg) &lt;-<span class="st"> </span><span class="er">~</span>X<span class="op">+</span>Y</a>
-<a class="sourceLine" id="cb196-5" data-line-number="5"><span class="kw">proj4string</span>(eberg) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:31467&quot;</span>)</a>
-<a class="sourceLine" id="cb196-6" data-line-number="6"><span class="kw">writeOGR</span>(eberg, <span class="st">&quot;eberg.gpkg&quot;</span>, <span class="st">&quot;eberg&quot;</span>, <span class="st">&quot;GPKG&quot;</span>)</a>
-<a class="sourceLine" id="cb196-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb196-8" data-line-number="8">con &lt;-<span class="st"> </span><span class="kw">dbConnect</span>(RSQLite<span class="op">::</span><span class="kw">SQLite</span>(), <span class="dt">dbname =</span> <span class="st">&quot;eberg.gpkg&quot;</span>)</a>
-<a class="sourceLine" id="cb196-9" data-line-number="9">df &lt;-<span class="st"> </span><span class="kw">dbGetQuery</span>(con, <span class="st">&#39;select &quot;soiltype&quot; from eberg&#39;</span>)</a>
-<a class="sourceLine" id="cb196-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb196-11" data-line-number="11"><span class="kw">summary</span>(<span class="kw">as.factor</span>(df<span class="op">$</span>soiltype))</a>
-<a class="sourceLine" id="cb196-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb196-13" data-line-number="13"><span class="kw">dbGetQuery</span>(con, </a>
-<a class="sourceLine" id="cb196-14" data-line-number="14">           <span class="st">&#39;select * from gpkg_spatial_ref_sys&#39;</span>)[<span class="dv">3</span>,<span class="st">&quot;description&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="kw">library</span>(RSQLite)</a>
+<a class="sourceLine" id="cb216-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb216-3" data-line-number="3"><span class="kw">data</span>(eberg)</a>
+<a class="sourceLine" id="cb216-4" data-line-number="4"><span class="kw">coordinates</span>(eberg) &lt;-<span class="st"> </span><span class="er">~</span>X<span class="op">+</span>Y</a>
+<a class="sourceLine" id="cb216-5" data-line-number="5"><span class="kw">proj4string</span>(eberg) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:31467&quot;</span>)</a>
+<a class="sourceLine" id="cb216-6" data-line-number="6"><span class="kw">writeOGR</span>(eberg, <span class="st">&quot;eberg.gpkg&quot;</span>, <span class="st">&quot;eberg&quot;</span>, <span class="st">&quot;GPKG&quot;</span>)</a>
+<a class="sourceLine" id="cb216-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb216-8" data-line-number="8">con &lt;-<span class="st"> </span><span class="kw">dbConnect</span>(RSQLite<span class="op">::</span><span class="kw">SQLite</span>(), <span class="dt">dbname =</span> <span class="st">&quot;eberg.gpkg&quot;</span>)</a>
+<a class="sourceLine" id="cb216-9" data-line-number="9">df &lt;-<span class="st"> </span><span class="kw">dbGetQuery</span>(con, <span class="st">&#39;select &quot;soiltype&quot; from eberg&#39;</span>)</a>
+<a class="sourceLine" id="cb216-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb216-11" data-line-number="11"><span class="kw">summary</span>(<span class="kw">as.factor</span>(df<span class="op">$</span>soiltype))</a>
+<a class="sourceLine" id="cb216-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb216-13" data-line-number="13"><span class="kw">dbGetQuery</span>(con, </a>
+<a class="sourceLine" id="cb216-14" data-line-number="14">           <span class="st">&#39;select * from gpkg_spatial_ref_sys&#39;</span>)[<span class="dv">3</span>,<span class="st">&quot;description&quot;</span>]</a></code></pre></div>
 <p>Note that the <strong>RSQLite</strong> package is a generic package for connecting to SQLite DBs. This means that <code>*.gpkg</code> files can be accessed and updated in its native storage format without intermediate format translations. Just putting a <code>*.gpkg</code> file on a server with read and execute access allows users to connect and fetch data.</p>
 <p>Alternatively, it is also a good idea to store point data in a non-spatial format such as simple tables. For example, in comma-separated file format (CSV) as a <code>*.csv</code> file. A fast way to publish and share tabular data is to use Google Fusion Tables™. Google Fusion Tables™ have an API that allows accessing and using tabular data through various programming platforms. The limitation of using Google Fusion tables™ is, however, data size (currently about 1 GB per user) and similar data volume limits, so this platform should be only used as an intermediate solution for smaller data sets.</p>
 <div class="figure">
@@ -458,9 +458,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Extensive overlay, subset, index, translate functionality is available via GDAL and other open source software. Basically, GeoTIFF functions as a raster DB.</li>
 </ul>
 <p>Consider for, example the <code>gdallocationinfo()</code> function which allows spatial queries following some indexing system such as row and column number:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1">spnad83.file =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;pictures/erdas_spnad83.tif&quot;</span>, </a>
-<a class="sourceLine" id="cb197-2" data-line-number="2">                           <span class="dt">package =</span> <span class="st">&quot;rgdal&quot;</span>)[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb197-3" data-line-number="3"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&#39;gdallocationinfo &#39;</span>, spnad83.file, <span class="st">&#39; 100 100&#39;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">spnad83.file =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;pictures/erdas_spnad83.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb217-2" data-line-number="2">                           <span class="dt">package =</span> <span class="st">&quot;rgdal&quot;</span>)[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb217-3" data-line-number="3"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&#39;gdallocationinfo &#39;</span>, spnad83.file, <span class="st">&#39; 100 100&#39;</span>))</a></code></pre></div>
 <p>Such type of overlay operations, thanks to GDAL <span class="citation">(Warmerdam <a href="#ref-warmerdam_geospatial_2008">2008</a>)</span>, are extremely fast and efficient. Likewise, <code>gdalwarp()</code> function can be used subset rasters based on spatial extent or grid index. Rasters can be imported to GeoServer and shared through Web Coverage Service (see Section <a href="data-sharing.html#webService">10.2</a>) or similar likewise function as a spatial raster DB.</p>
 <p>As a general recommendation, and to avoid large file sizes, we recommend, however, that you always use integers inside GeoTIFF formats because floating point formats can lead to up to more than four times larger sizes (without any gains in accuracy). This might mean you have to multiply the values of the soil property of interest by 10 or 100, in order not to lose accuracy (e.g. multiply pH values by 10 before exporting your raster in GeoTIFF format).</p>
 </div>
@@ -491,25 +491,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="visualizing-data-using-leaflet-andor-google-earth" class="section level3">
 <h3><span class="header-section-number">10.2.3</span> Visualizing data using Leaflet and/or Google Earth</h3>
 <p>A quick way to visualize produced soil maps and then share them to users without GIS capacities is to use <strong>leaflet</strong> package in <strong>R</strong>. Leaflet is basically a stand-alone web-page that contains all information (including some popular Web Mapping Services) so that users can visually explore patterns without having to install and use any desktop GIS. Consider the following example:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" data-line-number="1"><span class="kw">library</span>(leaflet)</a>
-<a class="sourceLine" id="cb198-2" data-line-number="2"><span class="kw">library</span>(htmlwidgets)</a>
-<a class="sourceLine" id="cb198-3" data-line-number="3"><span class="kw">library</span>(GSIF)</a>
-<a class="sourceLine" id="cb198-4" data-line-number="4"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb198-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb198-6" data-line-number="6"><span class="kw">demo</span>(meuse, <span class="dt">echo=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb198-7" data-line-number="7">omm &lt;-<span class="st"> </span><span class="kw">autopredict</span>(meuse[<span class="st">&quot;om&quot;</span>], meuse.grid[<span class="kw">c</span>(<span class="st">&quot;dist&quot;</span>,<span class="st">&quot;soil&quot;</span>,<span class="st">&quot;ffreq&quot;</span>)],</a>
-<a class="sourceLine" id="cb198-8" data-line-number="8">                   <span class="dt">method=</span><span class="st">&quot;ranger&quot;</span>, <span class="dt">auto.plot=</span><span class="ot">FALSE</span>, <span class="dt">rvgm=</span><span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb198-9" data-line-number="9">meuse.ll &lt;-<span class="st"> </span><span class="kw">reproject</span>(meuse[<span class="st">&quot;om&quot;</span>])</a>
-<a class="sourceLine" id="cb198-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb198-11" data-line-number="11"><span class="co"># Reprojecting to +proj=longlat +datum=WGS84</span></a>
-<a class="sourceLine" id="cb198-12" data-line-number="12">m =<span class="st"> </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb198-13" data-line-number="13"><span class="st">    </span><span class="kw">addRasterImage</span>(<span class="kw">raster</span>(omm<span class="op">$</span>predicted[<span class="st">&quot;om&quot;</span>]), </a>
-<a class="sourceLine" id="cb198-14" data-line-number="14">    <span class="dt">colors =</span> SAGA_pal[[<span class="dv">1</span>]][<span class="dv">4</span><span class="op">:</span><span class="dv">20</span>]) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb198-15" data-line-number="15"><span class="st">    </span><span class="kw">addCircles</span>(<span class="dt">lng =</span> meuse.ll<span class="op">@</span>coords[,<span class="dv">1</span>], </a>
-<a class="sourceLine" id="cb198-16" data-line-number="16">    <span class="dt">lat =</span> meuse.ll<span class="op">@</span>coords[,<span class="dv">2</span>],</a>
-<a class="sourceLine" id="cb198-17" data-line-number="17">    <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&#39;black&#39;</span>), <span class="dt">radius=</span>meuse.ll<span class="op">$</span>om)  </a>
-<a class="sourceLine" id="cb198-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb198-19" data-line-number="19"><span class="kw">saveWidget</span>(m, <span class="dt">file=</span><span class="st">&quot;organicmater_predicted.html&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1"><span class="kw">library</span>(leaflet)</a>
+<a class="sourceLine" id="cb218-2" data-line-number="2"><span class="kw">library</span>(htmlwidgets)</a>
+<a class="sourceLine" id="cb218-3" data-line-number="3"><span class="kw">library</span>(GSIF)</a>
+<a class="sourceLine" id="cb218-4" data-line-number="4"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb218-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb218-6" data-line-number="6"><span class="kw">demo</span>(meuse, <span class="dt">echo=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb218-7" data-line-number="7">omm &lt;-<span class="st"> </span><span class="kw">autopredict</span>(meuse[<span class="st">&quot;om&quot;</span>], meuse.grid[<span class="kw">c</span>(<span class="st">&quot;dist&quot;</span>,<span class="st">&quot;soil&quot;</span>,<span class="st">&quot;ffreq&quot;</span>)],</a>
+<a class="sourceLine" id="cb218-8" data-line-number="8">                   <span class="dt">method=</span><span class="st">&quot;ranger&quot;</span>, <span class="dt">auto.plot=</span><span class="ot">FALSE</span>, <span class="dt">rvgm=</span><span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb218-9" data-line-number="9">meuse.ll &lt;-<span class="st"> </span><span class="kw">reproject</span>(meuse[<span class="st">&quot;om&quot;</span>])</a>
+<a class="sourceLine" id="cb218-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb218-11" data-line-number="11"><span class="co"># Reprojecting to +proj=longlat +datum=WGS84</span></a>
+<a class="sourceLine" id="cb218-12" data-line-number="12">m =<span class="st"> </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb218-13" data-line-number="13"><span class="st">    </span><span class="kw">addRasterImage</span>(<span class="kw">raster</span>(omm<span class="op">$</span>predicted[<span class="st">&quot;om&quot;</span>]), </a>
+<a class="sourceLine" id="cb218-14" data-line-number="14">    <span class="dt">colors =</span> SAGA_pal[[<span class="dv">1</span>]][<span class="dv">4</span><span class="op">:</span><span class="dv">20</span>]) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb218-15" data-line-number="15"><span class="st">    </span><span class="kw">addCircles</span>(<span class="dt">lng =</span> meuse.ll<span class="op">@</span>coords[,<span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb218-16" data-line-number="16">    <span class="dt">lat =</span> meuse.ll<span class="op">@</span>coords[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb218-17" data-line-number="17">    <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&#39;black&#39;</span>), <span class="dt">radius=</span>meuse.ll<span class="op">$</span>om)  </a>
+<a class="sourceLine" id="cb218-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb218-19" data-line-number="19"><span class="kw">saveWidget</span>(m, <span class="dt">file=</span><span class="st">&quot;organicmater_predicted.html&quot;</span>)</a></code></pre></div>
 <div class="figure">
 <img src="images/Data_sharing_Leaflet.png" alt="Sampled locations and produced predictions visualized using Leaflet package" />
 <p class="caption">Sampled locations and produced predictions visualized using Leaflet package</p>
@@ -534,19 +534,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Project homepage, i.e. URL containing more information and especially up-to-date contacts where users can find original data producers and request support.</li>
 </ul>
 <p>Metadata (including color legends) can be also directly embedded into the GeoTIFF <code>*.tif</code> file by using the <em>gdal_edit</em> command available in GDAL. The following example shows how to add a simple explanation of the data and a URL to find more info about the GeoTIFF in <strong>R</strong>:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;eberg_grid&quot;</span>)</a>
-<a class="sourceLine" id="cb199-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb199-3" data-line-number="3"><span class="kw">gridded</span>(eberg_grid) =<span class="st"> </span><span class="er">~</span><span class="st"> </span>x<span class="op">+</span>y</a>
-<a class="sourceLine" id="cb199-4" data-line-number="4"><span class="kw">proj4string</span>(eberg_grid) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:31467&quot;</span>)</a>
-<a class="sourceLine" id="cb199-5" data-line-number="5"><span class="kw">writeGDAL</span>(eberg_grid[<span class="st">&quot;DEMSRT6&quot;</span>], <span class="st">&quot;eberg_DEM.tif&quot;</span>, </a>
-<a class="sourceLine" id="cb199-6" data-line-number="6">            <span class="dt">options=</span><span class="st">&quot;COMPRESS=DEFLATE&quot;</span>)</a>
-<a class="sourceLine" id="cb199-7" data-line-number="7">?eberg</a>
-<a class="sourceLine" id="cb199-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb199-9" data-line-number="9"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&#39;gdal_edit.py </span></a>
-<a class="sourceLine" id="cb199-10" data-line-number="10"><span class="st">-mo </span><span class="ch">\&quot;</span><span class="st">DESCRIPTION=elevation values from the SRTM DEM</span><span class="ch">\&quot;</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb199-11" data-line-number="11"><span class="st">-mo </span><span class="ch">\&quot;</span><span class="st">DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen</span><span class="ch">\&quot;</span></a>
-<a class="sourceLine" id="cb199-12" data-line-number="12"><span class="st">eberg_DEM.tif&#39;</span>))</a>
-<a class="sourceLine" id="cb199-13" data-line-number="13"><span class="kw">system</span>(<span class="st">&#39;gdalinfo eberg_DEM.tif&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;eberg_grid&quot;</span>)</a>
+<a class="sourceLine" id="cb219-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb219-3" data-line-number="3"><span class="kw">gridded</span>(eberg_grid) =<span class="st"> </span><span class="er">~</span><span class="st"> </span>x<span class="op">+</span>y</a>
+<a class="sourceLine" id="cb219-4" data-line-number="4"><span class="kw">proj4string</span>(eberg_grid) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:31467&quot;</span>)</a>
+<a class="sourceLine" id="cb219-5" data-line-number="5"><span class="kw">writeGDAL</span>(eberg_grid[<span class="st">&quot;DEMSRT6&quot;</span>], <span class="st">&quot;eberg_DEM.tif&quot;</span>, </a>
+<a class="sourceLine" id="cb219-6" data-line-number="6">            <span class="dt">options=</span><span class="st">&quot;COMPRESS=DEFLATE&quot;</span>)</a>
+<a class="sourceLine" id="cb219-7" data-line-number="7">?eberg</a>
+<a class="sourceLine" id="cb219-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb219-9" data-line-number="9"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&#39;gdal_edit.py </span></a>
+<a class="sourceLine" id="cb219-10" data-line-number="10"><span class="st">-mo </span><span class="ch">\&quot;</span><span class="st">DESCRIPTION=elevation values from the SRTM DEM</span><span class="ch">\&quot;</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb219-11" data-line-number="11"><span class="st">-mo </span><span class="ch">\&quot;</span><span class="st">DOWNLOAD_URL=http://geomorphometry.org/content/ebergotzen</span><span class="ch">\&quot;</span></a>
+<a class="sourceLine" id="cb219-12" data-line-number="12"><span class="st">eberg_DEM.tif&#39;</span>))</a>
+<a class="sourceLine" id="cb219-13" data-line-number="13"><span class="kw">system</span>(<span class="st">&#39;gdalinfo eberg_DEM.tif&#39;</span>)</a></code></pre></div>
 <p>Similarly, all necessary metadata can be added into GeoTIFF so that future users have all information at one place, i.e. inside the data file.</p>
 </div>
 <div id="exporting-data-final-tips" class="section level3">

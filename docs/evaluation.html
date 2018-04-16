@@ -335,51 +335,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 8</span> Model evaluation in digital soil mapping</h1>
 <p><em>M. Guevara &amp; G.F. Olmedo</em></p>
 <p>There are no best methods for statistical modeling and different evaluation strategies should be considered in order to identify, realistically, the overall modeling accuracy <span class="citation">(Ho and Pepyne <a href="#ref-ho2002simple">2002</a>; Qiao, Soberón, and Peterson <a href="#ref-qiao2015no">2015</a>; Guevara et al. <a href="#ref-guevara_2018">2018</a>; Nussbaum et al. <a href="#ref-nussbaum2018evaluation">2018</a>)</span>. This Section is devoted to describe quantitative methods for model evaluation applied to SOC mapping across FYROM.</p>
-<p>Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled SOC estimates derived from three different statistical methods describes in Chapter <a href="mappingMethods.html#mappingMethods">6</a>: multiple linear regression-kriging (RK) (see Section <a href="mappingMethods.html#RK">6.2</a>), random forests (RF) (see Section <a href="mappingMethods.html#rf">6.3</a>), and support vector machines (SVM) (see Section <a href="mappingMethods.html#svm">6.4</a>)). The model evaluation methods presented here were adapted from the original work of <span class="citation">Carslaw and Ropkins (<a href="#ref-openair">2012</a>)</span> for air quality assessments and their <strong>R</strong> package <strong>openair</strong>.</p>
+<p>Our objective is to provide a model evaluation example based on a vector of observed SOC and a vector of modeled SOC estimates derived from the geomatching approach (GM) and the three different statistical methods describes in Chapter <a href="mappingMethods.html#mappingMethods">6</a>: multiple linear regression-kriging (RK) (see Section <a href="mappingMethods.html#RK">6.2</a>), random forests (RF) (see Section <a href="mappingMethods.html#rf">6.3</a>), and support vector machines (SVM) (see Section <a href="mappingMethods.html#svm">6.4</a>)). The model evaluation methods presented here were adapted from the original work of <span class="citation">Carslaw and Ropkins (<a href="#ref-openair">2012</a>)</span> for air quality assessments and their <strong>R</strong> package <strong>openair</strong>.</p>
 <p>We found in this package a very useful set of functions for model evaluation metrics that are suitable (and we highly recommend) for comparing digital soil maps derived from different prediction algorithms. We will first analyze the simple correlation and major differences of generated SOC maps by the three different methods. Then for further analysis we will prepare a data frame containing the observed and modeled vectors as well as the method column. Ideally the observed vector should be derived from a completely independent SOC dataset, as explained in the previous Chapter. The cross-validation strategy and the repeated random split for training and testing the models are other two alternatives when no independent dataset is available for validation purposes. However, we do not recommend to use the same training dataset for performing the following analysis, since the resulting <em>best method</em> could be the one that overfits the most.</p>
 <p>The authors of this Chapter used <strong>R</strong> packages. To run the code provided in this Chapter, the following packages need to be installed in the <strong>R</strong> user library. If the packages are not yet installed, the <code>install.packages()</code> function can be used.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Model Evaluation in</span></a>
-<a class="sourceLine" id="cb180-2" data-line-number="2"><span class="co"># Digital Soil Mapping&#39;</span></a>
-<a class="sourceLine" id="cb180-3" data-line-number="3"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;raster&quot;</span>, <span class="st">&quot;psych&quot;</span>, <span class="st">&quot;rasterVis&quot;</span>,</a>
-<a class="sourceLine" id="cb180-4" data-line-number="4">                   <span class="st">&quot;mapview&quot;</span>, <span class="st">&quot;openair&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="co"># Installing packages for Chapter &#39;Model Evaluation in</span></a>
+<a class="sourceLine" id="cb186-2" data-line-number="2"><span class="co"># Digital Soil Mapping&#39;</span></a>
+<a class="sourceLine" id="cb186-3" data-line-number="3"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;raster&quot;</span>, <span class="st">&quot;psych&quot;</span>, <span class="st">&quot;rasterVis&quot;</span>,</a>
+<a class="sourceLine" id="cb186-4" data-line-number="4">                   <span class="st">&quot;mapview&quot;</span>, <span class="st">&quot;openair&quot;</span>))</a></code></pre></div>
 <div id="technical-steps---model-correlations-and-spatial-differences" class="section level2">
 <h2><span class="header-section-number">8.1</span> Technical steps - Model correlations and spatial differences</h2>
 <p><strong>Step 1 - Harmonize the predicted maps to the same spatial resolution</strong></p>
 <p>We will import the predicted maps and harmonize them in to the same regular grid (<span class="math inline">\(1 \times 1\)</span> km of spatial resolution).</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb181-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb181-3" data-line-number="3">GM&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_GM.tif&#39;</span>)</a>
-<a class="sourceLine" id="cb181-4" data-line-number="4">RK&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_RK.tif&#39;</span>)</a>
-<a class="sourceLine" id="cb181-5" data-line-number="5">RF&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_rf.tif&#39;</span>)</a>
-<a class="sourceLine" id="cb181-6" data-line-number="6">SVM&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_svm.tif&#39;</span>)</a>
-<a class="sourceLine" id="cb181-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb181-8" data-line-number="8"><span class="co"># Note that RK has a different reference system </span></a>
-<a class="sourceLine" id="cb181-9" data-line-number="9">RK &lt;-<span class="st"> </span><span class="kw">projectRaster</span>(RK, SVM)</a>
-<a class="sourceLine" id="cb181-10" data-line-number="10">models &lt;-<span class="st"> </span><span class="kw">stack</span>(GM, RK, RF, SVM)</a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb187-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb187-3" data-line-number="3">GM&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_GM.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb187-4" data-line-number="4">RK&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_RK.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb187-5" data-line-number="5">RF&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_rf.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb187-6" data-line-number="6">SVM&lt;-<span class="kw">raster</span>(<span class="st">&#39;results/MKD_OCSKGM_svm.tif&#39;</span>)</a>
+<a class="sourceLine" id="cb187-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb187-8" data-line-number="8"><span class="co"># Note that RK has a different reference system </span></a>
+<a class="sourceLine" id="cb187-9" data-line-number="9">RK &lt;-<span class="st"> </span><span class="kw">projectRaster</span>(RK, SVM)</a>
+<a class="sourceLine" id="cb187-10" data-line-number="10">models &lt;-<span class="st"> </span><span class="kw">stack</span>(GM, RK, RF, SVM)</a></code></pre></div>
 <p><strong>Step 2 - Compare the statistical distribution and correlation between the models</strong></p>
 <p>Then we will plot the statistical distribution and the correlation between the three different methods (RK, RF, SVM).</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">library</span>(psych)</a>
-<a class="sourceLine" id="cb182-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb182-3" data-line-number="3"><span class="kw">pairs.panels</span>(<span class="kw">na.omit</span>(<span class="kw">as.data.frame</span>(models)),</a>
-<a class="sourceLine" id="cb182-4" data-line-number="4">             <span class="co"># Correlation method</span></a>
-<a class="sourceLine" id="cb182-5" data-line-number="5">             <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>, </a>
-<a class="sourceLine" id="cb182-6" data-line-number="6">             <span class="dt">hist.col =</span> <span class="st">&quot;#00AFBB&quot;</span>,</a>
-<a class="sourceLine" id="cb182-7" data-line-number="7">             <span class="co"># Show density plots</span></a>
-<a class="sourceLine" id="cb182-8" data-line-number="8">             <span class="dt">density =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb182-9" data-line-number="9">             <span class="co"># Show correlation ellipses</span></a>
-<a class="sourceLine" id="cb182-10" data-line-number="10">             <span class="dt">ellipses =</span> <span class="ot">TRUE</span> </a>
-<a class="sourceLine" id="cb182-11" data-line-number="11">             )</a></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="kw">library</span>(psych)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;psych&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
+## 
+##     %+%, alpha</code></pre>
+<pre><code>## The following object is masked from &#39;package:randomForest&#39;:
+## 
+##     outlier</code></pre>
+<pre><code>## The following object is masked from &#39;package:car&#39;:
+## 
+##     logit</code></pre>
+<pre><code>## The following object is masked from &#39;package:GSIF&#39;:
+## 
+##     describe</code></pre>
+<pre><code>## The following object is masked from &#39;package:aqp&#39;:
+## 
+##     sim</code></pre>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="kw">pairs.panels</span>(<span class="kw">na.omit</span>(<span class="kw">as.data.frame</span>(models)),</a>
+<a class="sourceLine" id="cb195-2" data-line-number="2">             <span class="co"># Correlation method</span></a>
+<a class="sourceLine" id="cb195-3" data-line-number="3">             <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>, </a>
+<a class="sourceLine" id="cb195-4" data-line-number="4">             <span class="dt">hist.col =</span> <span class="st">&quot;#00AFBB&quot;</span>,</a>
+<a class="sourceLine" id="cb195-5" data-line-number="5">             <span class="co"># Show density plots</span></a>
+<a class="sourceLine" id="cb195-6" data-line-number="6">             <span class="dt">density =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb195-7" data-line-number="7">             <span class="co"># Show correlation ellipses</span></a>
+<a class="sourceLine" id="cb195-8" data-line-number="8">             <span class="dt">ellipses =</span> <span class="ot">TRUE</span> </a>
+<a class="sourceLine" id="cb195-9" data-line-number="9">             )</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-99"></span>
 <img src="SOCMapping_files/figure-html/unnamed-chunk-99-1.png" alt="Comparision of DSM model correlations (GM, RK, RF, SVM) and statical distributions" width="672" />
 <p class="caption">
 Figure 8.1: Comparision of DSM model correlations (GM, RK, RF, SVM) and statical distributions
 </p>
 </div>
-<p>Here we found that the higher Pearson correlation coefficient (<span class="math inline">\(r\)</span> value) between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the three methods and that the lowest correlation of predictions was found between the two machine learning approaches with <span class="math inline">\(r\)</span> 0.79 for RF and SVM.</p>
-<p>We can in addition overlap the probability distribution functions for the three different methods to verify that their predictions are similar across the full data distribution of values.</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="kw">library</span>(rasterVis)</a>
-<a class="sourceLine" id="cb183-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb183-3" data-line-number="3"><span class="kw">densityplot</span>(models)</a></code></pre></div>
+<p>Here we found that the higher Pearson correlation coefficient (<span class="math inline">\(r\)</span> value) between predicted values was between RK and SVM (0.86). We also found that the statistical distribution of predicted values is quite similar between the four methods and that the higher discrepancies were found between the GM map and the statistical models.</p>
+<p>We can in addition overlap the probability distribution functions for the four different methods to verify that their predictions are similar across the full data distribution of values.</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="kw">library</span>(rasterVis)</a></code></pre></div>
+<pre><code>## Loading required package: latticeExtra</code></pre>
+<pre><code>## 
+## Attaching package: &#39;latticeExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     layer</code></pre>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="kw">densityplot</span>(models)</a></code></pre></div>
 <div class="figure"><span id="fig:unnamed-chunk-100"></span>
 <img src="SOCMapping_files/figure-html/unnamed-chunk-100-1.png" alt="Density plot of the prediction for three DSM models" width="672" />
 <p class="caption">
@@ -388,58 +409,62 @@ Figure 8.2: Density plot of the prediction for three DSM models
 </div>
 <p><strong>Step 3 - Identify spatial differences between the models using the standard deviation</strong></p>
 <p>Lets now take a look at the spatial differences. This step will allow to identify the geographical areas within the prediction domain where model predictions more agreee and disagree. To spatially compare model predictions we will estimate the standard deviation and the
-differences between the three SOC maps.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">library</span>(mapview)</a>
-<a class="sourceLine" id="cb184-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb184-3" data-line-number="3">SD &lt;-<span class="st"> </span><span class="kw">calc</span>(models , sd)</a>
-<a class="sourceLine" id="cb184-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb184-5" data-line-number="5"><span class="kw">mapview</span>(SD)</a></code></pre></div>
+differences between the four SOC maps.</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">library</span>(mapview)</a>
+<a class="sourceLine" id="cb201-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb201-3" data-line-number="3">SD &lt;-<span class="st"> </span><span class="kw">calc</span>(models , sd)</a>
+<a class="sourceLine" id="cb201-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb201-5" data-line-number="5"><span class="kw">mapview</span>(SD)</a></code></pre></div>
 <p>The mapview command will plot the standard deviation map in a <code>.html</code> file. Note roughly how the hotspots (yellow to red colors) of higher variance of predictions tend to be higher towards the west of the country, whereas models tend to agree in their predictions across the east side of the country. Note also that the variability although noisy, it shows a general pattern, (e.g., from east to west), suggesting that model agreement could be associated with specific land surface characteristics.</p>
-<p>Now we will analyze specific differences between the three models (RK - RF, RK - SVM, RF - SVM).</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb185-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb185-3" data-line-number="3">RKRF  &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]], diff)</a>
-<a class="sourceLine" id="cb185-4" data-line-number="4">RKSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]], diff)</a>
-<a class="sourceLine" id="cb185-5" data-line-number="5">RFSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]], diff)</a>
-<a class="sourceLine" id="cb185-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb185-7" data-line-number="7">preds &lt;-<span class="st"> </span><span class="kw">stack</span>(RKRF, RKSVM, RFSVM)</a>
-<a class="sourceLine" id="cb185-8" data-line-number="8"><span class="kw">names</span>(preds) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;RKvsRF&#39;</span>,<span class="st">&#39;RKvsSVM&#39;</span>,<span class="st">&#39;RFvsSVM&#39;</span>)</a>
-<a class="sourceLine" id="cb185-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb185-10" data-line-number="10">X &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">cellStats</span>(preds, mean)</a>
-<a class="sourceLine" id="cb185-11" data-line-number="11"><span class="kw">levelplot</span>(preds <span class="op">-</span><span class="st"> </span>X, <span class="dt">at=</span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>, <span class="dt">length.out=</span><span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb185-12" data-line-number="12">          <span class="dt">par.settings =</span> RdBuTheme)</a></code></pre></div>
-<p>Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF seems to be less sharp than the differences of SVM with the other two methods. Note that we use the <code>levelplot()</code> function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the <code>mapview()</code> function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks).</p>
+<p>Now we will analyze specific differences between the three models (RK - RF, RK - SVM, RF - SVM, GM - RF, GM - SVM, GM - RK).</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb202-2" data-line-number="2"><span class="kw">library</span>(rasterVis)</a>
+<a class="sourceLine" id="cb202-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb202-4" data-line-number="4">GMRK  &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]], diff)</a>
+<a class="sourceLine" id="cb202-5" data-line-number="5">GMRF  &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]], diff)</a>
+<a class="sourceLine" id="cb202-6" data-line-number="6">GMSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)]], diff)</a>
+<a class="sourceLine" id="cb202-7" data-line-number="7">RKRF  &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]], diff)</a>
+<a class="sourceLine" id="cb202-8" data-line-number="8">RKSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)]], diff)</a>
+<a class="sourceLine" id="cb202-9" data-line-number="9">RFSVM &lt;-<span class="st"> </span><span class="kw">calc</span>(models[[<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>)]], diff)</a>
+<a class="sourceLine" id="cb202-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb202-11" data-line-number="11">preds &lt;-<span class="st"> </span><span class="kw">stack</span>(GMRK, GMRF, GMSVM, RKRF, RKSVM, RFSVM)</a>
+<a class="sourceLine" id="cb202-12" data-line-number="12"><span class="kw">names</span>(preds) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;GMvsRK&#39;</span>, <span class="st">&#39;GMvsRF&#39;</span>, <span class="st">&#39;GMvsSVM&#39;</span>,<span class="st">&#39;RKvsRF&#39;</span>,<span class="st">&#39;RKvsSVM&#39;</span>,<span class="st">&#39;RFvsSVM&#39;</span>)</a>
+<a class="sourceLine" id="cb202-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb202-14" data-line-number="14">X &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">cellStats</span>(preds, mean)</a>
+<a class="sourceLine" id="cb202-15" data-line-number="15"><span class="kw">levelplot</span>(preds <span class="op">-</span><span class="st"> </span>X, <span class="dt">at=</span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>, <span class="dt">length.out=</span><span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb202-16" data-line-number="16">          <span class="dt">par.settings =</span> RdBuTheme)</a></code></pre></div>
+<p>Note how the spatial differences of the predicted SOC values have similar patterns, but the difference between RK and RF seems to be less sharp than the differences of SVM with the other two methods. Note that we use the <code>levelplot()</code> function to generate a better visualization (from red-to-white-to-blue) of the main effects of differences (e.g., if they are positive or negative), but we could also use the <code>mapview()</code> function to analyze these maps in a more interactive fashion. The variance of predictions derived from different models can be used as a proxy of model uncertainty and provides valuable information to consider in further applications of SOC maps (e.g., modeling crop production or quantifying SOC stocks). Note also the interesting differences between the GM map and the three statistical predictions.</p>
 </div>
 <div id="technical-steps---model-evaluation" class="section level2">
 <h2><span class="header-section-number">8.2</span> Technical steps - Model evaluation</h2>
 <p><strong>Step 1 - Data preparation</strong></p>
-<p>To compare the performance of the four models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the four models. The table containing these values was prepared in Section <a href="chvalidation.html#TS:validation">7.5</a>.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;results/validation.csv&quot;</span>)</a></code></pre></div>
+<p>To compare the performance of the four models, we will compare the observed values used and the predicted values for the the validation points. We have to load the validation dataset and the prediction result of the four validation datasets. The table containing these values was prepared in Section <a href="chvalidation.html#TS:validation">7.5</a>.</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;results/validation.csv&quot;</span>)</a></code></pre></div>
 <p>We will prepare a new table from this data that we are going to use for model evaluation purposes. The new table should have the observed value, the predicted value and the model.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="co"># Prepare 4 new data.frame with the observed, predicted and the model</span></a>
-<a class="sourceLine" id="cb187-2" data-line-number="2">modGM &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_GM, </a>
-<a class="sourceLine" id="cb187-3" data-line-number="3">                    <span class="dt">model =</span> <span class="st">&quot;GM&quot;</span>)</a>
-<a class="sourceLine" id="cb187-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb187-5" data-line-number="5">modRK &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_RK, </a>
-<a class="sourceLine" id="cb187-6" data-line-number="6">                    <span class="dt">model =</span> <span class="st">&quot;RK&quot;</span>)</a>
-<a class="sourceLine" id="cb187-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb187-8" data-line-number="8">modRF &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_rf, </a>
-<a class="sourceLine" id="cb187-9" data-line-number="9">                    <span class="dt">model =</span> <span class="st">&quot;RF&quot;</span>)</a>
-<a class="sourceLine" id="cb187-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb187-11" data-line-number="11">modSVM &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_svm, </a>
-<a class="sourceLine" id="cb187-12" data-line-number="12">                     <span class="dt">model =</span> <span class="st">&quot;SVM&quot;</span>)</a>
-<a class="sourceLine" id="cb187-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb187-14" data-line-number="14"><span class="co"># Merge the 3 data.frames into one</span></a>
-<a class="sourceLine" id="cb187-15" data-line-number="15">modData &lt;-<span class="st"> </span><span class="kw">rbind</span>(modGM, modRK, modRF, modSVM)</a>
-<a class="sourceLine" id="cb187-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb187-17" data-line-number="17"><span class="kw">summary</span>(modData)</a></code></pre></div>
-<pre><code>##       obs              mod         model    
-##  Min.   :0.0111   Min.   :0.0111   GM :970  
-##  1st Qu.:0.6681   1st Qu.:0.8012   RK :970  
-##  Median :0.9518   Median :0.9612   RF :970  
-##  Mean   :1.1076   Mean   :1.0605   SVM:970  
-##  3rd Qu.:1.3744   3rd Qu.:1.1894            
-##  Max.   :6.1827   Max.   :5.3183            
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="co"># Prepare 4 new data.frame with the observed, predicted and the model</span></a>
+<a class="sourceLine" id="cb204-2" data-line-number="2">modGM &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_GM, </a>
+<a class="sourceLine" id="cb204-3" data-line-number="3">                    <span class="dt">model =</span> <span class="st">&quot;GM&quot;</span>)</a>
+<a class="sourceLine" id="cb204-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb204-5" data-line-number="5">modRK &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_RK, </a>
+<a class="sourceLine" id="cb204-6" data-line-number="6">                    <span class="dt">model =</span> <span class="st">&quot;RK&quot;</span>)</a>
+<a class="sourceLine" id="cb204-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb204-8" data-line-number="8">modRF &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_rf, </a>
+<a class="sourceLine" id="cb204-9" data-line-number="9">                    <span class="dt">model =</span> <span class="st">&quot;RF&quot;</span>)</a>
+<a class="sourceLine" id="cb204-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb204-11" data-line-number="11">modSVM &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">obs =</span> dat<span class="op">$</span>OCSKGM, <span class="dt">mod =</span> dat<span class="op">$</span>MKD_OCSKGM_svm, </a>
+<a class="sourceLine" id="cb204-12" data-line-number="12">                     <span class="dt">model =</span> <span class="st">&quot;SVM&quot;</span>)</a>
+<a class="sourceLine" id="cb204-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb204-14" data-line-number="14"><span class="co"># Merge the 3 data.frames into one</span></a>
+<a class="sourceLine" id="cb204-15" data-line-number="15">modData &lt;-<span class="st"> </span><span class="kw">rbind</span>(modGM, modRK, modRF, modSVM)</a>
+<a class="sourceLine" id="cb204-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb204-17" data-line-number="17"><span class="kw">summary</span>(modData)</a></code></pre></div>
+<pre><code>##       obs              mod          model    
+##  Min.   :0.0111   Min.   :0.01125   GM :970  
+##  1st Qu.:0.6681   1st Qu.:0.78546   RK :970  
+##  Median :0.9518   Median :0.94472   RF :970  
+##  Mean   :1.1076   Mean   :1.02116   SVM:970  
+##  3rd Qu.:1.3744   3rd Qu.:1.15306            
+##  Max.   :6.1827   Max.   :3.41975            
 ##                   NA&#39;s   :74</code></pre>
 <p><strong>Step 2 - Calculate statistical evaluation metrics</strong></p>
 <p>Now we will use the <code>modStats()</code> function to calculate common numerical model evaluation statistics which are described and mathematically defined in the <strong>openair</strong> package manual <span class="citation">(Carslaw <a href="#ref-carslaw2015openair">2015</a>, Ch. 27, pp. 231-233)</span>. These include:</p>
@@ -456,10 +481,14 @@ differences between the three SOC maps.</p>
 <li><span class="math inline">\(IOA\)</span>, the Index of Agreement based on <span class="citation">Willmott, Robeson, and Matsuura (<a href="#ref-willmott2012refined">2012</a>)</span>, which spans between -1 and 1, with values approaching +1 representing better model performance.</li>
 </ul>
 <p>A perfect model would have a <span class="math inline">\(FAC2\)</span>, <span class="math inline">\(r\)</span>, <span class="math inline">\(COE\)</span> and <span class="math inline">\(IOA\)</span> ~ 1.0, while all the others ~ 0.</p>
-<p>However, digital soil mappers should have in mind that there is no such thing as a perfect model on digital SOC mapping for large areas, especially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures <span class="citation">(Chang and Hanna <a href="#ref-chang2004air">2004</a>)</span>.</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1"><span class="kw">library</span>(openair)</a>
-<a class="sourceLine" id="cb189-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb189-3" data-line-number="3">modsts &lt;-<span class="st"> </span><span class="kw">modStats</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
+<p>However, digital soil mappers should have in mind that there is no such thing as a perfect model on digital SOC mapping for large areas, especially if we deal with sparse data from legacy soil profile or pit observations usually collected over long periods of time. Depending on the situation, some performance measures might be more appropriate than others. Hence, there is not a single best measure, and it is necessary to use a combination of the performance measures for model evaluation purposes <span class="citation">(Chang and Hanna <a href="#ref-chang2004air">2004</a>)</span>.</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="kw">library</span>(openair)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;openair&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:psych&#39;:
+## 
+##     corPlot</code></pre>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1">modsts &lt;-<span class="st"> </span><span class="kw">modStats</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
 <table>
 <caption><span id="tab:modsts">Table 8.1: </span>Summary of different model evaluation statistics for the three models compared</caption>
 <thead>
@@ -480,14 +509,14 @@ differences between the three SOC maps.</p>
 <tr class="odd">
 <td align="left">GM</td>
 <td align="right">0.80</td>
-<td align="right">0.01</td>
-<td align="right">0.41</td>
-<td align="right">0.01</td>
-<td align="right">0.37</td>
+<td align="right">-0.15</td>
+<td align="right">0.42</td>
+<td align="right">-0.13</td>
+<td align="right">0.38</td>
 <td align="right">0.63</td>
-<td align="right">0.54</td>
-<td align="right">0.15</td>
-<td align="right">0.57</td>
+<td align="right">0.46</td>
+<td align="right">0.12</td>
+<td align="right">0.56</td>
 </tr>
 <tr class="even">
 <td align="left">RK</td>
@@ -527,11 +556,11 @@ differences between the three SOC maps.</p>
 </tr>
 </tbody>
 </table>
-<p>From our SOC mapping example across FYROM, the three models generate similar results. The <span class="math inline">\(FAC2\)</span> is over to 0.8 in all cases, being RK the one closer to 1. <span class="math inline">\(MB\)</span> and <span class="math inline">\(NMB\)</span> suggest that all the models tent to underestimate SOC because they are negative. SVM tend to underestimate SOC values less than RK and RF. The <span class="math inline">\(MGE\)</span>, <span class="math inline">\(NMGE\)</span>, and <span class="math inline">\(RMSE\)</span> suggest however that SVM is generating the larger error rate and by the values of <span class="math inline">\(r\)</span>, <span class="math inline">\(COE\)</span> and <span class="math inline">\(IOA\)</span>, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM.</p>
-<p>These conclusion can be verified by plotting a Taylor Diagram (see Figure <a href="evaluation.html#fig:taylor">8.3</a>), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values <span class="citation">(Taylor <a href="#ref-taylor2001summarizing">2001</a>)</span>. Recent reports show that the integration of simple validation metrics (e.g., the RMSE correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias <span class="citation">(Guevara et al. <a href="#ref-guevara_2018">2018</a>; Nussbaum et al. <a href="#ref-nussbaum2018evaluation">2018</a>)</span>. Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" data-line-number="1"><span class="kw">TaylorDiagram</span>(modData, <span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">group =</span> <span class="st">&quot;model&quot;</span>,</a>
-<a class="sourceLine" id="cb190-2" data-line-number="2">              <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>), </a>
-<a class="sourceLine" id="cb190-3" data-line-number="3">              <span class="dt">cor.col=</span><span class="st">&#39;brown&#39;</span>, <span class="dt">rms.col=</span><span class="st">&#39;black&#39;</span>)</a></code></pre></div>
+<p>From our SOC mapping example across FYROM, GP had the highest eror and bias while the three statistical models generate similar results. The <span class="math inline">\(FAC2\)</span> is over to 0.8 in all cases, being RK the one closer to 1. <span class="math inline">\(MB\)</span> and <span class="math inline">\(NMB\)</span> suggest that all the models tent to underestimate SOC because they are negative. SVM tend to underestimate SOC values less than RK and RF. The <span class="math inline">\(MGE\)</span>, <span class="math inline">\(NMGE\)</span>, and <span class="math inline">\(RMSE\)</span> suggest however that SVM is generating the larger error rate and by the values of <span class="math inline">\(r\)</span>, <span class="math inline">\(COE\)</span> and <span class="math inline">\(IOA\)</span>, we could say that given available SOC data across FYROM, the RK method improves the predictive capacity of RF and SVM.</p>
+<p>These conclusion can be verified by plotting a Taylor Diagram (see Figure <a href="evaluation.html#fig:taylor">8.3</a>), which summarizes multiple aspects of model performance, such as the agreement and variance between observed and predicted values <span class="citation">(Taylor <a href="#ref-taylor2001summarizing">2001</a>)</span>. Recent reports show that the integration of simple validation metrics (e.g., the RMSE correlation ratio) allows to extract information about modeling performance that could not be obtained by analyzing the validation metrics independently, such as the agreement between explained variance and bias <span class="citation">(Guevara et al. <a href="#ref-guevara_2018">2018</a>; Nussbaum et al. <a href="#ref-nussbaum2018evaluation">2018</a>)</span>. Taylor Diagrams interpteration rely on the relationships between explained variance and bias (from observed and modeled data). Note from our Taylor Diagram that GM is more distant that the other implemented approaches. Also, the RK method is closer to the observed value, followed by RF. Although, no significant difference was evident between the three implemented algorithms.</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="kw">TaylorDiagram</span>(modData, <span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">group =</span> <span class="st">&quot;model&quot;</span>,</a>
+<a class="sourceLine" id="cb210-2" data-line-number="2">              <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>), </a>
+<a class="sourceLine" id="cb210-3" data-line-number="3">              <span class="dt">cor.col=</span><span class="st">&#39;brown&#39;</span>, <span class="dt">rms.col=</span><span class="st">&#39;black&#39;</span>)</a></code></pre></div>
 <div class="figure"><span id="fig:taylor"></span>
 <img src="SOCMapping_files/figure-html/taylor-1.png" alt="Taylor diagram used in the evaluation of the three selected DSM models" width="672" />
 <p class="caption">
@@ -539,7 +568,7 @@ Figure 8.3: Taylor diagram used in the evaluation of the three selected DSM mode
 </p>
 </div>
 <p>However, we need also to check that the effectiveness of RK remains across all the full distribution of SOC observed values. For doing this, we can plot the conditional quantiles to verify the higher prediction capacity of RK (see Figure <a href="evaluation.html#fig:condquant">8.4</a>).</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1"><span class="kw">conditionalQuantile</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">conditionalQuantile</span>(modData,<span class="dt">obs =</span> <span class="st">&quot;obs&quot;</span>, <span class="dt">mod =</span> <span class="st">&quot;mod&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;model&quot;</span>)</a></code></pre></div>
 <div class="figure"><span id="fig:condquant"></span>
 <img src="SOCMapping_files/figure-html/condquant-1.png" alt="Effectiveness of the different DSM models across the full distribution of SOC observed values" width="672" />
 <p class="caption">
@@ -547,7 +576,7 @@ Figure 8.4: Effectiveness of the different DSM models across the full distributi
 </p>
 </div>
 <p>The blue line shows the results for a perfect model. In this case, the observations cover a range from 0 to <span class="math inline">\(6 kg \cdot m^{-2}\)</span>. Interestingly, the maximum predicted value is in all cases less than <span class="math inline">\(3 kg \cdot m^{-2}\)</span>, which is consistent with the <span class="math inline">\(MB\)</span> and <span class="math inline">\(NMB\)</span> previous results. The red line shows the median value of the predictions. Note that the median of predictions across the larger SOC values seems to have more variability across SVM and RK compared with RF, which tends to be conservative across the third quantile of data distribution. The shading shows the predicted quantile intervals (i.e., the 25/75th and the 10/90th). A perfect model (blue line) would have a very narrow spread <span class="citation">(Carslaw and Ropkins <a href="#ref-openair">2012</a>)</span>. The histograms show the counts of observed (gray) and predicted values (blue). While RF shows more conservative results across the higher SOC values (e.g., over the 4th), SVM had the lowest model performance based on these metrics. SVM was also the method showing higher spatial differences compared to RF and RK.</p>
-<p>We conclude, for this specific example, that RK showed the best performance based on the implemented evaluation metrics. Therefore RK is a suitable method predicting SOC values across FYROM, although other methods generate similar results, we propose that, given available data, RK could be also easier to interpret, because it provides the means to identify the main effects and coefficients of the relationships across the covariate space and the response variable. Beyond model evaluation, the spatial combination of different modeling approaches (e.g., by the means of the ensemble learning theory) should also be considered in order to maximize the accuracy of results.</p>
+<p>We conclude, for this specific example, that RK showed the best performance based on the implemented evaluation metrics. Therefore RK is a suitable method predicting SOC values across FYROM, although other methods generate similar results, we propose that, given available data, RK could be also easier to interpret, because it provides the means to identify the main effects and coefficients of the relationships across the covariate space and the response variable. Beyond model evaluation, the spatial combination of different modeling approaches (e.g., by the means of the ensemble learning theory) should also be considered in order to maximize the accuracy of results. Regardless the statistical space, the users should be aware that different plausible predictions or conventional SOC maps provide complementary information. From a pedological point of view the GM is apprapiate for the accurate delinetion of soil units and the continuos use of different modeling approaches will enhance our capacity to describe the functional variability with higher spatial detail and accuracy within each soil type unit.</p>
 <p>Finally, we want to highlight that integrating different statistical methods and visualization tools, such as those provided by the <strong>openair</strong> package in <strong>R</strong> <span class="citation">(Carslaw and Ropkins <a href="#ref-openair">2012</a>)</span> will enhance our capacity to identify the best modeling approaches and a combination of SOC prediction factors given a specific dataset. Model evaluation benefits our understanding of the circumstances why each modeling approach will generate different results, which is a first step towards reducing uncertainty while increasing the spatial resolution and accuracy of predictions, the eternal problem for DSM.</p>
 
 </div>
