@@ -1115,15 +1115,6 @@ writing shapefiles.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(raster)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Loading required package: sp
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{# Load the soil map from a shapefile *.shp file}
 \NormalTok{soilmap <-}\StringTok{ }\KeywordTok{shapefile}\NormalTok{(}\StringTok{"MK_soilmap_simple.shp"}\NormalTok{)}
 \end{Highlighting}
@@ -1713,13 +1704,14 @@ step for ensuring quality of the map. Digital soil mapping framework is
 a data-driven approach to modelling spatial distribution of soil
 properties, therefore any irregularities or errors in the input data may
 significantly influence modelling results. In the current example
-database we can observe bulk density values as low as 0 kg/m3 and as
-high as 2.93 g/cm3. Having 0 g/сm3 bulk density values is physically
-impossible, and the values higher than 2 g/сm3 are not typical for fine
-earth \citep{@USDA_2018} and most likely correspond to coarse fragments.
-The irregularities in the data may occur due to errors in field
-measurement procedures, wrong unit conversion or simply typing mistakes.
-In case there is doubt in the quality of the input data, the
+database we can observe bulk density values as low as
+\(0.0 g \cdot cm^{-3}\) and as high as \(2.93 g \cdot cm^{-3}\). Having
+\(0.0 g \cdot cm^{-3}\) bulk density values is physically impossible,
+and the values higher than \(2.0 g \cdot cm^{-3}\) are not typical for
+fine earth \citep{USDA_2018} and most likely correspond to coarse
+fragments. The irregularities in the data may occur due to errors in
+field measurement procedures, wrong unit conversion or simply typing
+mistakes. In case there is doubt in the quality of the input data, the
 questionable values should be thoroughly checked and, if found
 erroneous, removed from the database.
 
@@ -1748,7 +1740,7 @@ erroneous, removed from the database.
 
 \begin{verbatim}
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##  0.2019  1.1625  1.3507  1.2987  1.4981  1.7730     737
+##  0.2019  1.1625  1.3524  1.2988  1.4981  1.7730     737
 \end{verbatim}
 
 \begin{Shaded}
@@ -2007,12 +1999,12 @@ properties}
 
 \begin{verbatim}
 ##       id        Y        X       SOC       BLD    CRFVOL
-## 4  P0003 42.02828 20.81819 26.380000 0.7304483  8.000000
-## 5  P0004 42.02747 20.81464 24.561667 0.8955320  6.305316
-## 7  P0006 42.02885 20.82757 19.940000 0.7886235 14.000000
-## 8  P0007 42.02279 20.83165  6.149114 1.1653355 18.633590
-## 9  P0008 42.05014 20.82036  3.940352 1.2962582 31.875748
-## 10 P0009 42.02047 20.93529  3.258545 1.3446297 21.714059
+## 4  P0003 42.02828 20.81819 26.380000 0.3233484  8.000000
+## 5  P0004 42.02747 20.81464 24.561667 0.5009572  6.305316
+## 7  P0006 42.02885 20.82757 19.940000 0.4039854 14.000000
+## 8  P0007 42.02279 20.83165  6.149114 0.8622553 18.633590
+## 9  P0008 42.05014 20.82036  3.940352 1.0663034 31.875748
+## 10 P0009 42.02047 20.93529  3.258545 1.1550169 21.714059
 \end{verbatim}
 
 \textbf{Step 5 - Estimate the soil organic carbon stock using the
@@ -2045,25 +2037,25 @@ done using the \textbf{GSIF} package.
 ##  P0003  :   1   Min.   :40.69   Min.   :20.46   Min.   : 0.080  
 ##  P0004  :   1   1st Qu.:41.19   1st Qu.:21.35   1st Qu.: 1.750  
 ##  P0006  :   1   Median :41.42   Median :21.49   Median : 2.603  
-##  P0007  :   1   Mean   :41.49   Mean   :21.66   Mean   : 3.539  
+##  P0007  :   1   Mean   :41.49   Mean   :21.66   Mean   : 3.538  
 ##  P0008  :   1   3rd Qu.:41.83   3rd Qu.:22.14   3rd Qu.: 4.089  
 ##  P0009  :   1   Max.   :42.36   Max.   :23.01   Max.   :86.510  
-##  (Other):3880                                                   
-##       BLD              CRFVOL             OCSKGM      
-##  Min.   :0.05353   Min.   : 0.00000   Min.   :0.0111  
-##  1st Qu.:1.28089   1st Qu.: 0.00516   1st Qu.:0.6951  
-##  Median :1.39549   Median : 5.01397   Median :0.9866  
-##  Mean   :1.38073   Mean   :11.02257   Mean   :1.1399  
-##  3rd Qu.:1.47612   3rd Qu.:17.69065   3rd Qu.:1.3997  
-##  Max.   :2.92191   Max.   :93.95013   Max.   :7.4302  
-##                                                       
-##     meaERROR    
-##  Min.   :0.172  
-##  1st Qu.:3.160  
-##  Median :3.840  
-##  Mean   :3.715  
-##  3rd Qu.:4.260  
-##  Max.   :8.770  
+##  (Other):3881                                                   
+##       BLD              CRFVOL             OCSKGM       
+##  Min.   :0.05446   Min.   : 0.00000   Min.   :0.01125  
+##  1st Qu.:1.09049   1st Qu.: 0.00516   1st Qu.:0.65176  
+##  Median :1.27492   Median : 5.01506   Median :0.88367  
+##  Mean   :1.24341   Mean   :11.02309   Mean   :0.96478  
+##  3rd Qu.:1.43550   3rd Qu.:17.66989   3rd Qu.:1.17771  
+##  Max.   :3.64210   Max.   :93.95013   Max.   :6.66450  
+##                                                        
+##     meaERROR     
+##  Min.   : 0.175  
+##  1st Qu.: 2.640  
+##  Median : 3.480  
+##  Mean   : 3.367  
+##  3rd Qu.: 4.130  
+##  Max.   :10.700  
 ## 
 \end{verbatim}
 
@@ -5027,44 +5019,8 @@ overfitting.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(randomForest)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## randomForest 4.6-14
-\end{verbatim}
-
-\begin{verbatim}
-## Type rfNews() to see new features/changes/bug fixes.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(caret)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Loading required package: lattice
-\end{verbatim}
-
-\begin{verbatim}
-## Loading required package: ggplot2
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'ggplot2'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:randomForest':
-## 
-##     margin
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{# Default 10-fold cross-validation}
 \NormalTok{ctrl <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method =} \StringTok{"cv"}\NormalTok{, }\DataTypeTok{savePred=}\NormalTok{T)}
 
@@ -5302,15 +5258,7 @@ approach has proven to be efficient for DSM across large areas
 \CommentTok{# available data (using the object dat that instead of train) }
 \CommentTok{# to select mtry.}
 \KeywordTok{library}\NormalTok{(quantregForest)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Loading required package: RColorBrewer
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{model <-}\StringTok{ }\KeywordTok{quantregForest}\NormalTok{(}\DataTypeTok{y=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data}\OperatorTok{$}\NormalTok{OCSKGMlog, }\DataTypeTok{x=}\NormalTok{dat}\OperatorTok{@}\NormalTok{data[,}\DecValTok{8}\OperatorTok{:}\DecValTok{20}\NormalTok{], }
                         \DataTypeTok{ntree=}\DecValTok{500}\NormalTok{, }\DataTypeTok{keep.inbag=}\OtherTok{TRUE}\NormalTok{, }
                         \DataTypeTok{mtry =} \KeywordTok{as.numeric}\NormalTok{(rfmodel}\OperatorTok{$}\NormalTok{bestTune))                        }
@@ -5872,17 +5820,6 @@ to avoid overfitting. This is a heavy and time consuming computational
 step since we will try a extensive number of different models in order
 to find the best parameters for our svm model.
 
-\begin{verbatim}
-## 
-## Attaching package: 'e1071'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:raster':
-## 
-##     interpolate
-\end{verbatim}
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(e1071)}
@@ -5940,12 +5877,12 @@ cross-validation using 10 folds.
 ## Parameters:
 ##    SVM-Type:  eps-regression 
 ##  SVM-Kernel:  radial 
-##        cost:  7 
+##        cost:  5 
 ##       gamma:  0.03448276 
-##     epsilon:  0.2 
+##     epsilon:  0.18 
 ## 
 ## 
-## Number of Support Vectors:  2189
+## Number of Support Vectors:  2269
 \end{verbatim}
 
 \textbf{Step 7 - Predict the OCS using the model}
@@ -5990,18 +5927,18 @@ Finally, we can evaluate the contribution of each covariate to the model
 \end{Shaded}
 
 \begin{verbatim}
-##      B04CHE3     soilmap6      TMDMOD3     soilmap1     soilmap7 
-## 7.562482e+01 4.741345e+01 4.438758e+01 4.097177e+01 3.770267e+01 
-##      DEMENV5      B07CHE3      PRSCHE3      LCEE103     soilmap2 
-## 3.442923e+01 3.092630e+01 2.902640e+01 2.711066e+01 2.575601e+01 
-##    soilmap19     soilmap5      LCEE104    soilmap16      LCEE101 
-## 2.496913e+01 1.733616e+01 1.664618e+01 1.590055e+01 1.231509e+01 
-##    soilmap15      LCEE102     soilmap4    soilmap20    soilmap17 
-## 1.204309e+01 1.118658e+01 9.247627e+00 9.229459e+00 7.526749e+00 
-##     soilmap3    soilmap10     soilmap9    soilmap12     soilmap8 
-## 7.487471e+00 6.294465e+00 6.017019e+00 3.637515e+00 2.564390e+00 
-##    soilmap18    soilmap14    soilmap11    soilmap13 
-## 1.262072e+00 1.046765e+00 7.097243e-01 2.398082e-14
+##      B04CHE3     soilmap6     soilmap1      TMDMOD3     soilmap7 
+## 6.650091e+01 4.459588e+01 4.049159e+01 3.977178e+01 3.936900e+01 
+##      DEMENV5      PRSCHE3      B07CHE3      LCEE103     soilmap2 
+## 3.819996e+01 3.292821e+01 3.070414e+01 2.617433e+01 2.533165e+01 
+##    soilmap19      LCEE104    soilmap16    soilmap15     soilmap5 
+## 2.496078e+01 1.586710e+01 1.417374e+01 1.320801e+01 1.310662e+01 
+##      LCEE101      LCEE102     soilmap4    soilmap20     soilmap9 
+## 1.275787e+01 1.164549e+01 9.054775e+00 8.099845e+00 6.515014e+00 
+##    soilmap10     soilmap3    soilmap17    soilmap12     soilmap8 
+## 5.924336e+00 5.376030e+00 4.714280e+00 3.752816e+00 2.717136e+00 
+##    soilmap18    soilmap11    soilmap14    soilmap13 
+## 7.811897e-01 5.746777e-01 1.297461e-01 8.137935e-14
 \end{verbatim}
 
 SVM is a powerful technique which represent another welcome possibility
@@ -6910,13 +6847,13 @@ then, estimate the prediction error.
 \toprule
   & GM & RK & randomForest & svm\\
 \midrule
-Min. & -4.03 & -4.09 & -4.25 & -4.75\\
-1st Qu. & -0.24 & -0.31 & -0.29 & -0.26\\
-Median & 0.00 & 0.00 & 0.02 & 0.04\\
-Mean & 0.01 & -0.08 & -0.08 & -0.03\\
-3rd Qu. & 0.29 & 0.23 & 0.24 & 0.33\\
+Min. & -4.38 & -4.09 & -4.25 & -4.77\\
+1st Qu. & -0.39 & -0.31 & -0.29 & -0.25\\
+Median & -0.08 & 0.00 & 0.02 & 0.03\\
+Mean & -0.15 & -0.08 & -0.08 & -0.03\\
+3rd Qu. & 0.17 & 0.23 & 0.24 & 0.32\\
 \addlinespace
-Max. & 2.81 & 2.01 & 2.22 & 1.72\\
+Max. & 1.74 & 2.01 & 2.22 & 1.78\\
 NA's & 40.00 & 10.00 & 12.00 & 12.00\\
 \bottomrule
 \end{tabular}
@@ -6980,11 +6917,11 @@ measures for quantitative soil maps.
 \toprule
   & GM & RK & randomForest & svm\\
 \midrule
-ME & 0.014 & -0.077 & -0.081 & -0.026\\
-MAE & 0.409 & 0.359 & 0.368 & 0.391\\
-MSE & 0.395 & 0.293 & 0.312 & 0.332\\
-RMSE & 0.615 & 0.538 & 0.555 & 0.573\\
-AVE & -0.033 & -1.054 & -1.572 & -1.360\\
+ME & -0.147 & -0.077 & -0.081 & -0.027\\
+MAE & 0.422 & 0.359 & 0.368 & 0.391\\
+MSE & 0.399 & 0.293 & 0.312 & 0.333\\
+RMSE & 0.619 & 0.538 & 0.555 & 0.573\\
+AVE & 0.177 & 0.377 & 0.338 & 0.293\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -7153,13 +7090,14 @@ This Section is devoted to describe quantitative methods for model
 evaluation applied to SOC mapping across FYROM.
 
 Our objective is to provide a model evaluation example based on a vector
-of observed SOC and a vector of modeled SOC estimates derived from three
-different statistical methods describes in Chapter \ref{mappingMethods}:
-multiple linear regression-kriging (RK) (see Section \ref{RK}), random
-forests (RF) (see Section \ref{rf}), and support vector machines (SVM)
-(see Section \ref{svm})). The model evaluation methods presented here
-were adapted from the original work of \citet{openair} for air quality
-assessments and their \textbf{R} package \textbf{openair}.
+of observed SOC and a vector of modeled SOC estimates derived from the
+geomatching approach (GM) and the three different statistical methods
+describes in Chapter \ref{mappingMethods}: multiple linear
+regression-kriging (RK) (see Section \ref{RK}), random forests (RF) (see
+Section \ref{rf}), and support vector machines (SVM) (see Section
+\ref{svm})). The model evaluation methods presented here were adapted
+from the original work of \citet{openair} for air quality assessments
+and their \textbf{R} package \textbf{openair}.
 
 We found in this package a very useful set of functions for model
 evaluation metrics that are suitable (and we highly recommend) for
@@ -7248,12 +7186,11 @@ between the three different methods (RK, RF, SVM).
 Here we found that the higher Pearson correlation coefficient (\(r\)
 value) between predicted values was between RK and SVM (0.86). We also
 found that the statistical distribution of predicted values is quite
-similar between the three methods and that the lowest correlation of
-predictions was found between the two machine learning approaches with
-\(r\) 0.79 for RF and SVM.
+similar between the four methods and that the higher discrepancies were
+found between the GM map and the statistical models.
 
 We can in addition overlap the probability distribution functions for
-the three different methods to verify that their predictions are similar
+the four different methods to verify that their predictions are similar
 across the full data distribution of values.
 
 \begin{Shaded}
@@ -7278,7 +7215,7 @@ Lets now take a look at the spatial differences. This step will allow to
 identify the geographical areas within the prediction domain where model
 predictions more agreee and disagree. To spatially compare model
 predictions we will estimate the standard deviation and the differences
-between the three SOC maps.
+between the four SOC maps.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7300,18 +7237,22 @@ suggesting that model agreement could be associated with specific land
 surface characteristics.
 
 Now we will analyze specific differences between the three models (RK -
-RF, RK - SVM, RF - SVM).
+RF, RK - SVM, RF - SVM, GM - RF, GM - SVM, GM - RK).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(raster)}
+\KeywordTok{library}\NormalTok{(rasterVis)}
 
-\NormalTok{RKRF  <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]], diff)}
-\NormalTok{RKSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)]], diff)}
-\NormalTok{RFSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]], diff)}
+\NormalTok{GMRK  <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)]], diff)}
+\NormalTok{GMRF  <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)]], diff)}
+\NormalTok{GMSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{)]], diff)}
+\NormalTok{RKRF  <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)]], diff)}
+\NormalTok{RKSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{)]], diff)}
+\NormalTok{RFSVM <-}\StringTok{ }\KeywordTok{calc}\NormalTok{(models[[}\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{)]], diff)}
 
-\NormalTok{preds <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(RKRF, RKSVM, RFSVM)}
-\KeywordTok{names}\NormalTok{(preds) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'RKvsRF'}\NormalTok{,}\StringTok{'RKvsSVM'}\NormalTok{,}\StringTok{'RFvsSVM'}\NormalTok{)}
+\NormalTok{preds <-}\StringTok{ }\KeywordTok{stack}\NormalTok{(GMRK, GMRF, GMSVM, RKRF, RKSVM, RFSVM)}
+\KeywordTok{names}\NormalTok{(preds) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'GMvsRK'}\NormalTok{, }\StringTok{'GMvsRF'}\NormalTok{, }\StringTok{'GMvsSVM'}\NormalTok{,}\StringTok{'RKvsRF'}\NormalTok{,}\StringTok{'RKvsSVM'}\NormalTok{,}\StringTok{'RFvsSVM'}\NormalTok{)}
 
 \NormalTok{X <-}\StringTok{ }\NormalTok{raster}\OperatorTok{::}\KeywordTok{cellStats}\NormalTok{(preds, mean)}
 \KeywordTok{levelplot}\NormalTok{(preds }\OperatorTok{-}\StringTok{ }\NormalTok{X, }\DataTypeTok{at=}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{length.out=}\DecValTok{10}\NormalTok{),}
@@ -7329,7 +7270,9 @@ use the \texttt{mapview()} function to analyze these maps in a more
 interactive fashion. The variance of predictions derived from different
 models can be used as a proxy of model uncertainty and provides valuable
 information to consider in further applications of SOC maps (e.g.,
-modeling crop production or quantifying SOC stocks).
+modeling crop production or quantifying SOC stocks). Note also the
+interesting differences between the GM map and the three statistical
+predictions.
 
 \hypertarget{technical-steps---model-evaluation}{%
 \section{Technical steps - Model
@@ -7340,8 +7283,8 @@ evaluation}\label{technical-steps---model-evaluation}}
 To compare the performance of the four models, we will compare the
 observed values used and the predicted values for the the validation
 points. We have to load the validation dataset and the prediction result
-of the four models. The table containing these values was prepared in
-Section \ref{TS:validation}.
+of the four validation datasets. The table containing these values was
+prepared in Section \ref{TS:validation}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7376,13 +7319,13 @@ the predicted value and the model.
 \end{Shaded}
 
 \begin{verbatim}
-##       obs              mod         model    
-##  Min.   :0.0111   Min.   :0.0111   GM :970  
-##  1st Qu.:0.6681   1st Qu.:0.8012   RK :970  
-##  Median :0.9518   Median :0.9612   RF :970  
-##  Mean   :1.1076   Mean   :1.0605   SVM:970  
-##  3rd Qu.:1.3744   3rd Qu.:1.1894            
-##  Max.   :6.1827   Max.   :5.3183            
+##       obs              mod          model    
+##  Min.   :0.0111   Min.   :0.01125   GM :970  
+##  1st Qu.:0.6681   1st Qu.:0.78701   RK :970  
+##  Median :0.9518   Median :0.94685   RF :970  
+##  Mean   :1.1076   Mean   :1.02087   SVM:970  
+##  3rd Qu.:1.3744   3rd Qu.:1.14829            
+##  Max.   :6.1827   Max.   :3.41975            
 ##                   NA's   :74
 \end{verbatim}
 
@@ -7431,7 +7374,8 @@ especially if we deal with sparse data from legacy soil profile or pit
 observations usually collected over long periods of time. Depending on
 the situation, some performance measures might be more appropriate than
 others. Hence, there is not a single best measure, and it is necessary
-to use a combination of the performance measures \citep{chang2004air}.
+to use a combination of the performance measures for model evaluation
+purposes \citep{chang2004air}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7449,23 +7393,23 @@ to use a combination of the performance measures \citep{chang2004air}.
 \toprule
 model & FAC2 & MB & MGE & NMB & NMGE & RMSE & r & COE & IOA\\
 \midrule
-GM & 0.80 & 0.01 & 0.41 & 0.01 & 0.37 & 0.63 & 0.54 & 0.15 & 0.57\\
+GM & 0.80 & -0.15 & 0.42 & -0.13 & 0.38 & 0.63 & 0.46 & 0.12 & 0.56\\
 RK & 0.89 & -0.08 & 0.36 & -0.07 & 0.32 & 0.54 & 0.63 & 0.25 & 0.63\\
 RF & 0.88 & -0.08 & 0.37 & -0.07 & 0.33 & 0.56 & 0.59 & 0.23 & 0.62\\
-SVM & 0.86 & -0.03 & 0.39 & -0.02 & 0.35 & 0.58 & 0.53 & 0.18 & 0.59\\
+SVM & 0.86 & -0.03 & 0.39 & -0.02 & 0.35 & 0.58 & 0.53 & 0.19 & 0.59\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-From our SOC mapping example across FYROM, the three models generate
-similar results. The \(FAC2\) is over to 0.8 in all cases, being RK the
-one closer to 1. \(MB\) and \(NMB\) suggest that all the models tent to
-underestimate SOC because they are negative. SVM tend to underestimate
-SOC values less than RK and RF. The \(MGE\), \(NMGE\), and \(RMSE\)
-suggest however that SVM is generating the larger error rate and by the
-values of \(r\), \(COE\) and \(IOA\), we could say that given available
-SOC data across FYROM, the RK method improves the predictive capacity of
-RF and SVM.
+From our SOC mapping example across FYROM, GP had the highest eror and
+bias while the three statistical models generate similar results. The
+\(FAC2\) is over to 0.8 in all cases, being RK the one closer to 1.
+\(MB\) and \(NMB\) suggest that all the models tent to underestimate SOC
+because they are negative. SVM tend to underestimate SOC values less
+than RK and RF. The \(MGE\), \(NMGE\), and \(RMSE\) suggest however that
+SVM is generating the larger error rate and by the values of \(r\),
+\(COE\) and \(IOA\), we could say that given available SOC data across
+FYROM, the RK method improves the predictive capacity of RF and SVM.
 
 These conclusion can be verified by plotting a Taylor Diagram (see
 Figure \ref{fig:taylor}), which summarizes multiple aspects of model
@@ -7478,8 +7422,9 @@ such as the agreement between explained variance and bias
 \citep{guevara_2018, nussbaum2018evaluation}. Taylor Diagrams
 interpteration rely on the relationships between explained variance and
 bias (from observed and modeled data). Note from our Taylor Diagram that
-the RK method is closer to the observed value, followed by RF. Although,
-no significant difference was evident between the three implemented
+GM is more distant that the other implemented approaches. Also, the RK
+method is closer to the observed value, followed by RF. Although, no
+significant difference was evident between the three implemented
 algorithms.
 
 \begin{Shaded}
@@ -7541,7 +7486,14 @@ identify the main effects and coefficients of the relationships across
 the covariate space and the response variable. Beyond model evaluation,
 the spatial combination of different modeling approaches (e.g., by the
 means of the ensemble learning theory) should also be considered in
-order to maximize the accuracy of results.
+order to maximize the accuracy of results. Regardless the statistical
+space, the users should be aware that different plausible predictions or
+conventional SOC maps provide complementary information. From a
+pedological point of view the GM is apprapiate for the accurate
+delinetion of soil units and the continuos use of different modeling
+approaches will enhance our capacity to describe the functional
+variability with higher spatial detail and accuracy within each soil
+type unit.
 
 Finally, we want to highlight that integrating different statistical
 methods and visualization tools, such as those provided by the
@@ -9810,6 +9762,8 @@ with code contributions from G.F. Olmedo.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{dat <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"data/dat_test.csv"}\NormalTok{)}
+
+\KeywordTok{library}\NormalTok{(sp)}
 
 \CommentTok{# Promote to spatialPointsDataFrame}
 \KeywordTok{coordinates}\NormalTok{(dat) <-}\StringTok{ }\ErrorTok{~}\StringTok{ }\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}

@@ -32,12 +32,12 @@
 \contentsline {figure}{\numberline {6.15}{\ignorespaces Standard deviation map of the regression-kriging model}}{81}{figure.6.15}
 \contentsline {figure}{\numberline {6.16}{\ignorespaces Schematical representation of data splitting to generate the random subsets used to train regression trees within a random forest model (ensemble of regression trees)}}{84}{figure.6.16}
 \contentsline {figure}{\numberline {6.17}{\ignorespaces Model Decreasing Error and Node Purity for the RF model}}{91}{figure.6.17}
-\contentsline {figure}{\numberline {6.18}{\ignorespaces Select ntree}}{92}{figure.6.18}
-\contentsline {figure}{\numberline {6.19}{\ignorespaces SOC prediction map for FYROM using a random forest model}}{93}{figure.6.19}
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Select ntree}}{91}{figure.6.18}
+\contentsline {figure}{\numberline {6.19}{\ignorespaces SOC prediction map for FYROM using a random forest model}}{92}{figure.6.19}
 \contentsline {figure}{\numberline {6.20}{\ignorespaces Sensitivity based on 10 realizations using 25\% samples}}{94}{figure.6.20}
 \contentsline {figure}{\numberline {6.21}{\ignorespaces OCSKGM prediction based on 75\% of data}}{95}{figure.6.21}
 \contentsline {figure}{\numberline {6.22}{\ignorespaces OCSKGM quantregForest prediction}}{97}{figure.6.22}
-\contentsline {figure}{\numberline {6.23}{\ignorespaces Total uncertainty}}{98}{figure.6.23}
+\contentsline {figure}{\numberline {6.23}{\ignorespaces Total uncertainty}}{97}{figure.6.23}
 \contentsline {figure}{\numberline {6.24}{\ignorespaces Performance of the different SVM models in the parameter tuning procedure}}{106}{figure.6.24}
 \contentsline {figure}{\numberline {6.25}{\ignorespaces SOC prediction map for FYROM using a support vector machines model}}{107}{figure.6.25}
 \addvspace {10\p@ }
