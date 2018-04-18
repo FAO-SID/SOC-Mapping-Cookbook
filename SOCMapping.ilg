@@ -1,12 +1,12 @@
 This is makeindex, version 2.15 [TeX Live 2017] (kpathsea + Thai support).
 Scanning input file SOCMapping.idx....
-!! Input index error (file = SOCMapping.idx, line = 23):
+!! Input index error (file = SOCMapping.idx, line = 2):
    -- Extra `|' at position 26 of first argument.
 
-!! Input index error (file = SOCMapping.idx, line = 30):
+!! Input index error (file = SOCMapping.idx, line = 9):
    -- Extra `|' at position 26 of first argument.
-done (39 entries accepted, 2 rejected).
-Sorting entries....done (246 comparisons).
-Generating output file SOCMapping.ind....done (55 lines written, 0 warnings).
+done (18 entries accepted, 2 rejected).
+Sorting entries....done (81 comparisons).
+Generating output file SOCMapping.ind....done (48 lines written, 0 warnings).
 Output written in SOCMapping.ind.
 Transcript written in SOCMapping.ilg.
