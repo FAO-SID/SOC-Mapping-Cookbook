@@ -48,7 +48,7 @@ knitr::opts_chunk$set(cache=T)
 
 ## Editorial board{-}
 
-Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Rainer Baritz, Kostiantyn Viatkin, Ronald R. Vargas
+Yusuf Yigini, Guillermo Federico Olmedo, Stephanie Reiter, Rainer Baritz, Kostiantyn Viatkin, Ronald R. Vargas.
 Global Soil Partnership, Food and Agriculture Organization of the United Nations
 
 Cover design: Matteo Sala
