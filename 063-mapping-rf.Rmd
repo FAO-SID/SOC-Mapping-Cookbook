@@ -238,7 +238,7 @@ summary(validation)
 ```{r, eval=TRUE, fig.cap='OCSKGM prediction based on 75% of data', echo=TRUE}
 # Plot of the map based on 75% of data and the sensitivity to data 
 # variations
-prediction75 <- exp(pred[[1]])
+prediction75 <- pred[[1]] #pred has already been back-transformed on line 174 above
 
 plot(prediction75, main='OCSKGM prediction based on 75% of data', 
      col=rev(topo.colors(10)))
